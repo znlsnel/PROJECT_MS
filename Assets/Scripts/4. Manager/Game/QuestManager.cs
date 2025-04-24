@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class QuestManager : Manager
+public class QuestManager : IManager
 {
     private List<Quest> activeQuests = new List<Quest>();
     private List<Quest> completedQuests = new List<Quest>();
@@ -18,18 +18,25 @@ public class QuestManager : Manager
     public event Action<Quest> onQuestCanceled;
 
  
-    protected override void Init() 
+    public void Init() 
     {
         // TODO : 저장 데이터 불러오기
     }
 
-    public override void Clear()
+    public void Clear()
     {
         activeQuests.Clear();
         completedQuests.Clear(); 
     }
 
     // 퀘스트의 ID값, 퀘스트의 상태값, Task의 ID값과 진행도를 저장 => 리스트의 형태로
+    public Quest Register(int questId)
+    {
+        var data = Managers.Data.quests.GetByIndex(questId);
+        QuestData questData = new QuestData(data); 
+        return Register(questData);
+    }
+
     public Quest Register(QuestData questData)
     {
         Quest quest = new Quest();

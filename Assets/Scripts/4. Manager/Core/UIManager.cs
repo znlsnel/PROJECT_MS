@@ -7,17 +7,17 @@ using UnityEditor.SearchService;
 using UnityEngine;
 
 [Serializable]
-public class UIManager : Manager
+public class UIManager : IManager
 {
     private Dictionary<string, UIBase> _activeUIs = new Dictionary<string, UIBase>();
     private UIBase _hudUI;
 
-    public override void Clear()
+    public void Clear()
     {
         
     }
 
-    protected override void Init()
+    public void Init()
     {
         
     }

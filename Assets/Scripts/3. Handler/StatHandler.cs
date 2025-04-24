@@ -23,7 +23,7 @@ public class StatHandler : MonoBehaviour, IDamageable
         resourceStats = new Dictionary<EStatType, ResourceStat>();
         resourceStats[EStatType.Health] = new ResourceStat(health); 
 
-        Managers.Data.SubscribeToDataLoaded(Init);
+        Managers.SubscribeToInit(Init); 
     } 
 
     // Stat 데이터 -> 종족, 직업 모두 하나의 시트에서 관리 

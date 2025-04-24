@@ -5,33 +5,6 @@ using System.Runtime.InteropServices;
 using UnityEngine;
 
 
-public abstract class Manager
-{
-    public Action onInit;
-    private bool isInit = false;
-
-    public void SubscribeToInit(Action callback)
-    {
-        if (isInit)
-            callback?.Invoke();
-        else
-            onInit += callback;
-    }
-
-    public void Setup()
-    {
-        if (isInit)
-            return;
-
-        Init();
-        isInit = true; 
-        onInit?.Invoke();
-        onInit = null;
-    }
-
-    protected abstract void Init();
-    public abstract void Clear();
-}
 
 public class Managers : Singleton<Managers>
 { 
@@ -57,6 +30,10 @@ public class Managers : Singleton<Managers>
     public static SteamManagerEx Steam => Instance.steam; 
     public static UserData UserData => Instance.userData;
 
+
+    public Action onInit;
+    private bool isInit = false;
+
     protected override void Awake()
     {
         base.Awake();
@@ -70,17 +47,29 @@ public class Managers : Singleton<Managers>
 
     private void Init()
     {
-        Data.Setup();
-        quest.Setup();
-        Input.Setup();
-        Resource.Setup(); 
-        Sound.Setup(); 
-        UI.Setup();
-        Pool.Setup();
+        Data.Init();
+        quest.Init();
+        Input.Init();
+        Resource.Init(); 
+        Sound.Init(); 
+        UI.Init();
+        Pool.Init();
         Scene?.Init();
 
 
-        Steam.Setup(); 
+        Steam.Init(); 
+
+        isInit = true;
+        onInit?.Invoke(); 
+        onInit = null;
+    }
+
+    public static void SubscribeToInit(Action callback)
+    {
+        if (Instance.isInit)
+            callback?.Invoke();
+        else
+            Instance.onInit += callback;  
     }
 
     public static void Clear()

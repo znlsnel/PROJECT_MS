@@ -11,8 +11,7 @@ public class InteractionHandler : MonoBehaviour
     private string testKey = "UI/InteractionUI.prefab";
     private void Awake()
     {
-        Managers.Input.SubscribeToInit(InitInput);
-        Managers.Resource.SubscribeToInit(InitResource);
+        Managers.SubscribeToInit(Init);
 
         sphereCollider = gameObject.GetOrAddComponent<SphereCollider>();
         sphereCollider.radius = 3f;
@@ -21,11 +20,11 @@ public class InteractionHandler : MonoBehaviour
 
     private void InitResource()
     {
-        Managers.Resource.LoadAsync<GameObject>(testKey);
     }
 
-    private void InitInput()
+    private void Init()
     {
+        Managers.Resource.LoadAsync<GameObject>(testKey);
         Managers.Input.Interact.started += InputInteract;
     }
 

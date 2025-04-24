@@ -41,7 +41,7 @@ public class QuestData : ScriptableObject
     
  
     public IReadOnlyList<TaskData> Tasks => tasks; 
-    public QuestReward Rewards => reward; 
+    public QuestReward Reward => reward; 
     public QuestCondition AcceptionConditions => acceptionCondition; 
 
     public int QuestId => questId; 
@@ -54,5 +54,27 @@ public class QuestData : ScriptableObject
     public bool IsSavable => isSavable; 
 
     #endregion
+
+
+    public QuestData(GameData.Quest quest)
+    {
+        questId = quest.index; 
+        questName = quest.name;
+        questDescription = quest.description;
+        Managers.Resource.LoadAsync<Sprite>(quest.icon, obj => icon = obj);
+
+        foreach (var task in quest.tasks)
+        {
+            var taskData = Managers.Data.questTasks.GetByIndex(task);
+            tasks.Add(new TaskData(taskData));
+        }
+
+        reward = new QuestReward(quest.rewardItems);
+        acceptionCondition = new QuestCondition(quest.requiredQuest, quest.requiredItem);
+        
+        useAutoComplete = quest.useAutoComplete;
+        isCancelable = quest.isCancelable;
+        isSavable = quest.isSavable; 
+    }
 
 }

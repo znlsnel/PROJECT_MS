@@ -7,34 +7,21 @@ using UnityEngine.Networking;
 
 // 예시 테이블 -> 아이템 같은
 
-public class DataManager : Manager
+public class DataManager : IManager
 {
 
-   // public DataHandler<CharacterData.CharacterData> Characters {get; private set;}
+    public DataHandler<GameData.Quest> quests {get; private set;}
+    public DataHandler<GameData.QuestTask> questTasks {get; private set;}
 
-     
-    public event Action onDataLoaded;
-    private bool isDataLoaded = false;
 
-    // 테이블 하나로 통합 -> 너무 많은 분리는 관리 어려움
-    protected override void Init()
+    public void Init()
     {
-
-        isDataLoaded = true;
-        onDataLoaded?.Invoke();
-        onDataLoaded = null;
+        quests = new DataHandler<GameData.Quest>();
+        questTasks = new DataHandler<GameData.QuestTask>();
 
     }
 
-    public void SubscribeToDataLoaded(Action callback) 
-    {
-        if (isDataLoaded)
-            callback?.Invoke();
-        else
-            onDataLoaded += callback;
-    }
-
-    public override void Clear()
+    public void Clear()
     {
         
     }

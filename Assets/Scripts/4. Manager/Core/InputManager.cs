@@ -11,10 +11,11 @@ public enum EPlayerInput
 	Interact,
 	Fire,
 	Run,
+	Test,
 }
 
 [System.Serializable]
-public class InputManager : Manager
+public class InputManager : IManager
 {
 	[SerializeField] private InputActionAsset inputActionAsset; 
 	private Dictionary<EPlayerInput, InputAction> playerInputs = new Dictionary<EPlayerInput, InputAction>();
@@ -29,12 +30,12 @@ public class InputManager : Manager
 	public InputAction Interact => playerInputs[EPlayerInput.Interact]; 
 	public InputAction Fire => playerInputs[EPlayerInput.Fire]; 
 	public InputAction Run => playerInputs[EPlayerInput.Run];   
-
+	public InputAction Test => playerInputs[EPlayerInput.Test];   
 
 	// === Input Actions ===
 	public InputAction GetInput(EPlayerInput type) => playerInputs[type];   
 
-    protected override void Init()
+    public void Init()
     {
 		if (inputActionAsset == null)
 			return;
@@ -43,9 +44,9 @@ public class InputManager : Manager
 		inputActionAsset.Enable(); 
     }
 
-    public override void Clear()
+    public void Clear()
     {
-        
+         
     }
  
 	public void SetActive(bool active)

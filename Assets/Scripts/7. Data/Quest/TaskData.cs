@@ -41,4 +41,17 @@ public class TaskData : ScriptableObject
     public int TargetId => targetId;
     public int SuccessCount => successCount;
     public bool CanReceiveReportsDuringCompletion => canReceiveReportsDuringCompletion;
+
+ 
+    public TaskData(GameData.QuestTask task)
+    {
+        taskId = task.index;
+        taskName = task.name;
+        taskDescription = task.description;
+        taskCategory = task.taskType;
+        actionType = task.actionType;
+        targetId = task.targeId;
+        successCount = task.successCount;
+        canReceiveReportsDuringCompletion = task.canReceiveReportsDuringCompletion;
+    }
 } 
