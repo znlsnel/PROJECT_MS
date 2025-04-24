@@ -13,9 +13,50 @@ public enum EStatType
     Health,
     Speed,
 }
+
+[GoogleSheet.Core.Type.UGS(typeof(EItemType))]
+public enum EItemType 
+{
+    Weapon,
+    Consumable,
+    Resource,
+    Equippable,
+    Placeable,
+}
+
+[GoogleSheet.Core.Type.UGS(typeof(EEquipType))]
+public enum EEquipType 
+{
+    None,
+    RightHand,
+    LeftHand,
+    Head,
+}
+
+[GoogleSheet.Core.Type.UGS(typeof(ETaskCategory))]
+public enum ETaskCategory
+{
+    None,
+    Collect,
+    Kill,
+    Talk,
+    Move,
+    UseItem,
+    FindItem, 
+    FindPlace,
+    UseSkill,
+}
+
+
+[GoogleSheet.Core.Type.UGS(typeof(ETaskActionType))]
+public enum ETaskActionType
+{
+    PositiveCount, // 3번 점프하기 
+    NegativeCount, // 특정 구조물에 다가가기 (현재 거리 120m) => 0m가 되면 성공
+    ContinuousCount, // 연속 성공하지 못하면 0으로 초기화 (강화 10회 연속 성공하기)
+}
+
 #endregion
-
-
 
 #region Interface
 public interface IInteractable

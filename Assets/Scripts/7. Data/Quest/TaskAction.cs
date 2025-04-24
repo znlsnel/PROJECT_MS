@@ -4,13 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 
-[GoogleSheet.Core.Type.UGS(typeof(ETaskActionType))]
-public enum ETaskActionType
-{
-    PositiveCount, // 3번 점프하기 
-    NegativeCount, // 특정 구조물에 다가가기 (현재 거리 120m) => 0m가 되면 성공
-    ContinuousCount, // 연속 성공하지 못하면 0으로 초기화 (강화 10회 연속 성공하기)
-}
+
 
 public static class TaskAction
 {

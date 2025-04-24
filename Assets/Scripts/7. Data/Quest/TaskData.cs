@@ -10,19 +10,7 @@ public enum ETaskState
     Complete
 }
 
-[GoogleSheet.Core.Type.UGS(typeof(ETaskCategory))]
-public enum ETaskCategory
-{
-    None,
-    Collect,
-    Kill,
-    Talk,
-    Move,
-    UseItem,
-    FindItem, 
-    FindPlace,
-    UseSkill,
-}
+
 
 
 public class TaskData : ScriptableObject
