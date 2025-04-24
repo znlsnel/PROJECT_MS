@@ -1,28 +1,31 @@
-public class Define
+#region Enums
+public enum ESound
 {
-    public enum UIEvent
-    {
-        Click,
-        Drag,
-    }
-
-
-    public enum Sound
-    {
-        Bgm,
-        Effect,
-        MaxCount,   
-    }
-
-    public enum Scene
-    {
-        GameScene,
-        Unknown, 
-        TitleScene,
-        MainScene,
-        LobbyScene,
-        LoadingScene,
-
-    }
-    
+    Bgm,
+    Effect,
+    MaxCount,   
 }
+
+
+[GoogleSheet.Core.Type.UGS(typeof(EStatType))]
+public enum EStatType 
+{
+    Health,
+    Speed,
+}
+#endregion
+
+
+
+#region Interface
+public interface IInteractable
+{
+    void Interact();
+}
+
+public interface IDamageable
+{
+    void TakeDamage(float damage); 
+}
+
+#endregion

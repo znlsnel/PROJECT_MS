@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MyDebug : Singleton<MyDebug>, IManager
+public class MyDebug : Singleton<MyDebug>
 {
     private Queue<string> _logQueue = new Queue<string>();
 
@@ -42,15 +42,5 @@ public class MyDebug : Singleton<MyDebug>, IManager
         {
             Instance._logQueue.Dequeue();
         }
-    }
-
-    public void Init()
-    {
-        throw new System.NotImplementedException();
-    }
-
-    public void Clear()
-    {
-        throw new System.NotImplementedException();
     }
 }

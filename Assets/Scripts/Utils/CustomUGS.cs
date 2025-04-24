@@ -89,7 +89,7 @@ namespace Hamster.ZG.Type
     [Type(typeof(ValueTuple<EStatType, int>), new string[] { "(EStatType,Int)", "(EStatType, Int)"})] 
     public class EnumIntPairType : IType
     {
-        public object DefaultValue => new Tuple<EStatType, int>(EStatType.Str, 0);
+        public object DefaultValue => new Tuple<EStatType, int>(EStatType.Health, 0);
 
         public object Read(string value)
         {

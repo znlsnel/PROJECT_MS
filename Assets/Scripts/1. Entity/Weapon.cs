@@ -12,9 +12,9 @@ public class Weapon : MonoBehaviour
     private HashSet<GameObject> _attackTargets = new HashSet<GameObject>();
 
     // 데미지 처리를 받을 몬스터 정보 불러오기
-    public event Action<GameObject, IDamagable> onAttack; 
+    public event Action<GameObject, IDamageable> onAttack; 
 
-    public void Setup(Action<GameObject, IDamagable> attackCallback)
+    public void Setup(Action<GameObject, IDamageable> attackCallback)
     {
         onAttack = null;
         onAttack += attackCallback; 
@@ -49,7 +49,7 @@ public class Weapon : MonoBehaviour
         if (_attackTargets.Contains(other.gameObject))
             return;
 
-        IDamagable damagable = other.gameObject.GetComponent<IDamagable>();
+        IDamageable damagable = other.gameObject.GetComponent<IDamageable>();
         if (damagable != null)
         {
             _attackTargets.Add(other.gameObject);
