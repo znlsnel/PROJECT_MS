@@ -35,6 +35,7 @@ public class InteractionHandler : MonoBehaviour
             return;
         
         Managers.Input.Interact.started -= InputInteract;
+        Managers.Resource.Release(testKey);
     }
     
     private void InputInteract(InputAction.CallbackContext context)

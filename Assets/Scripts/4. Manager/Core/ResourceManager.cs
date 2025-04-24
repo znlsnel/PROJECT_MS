@@ -66,6 +66,12 @@ public class ResourceManager : Manager
         Addressables.Release(obj); 
     }
 
+    public void Release(string key)
+    {
+        if (_resources.ContainsKey(key)) 
+            Release(_resources[key]); 
+    }
+
 #region Addressable
     public void LoadAsync<T>(string address, Action<T> callback = null) where T : UnityEngine.Object
     {
