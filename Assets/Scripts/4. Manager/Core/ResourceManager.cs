@@ -67,7 +67,7 @@ public class ResourceManager : Manager
     }
 
 #region Addressable
-    public void LoadAsync<T>(string address, Action<T> callback) where T : UnityEngine.Object
+    public void LoadAsync<T>(string address, Action<T> callback = null) where T : UnityEngine.Object
     {
         // 이미 로드된 핸들이 있는지 확인
         if (_resources.TryGetValue(address, out Object obj))
@@ -92,7 +92,7 @@ public class ResourceManager : Manager
     } 
 
     // TitleScene => [UI TitleUI Label]
-    public void LoadAllAsync<T>(string label, Action<string, int, int> callback) where T : UnityEngine.Object
+    public void LoadAllAsync<T>(string label, Action<string, int, int> callback = null) where T : UnityEngine.Object
     {
         var opHandler = Addressables.LoadResourceLocationsAsync(label, typeof(T));
         opHandler.Completed += (op) => {

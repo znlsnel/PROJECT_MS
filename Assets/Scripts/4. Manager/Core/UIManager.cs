@@ -3,12 +3,14 @@ using System.Collections;
 using System.Collections.Generic;
 using Cysharp.Threading.Tasks;
 using TMPro;
+using UnityEditor.SearchService;
 using UnityEngine;
 
 [Serializable]
 public class UIManager : Manager
 {
-    private Dictionary<string, UIBase> activeUIs = new Dictionary<string, UIBase>();
+    private Dictionary<string, UIBase> _activeUIs = new Dictionary<string, UIBase>();
+    private UIBase _hudUI;
 
     public override void Clear()
     {
@@ -20,38 +22,40 @@ public class UIManager : Manager
         
     }
 
-    public void PopupUI<T>(string key) where T : UIBase
+    // HUD UI 관리
+    public void SetHUD<T>(string key) where T : UIBase
     {
-        if(!activeUIs.TryGetValue(key, out UIBase ui))
-        {
-            ui = Managers.Resource.Load<T>(key);
+        if (_hudUI != null)
+            GameObject.Destroy(_hudUI.gameObject); 
 
-            if(ui == null)
-            {
-                Debug.LogError($"UI 로드 실패: {key}");
-                return;
-            }
-
-            UIBase obj = GameObject.Instantiate(ui);
-            activeUIs.Add(key, obj);
-        }
-
-        activeUIs[key].gameObject.SetActive(true);
+        _hudUI = Managers.Resource.Instantiate(key).GetComponent<T>();
     }
 
-    public void CloseUI<T>(string key, bool destroy = false) where T : UIBase
+    public void CloseHUD()
     {
-        if(activeUIs.TryGetValue(key, out UIBase ui))
+        _hudUI?.gameObject.SetActive(false);
+    }
+
+    public void OpenHUD()
+    {
+        _hudUI?.gameObject.SetActive(true); 
+    }
+
+    public void OpenPopupUI<T>(string key) where T : UIBase
+    {
+        if(!_activeUIs.TryGetValue(key, out UIBase ui))
         {
-            activeUIs.Remove(key);
-            if(destroy)
-                GameObject.Destroy(ui.gameObject);
-            else
-                ui.gameObject.SetActive(false);
+            T obj = Managers.Resource.Instantiate(key).GetComponent<T>();
+            _activeUIs.Add(key, obj);
         }
-        else
-        {
-            Debug.LogError($"UI 찾을 수 없음: {key}");
-        }
+
+        _activeUIs[key].gameObject.SetActive(true);
+    }
+ 
+    public void CloseUI<T>(string key) where T : UIBase
+    {
+        if(_activeUIs.TryGetValue(key, out UIBase ui))
+            ui.gameObject.SetActive(false);
+        
     }
 }

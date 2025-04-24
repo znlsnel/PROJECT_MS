@@ -8,12 +8,20 @@ public class InteractionHandler : MonoBehaviour
     private HashSet<GameObject> interactables = new HashSet<GameObject>();
     private SphereCollider sphereCollider;
 
+    private string testKey = "UI/InteractionUI.prefab";
     private void Awake()
     {
         Managers.Input.SubscribeToInit(InitInput);
+        Managers.Resource.SubscribeToInit(InitResource);
+
         sphereCollider = gameObject.GetOrAddComponent<SphereCollider>();
         sphereCollider.radius = 3f;
         sphereCollider.isTrigger = true;
+    }
+
+    private void InitResource()
+    {
+        Managers.Resource.LoadAsync<GameObject>(testKey);
     }
 
     private void InitInput()
@@ -40,13 +48,24 @@ public class InteractionHandler : MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
         if(other.TryGetComponent(out IInteractable interactable))
+        {
+            if (interactables.Count == 0)
+                Managers.UI.OpenPopupUI<UIBase>(testKey);
             interactables.Add(other.gameObject);
+        }
+
+        
     }
  
     private void OnTriggerExit(Collider other)
     {
         if(other.TryGetComponent(out IInteractable interactable))
-            interactables.Remove(other.gameObject);
+        {
+            interactables.Remove(other.gameObject); 
+
+            if (interactables.Count == 0)
+                Managers.UI.CloseUI<UIBase>(testKey);
+        }
     }
 
     private IInteractable FindNearestInteractable()
