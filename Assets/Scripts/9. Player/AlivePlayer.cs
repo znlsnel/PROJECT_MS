@@ -1,6 +1,5 @@
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerController))]
 [RequireComponent(typeof(InteractionHandler))]
 public class AlivePlayer : MonoBehaviour
 {
@@ -19,15 +18,17 @@ public class AlivePlayer : MonoBehaviour
     public ResourceStat Temperature => temperature;
     public ResourceStat Sanity => sanity;
     #endregion
-
-    public PlayerController PlayerController { get; private set; }
     public InteractionHandler InteractionHandler { get; private set; }
+    public CharacterController CharacterController { get; private set; }
+    [field: SerializeField] public AlivePlayerSO AlivePlayerSO { get; private set; }
+    [field: SerializeField] public AlivePlayerAnimationData AnimationData { get; private set; }
     private AlivePlayerStateMachine stateMachine;
 
     public void Awake()
     {
-        PlayerController = GetComponent<PlayerController>();
         InteractionHandler = GetComponent<InteractionHandler>();
+        CharacterController = GetComponent<CharacterController>();
+        AnimationData = new AlivePlayerAnimationData();
     }
 
     public void Start()
@@ -39,5 +40,15 @@ public class AlivePlayer : MonoBehaviour
         temperature = new ResourceStat(100);
 
         stateMachine = new AlivePlayerStateMachine(this);
+    }
+
+    public void Update()
+    {
+        stateMachine.Update();
+    }
+
+    public void FixedUpdate()
+    {
+        stateMachine.FixedUpdate();
     }
 }

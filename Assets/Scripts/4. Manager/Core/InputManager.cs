@@ -10,7 +10,8 @@ public enum EPlayerInput
 	Look,
 	Interact,
 	Fire,
-	Run,
+	Sprint,
+	Aim,
 }
 
 [System.Serializable]
@@ -27,8 +28,9 @@ public class InputManager : Manager
 	public InputAction Move => playerInputs[EPlayerInput.Move];
 	public InputAction Look => playerInputs[EPlayerInput.Look]; 
 	public InputAction Interact => playerInputs[EPlayerInput.Interact]; 
+	public InputAction Aim => playerInputs[EPlayerInput.Aim];
 	public InputAction Fire => playerInputs[EPlayerInput.Fire]; 
-	public InputAction Run => playerInputs[EPlayerInput.Run];   
+	public InputAction Run => playerInputs[EPlayerInput.Sprint];   
 
 
 	// === Input Actions ===

@@ -3,31 +3,33 @@ using UnityEngine;
 public class AlivePlayerStateMachine : StateMachine
 {
     public AlivePlayer Player { get; private set; }
+    public AlivePlayerStateReusableData ReusableData { get; private set; }
 
-    public IdlingState idlingState { get; private set; }
-    public InterctingState interctingState { get; private set; }
-    public RunningState runningState { get; private set; }
-    public SprintingState sprintingState { get; private set; }
-    public AttackingState attackingState { get; private set; }
-    public AimingState aimingState { get; private set; }
-    public DamagedState damagedState { get; private set; }
-    public DeadState deadState { get; private set; }
+    public IdlingState IdlingState { get; private set; }
+    public InterctingState InterctingState { get; private set; }
+    public RunningState RunningState { get; private set; }
+    public SprintingState SprintingState { get; private set; }
+    public AttackingState AttackingState { get; private set; }
+    public AimingState AimingState { get; private set; }
+    public DamagedState DamagedState { get; private set; }
+    public DeadState DeadState { get; private set; }
 
     public AlivePlayerStateMachine(AlivePlayer player)
     {
         Player = player;
+        ReusableData = new AlivePlayerStateReusableData();
 
-        idlingState = new IdlingState(this);
-        interctingState = new InterctingState(this);
+        IdlingState = new IdlingState(this);
+        InterctingState = new InterctingState(this);
 
-        runningState = new RunningState(this);
-        sprintingState = new SprintingState(this);
+        RunningState = new RunningState(this);
+        SprintingState = new SprintingState(this);
 
-        attackingState = new AttackingState(this);
-        aimingState = new AimingState(this);
-        damagedState = new DamagedState(this);
-        deadState = new DeadState(this);
+        AttackingState = new AttackingState(this);
+        AimingState = new AimingState(this);
+        DamagedState = new DamagedState(this);
+        DeadState = new DeadState(this);
 
-        ChangeState(idlingState);
+        ChangeState(IdlingState);
     }
 }
