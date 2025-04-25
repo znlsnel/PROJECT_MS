@@ -54,15 +54,5 @@ public class InteractionHandler : MonoBehaviour
             OnInteract?.Invoke(interactedObject);
         }
     }
- 
-    private void OnTriggerExit(Collider other)
-    {
-        if(other.TryGetComponent(out IInteractable interactable))
-        {
-            interactables.Remove(other.gameObject); 
 
-            if (interactables.Count == 0)
-                Managers.UI.CloseUI<UIBase>(testKey);
-        }
-    }
 }

@@ -6,7 +6,7 @@ public class TestInteractionObj : MonoBehaviour, IInteractable
 
     public GameObject Interact(GameObject gameObject)
     {
-        Debug.Log("Interact");
+        Managers.Quest.ReceiveReport(ETaskCategory.Interact, 1000);
         return gameObject;
     } 
 

@@ -5,11 +5,12 @@ public class Item : MonoBehaviour, IInteractable
     [field: SerializeField] public int ItemId { get; private set; }
 
 
-    public void Interact()
+    public GameObject Interact(GameObject player)
     {
         Managers.Quest.ReceiveReport(ETaskCategory.Pickup, ItemId);
         Destroy(gameObject);
-    }
+        return null;
+    } 
 
     public void Setup(int itemId)
     {
