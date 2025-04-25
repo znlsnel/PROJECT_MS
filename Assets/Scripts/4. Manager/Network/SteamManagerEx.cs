@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using Steamworks;
 using UnityEngine;
 
-public class SteamManagerEx : Manager
+public class SteamManagerEx : IManager
 {
     
     protected Callback<LobbyCreated_t> _lobbyCreated;
@@ -19,7 +19,7 @@ public class SteamManagerEx : Manager
 
     private const string HostAddressKey = "HostAddress";
 
-    protected override void Init()
+    public void Init()
     {
         if(!SteamManager.Initialized) return;
 
@@ -29,7 +29,7 @@ public class SteamManagerEx : Manager
         _lobbyList = Callback<LobbyMatchList_t>.Create(OnLobbyList);
     }
 
-    public override void Clear()
+    public void Clear()
     {
          
     }

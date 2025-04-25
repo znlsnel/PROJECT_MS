@@ -7,6 +7,8 @@ using System.Reflection;
 using UGS;
 using UnityEngine.Assertions;
 using System.Diagnostics;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class DataHandler<T> where T : ITable
 {
@@ -18,7 +20,7 @@ public class DataHandler<T> where T : ITable
     public DataHandler()
     {
         // UGS Data 클래스의 인스턴스 생성
-        // var dataInstance = Activator.CreateInstance<T>(); 
+         //var dataInstance = Activator.CreateInstance<T>(); 
         
         // 리플렉션으로 필요한 멤버 가져오기 
         var type = typeof(T);  
@@ -57,6 +59,8 @@ public class DataHandler<T> where T : ITable
         {
             return item;
         }
+
+        Debug.LogError($"{typeof(T).Name} Data not found: {index}");
         return default;
     }
 

@@ -36,15 +36,10 @@ public enum EEquipType
 [GoogleSheet.Core.Type.UGS(typeof(ETaskCategory))]
 public enum ETaskCategory
 {
-    None,
-    Collect,
     Kill,
     Talk,
-    Move,
     UseItem,
-    FindItem, 
-    FindPlace,
-    UseSkill,
+    Interact,
 }
 
 
@@ -69,4 +64,9 @@ public interface IDamageable
     void TakeDamage(float damage); 
 }
 
+public interface IManager
+{
+    void Init();
+    void Clear();
+}
 #endregion

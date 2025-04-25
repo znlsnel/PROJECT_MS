@@ -5,17 +5,17 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
-public class ResourceManager : Manager
+public class ResourceManager : IManager
 {    
     private Dictionary<string, UnityEngine.Object> _resources = new Dictionary<string, UnityEngine.Object>();
     
-    protected override void Init() 
+    public void Init() 
     {
         Addressables.InitializeAsync();
     }
 
  
-    public override void Clear()
+    public void Clear()
     {
         foreach (var handle in _resources.Values)
         {
@@ -89,12 +89,15 @@ public class ResourceManager : Manager
             {
                 _resources.Add(address, op.Result);
                 callback?.Invoke(op.Result);
+                Debug.Log($"로드 성공 : {address}");
             }
             else
             {
                 Debug.LogError($"로드 실패 : {address}"); 
             }
         };
+
+
     } 
 
     // TitleScene => [UI TitleUI Label]

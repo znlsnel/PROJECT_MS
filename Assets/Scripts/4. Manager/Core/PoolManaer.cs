@@ -12,7 +12,7 @@ public interface IPoolable
     void OnDespawn();   
 }
 
-public class PoolManager : Manager
+public class PoolManager : IManager
 {
 	#region Pool
 	class Pool 
@@ -70,7 +70,7 @@ public class PoolManager : Manager
 	private Dictionary<string, Pool> _pool = new Dictionary<string, Pool>();
     private Transform _root;
 
-    protected override void Init()
+    public void Init()
     {
         if (_root == null)
         {
@@ -79,7 +79,7 @@ public class PoolManager : Manager
         }
     }
 
-    public override void Clear()
+    public void Clear()
     {
         foreach (Transform child in _root)
             GameObject.Destroy(child.gameObject);

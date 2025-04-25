@@ -6,12 +6,12 @@ using Object = UnityEngine.Object;
 
 
 [Serializable]
-public class SoundManager : Manager
+public class SoundManager : IManager
 {
     AudioSource[] _audioSources = new AudioSource[(int)ESound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
-    protected override void Init()  
+    public void Init()  
     {
         GameObject root = GameObject.Find("@Sound");
         if (root == null)
@@ -35,7 +35,7 @@ public class SoundManager : Manager
         }
     }
 
-    public override void Clear()
+    public void Clear()
     {
         foreach (AudioSource audioSource in _audioSources)
         {

@@ -9,7 +9,7 @@ public class PlayerController : MonoBehaviour
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
-        Managers.Input.SubscribeToInit(InitInput);
+        Managers.SubscribeToInit(InitInput);
     }
 
     private void Update()

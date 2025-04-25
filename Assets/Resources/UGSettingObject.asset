@@ -16,7 +16,7 @@ MonoBehaviour:
   ScriptPassword: 
   GoogleFolderID: 
   GenerateCodePath: Assets/UGS.Generated/Scripts/
-  DataPath: Assets/UGS.Generated/Resource/
+  DataPath: Assets/UGS.Generated/Resources/
   RuntimeDataPath: UGS/UGS.Data/
   CDN_URL: 
   base64: 0

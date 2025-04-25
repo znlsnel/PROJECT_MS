@@ -26,7 +26,7 @@ public class QuestData : ScriptableObject
 
 
     [Header("Quest Setting")]
-    [SerializeField] private List<TaskData> tasks; // 몬스터 잡기 or 몬스터한테 맞기 or 인벤토리 열기 등등
+    [SerializeField] private List<TaskData> tasks = new List<TaskData>(); // 몬스터 잡기 or 몬스터한테 맞기 or 인벤토리 열기 등등
     [SerializeField] private QuestReward reward; // 보상 -> 아이템 or 골드 or 스킬 or 버프 등등
     [SerializeField] private QuestCondition acceptionCondition; // 선행 퀘스트 or 레벨 조건 등등
  
@@ -41,7 +41,7 @@ public class QuestData : ScriptableObject
     
  
     public IReadOnlyList<TaskData> Tasks => tasks; 
-    public QuestReward Rewards => reward; 
+    public QuestReward Reward => reward; 
     public QuestCondition AcceptionConditions => acceptionCondition; 
 
     public int QuestId => questId; 
@@ -54,5 +54,27 @@ public class QuestData : ScriptableObject
     public bool IsSavable => isSavable; 
 
     #endregion
+
+
+    public QuestData(GameData.Quest quest)
+    {
+        questId = quest.index; 
+        questName = quest.name;
+        questDescription = quest.description;
+        Managers.Resource.LoadAsync<Sprite>(quest.icon, obj => icon = obj);
+
+        foreach (var task in quest.tasks)
+        {
+            var taskData = Managers.Data.questTasks.GetByIndex(task);
+            tasks.Add(new TaskData(taskData));
+        }
+
+        reward = new QuestReward(quest.rewardItems);
+        acceptionCondition = new QuestCondition(quest.requiredQuest, quest.requiredItem);
+        
+        useAutoComplete = quest.useAutoComplete;
+        isCancelable = quest.isCancelable;
+        isSavable = quest.isSavable; 
+    }
 
 }
