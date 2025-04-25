@@ -17,10 +17,7 @@ public class InteractionHandler : MonoBehaviour
         sphereCollider.radius = 3f;
         sphereCollider.isTrigger = true;
     }
-
-    private void InitResource()
-    {
-    }
+ 
 
     private void Init()
     {
@@ -40,8 +37,10 @@ public class InteractionHandler : MonoBehaviour
     private void InputInteract(InputAction.CallbackContext context)
     {
         IInteractable nearestInteractable = FindNearestInteractable();
-        if(nearestInteractable != null)
+        if(nearestInteractable != null){
             nearestInteractable.Interact(); 
+            Managers.Quest.ReceiveReport(ETaskCategory.Interact, 1, 1);
+        }
     }
  
 

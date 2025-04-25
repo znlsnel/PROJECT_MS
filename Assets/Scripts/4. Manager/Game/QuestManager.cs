@@ -49,7 +49,7 @@ public class QuestManager : IManager
         return quest;
     }
 
-    public void ReceiveReport(ETaskCategory category, int targetId, int successCount)
+    public void ReceiveReport(ETaskCategory category, int targetId, int successCount = 1)
     {
         foreach (var quest in activeQuests.ToArray())
             quest.RecieveReport(category, targetId, successCount); 

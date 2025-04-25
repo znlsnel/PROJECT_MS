@@ -3,8 +3,8 @@ using UnityEngine;
 
 public class QuestUI : UIBase
 {
-    private string slotKey = "UI/QuestUI.prefab";
-    private string taskKey = "UI/QuestTaskUI.prefab";
+    private string slotKey = "UI/Quest/QuestUI.prefab";
+    private string taskKey = "UI/Quest/QuestTaskUI.prefab";
 
     protected override void Awake()
     {
@@ -21,13 +21,12 @@ public class QuestUI : UIBase
         Managers.Quest.onQuestCanceled -= OnQuestCanceled;
     }
 
-    private void Init()
+    private void Init() 
     {
-        Managers.Resource.LoadAsync<GameObject>(slotKey, (obj)=>{
-            RegisterQuestAction();
+        Managers.Resource.LoadAllAsync<GameObject>("DefaultUI", (key, loadCount, totalCount)=>{
+            if(loadCount == totalCount)
+                RegisterQuestAction(); 
         });
-
-        Managers.Resource.LoadAsync<GameObject>(taskKey);
     } 
 
     private void RegisterQuestAction()

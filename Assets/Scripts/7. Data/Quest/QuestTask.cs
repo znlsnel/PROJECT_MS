@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -11,8 +11,9 @@ public class QuestTask
  
     public event Action<QuestTask, ETaskState, ETaskState> onStateChanged;
     public event Action<QuestTask, bool> onSuccessChanged;
-
-
+    public event Action<QuestTask, int, int> onProgressChanged;
+    
+   
 
     public void Initialize(TaskData taskDataSO, ETaskState state = ETaskState.Inactive, int progress = 0)
     {
@@ -46,11 +47,12 @@ public class QuestTask
         else
         {
             State = ETaskState.Running;
-            if (prevState == ETaskState.Complete) 
-                onSuccessChanged?.Invoke(this, false);  
+            if (prevState == ETaskState.Complete)
+                onSuccessChanged?.Invoke(this, false);   
         }
 
         onStateChanged?.Invoke(this, State, prevState);   
+        onProgressChanged?.Invoke(this, progress, taskData.SuccessCount); 
     }
 
     public void Register()

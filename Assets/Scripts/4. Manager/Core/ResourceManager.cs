@@ -87,7 +87,8 @@ public class ResourceManager : IManager
         newHandle.Completed += (op) => {
             if (op.Status == AsyncOperationStatus.Succeeded)
             {
-                _resources.Add(address, op.Result);
+                if (!_resources.ContainsKey(address)) 
+                    _resources.Add(address, op.Result);
                 callback?.Invoke(op.Result);
                 Debug.Log($"로드 성공 : {address}");
             }
@@ -114,6 +115,41 @@ public class ResourceManager : IManager
                     loadCount++;
                     callback?.Invoke(result.PrimaryKey, loadCount, totalCount); 
                 });
+            }
+        };
+    }
+
+    public void LoadFolderAsync<T>(string folderKey, Action<List<T>> callback = null) where T : UnityEngine.Object
+    {
+        var opHandler = Addressables.LoadResourceLocationsAsync(folderKey, typeof(T));
+        opHandler.Completed += (op) => {
+            if (op.Status == AsyncOperationStatus.Succeeded)
+            {
+                List<T> results = new List<T>();
+                int loadCount = 0;
+                int totalCount = op.Result.Count;
+                
+                if (totalCount == 0)
+                {
+                    callback?.Invoke(results);
+                    return;
+                }
+
+                foreach (var result in op.Result)
+                {
+                    LoadAsync<T>(result.PrimaryKey, (obj) => {
+                        loadCount++;
+                        results.Add(obj);
+                        
+                        if (loadCount >= totalCount)
+                            callback?.Invoke(results);
+                    });
+                }
+            }
+            else
+            {
+                Debug.LogError($"폴더 로드 실패: {folderKey}");
+                callback?.Invoke(new List<T>());
             }
         };
     }
