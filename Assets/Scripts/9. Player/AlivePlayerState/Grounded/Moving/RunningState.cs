@@ -20,10 +20,6 @@ public class RunningState : MovingState
     }
 
     #region Input Methods
-    protected override void OnMovementStarted(InputAction.CallbackContext context)
-    {
-        
-    }
 
     protected override void OnMovementCanceled(InputAction.CallbackContext context)
     {
