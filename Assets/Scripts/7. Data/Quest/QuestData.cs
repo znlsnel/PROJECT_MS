@@ -26,7 +26,7 @@ public class QuestData : ScriptableObject
 
 
     [Header("Quest Setting")]
-    [SerializeField] private List<TaskData> tasks; // 몬스터 잡기 or 몬스터한테 맞기 or 인벤토리 열기 등등
+    [SerializeField] private List<TaskData> tasks = new List<TaskData>(); // 몬스터 잡기 or 몬스터한테 맞기 or 인벤토리 열기 등등
     [SerializeField] private QuestReward reward; // 보상 -> 아이템 or 골드 or 스킬 or 버프 등등
     [SerializeField] private QuestCondition acceptionCondition; // 선행 퀘스트 or 레벨 조건 등등
  

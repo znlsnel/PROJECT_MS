@@ -7,6 +7,8 @@ using System.Reflection;
 using UGS;
 using UnityEngine.Assertions;
 using System.Diagnostics;
+using UnityEngine;
+using Debug = UnityEngine.Debug;
 
 public class DataHandler<T> where T : ITable
 {
@@ -57,6 +59,8 @@ public class DataHandler<T> where T : ITable
         {
             return item;
         }
+
+        Debug.LogError($"{typeof(T).Name} Data not found: {index}");
         return default;
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class QuestTask
 {
-    public TaskData taskDataSO {get; private set;}
+    public TaskData taskData {get; private set;}
     public ETaskState State { get; private set; } = ETaskState.Inactive;
     public int progress {get; private set;}
  
@@ -16,27 +16,27 @@ public class QuestTask
 
     public void Initialize(TaskData taskDataSO, ETaskState state = ETaskState.Inactive, int progress = 0)
     {
-        this.taskDataSO = taskDataSO;
+        this.taskData = taskDataSO;
         State = state;
         this.progress = progress;  
     } 
 
     public bool IsMatch(ETaskCategory category, int targetId)
     {
-        return taskDataSO.TaskCategory == category && taskDataSO.TargetId == targetId;
+        return taskData.TaskCategory == category && taskData.TargetId == targetId;
     }
   
     public void ReceiveReport(int successCount)
     {
-        if (State == ETaskState.Complete && taskDataSO.CanReceiveReportsDuringCompletion == false) 
+        if (State == ETaskState.Complete && taskData.CanReceiveReportsDuringCompletion == false) 
             return;
 
-        progress = TaskAction.Run(taskDataSO.ActionType, progress, successCount);
-        progress = Mathf.Clamp(progress, 0, taskDataSO.SuccessCount); 
-        Debug.Log($"[{taskDataSO.TaskName}] 진행도 : {progress} / {taskDataSO.SuccessCount}");  
+        progress = TaskAction.Run(taskData.ActionType, progress, successCount);
+        progress = Mathf.Clamp(progress, 0, taskData.SuccessCount); 
+        Debug.Log($"[{taskData.TaskName}] 진행도 : {progress} / {taskData.SuccessCount}");  
 
         ETaskState prevState = State;
-        if (progress >= taskDataSO.SuccessCount)
+        if (progress >= taskData.SuccessCount)
         {
             State = ETaskState.Complete;
             if (prevState != ETaskState.Complete){

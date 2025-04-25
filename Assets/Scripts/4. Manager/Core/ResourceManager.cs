@@ -89,12 +89,15 @@ public class ResourceManager : IManager
             {
                 _resources.Add(address, op.Result);
                 callback?.Invoke(op.Result);
+                Debug.Log($"로드 성공 : {address}");
             }
             else
             {
                 Debug.LogError($"로드 실패 : {address}"); 
             }
         };
+
+
     } 
 
     // TitleScene => [UI TitleUI Label]
