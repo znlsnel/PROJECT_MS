@@ -357,6 +357,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3993847946959037927}
   - component: {fileID: 5593562585620291583}
+  - component: {fileID: 8811976735012813740}
   m_Layer: 5
   m_Name: QuestUI
   m_TagString: Untagged
@@ -404,6 +405,18 @@ MonoBehaviour:
   stateIcon: {fileID: 5602172909585218383}
   _title: {fileID: 204516637717602655}
   _description: {fileID: 6388422536373412570}
+--- !u!225 &8811976735012813740
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4698996847435752872}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &6136649439561057998
 GameObject:
   m_ObjectHideFlags: 0
