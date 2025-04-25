@@ -10,6 +10,8 @@ public class GroundedState : AlivePlayerState
     #region IState Methods
     public override void Enter()
     {
+        stateMachine.Player.InteractionHandler.OnInteract += OnInteract;
+
         base.Enter();
         
         stateMachine.ReusableData.VerticalVelocity = Physics.gravity;
@@ -19,6 +21,8 @@ public class GroundedState : AlivePlayerState
 
     public override void Exit()
     {
+        stateMachine.Player.InteractionHandler.OnInteract -= OnInteract;
+
         base.Exit();
 
         StopAnimation(stateMachine.Player.AnimationData.GroundParameterHash);
@@ -54,6 +58,11 @@ public class GroundedState : AlivePlayerState
     protected virtual void OnSprintCanceled(InputAction.CallbackContext context)
     {
         stateMachine.ReusableData.ShouldSprint = false;
+    }
+
+    protected virtual void OnInteract(GameObject gameObject)
+    {
+        stateMachine.ChangeState(stateMachine.InterctingState);
     }
     #endregion
 }

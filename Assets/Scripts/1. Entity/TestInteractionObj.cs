@@ -2,9 +2,12 @@ using UnityEngine;
 
 public class TestInteractionObj : MonoBehaviour, IInteractable
 {
-    public void Interact()
+    public AnimationClip interactAnimation;
+
+    public GameObject Interact(GameObject gameObject)
     {
         Debug.Log("Interact");
+        return gameObject;
     } 
 
 }

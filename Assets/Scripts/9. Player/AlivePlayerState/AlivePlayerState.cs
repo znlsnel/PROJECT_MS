@@ -95,7 +95,7 @@ public abstract class AlivePlayerState : IState
 
         if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
             return nextInfo.normalizedTime;
-        else if (!animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
             return currentInfo.normalizedTime;
         else
             return 0f;

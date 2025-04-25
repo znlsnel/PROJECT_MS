@@ -25,6 +25,7 @@ public class AlivePlayer : MonoBehaviour
     public InteractionHandler InteractionHandler { get; private set; }
     public CharacterController CharacterController { get; private set; }
     public Animator Animator { get; private set; }
+    [field: SerializeField] public AnimatorOverrideController overrideController { get; private set; }
     [field: SerializeField] public CinemachineCamera CinemachineCamera { get; private set; }
     [field: SerializeField] public AlivePlayerSO AlivePlayerSO { get; private set; }
     [field: SerializeField] public AlivePlayerAnimationData AnimationData { get; private set; }
@@ -36,6 +37,9 @@ public class AlivePlayer : MonoBehaviour
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
         AnimationData = new AlivePlayerAnimationData();
+
+        overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
+        Animator.runtimeAnimatorController = overrideController;
     }
 
     public void Start()
@@ -57,5 +61,15 @@ public class AlivePlayer : MonoBehaviour
     public void FixedUpdate()
     {
         stateMachine.FixedUpdate();
+    }
+
+    public void SetInteractAnimation(AnimationClip animationClip)
+    {
+        stateMachine.Player.overrideController["Interaction"] = animationClip;
+    }
+
+    public void SetAttackAnimation(AnimationClip animationClip)
+    {
+        stateMachine.Player.overrideController["Attack"] = animationClip;
     }
 }
