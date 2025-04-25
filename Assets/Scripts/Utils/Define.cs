@@ -1,4 +1,6 @@
 #region Enums
+using UnityEngine;
+
 public enum ESound
 {
     Bgm,
@@ -57,7 +59,7 @@ public enum ETaskActionType
 #region Interface
 public interface IInteractable
 {
-    void Interact();
+    GameObject Interact(GameObject gameObject);
 }
 
 public interface IDamageable

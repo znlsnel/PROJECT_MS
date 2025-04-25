@@ -1,28 +1,38 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 
 public class InteractionHandler : MonoBehaviour
-{
-    private HashSet<GameObject> interactables = new HashSet<GameObject>();
-    private SphereCollider sphereCollider;
+{ 
+    public Collider[] Interactables { get; private set; }
+    [SerializeField] private float range = 3f;
+
+    public event Action<GameObject> OnInteract;
 
     private string testKey = "UI/InteractionUI.prefab";
     private void Awake()
     {
         Managers.SubscribeToInit(Init);
-
-        sphereCollider = gameObject.GetOrAddComponent<SphereCollider>();
-        sphereCollider.radius = 3f;
-        sphereCollider.isTrigger = true;
     }
- 
 
     private void Init()
     {
         Managers.Resource.LoadAsync<GameObject>(testKey);
         Managers.Input.Interact.started += InputInteract;
+    }
+
+    private void FixedUpdate()
+    {
+        Interactables = Physics.OverlapSphere(transform.position, range, LayerMask.GetMask("Interactable"));
+
+        Array.Sort(Interactables, (a, b) => {
+            float distanceA = Vector3.SqrMagnitude(a.transform.position - transform.position);
+            float distanceB = Vector3.SqrMagnitude(b.transform.position - transform.position);
+
+            return distanceA.CompareTo(distanceB);
+        });
     }
 
     private void OnDestroy()
@@ -36,26 +46,13 @@ public class InteractionHandler : MonoBehaviour
     
     private void InputInteract(InputAction.CallbackContext context)
     {
-        IInteractable nearestInteractable = FindNearestInteractable();
-        if(nearestInteractable != null){
-            nearestInteractable.Interact(); 
-            Managers.Quest.ReceiveReport(ETaskCategory.Interact, 1, 1);
-        }
+        if(Interactables.Length == 0) return;
 
-        
-    }
- 
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(other.TryGetComponent(out IInteractable interactable))
+        if(Interactables[0].TryGetComponent(out IInteractable interactable))
         {
-            if (interactables.Count == 0)
-                Managers.UI.OpenPopupUI<UIBase>(testKey);
-            interactables.Add(other.gameObject);
+            GameObject interactedObject = interactable.Interact(gameObject); 
+            OnInteract?.Invoke(interactedObject);
         }
-
-        
     }
  
     private void OnTriggerExit(Collider other)
@@ -67,26 +64,5 @@ public class InteractionHandler : MonoBehaviour
             if (interactables.Count == 0)
                 Managers.UI.CloseUI<UIBase>(testKey);
         }
-    }
-
-    private IInteractable FindNearestInteractable()
-    {
-        IInteractable nearestInteractable = null;
-        float nearestDistance = float.MaxValue;
-
-        foreach (var interactable in interactables)
-        {
-            if (interactable == null)
-                continue;
-
-            float distance = Vector3.Distance(transform.position, interactable.transform.position);
-            if(distance < nearestDistance)
-            {
-                nearestInteractable = interactable.GetComponent<IInteractable>();
-                nearestDistance = distance; 
-            }
-        }
-
-        return nearestInteractable;
     }
 }

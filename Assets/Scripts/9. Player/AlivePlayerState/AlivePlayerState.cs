@@ -40,6 +40,7 @@ public abstract class AlivePlayerState : IState
     private void ReadMovementInput()
     {
         stateMachine.ReusableData.MovementInput = Managers.Input.GetInput(EPlayerInput.Move).ReadValue<Vector2>();
+        stateMachine.ReusableData.ShouldSprint = Managers.Input.GetInput(EPlayerInput.Sprint).IsPressed();
     }
 
     private void Move()
@@ -67,6 +68,16 @@ public abstract class AlivePlayerState : IState
         return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
     }
 
+    protected void StartAnimation(int animationHash)
+    {
+        stateMachine.Player.Animator.SetBool(animationHash, true);
+    }
+
+    protected void StopAnimation(int animationHash)
+    {
+        stateMachine.Player.Animator.SetBool(animationHash, false);
+    }
+
     protected virtual void AddInputActionCallbacks()
     {
         Managers.Input.GetInput(EPlayerInput.Move).canceled += OnMovementCanceled;
@@ -84,7 +95,7 @@ public abstract class AlivePlayerState : IState
 
         if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
             return nextInfo.normalizedTime;
-        else if (!animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
             return currentInfo.normalizedTime;
         else
             return 0f;

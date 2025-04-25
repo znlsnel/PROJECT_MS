@@ -13,10 +13,26 @@ public class IdlingState : GroundedState
         base.Enter();
 
         stateMachine.ResetPrevStates();
+        
+        StartAnimation(stateMachine.Player.AnimationData.IdlingParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        StopAnimation(stateMachine.Player.AnimationData.IdlingParameterHash);
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if(stateMachine.ReusableData.MovementInput == Vector2.zero)
+        {
+            return;
+        }
+
+        OnMove();
     }
 }

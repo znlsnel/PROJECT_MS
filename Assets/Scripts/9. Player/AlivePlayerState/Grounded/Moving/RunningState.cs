@@ -12,11 +12,31 @@ public class RunningState : MovingState
         base.Enter();
 
         stateMachine.ReusableData.MovementSpeedModifier = stateMachine.Player.AlivePlayerSO.MoveSpeed;
+
+        StartAnimation(stateMachine.Player.AnimationData.RunningParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        StopAnimation(stateMachine.Player.AnimationData.RunningParameterHash);
+    }
+
+    public override void Update()
+    {
+        base.Update();
+
+        if(stateMachine.ReusableData.MovementInput == Vector2.zero)
+        {
+            return;
+        }
+
+        if(stateMachine.ReusableData.ShouldSprint)
+        {
+            stateMachine.ChangeState(stateMachine.SprintingState);
+            return;
+        }
     }
 
     #region Input Methods
