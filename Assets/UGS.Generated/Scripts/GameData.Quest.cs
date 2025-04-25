@@ -57,6 +57,8 @@ namespace GameData
 /* Fields. */
 
 		public System.Int32 index;
+		public System.Int32 groupId;
+		public System.Int32 mapId;
 		public System.String icon;
 		public System.String name;
 		public System.String description;

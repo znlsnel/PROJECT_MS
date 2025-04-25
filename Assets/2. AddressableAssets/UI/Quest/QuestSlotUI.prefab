@@ -359,7 +359,7 @@ GameObject:
   - component: {fileID: 5593562585620291583}
   - component: {fileID: 8811976735012813740}
   m_Layer: 5
-  m_Name: QuestUI
+  m_Name: QuestSlotUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

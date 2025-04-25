@@ -41,6 +41,8 @@ public class InteractionHandler : MonoBehaviour
             nearestInteractable.Interact(); 
             Managers.Quest.ReceiveReport(ETaskCategory.Interact, 1, 1);
         }
+
+        
     }
  
 
@@ -74,6 +76,9 @@ public class InteractionHandler : MonoBehaviour
 
         foreach (var interactable in interactables)
         {
+            if (interactable == null)
+                continue;
+
             float distance = Vector3.Distance(transform.position, interactable.transform.position);
             if(distance < nearestDistance)
             {

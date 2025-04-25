@@ -17,8 +17,7 @@ public class TaskData : ScriptableObject
 {
     [Header("Task Info")]
     [SerializeField] private int taskId;
-    [SerializeField] private string taskName;
-    [SerializeField] private string taskDescription; 
+    [SerializeField] private string taskTitle;
 
 
     [Header("Task Setting")]
@@ -34,20 +33,18 @@ public class TaskData : ScriptableObject
 
     // Properties
     public int TaskId => taskId;
-    public string TaskName => taskName;
-    public string TaskDescription => taskDescription;
+    public string TaskTitle => taskTitle;
     public ETaskCategory TaskCategory => taskCategory;
     public ETaskActionType ActionType => actionType;
     public int TargetId => targetId;
     public int SuccessCount => successCount;
     public bool CanReceiveReportsDuringCompletion => canReceiveReportsDuringCompletion;
 
- 
+  
     public TaskData(GameData.QuestTask task)
     {
         taskId = task.index;
-        taskName = task.name;
-        taskDescription = task.description;
+        taskTitle = task.title;  
         taskCategory = task.taskType;
         actionType = task.actionType;
         targetId = task.targeId;

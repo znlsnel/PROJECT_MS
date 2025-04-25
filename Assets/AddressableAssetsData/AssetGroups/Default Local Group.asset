@@ -15,11 +15,26 @@ MonoBehaviour:
   m_GroupName: Default Local Group
   m_GUID: 6712a6a135afea84cb3b8b9c0c3739d9
   m_SerializeEntries:
+  - m_GUID: 0ef0b2d1d00b2044ba1f1e3e7c3ac911
+    m_Address: Item
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 2e4ae62843887ee448c7a62c0fc88c27
+    m_Address: Character
+    m_ReadOnly: 0
+    m_SerializedLabels: []
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4674c16d07552904587761a8c2cd1376
     m_Address: UI
     m_ReadOnly: 0
     m_SerializedLabels:
     - DefaultUI
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 9a784a73a757f6d4bacbec3d037f32c8
+    m_Address: Data
+    m_ReadOnly: 0
+    m_SerializedLabels: []
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7dfdcbb89603fa47a95bc5777e2cef9
     m_Address: Sprite

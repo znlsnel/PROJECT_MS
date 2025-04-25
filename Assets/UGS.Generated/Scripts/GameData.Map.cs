@@ -17,39 +17,39 @@ using UnityEngine;
 namespace GameData
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class Item : ITable
+    public partial class Map : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<Item> loadedList, Dictionary<int, Item> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<Map> loadedList, Dictionary<int, Map> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1g9CvdFyKHjyFdO0rdqnwl15ZCJD3-GE1bgCuo6xcBbk"; // it is file id
-        static string sheetID = "1845516042"; // it is sheet id
+        static string sheetID = "536543053"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<int, Item> ItemMap = new Dictionary<int, Item>();  
-        public static List<Item> ItemList = new List<Item>();   
+        public static Dictionary<int, Map> MapMap = new Dictionary<int, Map>();  
+        public static List<Map> MapList = new List<Map>();   
 
         /// <summary>
-        /// Get Item List 
+        /// Get Map List 
         /// Auto Load
         /// </summary>
-        public static List<Item> GetList()
+        public static List<Map> GetList()
         {{
            if (isLoaded == false) Load();
-           return ItemList;
+           return MapList;
         }}
 
         /// <summary>
-        /// Get Item Dictionary, keyType is your sheet A1 field type.
+        /// Get Map Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<int, Item>  GetDictionary()
+        public static Dictionary<int, Map>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return ItemMap;
+           return MapMap;
         }}
 
     
@@ -58,16 +58,7 @@ namespace GameData
 
 		public System.Int32 index;
 		public System.String name;
-		public System.String description;
-		public System.String prefab;
-		public EItemType itemType;
-		public EEquipType equipType;
-		public System.Single health;
-		public System.Single thirst;
-		public System.Single hunger;
-		public System.Single temperature;
-		public System.Single sanity;
-		public System.Single stamina;
+		public System.Int32 mainQuest;
   
 
 #region fuctions
@@ -78,7 +69,7 @@ namespace GameData
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("Item is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("Map is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -94,7 +85,7 @@ namespace GameData
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<Item>, Dictionary<int, Item>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<Map>, Dictionary<int, Map>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -122,14 +113,14 @@ namespace GameData
                
 
 
-    public static (List<Item> list, Dictionary<int, Item> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<int, Item> Map = new Dictionary<int, Item>();
-            List<Item> List = new List<Item>();     
+    public static (List<Map> list, Dictionary<int, Map> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<int, Map> Map = new Dictionary<int, Map>();
+            List<Map> List = new List<Map>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(Item).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(Map).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["Item"];
+            var sheet = jsonObject["Map"];
 
             foreach (var column in sheet.Keys)
             {
@@ -148,7 +139,7 @@ namespace GameData
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            Item instance = new Item();
+                            Map instance = new Map();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -189,8 +180,8 @@ namespace GameData
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            ItemList = List;
-                            ItemMap = Map;
+                            MapList = List;
+                            MapMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -200,10 +191,10 @@ namespace GameData
 
  
 
-        public static void Write(Item data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(Map data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(Item).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(Map).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

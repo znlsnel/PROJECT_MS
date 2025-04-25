@@ -17,39 +17,39 @@ using UnityEngine;
 namespace GameData
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class Item : ITable
+    public partial class CraftingTable : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<Item> loadedList, Dictionary<int, Item> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<CraftingTable> loadedList, Dictionary<int, CraftingTable> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1g9CvdFyKHjyFdO0rdqnwl15ZCJD3-GE1bgCuo6xcBbk"; // it is file id
-        static string sheetID = "1845516042"; // it is sheet id
+        static string sheetID = "1802842921"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<int, Item> ItemMap = new Dictionary<int, Item>();  
-        public static List<Item> ItemList = new List<Item>();   
+        public static Dictionary<int, CraftingTable> CraftingTableMap = new Dictionary<int, CraftingTable>();  
+        public static List<CraftingTable> CraftingTableList = new List<CraftingTable>();   
 
         /// <summary>
-        /// Get Item List 
+        /// Get CraftingTable List 
         /// Auto Load
         /// </summary>
-        public static List<Item> GetList()
+        public static List<CraftingTable> GetList()
         {{
            if (isLoaded == false) Load();
-           return ItemList;
+           return CraftingTableList;
         }}
 
         /// <summary>
-        /// Get Item Dictionary, keyType is your sheet A1 field type.
+        /// Get CraftingTable Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<int, Item>  GetDictionary()
+        public static Dictionary<int, CraftingTable>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return ItemMap;
+           return CraftingTableMap;
         }}
 
     
@@ -57,17 +57,6 @@ namespace GameData
 /* Fields. */
 
 		public System.Int32 index;
-		public System.String name;
-		public System.String description;
-		public System.String prefab;
-		public EItemType itemType;
-		public EEquipType equipType;
-		public System.Single health;
-		public System.Single thirst;
-		public System.Single hunger;
-		public System.Single temperature;
-		public System.Single sanity;
-		public System.Single stamina;
   
 
 #region fuctions
@@ -78,7 +67,7 @@ namespace GameData
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("Item is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("CraftingTable is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -94,7 +83,7 @@ namespace GameData
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<Item>, Dictionary<int, Item>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<CraftingTable>, Dictionary<int, CraftingTable>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -122,14 +111,14 @@ namespace GameData
                
 
 
-    public static (List<Item> list, Dictionary<int, Item> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<int, Item> Map = new Dictionary<int, Item>();
-            List<Item> List = new List<Item>();     
+    public static (List<CraftingTable> list, Dictionary<int, CraftingTable> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<int, CraftingTable> Map = new Dictionary<int, CraftingTable>();
+            List<CraftingTable> List = new List<CraftingTable>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(Item).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(CraftingTable).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["Item"];
+            var sheet = jsonObject["CraftingTable"];
 
             foreach (var column in sheet.Keys)
             {
@@ -148,7 +137,7 @@ namespace GameData
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            Item instance = new Item();
+                            CraftingTable instance = new CraftingTable();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -189,8 +178,8 @@ namespace GameData
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            ItemList = List;
-                            ItemMap = Map;
+                            CraftingTableList = List;
+                            CraftingTableMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -200,10 +189,10 @@ namespace GameData
 
  
 
-        public static void Write(Item data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(CraftingTable data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(Item).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(CraftingTable).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

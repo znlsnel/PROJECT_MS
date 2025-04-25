@@ -40,6 +40,7 @@ public enum ETaskCategory
     Talk,
     UseItem,
     Interact,
+    Pickup, 
 }
 
 
