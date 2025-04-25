@@ -142,8 +142,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quest Name
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd1be96051573a4dbeb76e007e81efd, type: 2}
-  m_sharedMaterial: {fileID: -8885998101244047120, guid: 2fd1be96051573a4dbeb76e007e81efd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d8f9e04303f51f3449e1598ae52f7df9, type: 2}
+  m_sharedMaterial: {fileID: 6292945619696038522, guid: d8f9e04303f51f3449e1598ae52f7df9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -278,8 +278,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Quest Description Quest Desctiption
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 2fd1be96051573a4dbeb76e007e81efd, type: 2}
-  m_sharedMaterial: {fileID: -8885998101244047120, guid: 2fd1be96051573a4dbeb76e007e81efd, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: d8f9e04303f51f3449e1598ae52f7df9, type: 2}
+  m_sharedMaterial: {fileID: 6292945619696038522, guid: d8f9e04303f51f3449e1598ae52f7df9, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
