@@ -1,3 +1,4 @@
+using Unity.Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(InteractionHandler))]
@@ -18,8 +19,13 @@ public class AlivePlayer : MonoBehaviour
     public ResourceStat Temperature => temperature;
     public ResourceStat Sanity => sanity;
     #endregion
+
+    public string HoldingItem { get; private set; }
+    
     public InteractionHandler InteractionHandler { get; private set; }
     public CharacterController CharacterController { get; private set; }
+    public Animator Animator { get; private set; }
+    [field: SerializeField] public CinemachineCamera CinemachineCamera { get; private set; }
     [field: SerializeField] public AlivePlayerSO AlivePlayerSO { get; private set; }
     [field: SerializeField] public AlivePlayerAnimationData AnimationData { get; private set; }
     private AlivePlayerStateMachine stateMachine;
@@ -28,6 +34,7 @@ public class AlivePlayer : MonoBehaviour
     {
         InteractionHandler = GetComponent<InteractionHandler>();
         CharacterController = GetComponent<CharacterController>();
+        Animator = GetComponentInChildren<Animator>();
         AnimationData = new AlivePlayerAnimationData();
     }
 

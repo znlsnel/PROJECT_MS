@@ -13,11 +13,15 @@ public class GroundedState : AlivePlayerState
         base.Enter();
         
         stateMachine.ReusableData.VerticalVelocity = Physics.gravity;
+
+        StartAnimation(stateMachine.Player.AnimationData.GroundParameterHash);
     }
 
     public override void Exit()
     {
         base.Exit();
+
+        StopAnimation(stateMachine.Player.AnimationData.GroundParameterHash);
     }
     #endregion
 

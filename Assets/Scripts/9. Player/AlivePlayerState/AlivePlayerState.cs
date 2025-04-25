@@ -40,6 +40,7 @@ public abstract class AlivePlayerState : IState
     private void ReadMovementInput()
     {
         stateMachine.ReusableData.MovementInput = Managers.Input.GetInput(EPlayerInput.Move).ReadValue<Vector2>();
+        stateMachine.ReusableData.ShouldSprint = Managers.Input.GetInput(EPlayerInput.Sprint).IsPressed();
     }
 
     private void Move()
@@ -65,6 +66,16 @@ public abstract class AlivePlayerState : IState
     protected Vector3 GetMovementInputDirection()
     {
         return new Vector3(stateMachine.ReusableData.MovementInput.x, 0f, stateMachine.ReusableData.MovementInput.y);
+    }
+
+    protected void StartAnimation(int animationHash)
+    {
+        stateMachine.Player.Animator.SetBool(animationHash, true);
+    }
+
+    protected void StopAnimation(int animationHash)
+    {
+        stateMachine.Player.Animator.SetBool(animationHash, false);
     }
 
     protected virtual void AddInputActionCallbacks()

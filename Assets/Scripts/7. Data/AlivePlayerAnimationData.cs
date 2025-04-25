@@ -5,6 +5,7 @@ using UnityEngine;
 public class AlivePlayerAnimationData
 {
     [Header("State Group Parameter Names")]
+    [SerializeField] private string groundParameterHashName = "Ground";
     [SerializeField] private string movingParameterHashName = "Moving";
     [SerializeField] private string combatParameterHashName = "Combat";
 
@@ -18,8 +19,9 @@ public class AlivePlayerAnimationData
     [SerializeField] private string aimingParameterHashName = "isAiming";
     [SerializeField] private string attackingParameterHashName = "isAttacking";
     [SerializeField] private string damagedParameterHashName = "isDamaged";
-    [SerializeField] private string deathParameterHashName = "isDeath";
+    [SerializeField] private string deadParameterHashName = "isDead";
 
+    public int GroundParameterHash { get; private set; }
     public int MovingParameterHash { get; private set; }
     public int CombatParameterHash { get; private set; }
 
@@ -31,10 +33,11 @@ public class AlivePlayerAnimationData
     public int AimingParameterHash { get; private set; }
     public int AttackingParameterHash { get; private set; }
     public int DamagedParameterHash { get; private set; }
-    public int DeathParameterHash { get; private set; }
+    public int DeadParameterHash { get; private set; }
 
     public AlivePlayerAnimationData()
     {
+        GroundParameterHash = Animator.StringToHash(groundParameterHashName);
         MovingParameterHash = Animator.StringToHash(movingParameterHashName);
         CombatParameterHash = Animator.StringToHash(combatParameterHashName);
         
@@ -46,6 +49,6 @@ public class AlivePlayerAnimationData
         AimingParameterHash = Animator.StringToHash(aimingParameterHashName);
         AttackingParameterHash = Animator.StringToHash(attackingParameterHashName);
         DamagedParameterHash = Animator.StringToHash(damagedParameterHashName);
-        DeathParameterHash = Animator.StringToHash(deathParameterHashName);
+        DeadParameterHash = Animator.StringToHash(deadParameterHashName);
     }
 }
