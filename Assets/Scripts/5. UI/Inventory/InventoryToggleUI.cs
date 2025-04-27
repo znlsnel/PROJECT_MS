@@ -25,6 +25,11 @@ public class InventoryToggleUI : MonoBehaviour
     {
         SetToggle();
     } 
+
+    private void Start()
+    {
+        SetFilter(true, EItemType.None, allButton.transform); 
+    } 
     
     private void SetToggle()
     {
