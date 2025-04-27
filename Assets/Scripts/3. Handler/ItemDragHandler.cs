@@ -5,11 +5,12 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public class ItemDragHandler : MonoBehaviour
+public class ItemDragHandler
 {
+
     private static ItemSlotUI selectedItemSlotUI;
     private static ItemData itemData;
-    private static int amount;
+    private static int amount; 
 
     public static void SelectItemSlot(ItemSlotUI itemSlotUI)
     {   
