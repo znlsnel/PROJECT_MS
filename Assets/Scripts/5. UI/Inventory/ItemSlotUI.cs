@@ -19,7 +19,10 @@ public class ItemSlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI itemAmountText;
 
     private Dictionary<EItemType, Color> colors;
+    
+    public ItemSlot ItemSlot {get; private set;}
 
+    
     void Awake()
     {
         colors = new Dictionary<EItemType, Color>()
@@ -32,10 +35,11 @@ public class ItemSlotUI : MonoBehaviour
             {EItemType.Placeable, placeableBackground},
         };
     }
-    
+
     public void Setup(ItemSlot itemSlot)
     {
-        itemSlot.onChangeStack += UpdateItemSlotUI; 
+        ItemSlot = itemSlot;
+        ItemSlot.onChangeStack += UpdateItemSlotUI; 
         UpdateItemSlotUI(itemSlot);
     }
 
