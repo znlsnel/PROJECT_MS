@@ -59,9 +59,12 @@ namespace GameData
 		public System.Int32 index;
 		public System.String name;
 		public System.String description;
+		public System.String icon;
 		public System.String prefab;
 		public EItemType itemType;
 		public EEquipType equipType;
+		public System.Boolean canStack;
+		public System.Int32 maxStack;
 		public System.Single health;
 		public System.Single thirst;
 		public System.Single hunger;

@@ -55,7 +55,7 @@ public class Managers : Singleton<Managers>
         UI.Init();
         Pool.Init();
         Scene?.Init();
-
+        userData.Init(); 
 
         Steam.Init(); 
 

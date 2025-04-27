@@ -13,6 +13,7 @@ public class DataManager : IManager
     public DataHandler<GameData.Quest> quests {get; private set;}
     public DataHandler<GameData.Data> datas {get; private set;}
     public DataHandler<GameData.QuestTask> questTasks {get; private set;}
+    public DataHandler<GameData.Item> items {get; private set;}
 
 
     public void Init()
@@ -20,7 +21,7 @@ public class DataManager : IManager
         datas = new DataHandler<GameData.Data>();
         quests = new DataHandler<GameData.Quest>();
         questTasks = new DataHandler<GameData.QuestTask>();
-
+        items = new DataHandler<GameData.Item>();
     }
 
     public void Clear()

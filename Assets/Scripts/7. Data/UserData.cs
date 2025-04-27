@@ -1,12 +1,20 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 
-[System.Serializable]
-public class UserData
+public class UserData : IManager
 {
-    public int userId;
-    public int jobClassId;
-    public List<Stat> stats;  
+    public Inventory Inventory {get; private set;}
+
+    public void Init()
+    {
+        Inventory = new Inventory();
+    }
+    
+    public void Clear()
+    {
+
+    }
 }

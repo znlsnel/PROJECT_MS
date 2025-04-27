@@ -19,6 +19,7 @@ public enum EStatType
 [GoogleSheet.Core.Type.UGS(typeof(EItemType))]
 public enum EItemType 
 {
+    None,
     Weapon,
     Consumable,
     Resource,

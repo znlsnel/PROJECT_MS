@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: bea538b7061b94ace81788cae6cfcb51
+guid: c4253b150b5dc504983598f2554e922e
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -138,10 +138,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 257894
-  packageName: Modular Game UI Kit
-  packageVersion: 1.0.6
-  assetPath: Assets/ModularGameUIKit/Common/Sprites/Icons/Leaf.png
-  uploadId: 726860

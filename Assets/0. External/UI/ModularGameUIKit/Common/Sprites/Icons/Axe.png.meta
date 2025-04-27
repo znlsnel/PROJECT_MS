@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 878c040b5840f4770a2d542d44c2e9ac
+guid: 52abf09ec7ba3c242a7ad339f1094e77
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
@@ -138,10 +138,3 @@ TextureImporter:
   userData: 
   assetBundleName: 
   assetBundleVariant: 
-AssetOrigin:
-  serializedVersion: 1
-  productId: 257894
-  packageName: Modular Game UI Kit
-  packageVersion: 1.0.6
-  assetPath: Assets/ModularGameUIKit/Common/Sprites/Icons/Axe.png
-  uploadId: 726860
