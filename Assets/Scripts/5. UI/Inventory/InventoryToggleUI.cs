@@ -4,7 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-public class InventoryTogleUI : MonoBehaviour
+public class InventoryToggleUI : MonoBehaviour
 {
-  
+    [SerializeField] private RectTransform CheckImage;
+    
 }
