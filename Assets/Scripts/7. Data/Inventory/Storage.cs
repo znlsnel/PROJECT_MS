@@ -7,6 +7,12 @@ public class Storage
     protected List<ItemSlot> itemSlots = new();
     public Action<List<ItemSlot>> onChangeStorage;
 
+    public Storage() {}
+    public Storage(int size)
+    {
+        for (int i = 0; i < size; i++)
+            CreateSlot();
+    }
 
     /// <summary>
     /// 인덱스로 슬롯을 찾음
