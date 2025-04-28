@@ -62,14 +62,4 @@ public class AlivePlayer : MonoBehaviour
     {
         stateMachine.FixedUpdate();
     }
-
-    public void SetInteractAnimation(AnimationClip animationClip)
-    {
-        stateMachine.Player.overrideController["Interaction"] = animationClip;
-    }
-
-    public void SetAttackAnimation(AnimationClip animationClip)
-    {
-        stateMachine.Player.overrideController["Attack"] = animationClip;
-    }
 }

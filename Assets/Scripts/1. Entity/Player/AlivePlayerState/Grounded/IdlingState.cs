@@ -28,11 +28,6 @@ public class IdlingState : GroundedState
     {
         base.Update();
 
-        if(stateMachine.ReusableData.MovementInput == Vector2.zero)
-        {
-            return;
-        }
-
         OnMove();
     }
 }
