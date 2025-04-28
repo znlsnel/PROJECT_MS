@@ -80,6 +80,17 @@ public class UIManager : IManager
 		return sceneUI; 
 	}
 
+    public T ShowPopupUI<T>(T popup) where T : PopupUI
+    {
+        _popupStack.Push(popup);
+
+      //  go.transform.SetParent(_popupUIParent.transform, false);
+ 
+        popup.Init();
+        popup.Show();
+		return popup; 
+    }
+
 	public T ShowPopupUI<T>(string name = null) where T : PopupUI
     {
         if (string.IsNullOrEmpty(name))
@@ -88,13 +99,7 @@ public class UIManager : IManager
 
         GameObject go = Managers.Resource.Instantiate($"UI/Popup/{name}");
         T popup = Util.GetOrAddComponent<T>(go);
-        _popupStack.Push(popup);
-
-      //  go.transform.SetParent(_popupUIParent.transform, false);
- 
-       // popup.Init();
-
-		return popup; 
+        return ShowPopupUI(popup);
     }
 
     public void ClosePopupUI(PopupUI popup, float time = 0.0f)
@@ -104,7 +109,7 @@ public class UIManager : IManager
 
         if (_popupStack.Peek() != popup)
         {
-            Debug.Log("Close Popup Failed!");
+            Debug.LogError("Close Popup Failed!");
             return;
         }
 
@@ -117,10 +122,11 @@ public class UIManager : IManager
             return;
 
         PopupUI popup = _popupStack.Pop();
-        GameObject.Destroy(popup.gameObject, time); 
-        popup = null; 
+        popup.Hide();
         _order--; 
+
     }
+
 
     public void CloseAllPopupUI()
     {

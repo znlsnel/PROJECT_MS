@@ -6,17 +6,21 @@ using UnityEngine;
 public abstract class UIBase : MonoBehaviour
 {
     protected CanvasGroup canvasGroup;
+	private bool blockRaycasts = true;
+	private bool interactable = true;
 
     protected virtual void Awake()
     {
         canvasGroup = GetComponent<CanvasGroup>();
+        blockRaycasts = canvasGroup.blocksRaycasts;
+		interactable = canvasGroup.interactable; 
     }
 
     public virtual void Show()
     {
         canvasGroup.alpha = 1;
-        canvasGroup.blocksRaycasts = true;
-        canvasGroup.interactable = true;
+        canvasGroup.blocksRaycasts = blockRaycasts;
+        canvasGroup.interactable = interactable;
     }
     public virtual void Hide()
     {
