@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
@@ -24,6 +25,8 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
 
     private Dictionary<EItemType, Color> colors;
     public ItemSlot ItemSlot {get; private set;}
+    
+    public Action<ItemSlot> onSetup;
 
 
 
@@ -40,11 +43,12 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
         };
     }
 
-    public void Setup(ItemSlot itemSlot)
+    public virtual void Setup(ItemSlot itemSlot)
     {
         ItemSlot = itemSlot;
         ItemSlot.onChangeStack += UpdateItemSlotUI; 
         UpdateItemSlotUI(itemSlot);
+        onSetup?.Invoke(itemSlot);
     }
 
     public void UpdateItemSlotUI(ItemSlot itemSlot)

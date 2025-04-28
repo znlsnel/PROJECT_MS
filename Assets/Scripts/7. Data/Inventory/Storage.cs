@@ -1,16 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Storage
 {
-    private List<ItemSlot> itemSlots = new();
+    protected List<ItemSlot> itemSlots = new();
     public Action<List<ItemSlot>> onChangeStorage;
 
-    public void Setup(int size)
-    {
-        for (int i = 0; i < size; i++)
-            itemSlots.Add(new ItemSlot());
-    }
 
     /// <summary>
     /// 인덱스로 슬롯을 찾음
@@ -21,6 +17,11 @@ public class Storage
             return null;
 
         return itemSlots[idx];
+    }
+
+    public List<ItemSlot> GetSlotsByCondition(Func<ItemSlot, bool> condition)
+    {
+        return itemSlots.Where(condition).ToList(); 
     }
 
     public ItemSlot CreateSlot()

@@ -31,9 +31,10 @@ public enum EItemType
 public enum EEquipType 
 {
     None,
-    RightHand,
-    LeftHand,
-    Head,
+    Hair,
+    Shirt,
+    Pants,
+    Shoes,
 }
 
 [GoogleSheet.Core.Type.UGS(typeof(ETaskCategory))]

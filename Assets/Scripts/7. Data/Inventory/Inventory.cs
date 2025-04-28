@@ -7,14 +7,14 @@ using UnityEngine;
 public class Inventory
 {
     public Storage ItemStorage {get; private set;}
-    public Storage EquipmentStorage {get; private set;}
     public Storage QuickSlotStorage {get; private set;}
+    public EquipStorage EquipStorage {get; private set;}
 
-    public Inventory()
+    public Inventory() 
     {
         ItemStorage = new Storage();
-        EquipmentStorage = new Storage();
         QuickSlotStorage = new Storage(); 
+        EquipStorage = new EquipStorage();
     }
 
 

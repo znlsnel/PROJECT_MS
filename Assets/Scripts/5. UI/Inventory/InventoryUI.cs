@@ -8,6 +8,7 @@ public class InventoryUI : MonoBehaviour
 {
     [SerializeField] private GameObject itemSlotParent;
     [SerializeField] private GameObject quickSlotParent;
+    [SerializeField] private GameObject equipSlotParent;
 
     private List<ItemSlotUI> itemSlots = new List<ItemSlotUI>();
     
@@ -34,7 +35,10 @@ public class InventoryUI : MonoBehaviour
     {
         Storage itemStorage = Managers.UserData.Inventory.ItemStorage;
         Storage quickStorage = Managers.UserData.Inventory.QuickSlotStorage;
+        EquipStorage equipStorage = Managers.UserData.Inventory.EquipStorage;
 
+
+        // 아이템 슬롯 초기화
         ItemSlotUI[] slots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
         for (int i = 0; i < slots.Length; i++)
         {
@@ -46,6 +50,7 @@ public class InventoryUI : MonoBehaviour
             itemSlots.Add(slots[i]); 
         }
 
+        // 퀵슬로 초기화
         ItemSlotUI[] quickSlotUIs = quickSlotParent.GetComponentsInChildren<ItemSlotUI>();
         for (int i = 0; i < quickSlotUIs.Length; i++)
         {
@@ -55,6 +60,15 @@ public class InventoryUI : MonoBehaviour
  
             quickSlotUIs[i].Setup(slot);  
         } 
+
+        // 장착 슬롯 초기화
+        ItemSlotUI[] equipSlotUIs = equipSlotParent.GetComponentsInChildren<ItemSlotUI>();
+        for (int i = 0; i < equipSlotUIs.Length; i++)
+        {
+            EEquipType equipType = equipSlotUIs[i].GetComponent<EquipSlotComponent>().EquipType;
+            ItemSlot slot = equipStorage.GetSlotByType(equipType);   
+            equipSlotUIs[i].Setup(slot);   
+        }
     }
  
     public void FilterInventoryByType(EItemType itemType)
