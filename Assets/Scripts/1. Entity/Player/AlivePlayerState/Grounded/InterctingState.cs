@@ -1,7 +1,11 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class InterctingState : GroundedState
 {
+    private Vector3 direction;
+    private float targetRotationYAngle;
+
     public InterctingState(AlivePlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -9,32 +13,53 @@ public class InterctingState : GroundedState
     #region IState Methods
     public override void Enter()
     {
-        stateMachine.ReusableData.MovementSpeedModifier = 0f;
-
         base.Enter();
-        
-        StartAnimation(stateMachine.Player.AnimationData.InteractParameterHash);
+
+        Interactable interactObject = stateMachine.Player.InteractionHandler.GetInteractObject();
+
+        direction = interactObject.transform.position - stateMachine.Player.transform.position;
+
+        targetRotationYAngle = GetRotationAngle(direction);
     }
 
     public override void Exit()
     {
         base.Exit();
-        
-        StopAnimation(stateMachine.Player.AnimationData.InteractParameterHash);
 
-        stateMachine.Player.SetInteractAnimation(null);
+        StopAnimation(stateMachine.Player.AnimationData.InteractParameterHash);
     }
 
     public override void Update()
     {
         base.Update();
 
+        OnMove();
+
+        float angleDifference = Mathf.Abs(targetRotationYAngle - GetRotationAngle(stateMachine.Player.transform.forward));
+
+        if(angleDifference > 1f)
+        {
+            RotationPlayer(direction);
+            return;
+        }
+
+        StartAnimation(stateMachine.Player.AnimationData.InteractParameterHash);
+
         float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Interacting");
 
         if(normalizedTime >= 0.8f)
         {
+            stateMachine.Player.InteractionHandler.OnInteract();
+
             stateMachine.ChangeState(stateMachine.IdlingState);
         }
+    }
+    #endregion
+
+    #region Input Methods
+    protected override void OnInteract()
+    {
+
     }
     #endregion
 }

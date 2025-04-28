@@ -10,7 +10,7 @@ public class GroundedState : AlivePlayerState
     #region IState Methods
     public override void Enter()
     {
-        stateMachine.Player.InteractionHandler.OnInteract += OnInteract;
+        stateMachine.Player.InteractionHandler.onInputInteract += OnInteract;
 
         base.Enter();
         
@@ -21,7 +21,7 @@ public class GroundedState : AlivePlayerState
 
     public override void Exit()
     {
-        stateMachine.Player.InteractionHandler.OnInteract -= OnInteract;
+        stateMachine.Player.InteractionHandler.onInputInteract -= OnInteract;
 
         base.Exit();
 
@@ -30,20 +30,13 @@ public class GroundedState : AlivePlayerState
     #endregion
 
     #region Reusable Methods
-    protected override void AddInputActionCallbacks()
-    {
-        base.AddInputActionCallbacks();
-        Managers.Input.GetInput(EPlayerInput.Sprint).started += OnSprintCanceled;
-    }
-
-    protected override void RemoveInputActionCallbacks()
-    {
-        base.RemoveInputActionCallbacks();
-        Managers.Input.GetInput(EPlayerInput.Sprint).started -= OnSprintCanceled;
-    }
-
     protected virtual void OnMove()
     {
+        if(stateMachine.ReusableData.MovementInput == Vector2.zero)
+        {
+            return;
+        }
+
         if(stateMachine.ReusableData.ShouldSprint)
         {
             stateMachine.ChangeState(stateMachine.SprintingState);
@@ -55,13 +48,10 @@ public class GroundedState : AlivePlayerState
     #endregion
 
     #region Input Methods
-    protected virtual void OnSprintCanceled(InputAction.CallbackContext context)
+    protected virtual void OnInteract()
     {
-        stateMachine.ReusableData.ShouldSprint = false;
-    }
-
-    protected virtual void OnInteract(GameObject gameObject)
-    {
+        Interactable interactObject = stateMachine.Player.InteractionHandler.GetInteractObject();
+        SetInteractAnimation(interactObject.interactAnimation, interactObject.interactAnimationSpeed);
         stateMachine.ChangeState(stateMachine.InterctingState);
     }
     #endregion

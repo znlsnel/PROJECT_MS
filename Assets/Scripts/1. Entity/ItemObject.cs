@@ -1,15 +1,9 @@
 using UnityEngine;
 
-public class ItemObject : MonoBehaviour, IInteractable
+public class ItemObject : Interactable
 {
-    [field: SerializeField] public AnimationClip interactAnimation { get; private set; }
-
-    public GameObject Interact(GameObject gameObject)
+    public override void Interact(GameObject obj)
     {
-        if(gameObject.TryGetComponent(out AlivePlayer alivePlayer))
-        {
-            alivePlayer.SetInteractAnimation(interactAnimation);
-        }
-        return gameObject;
+        Destroy(gameObject);
     }
 }

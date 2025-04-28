@@ -54,9 +54,7 @@ public abstract class AlivePlayerState : IState
 
         Vector3 movementDirection = GetMovementInputDirection();
 
-        float targetRotationYAngle = Mathf.Atan2(movementDirection.x, movementDirection.z) * Mathf.Rad2Deg;
-
-        stateMachine.Player.transform.rotation = Quaternion.Slerp(stateMachine.Player.transform.rotation, Quaternion.Euler(0f, targetRotationYAngle, 0f), stateMachine.Player.AlivePlayerSO.RotationSpeed * Time.deltaTime);
+        RotationPlayer(movementDirection);
 
         stateMachine.Player.CharacterController.Move(movementDirection * stateMachine.ReusableData.MovementSpeedModifier * Time.deltaTime);
     }
@@ -78,6 +76,18 @@ public abstract class AlivePlayerState : IState
         stateMachine.Player.Animator.SetBool(animationHash, false);
     }
 
+    public void SetInteractAnimation(AnimationClip animationClip, float speed = 1f)
+    {
+        stateMachine.Player.overrideController["Interaction"] = animationClip;
+        stateMachine.Player.Animator.SetFloat("InteractingSpeed", speed);
+    }
+
+    public void SetAttackAnimation(AnimationClip animationClip, float speed = 1f)
+    {
+        stateMachine.Player.overrideController["Attack"] = animationClip;
+        stateMachine.Player.Animator.SetFloat("AttackSpeed", speed);
+    }
+
     protected virtual void AddInputActionCallbacks()
     {
         Managers.Input.GetInput(EPlayerInput.Move).canceled += OnMovementCanceled;
@@ -86,6 +96,18 @@ public abstract class AlivePlayerState : IState
     protected virtual void RemoveInputActionCallbacks()
     {
         Managers.Input.GetInput(EPlayerInput.Move).canceled -= OnMovementCanceled;
+    }
+
+    protected void RotationPlayer(Vector3 direction)
+    {
+        float targetRotationYAngle = GetRotationAngle(direction);
+
+        stateMachine.Player.transform.rotation = Quaternion.Slerp(stateMachine.Player.transform.rotation, Quaternion.Euler(0f, targetRotationYAngle, 0f), stateMachine.Player.AlivePlayerSO.RotationSpeed * Time.deltaTime);
+    }
+
+    protected float GetRotationAngle(Vector3 direction)
+    {
+        return Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
     }
 
     protected float GetNormalizedTime(Animator animator, string tag)
