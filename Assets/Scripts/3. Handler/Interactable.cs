@@ -23,5 +23,17 @@ public abstract class Interactable : MonoBehaviour
         }
     }
 
+    public virtual void OnDestroy()
+    {
+        Collider[] colliders = Physics.OverlapSphere(transform.position, 1f, LayerMask.GetMask("Player"));
+        foreach(Collider collider in colliders)
+        {
+            if(collider.TryGetComponent(out InteractionHandler interactionHandler))
+            {
+                interactionHandler.RemoveInteractable(this);
+            }
+        }
+    }
+
     public abstract void Interact(GameObject obj);
 }

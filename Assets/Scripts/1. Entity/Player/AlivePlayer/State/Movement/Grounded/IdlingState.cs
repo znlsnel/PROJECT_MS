@@ -8,7 +8,7 @@ public class IdlingState : GroundedState
 
     public override void Enter()
     {
-        stateMachine.ReusableData.MovementSpeedModifier = 0f;
+        stateMachine.ReusableData.MovementSpeed = 0f;
 
         base.Enter();
 

@@ -1,4 +1,5 @@
 using System;
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +13,20 @@ public abstract class AlivePlayerMovementState : AlivePlayerState
     }
 
     #region IState Methods
+    public override void Enter()
+    {
+        base.Enter();
+
+        stateMachine.Player.onDamaged += OnDamage;
+    }
+
+    public override void Exit()
+    {
+        base.Exit();
+
+        stateMachine.Player.onDamaged -= OnDamage;
+    }
+
     public override void Update()
     {
         ReadMovementInput();
@@ -84,4 +99,22 @@ public abstract class AlivePlayerMovementState : AlivePlayerState
 
     }
     #endregion
+
+    private void OnDamage()
+    {
+        DamageEffect().Forget();
+    }
+
+    async UniTaskVoid DamageEffect()
+    {
+        float elapsedTime = 0f;
+        while(elapsedTime < 1.5f)
+        {
+            stateMachine.ReusableData.MovementSpeedPercentage = 0.7f;
+            elapsedTime += Time.deltaTime;
+            await UniTask.Yield();
+        }
+
+        stateMachine.ReusableData.MovementSpeedPercentage = 1f;
+    }
 }

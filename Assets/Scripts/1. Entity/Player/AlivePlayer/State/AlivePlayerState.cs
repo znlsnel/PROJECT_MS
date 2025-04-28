@@ -54,14 +54,14 @@ public class AlivePlayerState : IState
         
     }
 
-    protected float GetNormalizedTime(Animator animator, string tag)
+    protected float GetNormalizedTime(Animator animator, string tag, int layerIndex = 0)
     {
-        AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(0);
-        AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(0);
+        AnimatorStateInfo currentInfo = animator.GetCurrentAnimatorStateInfo(layerIndex);
+        AnimatorStateInfo nextInfo = animator.GetNextAnimatorStateInfo(layerIndex);
 
-        if (animator.IsInTransition(0) && nextInfo.IsTag(tag))
+        if (animator.IsInTransition(layerIndex) && nextInfo.IsTag(tag))
             return nextInfo.normalizedTime;
-        else if (!animator.IsInTransition(0) && currentInfo.IsTag(tag))
+        else if (!animator.IsInTransition(layerIndex) && currentInfo.IsTag(tag))
             return currentInfo.normalizedTime;
         else
             return 0f;

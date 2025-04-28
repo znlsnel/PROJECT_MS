@@ -15,6 +15,9 @@ public class AlivePlayerStateMachine
 
         MovementStateMachine = new AlivePlayerMovementStateMachine(this);
         CombatStateMachine = new AlivePlayerCombatStateMachine(this);
+
+        MovementStateMachine.Init();
+        CombatStateMachine.Init();
     }
 
     public void Update()

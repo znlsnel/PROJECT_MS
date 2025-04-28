@@ -14,7 +14,7 @@ public class SprintingState : MovingState
     {
         base.Enter();
         
-        stateMachine.ReusableData.MovementSpeedModifier = stateMachine.Player.AlivePlayerSO.SprintSpeed;
+        stateMachine.ReusableData.MovementSpeed = stateMachine.Player.AlivePlayerSO.SprintSpeed;
 
         UpdateCamera(10f, .5f).Forget();
 

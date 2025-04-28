@@ -1,8 +1,9 @@
+using System;
 using Unity.Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(InteractionHandler))]
-public class AlivePlayer : MonoBehaviour
+public class AlivePlayer : MonoBehaviour, IDamageable
 {
     #region Stats
     protected ResourceStat health;
@@ -31,6 +32,9 @@ public class AlivePlayer : MonoBehaviour
     [field: SerializeField] public AlivePlayerAnimationData AnimationData { get; private set; }
     private AlivePlayerStateMachine stateMachine;
 
+    public event Action onDead;
+    public event Action onDamaged;
+
     public void Awake()
     {
         InteractionHandler = GetComponent<InteractionHandler>();
@@ -56,10 +60,26 @@ public class AlivePlayer : MonoBehaviour
     public void Update()
     {
         stateMachine.Update();
+
+        if(Input.GetKeyDown(KeyCode.Space))
+        {
+            TakeDamage(10);
+        }
     }
 
     public void FixedUpdate()
     {
         stateMachine.FixedUpdate();
+    }
+
+    public void TakeDamage(float damage)
+    {
+        Health.Subtract(damage);
+        onDamaged?.Invoke();
+
+        if(Health.Current <= 0)
+        {
+            onDead?.Invoke();
+        }
     }
 }

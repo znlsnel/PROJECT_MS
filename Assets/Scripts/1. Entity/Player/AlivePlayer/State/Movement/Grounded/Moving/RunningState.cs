@@ -11,7 +11,7 @@ public class RunningState : MovingState
     {
         base.Enter();
 
-        stateMachine.ReusableData.MovementSpeedModifier = stateMachine.Player.AlivePlayerSO.MoveSpeed;
+        stateMachine.ReusableData.MovementSpeed = stateMachine.Player.AlivePlayerSO.MoveSpeed;
 
         StartAnimation(stateMachine.Player.AnimationData.RunningParameterHash);
     }

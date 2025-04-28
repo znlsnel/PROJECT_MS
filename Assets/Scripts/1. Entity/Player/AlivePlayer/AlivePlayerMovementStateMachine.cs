@@ -12,7 +12,10 @@ public class AlivePlayerMovementStateMachine : StateMachine
     public AlivePlayerMovementStateMachine(AlivePlayerStateMachine stateMachine)
     {
         this.stateMachine = stateMachine;
+    }
 
+    public void Init()
+    {
         IdlingState = new IdlingState(stateMachine);
         InterctingState = new InterctingState(stateMachine);
 
