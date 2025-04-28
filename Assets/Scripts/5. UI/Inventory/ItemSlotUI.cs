@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -67,6 +68,12 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
             type = itemSlot.Data.ItemType;
         
         SetBackground(type);
+
+
+        itemIcon.transform.DOScale(1.4f, 0.1f).OnComplete(()=>
+        {
+            itemIcon.transform.DOScale(1f, 0.1f);  
+        });
     }
 
 

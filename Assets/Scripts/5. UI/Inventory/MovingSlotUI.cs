@@ -2,6 +2,7 @@ using Ricimi;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
+using DG.Tweening;
 
 public class MovingSlotUI : PopupUI
 {
@@ -18,7 +19,10 @@ public class MovingSlotUI : PopupUI
         itemCountText.text = amount.ToString();  
         Vector3 pos = panelRT.parent.InverseTransformPoint(Input.mousePosition);
         panelRT.localPosition = pos;
-
+        itemImage.transform.DOScale(1.4f, 0.1f).OnComplete(()=>
+        {
+            itemImage.transform.DOScale(1f, 0.1f); 
+        });
     }
 
     private void Update()
