@@ -13,8 +13,8 @@ public class EquipSlotComponent : MonoBehaviour
 
    private void Setup(ItemSlot itemSlot)
    {
-      itemSlot.slotCondition = (itemData) => itemData.EquipType == equipType; 
-      itemSlot.slotEquipType = equipType; 
+      itemSlot.slotCondition = (itemData) => itemData == null ? true : itemData.EquipType == equipType; 
+      itemSlot.slotEquipType = equipType;
    }
 } 
  

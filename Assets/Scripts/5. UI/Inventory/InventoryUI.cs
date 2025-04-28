@@ -12,7 +12,7 @@ public class InventoryUI : MonoBehaviour
 
     private List<ItemSlotUI> itemSlots = new List<ItemSlotUI>();
     
-    private ItemData testItem;
+    private List<ItemData> testItems = new List<ItemData>();
 
     private void Start()
     {
@@ -22,13 +22,20 @@ public class InventoryUI : MonoBehaviour
  
     private void RegisterInput()
     {
-        testItem = new ItemData(Managers.Data.items.GetByIndex(3001));
+        testItems.Add(new ItemData(Managers.Data.items.GetByIndex(3001)));
+        testItems.Add(new ItemData(Managers.Data.items.GetByIndex(1001)));
+        testItems.Add(new ItemData(Managers.Data.items.GetByIndex(2001)));
+        testItems.Add(new ItemData(Managers.Data.items.GetByIndex(5001)));
+        testItems.Add(new ItemData(Managers.Data.items.GetByIndex(5002)));
+        testItems.Add(new ItemData(Managers.Data.items.GetByIndex(5003)));
+        testItems.Add(new ItemData(Managers.Data.items.GetByIndex(5004)));
+        
         Managers.Input.Test.started += TestInput;
     }
 
     private void TestInput(InputAction.CallbackContext context)
     {
-        Managers.UserData.Inventory.AddItem(testItem);
+        Managers.UserData.Inventory.AddItem(testItems[Random.Range(0, testItems.Count)]); 
     }
 
     private void SetItemSlots()

@@ -24,6 +24,9 @@ public class ItemSlot
     {
         Data = itemSlot.Data;
         Stack = itemSlot.Stack;
+        slotCondition = itemSlot.slotCondition;  
+        slotItemType = itemSlot.slotItemType; 
+        slotEquipType = itemSlot.slotEquipType;
     }
 
     public void Setup(ItemData itemData)

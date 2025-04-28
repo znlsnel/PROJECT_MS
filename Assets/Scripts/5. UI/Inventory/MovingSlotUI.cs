@@ -15,6 +15,9 @@ public class MovingSlotUI : PopupUI
         if (itemData == null)
             return;
 
+        itemCountText.transform.parent.gameObject.SetActive(itemData.CanStack); 
+
+
         itemImage.sprite = itemData.Icon;
         itemCountText.text = amount.ToString();  
         Vector3 pos = panelRT.parent.InverseTransformPoint(Input.mousePosition);

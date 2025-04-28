@@ -25,9 +25,12 @@ public class ItemDragHandler
         }
 
         // 이미 선택한 슬롯이 있는 경우
-        if (selectedItemSlot != null && selectedItemSlot.CheckSlotCondition(itemSlotUI.ItemSlot.Data) 
-            && itemSlotUI.ItemSlot.CheckSlotCondition(selectedItemSlot.Data)) 
+        if (selectedItemSlot != null) 
         { 
+            if (!selectedItemSlot.CheckSlotCondition(itemSlotUI.ItemSlot.Data) 
+            || !itemSlotUI.ItemSlot.CheckSlotCondition(selectedItemSlot.Data))
+                return;
+
             Inventory.SwapItem(selectedItemSlot, itemSlotUI.ItemSlot); 
 
             // itemSlotUI가 비어있었을 경우
