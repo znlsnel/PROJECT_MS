@@ -44,7 +44,7 @@ public class Inventory
         }
         
         // 서로 같은 아이템일 경우
-        if (from.Data == to.Data)
+        if (from.Data.Id == to.Data.Id)
         {
             if (from.IsFull() || to.IsFull())
                 SwapItemSlot(from, to); 
@@ -54,12 +54,12 @@ public class Inventory
     }
 
     private static void MergeItemSlot(ItemSlot from, ItemSlot to)
-    {
+    { 
         int stackDiff = to.MaxStack - to.Stack;
         int mergeAmount = Mathf.Min(from.Stack, stackDiff);
 
-        to.ModifyStack(from.Data, mergeAmount);
-        from.ModifyStack(from.Data, -mergeAmount);
+        to.AddStack(to.Data, mergeAmount);
+        from.AddStack(from.Data, -mergeAmount);
     }
 
     private static void SwapItemSlot(ItemSlot slot1, ItemSlot slot2)

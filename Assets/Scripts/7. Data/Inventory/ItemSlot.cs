@@ -16,6 +16,12 @@ public class ItemSlot
     public bool IsEmpty() => Stack <= 0;
     public bool IsAddable(int amount = 1) => Data != null && Stack + amount <= MaxStack;
 
+    public ItemSlot() {}
+    public ItemSlot(ItemSlot itemSlot)
+    {
+        Data = itemSlot.Data;
+        Stack = itemSlot.Stack;
+    }
 
     public void Setup(ItemData itemData)
     {

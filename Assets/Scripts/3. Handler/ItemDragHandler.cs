@@ -10,16 +10,14 @@ public class ItemDragHandler
     private static readonly string MovingSlotKey = "UI/Inventory/MovingSlot.prefab";
     private static MovingSlotUI movingSlotUI;
 
-    private static ItemSlotUI selectedItemSlotUI;
-    private static ItemData itemData;
-    private static int amount;
+    private static ItemSlot selectedItemSlot;
 
     public static void SelectItemSlot(ItemSlotUI itemSlotUI)
     {   
-
+        // 다른곳을 선택했다면
         if (itemSlotUI == null)
         {
-            if (selectedItemSlotUI != null)
+            if (selectedItemSlot != null)
             {
                 // TODO 아이템 버리기
             }
@@ -27,54 +25,43 @@ public class ItemDragHandler
         }
 
         // 이미 선택한 슬롯이 있는 경우
-        if (selectedItemSlotUI != null)
+        if (selectedItemSlot != null)
         { 
-            selectedItemSlotUI.ItemSlot.Setup(itemData);
-            selectedItemSlotUI.ItemSlot.ModifyStack(itemData, amount); 
+            Inventory.SwapItem(selectedItemSlot, itemSlotUI.ItemSlot); 
 
-            // 같은 슬롯을 클릭한게 아니라면
-            if (selectedItemSlotUI.ItemSlot.Data != itemSlotUI.ItemSlot.Data)
-            {
-                Inventory.SwapItem(selectedItemSlotUI.ItemSlot, itemSlotUI.ItemSlot); 
+            // itemSlotUI가 비어있었을 경우
+            if (selectedItemSlot.Data == null)
+                SetupSelectedItemSlot(null);
 
-                // itemSlotUI가 비어있었을 경우
-                if (selectedItemSlotUI.ItemSlot.Data == null)
-                    SetupSelectedItemSlot(null);
-
-                // 데이터의 교환이 일어난 경우
-                else
-                {
-                    ClearSlot(selectedItemSlotUI); 
-                    SetupSelectedItemSlot(selectedItemSlotUI); 
-                }
-            }
+            // 데이터의 교환이 일어난 경우
             else
             {
-                SetupSelectedItemSlot(null);
+                 ClearSlot(selectedItemSlot);  
+                SetupSelectedItemSlot(selectedItemSlot); 
             }
+            
+
                 
         } 
 
-        // 데이터가 있는 슬롯을 선택했을 경우
+        // 처음 선택한 경우
         else if (itemSlotUI.ItemSlot.Data != null)
         {
-            ClearSlot(itemSlotUI); 
-            SetupSelectedItemSlot(itemSlotUI);
+            ClearSlot(itemSlotUI.ItemSlot); 
+            SetupSelectedItemSlot(selectedItemSlot); 
         }
     } 
 
-    private static void ClearSlot(ItemSlotUI itemSlotUI)
+    private static void ClearSlot(ItemSlot itemSlot)
     {
-        itemData = new ItemData(itemSlotUI.ItemSlot.Data);
-        amount = itemSlotUI.ItemSlot.Stack;
-
-        itemSlotUI.ItemSlot.Setup(null); 
+        selectedItemSlot = new ItemSlot(itemSlot);
+        itemSlot.Setup(null); 
     }
 
-    private static void SetupSelectedItemSlot(ItemSlotUI itemSlotUI)
+    private static void SetupSelectedItemSlot(ItemSlot itemSlot)
     {
-        selectedItemSlotUI = itemSlotUI;
-        if (itemSlotUI == null)
+        selectedItemSlot = itemSlot;
+        if (itemSlot == null)
         {
             if (movingSlotUI != null)
             { 
@@ -92,14 +79,14 @@ public class ItemDragHandler
             {
                 GameObject go = GameObject.Instantiate(prefab); 
                 movingSlotUI = go.GetComponent<MovingSlotUI>();
-                movingSlotUI.SetItem(itemData, amount);
+                movingSlotUI.SetItem(selectedItemSlot.Data, selectedItemSlot.Stack);
                 Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI);
             });
         } 
         else 
         {
-            Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI); 
-            movingSlotUI.SetItem(itemData, amount);
+            Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI);  
+            movingSlotUI.SetItem(selectedItemSlot.Data, selectedItemSlot.Stack);
         }
     }
 
