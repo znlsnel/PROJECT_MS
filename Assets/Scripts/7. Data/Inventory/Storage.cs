@@ -56,7 +56,7 @@ public class Storage
             if (slot == null)
                 return false;
 
-            slot.Setup(itemData);
+            slot.Setup(itemData); 
         }
         
         return AddItem(slot, amount);
