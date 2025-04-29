@@ -46,8 +46,8 @@ public class ItemSlot
     public bool IsAddable(int amount = 1)
     {
 
-        return Data != null && Stack + amount <= MaxStack;
-    } 
+        return Data != null && Stack + amount <= MaxStack;  
+    }   
 
     public bool CheckSlotCondition(ItemData itemData)
     {

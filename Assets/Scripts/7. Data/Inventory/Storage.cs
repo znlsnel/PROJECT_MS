@@ -66,7 +66,7 @@ public class Storage
     {
         if (slot.AddStack(slot.Data, amount))
         {
-            onChangeStorage?.Invoke(itemSlots); // 물을 가지고 오다 (11:11 ~)
+            onChangeStorage?.Invoke(itemSlots);
             return true;
         }
         return false;
@@ -89,11 +89,14 @@ public class Storage
 
     public ItemSlot FindSlotByItemData(ItemData itemData, int amount = 1)
     {
+        if (itemData.CanStack == false)
+            return null;
+
         return itemSlots.Find(x => x.Data != null && x.Data.Id == itemData.Id && x.IsAddable(amount));   
     }
 
     public ItemSlot FindFirstEmptySlot()
     {
-        return itemSlots.Find(x => x.Data == null);
+        return itemSlots.Find(x => x.Data == null || x.Stack == 0);  
     }
 }
