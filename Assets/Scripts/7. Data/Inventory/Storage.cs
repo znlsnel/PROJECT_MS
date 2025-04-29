@@ -14,9 +14,8 @@ public class Storage
             CreateSlot();
     }
 
-    /// <summary>
-    /// 인덱스로 슬롯을 찾음
-    /// </summary>
+    public int Size => itemSlots.Count; 
+
     public ItemSlot GetSlotByIdx(int idx)
     {
         if (idx < 0 || idx >= itemSlots.Count)

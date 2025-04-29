@@ -43,13 +43,20 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
         };
     }
 
-    public virtual void Setup(ItemSlot itemSlot)
+    public void Setup(ItemSlot itemSlot)
     {
         ItemSlot = itemSlot;
         ItemSlot.onChangeStack += UpdateItemSlotUI; 
         UpdateItemSlotUI(itemSlot);
         onSetup?.Invoke(itemSlot);
     }
+
+    public void UnSetup()
+    {
+        if (ItemSlot != null && ItemSlot.onChangeStack != null)
+            ItemSlot.onChangeStack -= UpdateItemSlotUI;
+        ItemSlot = null;
+    } 
 
     public void UpdateItemSlotUI(ItemSlot itemSlot)
     {

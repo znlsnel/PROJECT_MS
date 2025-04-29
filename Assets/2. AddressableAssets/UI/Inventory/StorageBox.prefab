@@ -124,6 +124,8 @@ GameObject:
   - component: {fileID: 4043642624039400387}
   - component: {fileID: 8813308807118740663}
   - component: {fileID: 2293673128012815004}
+  - component: {fileID: 8393689858600909811}
+  - component: {fileID: 6371348212782869382}
   m_Layer: 5
   m_Name: StorageBox
   m_TagString: Untagged
@@ -216,6 +218,33 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!225 &8393689858600909811
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3004119494725381407}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
+--- !u!114 &6371348212782869382
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3004119494725381407}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b4995493a15a0d5489ae57d942d57dfc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storageRoot: {fileID: 4036129411833333089}
+  inventoryRoot: {fileID: 5418425882612355553}
+  quickSlotRoot: {fileID: 4254830019691834749}
 --- !u!1 &3155841733690900258
 GameObject:
   m_ObjectHideFlags: 0

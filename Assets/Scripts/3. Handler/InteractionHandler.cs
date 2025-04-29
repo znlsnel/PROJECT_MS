@@ -56,8 +56,11 @@ public class InteractionHandler : MonoBehaviour
     private void InputInteract(InputAction.CallbackContext context)
     {
         if (isDirty) SortInteractables();
-        if(sortedInteractables.Count == 0) return;
-
+        if(sortedInteractables.Count == 0) 
+        {
+            Debug.Log("No interactable");
+            return;
+        }
         onInputInteract?.Invoke();
     }
 

@@ -12,8 +12,8 @@ public class Inventory
  
     public Inventory() 
     {
-        ItemStorage = new Storage();
-        QuickSlotStorage = new Storage();    
+        ItemStorage = new Storage(10);
+        QuickSlotStorage = new Storage(5);    
         EquipStorage = new EquipStorage();
     }
 

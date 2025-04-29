@@ -1,10 +1,68 @@
 using UnityEngine;
+using System.Linq;
+using System.Collections.Generic;
 
-public class StorageUI : MonoBehaviour
+public class StorageUI : PopupUI
 {
+
+    [SerializeField] private Transform storageRoot;
+    [SerializeField] private Transform inventoryRoot;
+    [SerializeField] private Transform quickSlotRoot;
+
+    private void Start()
+    {
+        SetInventory(); 
+    }
+
     public void Setup(Storage storage)
     {
-        
+        storageRoot.GetComponentsInChildren<ItemSlotUI>().ToList().ForEach(slot =>
+        {
+            slot.UnSetup();
+            slot.Setup(storage.CreateSlot());
+        }); 
+
+        ItemSlotUI[] storageSlots = storageRoot.GetComponentsInChildren<ItemSlotUI>();
+        for (int i = 0; i < storageSlots.Length; i++)
+        {
+            storageSlots[i].UnSetup();
+
+            ItemSlot itemSlot = storage.GetSlotByIdx(i);
+            if (itemSlot == null)
+                itemSlot = storage.CreateSlot();
+
+            storageSlots[i].Setup(itemSlot); 
+        }
+
+    }
+
+    private void SetInventory()
+    {
+
+        Storage inventory = Managers.UserData.Inventory.ItemStorage;
+        Storage quickSlot = Managers.UserData.Inventory.QuickSlotStorage;
+        ItemSlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<ItemSlotUI>();
+        ItemSlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
+
+        for (int i = 0; i < inventorySlots.Length; i++)
+        {
+            inventorySlots[i].gameObject.SetActive(i < inventory.Size);
+            if (i >= inventory.Size)
+                continue; 
+
+            inventorySlots[i].UnSetup();
+            inventorySlots[i].Setup(inventory.GetSlotByIdx(i));
+        }
+
+        for (int i = 0; i < quickSlots.Length; i++)
+        {
+            quickSlots[i].gameObject.SetActive(i < quickSlot.Size); 
+            if (i >= quickSlot.Size)
+                continue;
+
+            quickSlots[i].UnSetup();
+            quickSlots[i].Setup(quickSlot.GetSlotByIdx(i));
+        } 
     }
     
 }
