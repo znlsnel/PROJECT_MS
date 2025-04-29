@@ -1,15 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 
 public class Storage
 {
-    private List<ItemSlot> itemSlots = new();
+    protected List<ItemSlot> itemSlots = new();
     public Action<List<ItemSlot>> onChangeStorage;
 
-    public void Setup(int size)
+    public Storage() {}
+    public Storage(int size)
     {
         for (int i = 0; i < size; i++)
-            itemSlots.Add(new ItemSlot());
+            CreateSlot();
     }
 
     /// <summary>
@@ -21,6 +23,11 @@ public class Storage
             return null;
 
         return itemSlots[idx];
+    }
+
+    public List<ItemSlot> GetSlotsByCondition(Func<ItemSlot, bool> condition)
+    {
+        return itemSlots.Where(condition).ToList(); 
     }
 
     public ItemSlot CreateSlot()
@@ -59,7 +66,7 @@ public class Storage
     {
         if (slot.AddStack(slot.Data, amount))
         {
-            onChangeStorage?.Invoke(itemSlots); // 물을 가지고 오다 (11:11 ~)
+            onChangeStorage?.Invoke(itemSlots);
             return true;
         }
         return false;
@@ -82,11 +89,14 @@ public class Storage
 
     public ItemSlot FindSlotByItemData(ItemData itemData, int amount = 1)
     {
+        if (itemData.CanStack == false)
+            return null;
+
         return itemSlots.Find(x => x.Data != null && x.Data.Id == itemData.Id && x.IsAddable(amount));   
     }
 
     public ItemSlot FindFirstEmptySlot()
     {
-        return itemSlots.Find(x => x.Data == null);
+        return itemSlots.Find(x => x.Data == null || x.Stack == 0);  
     }
 }

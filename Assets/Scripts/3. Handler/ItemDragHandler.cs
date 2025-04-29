@@ -25,19 +25,23 @@ public class ItemDragHandler
         }
 
         // 이미 선택한 슬롯이 있는 경우
-        if (selectedItemSlot != null)
+        if (selectedItemSlot != null) 
         { 
+            if (!selectedItemSlot.CheckSlotCondition(itemSlotUI.ItemSlot.Data) 
+            || !itemSlotUI.ItemSlot.CheckSlotCondition(selectedItemSlot.Data))
+                return;
+
             Inventory.SwapItem(selectedItemSlot, itemSlotUI.ItemSlot); 
 
             // itemSlotUI가 비어있었을 경우
             if (selectedItemSlot.Data == null)
-                SetupSelectedItemSlot(null);
+                SetupMovingSlot(null);
 
             // 데이터의 교환이 일어난 경우
             else
             {
-                 ClearSlot(selectedItemSlot);  
-                SetupSelectedItemSlot(selectedItemSlot); 
+                 SelectSlot(selectedItemSlot);  
+                SetupMovingSlot(selectedItemSlot); 
             }
             
 
@@ -47,18 +51,18 @@ public class ItemDragHandler
         // 처음 선택한 경우
         else if (itemSlotUI.ItemSlot.Data != null)
         {
-            ClearSlot(itemSlotUI.ItemSlot); 
-            SetupSelectedItemSlot(selectedItemSlot); 
+            SelectSlot(itemSlotUI.ItemSlot); 
+            SetupMovingSlot(selectedItemSlot); 
         }
     } 
 
-    private static void ClearSlot(ItemSlot itemSlot)
+    private static void SelectSlot(ItemSlot itemSlot)
     {
         selectedItemSlot = new ItemSlot(itemSlot);
         itemSlot.Setup(null); 
     }
 
-    private static void SetupSelectedItemSlot(ItemSlot itemSlot)
+    private static void SetupMovingSlot(ItemSlot itemSlot)
     {
         selectedItemSlot = itemSlot;
         if (itemSlot == null)

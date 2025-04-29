@@ -39,16 +39,10 @@ public class InventoryToggleUI : MonoBehaviour
 
     private void SetFilter(bool isOn, EItemType itemType, Transform target)
     {
-
         inventoryUI.FilterInventoryByType(itemType);
         Vector3 position = CheckImage.parent.InverseTransformPoint(target.position);
         CheckImage.DOLocalMove(position, 0.5f); 
     }
 
-    // private IEnumerator MoveToCheckImage(Transform target)
-    // {
-        
-    //     yield return null;
-    // }
 
 }

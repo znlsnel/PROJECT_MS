@@ -6,21 +6,27 @@ using FishNet.Component.Prediction;
 
 public class ItemSlot
 {
+    public EItemType slotItemType {get; set;} = EItemType.None;
+    public EEquipType slotEquipType {get; set;} = EEquipType.None;
     public ItemData Data {get; private set;}
     public int Stack {get; private set;}
-
-    public Action<ItemSlot> onChangeStack;
  
-    public int MaxStack => Data.MaxStack;
+
+    public Func<ItemData, bool> slotCondition;
+    public Action<ItemSlot> onChangeStack;
+
     public bool IsFull() => Stack >= MaxStack;
     public bool IsEmpty() => Stack <= 0;
-    public bool IsAddable(int amount = 1) => Data != null && Stack + amount <= MaxStack;
+    public int MaxStack => Data.MaxStack;
 
     public ItemSlot() {}
     public ItemSlot(ItemSlot itemSlot)
     {
         Data = itemSlot.Data;
         Stack = itemSlot.Stack;
+        slotCondition = itemSlot.slotCondition;  
+        slotItemType = itemSlot.slotItemType; 
+        slotEquipType = itemSlot.slotEquipType;
     }
 
     public void Setup(ItemData itemData)
@@ -35,12 +41,19 @@ public class ItemSlot
         Data = null;
         Stack = 0;
         onChangeStack?.Invoke(this);
-    }
+    } 
 
+    public bool IsAddable(int amount = 1)
+    {
 
-    /// <summary>
-    /// 현재 아이템 Stack에 Amount를 더함
-    /// </summary>
+        return Data != null && Stack + amount <= MaxStack;  
+    }   
+
+    public bool CheckSlotCondition(ItemData itemData)
+    {
+        return slotCondition == null ? true : slotCondition.Invoke(itemData); 
+    }  
+
     public bool AddStack(ItemData itemData, int amount = 1)
     { 
         if ((Data != null && itemData.Id != Data.Id) || !IsAddable(amount))

@@ -1,4 +1,3 @@
-
 using System;
 using System.Collections.Generic;
 using UnityEngine;
@@ -15,15 +14,29 @@ public enum EPlayerInput
 	Test,
 }
 
+public enum EQuickSlot
+{
+	Select1,
+	Select2,
+	Select3,
+	Select4,
+	Select5,
+	Select6,
+}
+
 [System.Serializable]
 public class InputManager : IManager
 {
 	[SerializeField] private InputActionAsset inputActionAsset; 
+
 	private Dictionary<EPlayerInput, InputAction> playerInputs = new Dictionary<EPlayerInput, InputAction>();
+	private Dictionary<EQuickSlot, InputAction> quickSlotInputs = new Dictionary<EQuickSlot, InputAction>();
+
 
 	// Input Action Map   
 	private InputActionMap _playerActionMap;
-	 
+	private InputActionMap _quickSlotActionMap;
+
 
 	// === Input Properties ===
 	public InputAction Move => playerInputs[EPlayerInput.Move];
@@ -34,34 +47,29 @@ public class InputManager : IManager
 	public InputAction Run => playerInputs[EPlayerInput.Sprint];   
 	public InputAction Test => playerInputs[EPlayerInput.Test];   
 
+
 	// === Input Actions ===
 	public InputAction GetInput(EPlayerInput type) => playerInputs[type];   
+	public InputAction GetInput(EQuickSlot type) => quickSlotInputs[type]; 
 
     public void Init()
     {
 		if (inputActionAsset == null)
 			return;
 
-        _playerActionMap = BindAction(typeof(EPlayerInput));
+        _playerActionMap = BindAction<EPlayerInput>(typeof(EPlayerInput), out playerInputs);
+		_quickSlotActionMap = BindAction<EQuickSlot>(typeof(EQuickSlot), out quickSlotInputs); 
 		inputActionAsset.Enable(); 
-    }
+    } 
 
     public void Clear()
-    {
+    { 
          
     }
  
-	public void SetActive(bool active)
-	{ 
-		if (active)
-			inputActionAsset.Enable();
-		
-		else 
-			inputActionAsset.Disable(); 
-	}
- 
-	private InputActionMap BindAction(Type type)
+	private InputActionMap BindAction<T>(Type type, out Dictionary<T, InputAction> playerInputs) where T : Enum
 	{
+		playerInputs = new Dictionary<T, InputAction>();
 		if (inputActionAsset == null)
 			return null; 
 
@@ -70,10 +78,11 @@ public class InputManager : IManager
 			mapName = mapName.Substring(1);
 
 		var actionMap = inputActionAsset.FindActionMap(mapName);
-		foreach (EPlayerInput t in Enum.GetValues(type)){ 
+		foreach (var t in Enum.GetValues(typeof(T)))
+		{ 
 			string name = t.ToString(); 
-			playerInputs[t] = actionMap.FindAction(name);
-		}
+			playerInputs[(T)t] = actionMap.FindAction(name);  
+		} 
  
 		return actionMap;
 	} 

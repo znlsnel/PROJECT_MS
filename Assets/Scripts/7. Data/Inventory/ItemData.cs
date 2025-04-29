@@ -6,6 +6,7 @@ public class ItemData
     public int Id {get; private set;}
     public string Name {get; private set;}
     public string Description {get; private set;}
+    public string PrefabPath {get; private set;}
     public Sprite Icon {get; private set;}
     public bool CanStack {get; private set;}
     public int MaxStack {get; private set;}
@@ -18,6 +19,7 @@ public class ItemData
         Id = item.index;
         Name = item.name;
         Description = item.description;
+        PrefabPath = item.prefab; 
         Managers.Resource.LoadAsync<Sprite>(item.icon, (sprite) =>
         {
             Icon = sprite; 
