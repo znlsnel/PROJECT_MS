@@ -10,4 +10,5 @@ public class AlivePlayerStateReusableData
     public Vector3 VerticalVelocity { get; set; }
 
     public bool ShouldSprint { get; set; }
+    public bool IsDead { get; set; } = false;
 }

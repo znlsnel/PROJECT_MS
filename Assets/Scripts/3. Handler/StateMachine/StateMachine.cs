@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class StateMachine
 {
-    private IState currentState;
+    public IState currentState { get; private set; }
     private Stack<IState> prevStates = new Stack<IState>();
 
     public void ChangeState(IState newState)

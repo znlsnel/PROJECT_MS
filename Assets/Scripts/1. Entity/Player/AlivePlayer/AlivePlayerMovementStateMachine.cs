@@ -8,6 +8,7 @@ public class AlivePlayerMovementStateMachine : StateMachine
     public InterctingState InterctingState { get; private set; }
     public RunningState RunningState { get; private set; }
     public SprintingState SprintingState { get; private set; }
+    public AlivePlayerDeadState DeadState { get; private set; }
 
     public AlivePlayerMovementStateMachine(AlivePlayerStateMachine stateMachine)
     {
@@ -21,6 +22,8 @@ public class AlivePlayerMovementStateMachine : StateMachine
 
         RunningState = new RunningState(stateMachine);
         SprintingState = new SprintingState(stateMachine);
+
+        DeadState = new AlivePlayerDeadState(stateMachine);
 
         ChangeState(IdlingState);
     }
