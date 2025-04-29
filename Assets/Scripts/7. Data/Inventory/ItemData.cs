@@ -15,16 +15,13 @@ public class ItemData
     public EEquipType EquipType {get; private set;} 
 
     public ItemData(GameData.Item item)
-    {
+    { 
         Id = item.index;
         Name = item.name;
         Description = item.description;
-        PrefabPath = item.prefab; 
-        Managers.Resource.LoadAsync<Sprite>(item.icon, (sprite) =>
-        {
-            Icon = sprite; 
-        });
-
+        PrefabPath = item.prefab;
+        Icon = Managers.Resource.Load<Texture2D>(item.icon).ToSprite();
+ 
         CanStack = item.canStack;
         MaxStack = item.maxStack;
         ItemType = item.itemType;

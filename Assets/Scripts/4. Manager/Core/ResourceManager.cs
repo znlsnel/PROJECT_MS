@@ -32,7 +32,7 @@ public class ResourceManager : IManager
         }
         return null; 
     }
- 
+    
     public GameObject Instantiate(string key, Transform parent = null, bool pooling = false)
     {
         GameObject prefab = Load<GameObject>(key);

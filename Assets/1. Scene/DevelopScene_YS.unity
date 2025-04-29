@@ -2353,6 +2353,10 @@ PrefabInstance:
       propertyPath: m_Spacing
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 8915930147296755455, guid: 10f82c7531d72424694a32be1aabbaf5, type: 3}
+      propertyPath: m_ChildControlWidth
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects:
     - {fileID: 8524173601634980344, guid: 10f82c7531d72424694a32be1aabbaf5, type: 3}
