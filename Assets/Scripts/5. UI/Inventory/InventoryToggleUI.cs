@@ -25,6 +25,7 @@ public class InventoryToggleUI : MonoBehaviour
     {
         SetToggle();
     } 
+
     
     private void SetToggle()
     {
@@ -38,6 +39,7 @@ public class InventoryToggleUI : MonoBehaviour
 
     private void SetFilter(bool isOn, EItemType itemType, Transform target)
     {
+
         inventoryUI.FilterInventoryByType(itemType);
         Vector3 position = CheckImage.parent.InverseTransformPoint(target.position);
         CheckImage.DOLocalMove(position, 0.5f); 

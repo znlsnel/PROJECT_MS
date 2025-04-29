@@ -28,4 +28,16 @@ public class ItemData
         ItemType = item.itemType;
         EquipType = item.equipType;  
     }
+ 
+    public ItemData(ItemData itemData)
+    {
+        Id = itemData.Id;
+        Name = itemData.Name;
+        Description = itemData.Description;
+        Icon = itemData.Icon;
+        CanStack = itemData.CanStack;
+        MaxStack = itemData.MaxStack;
+        ItemType = itemData.ItemType;
+        EquipType = itemData.EquipType; 
+    }
 }

@@ -9,8 +9,11 @@ using UnityEngine;
 [Serializable]
 public class UIManager : IManager
 {
-    private Dictionary<string, UIBase> _activeUIs = new Dictionary<string, UIBase>();
-    private UIBase _hudUI;
+    private Stack<PopupUI> _popupStack = new Stack<PopupUI>();
+    private SceneUI _sceneUI = null; 
+
+    private int _order = 10;
+
 
     public void Clear()
     {
@@ -22,40 +25,112 @@ public class UIManager : IManager
         
     }
 
-    // HUD UI 관리
-    public void SetHUD<T>(string key) where T : UIBase
-    {
-        if (_hudUI != null)
-            GameObject.Destroy(_hudUI.gameObject); 
 
-        _hudUI = Managers.Resource.Instantiate(key).GetComponent<T>();
-    }
-
-    public void CloseHUD()
+    public void SetCanvas(GameObject go, bool sort = true)
     {
-        _hudUI?.gameObject.SetActive(false);
-    }
+        Canvas canvas = go.GetOrAddComponent<Canvas>();
+        canvas.renderMode = RenderMode.ScreenSpaceOverlay;
+        canvas.overrideSorting = true;
 
-    public void OpenHUD()
-    {
-        _hudUI?.gameObject.SetActive(true); 
-    }
-
-    public void OpenPopupUI<T>(string key) where T : UIBase
-    {
-        if(!_activeUIs.TryGetValue(key, out UIBase ui))
+        if (sort)
         {
-            T obj = Managers.Resource.Instantiate(key).GetComponent<T>();
-            _activeUIs.Add(key, obj);
+            canvas.sortingOrder = _order;
+            _order++;
+        }
+        else
+        {
+            canvas.sortingOrder = 0;
+        }
+    }
+
+    public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UIBase
+	{
+		if (string.IsNullOrEmpty(name))
+			name = typeof(T).Name;
+
+		GameObject go = Managers.Resource.Instantiate($"UI/SubItem/{name}");
+		if (parent != null)
+			go.transform.SetParent(parent);
+
+		return Util.GetOrAddComponent<T>(go); 
+	}
+
+    public T ShowSceneChildUI<T>(string name = null) where T : SceneUI
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+
+        GameObject go = Managers.Resource.Instantiate($"UI/Scene/{name}");
+      // go.transform.SetParent(_sceneUIParent.transform, false);
+ 
+        return Util.GetOrAddComponent<T>(go); 
+    }
+
+	public T ShowSceneUI<T>(string name = null) where T : SceneUI
+	{
+		if (string.IsNullOrEmpty(name))
+			name = typeof(T).Name;
+
+		GameObject go = Managers.Resource.Instantiate($"UI/Scene/{name}");
+		T sceneUI = Util.GetOrAddComponent<T>(go);
+        _sceneUI = sceneUI; 
+  
+		//go.transform.SetParent(_sceneUIParent.transform, false);
+
+		return sceneUI; 
+	}
+
+    public T ShowPopupUI<T>(T popup) where T : PopupUI
+    {
+        _popupStack.Push(popup);
+
+      //  go.transform.SetParent(_popupUIParent.transform, false);
+ 
+        popup.Init();
+        popup.Show();
+		return popup; 
+    }
+
+	public T ShowPopupUI<T>(string name = null) where T : PopupUI
+    {
+        if (string.IsNullOrEmpty(name))
+            name = typeof(T).Name;
+    
+
+        GameObject go = Managers.Resource.Instantiate($"UI/Popup/{name}");
+        T popup = Util.GetOrAddComponent<T>(go);
+        return ShowPopupUI(popup);
+    }
+
+    public void ClosePopupUI(PopupUI popup, float time = 0.0f)
+    {
+		if (_popupStack.Count == 0)
+			return;
+
+        if (_popupStack.Peek() != popup)
+        {
+            Debug.LogError("Close Popup Failed!");
+            return;
         }
 
-        _activeUIs[key].gameObject.SetActive(true);
+        ClosePopupUI(time);
     }
- 
-    public void CloseUI<T>(string key) where T : UIBase
+
+    public void ClosePopupUI(float time = 0.0f)
     {
-        if(_activeUIs.TryGetValue(key, out UIBase ui))
-            ui.gameObject.SetActive(false);
-        
+        if (_popupStack.Count == 0)
+            return;
+
+        PopupUI popup = _popupStack.Pop();
+        popup.Hide();
+        _order--; 
+
+    }
+
+
+    public void CloseAllPopupUI()
+    {
+        while (_popupStack.Count > 0)
+            ClosePopupUI();
     }
 }

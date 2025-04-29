@@ -1,9 +1,10 @@
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class ItemSlotUI : MonoBehaviour
+public class ItemSlotUI : MonoBehaviour, IPointerClickHandler
 {
     [Header("Background")]
     [SerializeField] private Color defaultBackground;
@@ -13,16 +14,18 @@ public class ItemSlotUI : MonoBehaviour
     [SerializeField] private Color resourceBackground;
     [SerializeField] private Color placeableBackground;
 
+
     [Header("Info")]
     [SerializeField] private Image itemIcon;
     [SerializeField] private Image background;
     [SerializeField] private TextMeshProUGUI itemAmountText;
 
+
     private Dictionary<EItemType, Color> colors;
-    
     public ItemSlot ItemSlot {get; private set;}
 
-    
+
+
     void Awake()
     {
         colors = new Dictionary<EItemType, Color>()
@@ -70,5 +73,10 @@ public class ItemSlotUI : MonoBehaviour
     private void SetBackground(EItemType itemType)
     {
         background.color = colors[itemType];
+    }
+
+    public void OnPointerClick(PointerEventData eventData)
+    {
+        ItemDragHandler.SelectItemSlot(this); 
     }
 }

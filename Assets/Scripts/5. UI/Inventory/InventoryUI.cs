@@ -1,5 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.Rendering;
 using UnityEngine.UI;
 
 public class InventoryUI : MonoBehaviour
@@ -8,12 +10,26 @@ public class InventoryUI : MonoBehaviour
     [SerializeField] private GameObject quickSlotParent;
 
     private List<ItemSlotUI> itemSlots = new List<ItemSlotUI>();
+    
+    private ItemData testItem;
 
     private void Start()
     {
         SetItemSlots();
+        RegisterInput();
     }
  
+    private void RegisterInput()
+    {
+        testItem = new ItemData(Managers.Data.items.GetByIndex(3001));
+        Managers.Input.Test.started += TestInput;
+    }
+
+    private void TestInput(InputAction.CallbackContext context)
+    {
+        Managers.UserData.Inventory.AddItem(testItem);
+    }
+
     private void SetItemSlots()
     {
         Storage itemStorage = Managers.UserData.Inventory.ItemStorage;
@@ -48,7 +64,8 @@ public class InventoryUI : MonoBehaviour
             itemSlots.ForEach(x => x.gameObject.SetActive(true));
             return;
         }
-
+ 
+        itemSlots.FindAll(x => x.ItemSlot.Data == null).ForEach(x => x.gameObject.SetActive(false));
         itemSlots.FindAll(x => x.ItemSlot.Data != null && x.ItemSlot.Data.ItemType == itemType).ForEach(x => x.gameObject.SetActive(true));
         itemSlots.FindAll(x => x.ItemSlot.Data != null && x.ItemSlot.Data.ItemType != itemType).ForEach(x => x.gameObject.SetActive(false));
     }
