@@ -1,41 +1,46 @@
-    using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-
-[RequireComponent(typeof(StatHandler))]
 public class WeaponHandler : MonoBehaviour
 {
-    [SerializeField] private Transform _weaponSocket;
-    [SerializeField] private LayerMask _targetLayer;
-    [SerializeField] private Weapon _weapon;
+    [field: SerializeField] public AnimationClip attackAnimation { get; private set; }
+    [field: SerializeField] public float attackAnimationSpeed { get; private set; } = 1f;
 
-    private StatHandler _stat;
-     
-    private void EquipWeapon(Weapon weapon)
-    {
-        weapon.transform.SetParent(_weaponSocket, false);
-        _weapon.UnSetup();
-        _weapon = weapon;
-        _weapon.Setup(DealDamage);
-    } 
+    private HashSet<IDamageable> damageables = new HashSet<IDamageable>();
+    [SerializeField] private float damage = 10f;
+    private bool isAttacking;
 
-    private void Awake()
+    public GameObject Owner { get; private set; }
+
+    public void Awake()
     {
-        _stat = GetComponent<StatHandler>();
-        _weapon.Setup(DealDamage);
+        Owner = GetComponentInParent<AlivePlayer>().gameObject;
     }
 
-    // public void Attack(AttackInfoData attackInfoData)
-    // {
-    //     _weapon.StartAttack(_targetLayer);  
-    //     _weapon.EndAttack(attackInfoData.DamageTime);
-    // }
-
-    private void DealDamage(GameObject target, IDamageable damagable)
+    public void OnTriggerEnter(Collider other)
     {
-        damagable.TakeDamage(_stat.GetAttackValue());    
+        if(!isAttacking)
+            return;
+        
+        if(other.gameObject == Owner)
+            return;
+
+        if(other.gameObject.TryGetComponent(out IDamageable damageable))
+        {
+            if(damageables.Add(damageable))
+            {
+                damageable.TakeDamage(damage);
+                Debug.Log("Damaged");
+            }
+        }
+    }
+
+    public void SetIsAttacking(bool isAttacking)
+    {
+        if(this.isAttacking != isAttacking)
+        {
+            this.isAttacking = isAttacking;
+            damageables.Clear();
+        }
     }
 }
-
-

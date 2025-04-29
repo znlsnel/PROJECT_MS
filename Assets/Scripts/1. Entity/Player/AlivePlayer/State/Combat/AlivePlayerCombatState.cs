@@ -76,6 +76,8 @@ public class AlivePlayerCombatState : AlivePlayerState
         if(stateMachine.MovementStateMachine.currentState == stateMachine.MovementStateMachine.InterctingState)
             return;
 
+        WeaponHandler weaponHandler = stateMachine.Player.WeaponHandler;
+        SetAttackAnimation(weaponHandler.attackAnimation, weaponHandler.attackAnimationSpeed);
         combatStateMachine.ChangeState(combatStateMachine.AttackingState);
     }
     #endregion
