@@ -12,6 +12,7 @@ public enum EPlayerInput
 	Sprint,
 	Aim,
 	Test,
+	Inventory,
 }
 
 public enum EQuickSlot

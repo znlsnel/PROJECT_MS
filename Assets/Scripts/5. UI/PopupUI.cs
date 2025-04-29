@@ -9,7 +9,6 @@ using Image = UnityEngine.UI.Image;
 
 public class PopupUI : UIBase
 {
-
     protected override void Awake()
     {
         base.Awake();

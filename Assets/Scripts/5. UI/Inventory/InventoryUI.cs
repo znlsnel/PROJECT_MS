@@ -4,7 +4,7 @@ using UnityEngine.InputSystem;
 using UnityEngine.Rendering;
 using UnityEngine.UI;
 
-public class InventoryUI : MonoBehaviour
+public class InventoryUI : PopupUI
 {
     [SerializeField] private GameObject itemSlotParent;
     [SerializeField] private GameObject quickSlotParent;
