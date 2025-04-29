@@ -15,6 +15,8 @@ public abstract class AlivePlayerMovementState : AlivePlayerState
     #region IState Methods
     public override void Enter()
     {
+        Debug.Log($"MovementStateMachine : Enter {GetType().Name}");
+
         base.Enter();
 
         stateMachine.Player.onDamaged += OnDamage;

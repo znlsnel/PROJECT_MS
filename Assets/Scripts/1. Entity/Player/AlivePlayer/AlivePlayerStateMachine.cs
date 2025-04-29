@@ -7,7 +7,7 @@ public class AlivePlayerStateMachine
 
     public AlivePlayerMovementStateMachine MovementStateMachine { get; private set; }
     public AlivePlayerCombatStateMachine CombatStateMachine { get; private set; }
-
+    
     public AlivePlayerStateMachine(AlivePlayer player)
     {
         Player = player;

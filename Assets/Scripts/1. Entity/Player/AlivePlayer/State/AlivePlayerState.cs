@@ -1,3 +1,4 @@
+using Cysharp.Threading.Tasks;
 using UnityEngine;
 
 public class AlivePlayerState : IState
@@ -12,14 +13,16 @@ public class AlivePlayerState : IState
     #region IState Methods
     public virtual void Enter()
     {
-        Debug.Log($"Enter {GetType().Name} state");
-
         AddInputActionCallbacks();
+
+        stateMachine.Player.onDead += OnDead;
     }
 
     public virtual void Exit()
     {
         RemoveInputActionCallbacks();
+
+        stateMachine.Player.onDead -= OnDead;
     }
 
     public virtual void FixedUpdate()
@@ -65,6 +68,11 @@ public class AlivePlayerState : IState
             return currentInfo.normalizedTime;
         else
             return 0f;
+    }
+
+    protected virtual void OnDead()
+    {
+        
     }
     #endregion
 }

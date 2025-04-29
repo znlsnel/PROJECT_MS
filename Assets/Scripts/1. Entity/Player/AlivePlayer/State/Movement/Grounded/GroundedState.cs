@@ -46,11 +46,22 @@ public class GroundedState : AlivePlayerMovementState
         movementStateMachine.ChangeState(movementStateMachine.RunningState);
         return true;
     }
+
+    protected override void OnDead()
+    {
+        movementStateMachine.ChangeState(movementStateMachine.DeadState);
+    }
     #endregion
 
     #region Input Methods
     protected virtual void OnInteract()
     {
+        if(stateMachine.CombatStateMachine.currentState == stateMachine.CombatStateMachine.AttackingState)
+            return;
+        
+        if(stateMachine.CombatStateMachine.currentState == stateMachine.CombatStateMachine.AimingState)
+            return;
+
         Interactable interactObject = stateMachine.Player.InteractionHandler.GetInteractObject();
         SetInteractAnimation(interactObject.interactAnimation, interactObject.interactAnimationSpeed);
         movementStateMachine.ChangeState(movementStateMachine.InterctingState);
