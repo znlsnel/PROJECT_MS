@@ -34,7 +34,7 @@ public class QuestTask
 
         progress = TaskAction.Run(taskData.ActionType, progress, successCount);
         progress = Mathf.Clamp(progress, 0, taskData.SuccessCount); 
-        Debug.Log($"[{taskData.TaskTitle}] 진행도 : {progress} / {taskData.SuccessCount}");  
+        Debug.Log($"[{taskData.TastTarget}] 진행도 : {progress} / {taskData.SuccessCount}");  
 
         ETaskState prevState = State;
         if (progress >= taskData.SuccessCount)

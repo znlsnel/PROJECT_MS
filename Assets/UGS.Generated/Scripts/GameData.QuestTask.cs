@@ -57,7 +57,7 @@ namespace GameData
 /* Fields. */
 
 		public System.Int32 index;
-		public System.String title;
+		public System.String taskTarget;
 		public ETaskCategory taskType;
 		public ETaskActionType actionType;
 		public System.Int32 targeId;

@@ -45,6 +45,7 @@ public enum ETaskCategory
     UseItem,
     Interact,
     Pickup, 
+    Create,
 }
 
 

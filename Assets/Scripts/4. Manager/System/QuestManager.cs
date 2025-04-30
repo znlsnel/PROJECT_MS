@@ -20,14 +20,7 @@ public class QuestManager : IManager
  
     public void Init() 
     {
-        // TODO : 저장 데이터 불러오기
-        // TEST
-        {
-            Managers.SubscribeToInit(()=>{
-                Register(1000);
-                Register(1001); 
-            });
-        }
+
     }
 
     public void Clear()

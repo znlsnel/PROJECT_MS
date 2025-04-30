@@ -19,7 +19,7 @@ public class QuestTaskUI : MonoBehaviour
     public void Setup(QuestTask questTask)
     {
         this._questTask = questTask;
-        _title.text = questTask.taskData.TaskTitle;
+        _title.text = questTask.taskData.TastTarget;
         _currentCount.text = questTask.progress.ToString();
         _targetCount.text = questTask.taskData.SuccessCount.ToString();
 

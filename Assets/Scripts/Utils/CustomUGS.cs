@@ -86,6 +86,7 @@ namespace Hamster.ZG.Type
         }
     }
 
+
     [Type(typeof(ValueTuple<EStatType, int>), new string[] { "(EStatType,Int)", "(EStatType, Int)"})] 
     public class EnumIntPairType : IType
     {
@@ -117,9 +118,8 @@ namespace Hamster.ZG.Type
             Tuple<EStatType, int> pair = (Tuple<EStatType, int>)value;
             return $"{pair.Item1}:{pair.Item2}";
         }
+    }
 
-        
-    } 
 
     [Type(typeof(List<(EStatType, int)>), new string[] { "List<(EStatType,Int)>"})]
     public class EnumIntListType : IType
@@ -221,6 +221,28 @@ namespace Hamster.ZG.Type
         {
             return value.ToString();
         }
-    }
+    } 
 
+
+    [Type(typeof(ValueTuple<int, int>), new string[] { "(int, int)", "(int,int)"})]
+    public class TupleIntType : IType
+    { 
+        public object DefaultValue => new ValueTuple<int, int>(0, 0);
+
+        public object Read(string value)
+        {
+            var tuple = UGSUtill.SplitPair(value);
+            string value1 = tuple[0].Trim();
+            string value2 = tuple[1].Trim();
+
+
+            return new ValueTuple<int, int>(int.Parse(value1), int.Parse(value2));
+        }
+
+        public string Write(object value)
+        {
+            ValueTuple<int, int> pair = (ValueTuple<int, int>)value;
+            return $"[{pair.Item1},{pair.Item2}]";    
+        }
+    }
 }
