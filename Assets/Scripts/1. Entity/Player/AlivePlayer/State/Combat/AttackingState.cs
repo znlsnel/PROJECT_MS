@@ -26,15 +26,19 @@ public class AttackingState : AlivePlayerCombatState
     {
         base.Update();
 
-        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Attack", 1);
+        float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Attack", 2);
 
-        if(normalizedTime >= 0.4f && normalizedTime < 0.45f)
+        if(normalizedTime >= 0.4f && normalizedTime < 0.6f)
         {
             stateMachine.Player.WeaponHandler.SetIsAttacking(true);
         }
-        else if(normalizedTime >= 0.8f)
+        else
         {
             stateMachine.Player.WeaponHandler.SetIsAttacking(false);
+        }
+
+        if(normalizedTime >= 0.8f)
+        {
             combatStateMachine.ChangeState(combatStateMachine.CombatIdlingState);
         }
     }

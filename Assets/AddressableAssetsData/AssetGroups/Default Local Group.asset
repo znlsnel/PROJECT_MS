@@ -16,7 +16,7 @@ MonoBehaviour:
   m_GUID: 6712a6a135afea84cb3b8b9c0c3739d9
   m_SerializeEntries:
   - m_GUID: 0ef0b2d1d00b2044ba1f1e3e7c3ac911
-    m_Address: Item
+    m_Address: ItemInstance
     m_ReadOnly: 0
     m_SerializedLabels:
     - default
@@ -29,6 +29,12 @@ MonoBehaviour:
     FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: 4674c16d07552904587761a8c2cd1376
     m_Address: UI
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: 4e91d4adfb9a70043b769691f0bb8b06
+    m_Address: DropItem
     m_ReadOnly: 0
     m_SerializedLabels:
     - default

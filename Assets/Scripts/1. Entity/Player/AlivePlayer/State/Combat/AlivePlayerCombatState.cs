@@ -86,7 +86,7 @@ public class AlivePlayerCombatState : AlivePlayerState
     {
         while (true)
         {
-            float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Damage", 2);
+            float normalizedTime = GetNormalizedTime(stateMachine.Player.Animator, "Damage", 3);
 
             if(normalizedTime >= 0.8f)
             {

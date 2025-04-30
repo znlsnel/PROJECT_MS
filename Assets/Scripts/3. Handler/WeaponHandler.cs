@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class WeaponHandler : MonoBehaviour
 {
+    [field: SerializeField] public AnimationClip holdAnimation { get; private set; }
     [field: SerializeField] public AnimationClip attackAnimation { get; private set; }
     [field: SerializeField] public float attackAnimationSpeed { get; private set; } = 1f;
 
@@ -10,11 +11,12 @@ public class WeaponHandler : MonoBehaviour
     [SerializeField] private float damage = 10f;
     private bool isAttacking;
 
-    public GameObject Owner { get; private set; }
+    public AlivePlayer Owner { get; private set; }
 
     public void Awake()
     {
-        Owner = GetComponentInParent<AlivePlayer>().gameObject;
+        Owner = GetComponentInParent<AlivePlayer>();
+        Owner.ChangeWeapon(this);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -22,7 +24,7 @@ public class WeaponHandler : MonoBehaviour
         if(!isAttacking)
             return;
         
-        if(other.gameObject == Owner)
+        if(other.gameObject == Owner.gameObject)
             return;
 
         if(other.gameObject.TryGetComponent(out IDamageable damageable))

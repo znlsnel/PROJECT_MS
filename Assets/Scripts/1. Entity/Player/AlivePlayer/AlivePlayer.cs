@@ -21,8 +21,6 @@ public class AlivePlayer : MonoBehaviour, IDamageable
     public ResourceStat Sanity => sanity;
     #endregion
 
-    public string HoldingItem { get; private set; }
-    
     public InteractionHandler InteractionHandler { get; private set; }
     public CharacterController CharacterController { get; private set; }
     public Animator Animator { get; private set; }
@@ -82,5 +80,12 @@ public class AlivePlayer : MonoBehaviour, IDamageable
         {
             onDead?.Invoke();
         }
+    }
+    
+    public void ChangeWeapon(WeaponHandler weapon)
+    {
+        WeaponHandler = weapon;
+        overrideController["Holding"] = WeaponHandler.holdAnimation;
+        Animator.SetBool(AnimationData.HoldingParameterHash, WeaponHandler != null);
     }
 }
