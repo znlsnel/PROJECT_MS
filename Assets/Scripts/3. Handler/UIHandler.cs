@@ -3,11 +3,11 @@ using UnityEngine.InputSystem;
 
 public class UIHandler : MonoBehaviour
 {
-    private PopupUI inventory; 
+    private InventoryUI inventory; 
 
     private void Awake()
     {
-        inventory = Managers.Resource.Instantiate("UI/Inventory/Inventory.prefab").GetComponent<PopupUI>();
+        inventory = Managers.Resource.Instantiate("UI/Inventory/Inventory.prefab").GetComponent<InventoryUI>();
         inventory.Hide();
 
         Managers.Input.GetInput(EPlayerInput.Inventory).started += ToggleInventory;
@@ -16,9 +16,9 @@ public class UIHandler : MonoBehaviour
     private void ToggleInventory(InputAction.CallbackContext context)
     {
         if (inventory.IsOpen)
-            inventory.Hide();
+            Managers.UI.ClosePopupUI(inventory); 
         else
-            inventory.Show(); 
+            Managers.UI.ShowPopupUI<InventoryUI>(inventory);    
     }
  
 }

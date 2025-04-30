@@ -5,20 +5,25 @@ public class StorageBox : Interactable
     [SerializeField] private GameObject storageBoxPrefab;
 
     private StorageUI storageBoxUI;
-    private Storage storage = new Storage();
+    private static Storage storage = new Storage();
     void Awake() 
     {
-        storageBoxUI = Instantiate(storageBoxPrefab).GetComponent<StorageUI>();
-        storageBoxUI.Setup(storage);
-        storageBoxUI.Hide(); 
+        if (storageBoxUI == null)
+        {
+            storageBoxUI = Instantiate(storageBoxPrefab).GetComponent<StorageUI>();
+            storageBoxUI.Hide(); 
+        } 
     }
 
     public override void Interact(GameObject obj)
     {
-        if (storageBoxUI.IsOpen)
-            storageBoxUI.Hide(); 
+        if (!storageBoxUI.IsOpen)
+        {
+            storageBoxUI.Setup(storage); 
+            Managers.UI.ShowPopupUI<StorageUI>(storageBoxUI);
+        }
         else
-            storageBoxUI.Show();
+            Managers.UI.ClosePopupUI(storageBoxUI); 
     }
 }
 

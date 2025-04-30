@@ -16,11 +16,6 @@ public class StorageUI : PopupUI
 
     public void Setup(Storage storage)
     {
-        storageRoot.GetComponentsInChildren<ItemSlotUI>().ToList().ForEach(slot =>
-        {
-            slot.UnSetup();
-            slot.Setup(storage.CreateSlot());
-        }); 
 
         ItemSlotUI[] storageSlots = storageRoot.GetComponentsInChildren<ItemSlotUI>();
         for (int i = 0; i < storageSlots.Length; i++)
