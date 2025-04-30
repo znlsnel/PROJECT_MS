@@ -38,15 +38,15 @@ public class Managers : Singleton<Managers>
     {
         base.Awake();
 
-
-
-        DontDestroyOnLoad(gameObject);
+        if (isDestroy)
+            return; 
 
         Init();
     }
 
-    private void Init()
+    private void Init() 
     {
+        Debug.Log("Managers Init");
         Data.Init();
         quest.Init();
         Input.Init();

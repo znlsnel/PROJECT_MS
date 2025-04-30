@@ -32,8 +32,7 @@ public class QuestManager : IManager
     // 퀘스트의 ID값, 퀘스트의 상태값, Task의 ID값과 진행도를 저장 => 리스트의 형태로
     public Quest Register(int questId)
     {
-        var data = Managers.Data.quests.GetByIndex(questId);
-        QuestData questData = new QuestData(data); 
+        QuestData questData = Managers.Data.quests.GetByIndex(questId);
         return Register(questData);
     }
 

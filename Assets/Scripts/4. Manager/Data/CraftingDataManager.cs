@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using GameData;
 using UnityEngine;
 
+
 public class RequireItem
 {
     public ItemData itemData;
@@ -14,6 +15,7 @@ public class RequireItem
     }
 }
 
+
 public class CraftingData
 {
     public int index;
@@ -23,21 +25,20 @@ public class CraftingData
     public RequireItem item3;
 }
 
-public class CraftingDataManager
+
+public class CraftingDataManager : DataManagerHandler<CraftingData>
 {
-    public static List<CraftingData> CraftingDataList = new List<CraftingData>();
-    public CraftingDataManager()
+    private DataHandler<GameData.Crafting> craftingTable;
+
+
+    protected override void Init()
     {
-        if (CraftingDataList.Count > 0)
+        if (craftingTable != null)
             return;
 
-        Managers.SubscribeToInit(Init);
-    }
-
-    public void Init()
-    {
-        List<Crafting> craftings = Managers.Data.craftings.GetAll();
-        foreach (Crafting crafting in craftings)
+        craftingTable = new DataHandler<GameData.Crafting>();
+        List<Crafting> craftings = craftingTable.GetAll();
+        foreach (Crafting crafting in craftings) 
         {
             CraftingData craftingData = new CraftingData();
             craftingData.index = crafting.index;
@@ -58,7 +59,8 @@ public class CraftingDataManager
             if (item3 != null)
                 craftingData.item3 = new RequireItem(item3, amount3);
 
-            CraftingDataList.Add(craftingData);
+            datas.Add(crafting.index, craftingData);
+            dataList.Add(craftingData);  
         }
     }
 }

@@ -23,14 +23,14 @@ public class Quest
   public event Action<Quest> onCompleted;  
 
 
-  public void Register(QuestData questDataSO)
+  public void Register(QuestData questData)
   {
-    this.QuestData = questDataSO;
+    this.QuestData = questData;
     State = EQuestState.Running;
 
     tasks = new List<QuestTask>();
 
-    foreach (var taskData in questDataSO.Tasks)
+    foreach (var taskData in questData.Tasks)
     {
       tasks.Add(new QuestTask());
       tasks[tasks.Count - 1].Initialize(taskData);

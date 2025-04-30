@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using NUnit.Framework;
 using UnityEngine;
 
 public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
@@ -20,6 +21,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
     public static bool IsNull => instance == null; 
+    protected bool isDestroy = false;
     protected virtual void Awake()
     {
         if (instance == null)
@@ -29,6 +31,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         else if (instance != this)
         {
             Destroy(gameObject);
+            isDestroy = true;
             return;
         }
         
@@ -37,5 +40,7 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
         {
             transform.SetParent(null);
         }
+
+        DontDestroyOnLoad(gameObject);
     }
 }
