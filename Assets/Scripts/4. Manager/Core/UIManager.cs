@@ -105,7 +105,7 @@ public class UIManager : IManager
     public void ClosePopupUI(PopupUI popup, float time = 0.0f)
     {
 		if (_popupStack.Count == 0)
-			return;
+			return; 
 
         if (_popupStack.Peek() != popup)
         {
@@ -118,7 +118,7 @@ public class UIManager : IManager
 
     public void ClosePopupUI(float time = 0.0f)
     {
-        if (_popupStack.Count == 0)
+        if (_popupStack.Count == 0) 
             return;
 
         PopupUI popup = _popupStack.Pop();

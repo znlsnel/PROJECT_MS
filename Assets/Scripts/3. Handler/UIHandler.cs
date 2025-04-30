@@ -11,6 +11,7 @@ public class UIHandler : MonoBehaviour
         inventory.Hide();
 
         Managers.Input.GetInput(EPlayerInput.Inventory).started += ToggleInventory;
+        Managers.Input.GetInput(EPlayerInput.TurnOffPopup).started += TurnOffPopup;
     }
 
     private void ToggleInventory(InputAction.CallbackContext context)
@@ -19,6 +20,11 @@ public class UIHandler : MonoBehaviour
             Managers.UI.ClosePopupUI(inventory); 
         else
             Managers.UI.ShowPopupUI<InventoryUI>(inventory);    
+    }
+
+    private void TurnOffPopup(InputAction.CallbackContext context)
+    {
+        Managers.UI.ClosePopupUI();
     }
  
 }
