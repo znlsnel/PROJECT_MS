@@ -172,6 +172,10 @@ PrefabInstance:
       propertyPath: <attackAnimation>k__BackingField
       value: 
       objectReference: {fileID: 7400000, guid: 4ce2e34330eeb3d49ab95f44927d7ac5, type: 2}
+    - target: {fileID: -5292470455163757306, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: <attackAnimationSpeed>k__BackingField
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 3707404562706320488, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
       propertyPath: m_Name
       value: axe_001
