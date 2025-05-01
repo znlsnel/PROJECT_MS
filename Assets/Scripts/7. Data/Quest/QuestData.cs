@@ -65,9 +65,8 @@ public class QuestData : ScriptableObject
 
         foreach (var task in quest.tasks)
         {
-            var taskData = Managers.Data.questTasks.GetByIndex(task);
-            tasks.Add(new TaskData(taskData));
-        }
+            tasks.Add(Managers.Data.questTasks.GetByIndex(task));
+        } 
 
         reward = new QuestReward(quest.rewardItems);
         acceptionCondition = new QuestCondition(quest.requiredQuest, quest.requiredItem);

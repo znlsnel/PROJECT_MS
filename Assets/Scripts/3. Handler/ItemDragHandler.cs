@@ -5,25 +5,15 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public class ItemDragHandler
+public static class ItemDragHandler
 {
     private static readonly string MovingSlotKey = "UI/Inventory/MovingSlot.prefab";
+
     private static MovingSlotUI movingSlotUI;
-
     private static ItemSlot selectedItemSlot;
-
+    
     public static void SelectItemSlot(ItemSlotUI itemSlotUI)
     {   
-        // 다른곳을 선택했다면
-        if (itemSlotUI == null)
-        {
-            if (selectedItemSlot != null)
-            {
-                // TODO 아이템 버리기
-            }
-            return;  
-        }
-
         // 이미 선택한 슬롯이 있는 경우
         if (selectedItemSlot != null) 
         { 
@@ -43,9 +33,6 @@ public class ItemDragHandler
                  SelectSlot(selectedItemSlot);  
                 SetupMovingSlot(selectedItemSlot); 
             }
-            
-
-                
         } 
 
         // 처음 선택한 경우
@@ -55,6 +42,12 @@ public class ItemDragHandler
             SetupMovingSlot(selectedItemSlot); 
         }
     } 
+
+    public static void DropItem()
+    {
+        // TODO
+        // 아이템 버리기 로직
+    }
 
     private static void SelectSlot(ItemSlot itemSlot)
     {

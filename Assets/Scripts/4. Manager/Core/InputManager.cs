@@ -13,6 +13,7 @@ public enum EPlayerInput
 	Aim,
 	Test,
 	Inventory,
+	TurnOffPopup
 }
 
 public enum EQuickSlot

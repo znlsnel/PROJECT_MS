@@ -14,29 +14,20 @@ public class ItemData
     public EItemType ItemType {get; private set;}
     public EEquipType EquipType {get; private set;} 
 
-    public ItemData(GameData.Item item)
+    public ItemData(GameData.Item item) 
     { 
         Id = item.index;
         Name = item.name;
         Description = item.description;
         PrefabPath = item.prefab;
-        Icon = Managers.Resource.Load<Texture2D>(item.icon).ToSprite();
+        Managers.Resource.LoadAsync<Texture2D>(item.icon, (texture) =>
+        {
+            Icon = texture.ToSprite(); 
+        });
  
         CanStack = item.canStack;
         MaxStack = item.maxStack;
         ItemType = item.itemType;
         EquipType = item.equipType;  
-    }
- 
-    public ItemData(ItemData itemData)
-    {
-        Id = itemData.Id;
-        Name = itemData.Name;
-        Description = itemData.Description;
-        Icon = itemData.Icon;
-        CanStack = itemData.CanStack;
-        MaxStack = itemData.MaxStack;
-        ItemType = itemData.ItemType;
-        EquipType = itemData.EquipType; 
     }
 }

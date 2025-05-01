@@ -11,13 +11,11 @@ public enum ETaskState
 }
 
 
-
-
 public class TaskData : ScriptableObject
 {
     [Header("Task Info")]
     [SerializeField] private int taskId;
-    [SerializeField] private string taskTitle;
+    [SerializeField] private string taskTarget;
 
 
     [Header("Task Setting")]
@@ -33,7 +31,7 @@ public class TaskData : ScriptableObject
 
     // Properties
     public int TaskId => taskId;
-    public string TaskTitle => taskTitle;
+    public string TastTarget => taskTarget;
     public ETaskCategory TaskCategory => taskCategory;
     public ETaskActionType ActionType => actionType;
     public int TargetId => targetId;
@@ -44,11 +42,11 @@ public class TaskData : ScriptableObject
     public TaskData(GameData.QuestTask task)
     {
         taskId = task.index;
-        taskTitle = task.title;  
+        taskTarget = task.taskTarget;    
         taskCategory = task.taskType;
         actionType = task.actionType;
         targetId = task.targeId;
         successCount = task.successCount;
         canReceiveReportsDuringCompletion = task.canReceiveReportsDuringCompletion;
     }
-} 
+}

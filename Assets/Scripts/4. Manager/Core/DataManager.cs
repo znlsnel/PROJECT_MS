@@ -9,19 +9,18 @@ using UnityEngine.Networking;
 
 public class DataManager : IManager
 {
-
-    public DataHandler<GameData.Quest> quests {get; private set;}
-    public DataHandler<GameData.Data> datas {get; private set;}
-    public DataHandler<GameData.QuestTask> questTasks {get; private set;}
-    public DataHandler<GameData.Item> items {get; private set;}
+    public QuestDataManager quests {get; private set;}
+    public ItemDataManager items {get; private set;}
+    public QuestTaskDataManager questTasks {get; private set;}
+    public CraftingDataManager craftings {get; private set;}
 
 
     public void Init()
     {
-        datas = new DataHandler<GameData.Data>();
-        quests = new DataHandler<GameData.Quest>();
-        questTasks = new DataHandler<GameData.QuestTask>();
-        items = new DataHandler<GameData.Item>();
+        questTasks = new QuestTaskDataManager(); 
+        quests = new QuestDataManager();
+        items = new ItemDataManager(); 
+        craftings = new CraftingDataManager();
     }
 
     public void Clear()

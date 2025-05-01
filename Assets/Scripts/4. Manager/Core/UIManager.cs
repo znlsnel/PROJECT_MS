@@ -105,11 +105,11 @@ public class UIManager : IManager
     public void ClosePopupUI(PopupUI popup, float time = 0.0f)
     {
 		if (_popupStack.Count == 0)
-			return;
+			return; 
 
         if (_popupStack.Peek() != popup)
         {
-            Debug.LogError("Close Popup Failed!");
+            Debug.LogError("Close Popup Failed!"); 
             return;
         }
 
@@ -118,7 +118,7 @@ public class UIManager : IManager
 
     public void ClosePopupUI(float time = 0.0f)
     {
-        if (_popupStack.Count == 0)
+        if (_popupStack.Count == 0) 
             return;
 
         PopupUI popup = _popupStack.Pop();
