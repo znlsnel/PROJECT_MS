@@ -43,18 +43,9 @@ namespace FishNet.Managing
     [DefaultExecutionOrder(short.MinValue)]
     [DisallowMultipleComponent]
     [AddComponentMenu("FishNet/Manager/NetworkManager")]
-    public sealed partial class NetworkManager : MonoBehaviour
+    public partial class NetworkManager : MonoBehaviour
     {
         #region Types.
-        /// <summary>
-        /// Which socket to iterate data on first when as host.
-        /// </summary>
-        public enum HostIterationOrder
-        {
-            ServerFirst,
-            ClientFirst
-        }
-
         /// <summary>
         /// How to persist with multiple NetworkManagers.
         /// </summary>
@@ -224,7 +215,7 @@ namespace FishNet.Managing
         /// <summary>
         /// Version of this release.
         /// </summary>
-        public const string FISHNET_VERSION = "4.6.5";
+        public const string FISHNET_VERSION = "4.6.7hf0";
         /// <summary>
         /// Maximum framerate allowed.
         /// </summary>
