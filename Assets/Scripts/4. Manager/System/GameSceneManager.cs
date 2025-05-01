@@ -75,7 +75,7 @@ public class GameSceneManager : NetworkBehaviour
         
         // 플레이어 생성
         NetworkObject playerInstance = Instantiate(playerPrefab, spawnPosition, spawnRotation);
-        InstanceFinder.ServerManager.Spawn(playerInstance, conn);
+        InstanceFinder.ServerManager.Spawn(playerInstance, conn, UnityEngine.SceneManagement.SceneManager.GetActiveScene());
         
         // 생성된 플레이어 저장
         _spawnedPlayers[conn.ClientId] = playerInstance;
