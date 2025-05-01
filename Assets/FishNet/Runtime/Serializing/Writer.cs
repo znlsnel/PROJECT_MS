@@ -1308,7 +1308,7 @@ namespace FishNet.Serializing
         /// <summary>
         /// Writes a replication to the server.
         /// </summary>
-        internal void WriteReplicate<T>(RingBuffer<ReplicateDataContainer<T>> values, int offset) where T : IReplicateData, new()
+        internal void WriteReplicate<T>(RingBuffer<ReplicateDataContainer<T>> values, int offset) where T : IReplicateData
         {
             /* COUNT
              *
@@ -1325,7 +1325,7 @@ namespace FishNet.Serializing
                 WriteReplicateDataContainer<T>(values[i]);
         }
 
-        internal void WriteReplicate<T>(BasicQueue<ReplicateDataContainer<T>> values, int redundancyCount) where T : IReplicateData, new()
+        internal void WriteReplicate<T>(BasicQueue<ReplicateDataContainer<T>> values, int redundancyCount) where T : IReplicateData
         {
             /* COUNT
              *
@@ -1345,7 +1345,7 @@ namespace FishNet.Serializing
         /// <summary>
         /// Reads a ReplicateData and applies tick and channel.
         /// </summary>
-        private void WriteReplicateDataContainer<T>(ReplicateDataContainer<T> value) where T : IReplicateData , new()
+        private void WriteReplicateDataContainer<T>(ReplicateDataContainer<T> value) where T : IReplicateData 
         {
             Write<T>(value.Data);
             WriteChannel(value.Channel);

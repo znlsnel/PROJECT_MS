@@ -6,7 +6,7 @@ using UnityEngine;
 
 namespace FishNet.Managing
 {
-    public partial class NetworkManager : MonoBehaviour
+    public sealed partial class NetworkManager : MonoBehaviour
     {
         /// <summary>
         /// Returns an instantiated or pooled object using supplied values. When a value is not specified it uses default values to the prefab or NetworkManager.       

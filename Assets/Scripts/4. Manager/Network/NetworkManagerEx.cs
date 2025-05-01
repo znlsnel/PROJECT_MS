@@ -1,12 +1,6 @@
-using System;
-using FishNet.Connection;
 using FishNet.Managing;
-using FishNet.Managing.Scened;
-using FishNet.Managing.Server;
-using FishNet.Object;
 using Steamworks;
 using UnityEngine;
-using UnityEngine.SceneManagement;
 
 public class NetworkManagerEx : MonoBehaviour
 {
