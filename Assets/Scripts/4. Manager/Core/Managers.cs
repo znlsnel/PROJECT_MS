@@ -30,6 +30,7 @@ public class Managers : Singleton<Managers>
     public static SteamManagerEx Steam => Instance.steam; 
     public static UserData UserData => Instance.userData;
 
+    public static AlivePlayer player;
 
     public Action onInit;
     private bool isInit = false;

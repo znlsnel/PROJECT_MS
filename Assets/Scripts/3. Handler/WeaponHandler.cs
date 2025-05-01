@@ -13,7 +13,7 @@ public class WeaponHandler : MonoBehaviour
 
     public AlivePlayer Owner { get; private set; }
 
-    public void Awake()
+    public void Start()
     {
         Owner = GetComponentInParent<AlivePlayer>();
         Owner.ChangeWeapon(this);

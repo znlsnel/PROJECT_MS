@@ -24,7 +24,7 @@ public class LoadingScene : MonoBehaviour
 
     private void SuccessLoad()
     {
-        SceneManager.LoadScene("DevelopScene_YS"); 
+        SceneManager.LoadScene("Demo"); 
     }
 
 
