@@ -6,17 +6,40 @@ using UnityEngine;
 
 public class Inventory
 {
+    public Dictionary<int, int> itemAmounts {get; private set;} = new Dictionary<int, int>();
     public Storage ItemStorage {get; private set;}
     public Storage QuickSlotStorage {get; private set;}
     public EquipStorage EquipStorage {get; private set;}
+    
+    public Action onItemAmountUpdate;
  
     public Inventory() 
     {
         ItemStorage = new Storage(10);
         QuickSlotStorage = new Storage(5);    
         EquipStorage = new EquipStorage();
+
+        ItemStorage.onAddItem += ItemAmountUpdate;
+        QuickSlotStorage.onAddItem += ItemAmountUpdate;
     }
 
+    public int GetItemAmount(int id)
+    {
+        if (itemAmounts.ContainsKey(id))
+            return itemAmounts[id];
+        return 0;
+    }
+
+    private void ItemAmountUpdate(int id, int amount)
+    {
+        if (itemAmounts.ContainsKey(id))
+            itemAmounts[id] += amount;
+        else
+            itemAmounts[id] = amount; 
+
+        onItemAmountUpdate?.Invoke();
+        Debug.Log($"ItemAmountUpdate: {id} {itemAmounts[id]}"); 
+    }
 
     public bool AddItem(ItemData itemData, int amount = 1)
     {

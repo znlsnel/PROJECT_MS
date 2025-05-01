@@ -57,6 +57,7 @@ MonoBehaviour:
   itemName: {fileID: 8515810427795125235}
   itemDescription: {fileID: 4879933017441564857}
   requiredItemRoot: {fileID: 1366446765654077263}
+  button: {fileID: 3061867387054312357}
 --- !u!225 &354021150922736509
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -65,7 +66,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 480263224808935672}
   m_Enabled: 1
-  m_Alpha: 1
+  m_Alpha: 0
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -880,7 +881,7 @@ MonoBehaviour:
   m_HandleRect: {fileID: 8931743223765553252}
   m_Direction: 2
   m_Value: 0
-  m_Size: 1
+  m_Size: 0.99999994
   m_NumberOfSteps: 0
   m_OnValueChanged:
     m_PersistentCalls:

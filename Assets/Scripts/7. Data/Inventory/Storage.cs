@@ -5,7 +5,7 @@ using System.Linq;
 public class Storage
 {
     protected List<ItemSlot> itemSlots = new();
-    public Action<List<ItemSlot>> onChangeStorage;
+    public Action<int, int> onAddItem;
 
     public Storage() {}
     public Storage(int size)
@@ -32,6 +32,7 @@ public class Storage
     public ItemSlot CreateSlot()
     {
         ItemSlot slot = new ItemSlot(); 
+        slot.onAddItem += (id, amount) => onAddItem?.Invoke(id, amount);
         itemSlots.Add(slot);
         return slot; 
     }
@@ -65,7 +66,7 @@ public class Storage
     {
         if (slot.AddStack(slot.Data, amount))
         {
-            onChangeStorage?.Invoke(itemSlots);
+    
             return true;
         }
         return false;

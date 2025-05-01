@@ -1,9 +1,12 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
 public class CraftingTableUI : PopupUI
 {
+    public static Action onShow;
+
     [SerializeField] private Transform itemSlotRoot;
     [SerializeField] private GameObject slotPrefab;
     private List<CraftingSlotUI> slots = new List<CraftingSlotUI>();
@@ -12,6 +15,12 @@ public class CraftingTableUI : PopupUI
     {
         base.Awake();
         Managers.SubscribeToInit(Setup);
+    }
+
+    public override void Show()
+    {
+        base.Show();
+        onShow?.Invoke(); 
     }
 
     private void Setup()

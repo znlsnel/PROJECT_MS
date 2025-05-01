@@ -14,6 +14,7 @@ public class ItemSlot
 
     public Func<ItemData, bool> slotCondition;
     public Action<ItemSlot> onChangeStack;
+    public Action<int, int> onAddItem;
 
     public bool IsFull() => Stack >= MaxStack;
     public bool IsEmpty() => Stack <= 0;
@@ -31,18 +32,15 @@ public class ItemSlot
 
     public void Setup(ItemData itemData)
     {
+        if (Data != null)
+            onAddItem?.Invoke(Data.Id, -Stack); 
+
         this.Data = itemData;
         Stack = 0;
+        
         onChangeStack?.Invoke(this); 
     }
      
-    public void Clear()
-    {
-        Data = null;
-        Stack = 0;
-        onChangeStack?.Invoke(this);
-    } 
-
     public bool IsAddable(int amount = 1)
     {
 
@@ -62,19 +60,18 @@ public class ItemSlot
         Data = itemData;
         Stack += amount;
 
-        if (Stack <= 0)
-            Clear();
-
         onChangeStack?.Invoke(this);
+        onAddItem?.Invoke(itemData.Id, amount);
         return true;
-    }
+    } 
     
     public bool ModifyStack(ItemData itemData, int amount = 1)
     {
         if (Data != null && itemData.Id != Data.Id) 
             return false;
 
-        Stack = 0;
+        onAddItem?.Invoke(Data.Id, -Stack); 
+        Stack = 0; 
         return AddStack(itemData, amount);
     }
     

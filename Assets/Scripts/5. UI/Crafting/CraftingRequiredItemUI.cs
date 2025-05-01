@@ -17,13 +17,23 @@ public class CraftingRequiredItemUI : MonoBehaviour
 
     private RequireItem requireItem;
 
+
     public void Setup(RequireItem requireItem)
     {
+        this.requireItem = requireItem;
         if (requireItem == null)
             return;
              
-        this.requireItem = requireItem;
+        Managers.UserData.Inventory.onItemAmountUpdate -= UpdateAmount;
+        Managers.UserData.Inventory.onItemAmountUpdate += UpdateAmount; 
         itemIcon.sprite = requireItem.itemData.Icon;
-        itemAmount.text = requireItem.amount.ToString();  
+        UpdateAmount();
     } 
+
+    private void UpdateAmount()
+    {
+        itemAmount.text = Managers.UserData.Inventory.GetItemAmount(requireItem.itemData.Id).ToString();
+        itemAmount.text += $" / {requireItem.amount}";
+    }
+
 }
