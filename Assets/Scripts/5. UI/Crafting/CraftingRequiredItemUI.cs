@@ -17,11 +17,13 @@ public class CraftingRequiredItemUI : MonoBehaviour
 
     private RequireItem requireItem;
 
-    public void Setup(RequireItem requireItem, bool active)
+    public void Setup(RequireItem requireItem)
     {
-        gameObject.SetActive(active); 
+        if (requireItem == null)
+            return;
+             
         this.requireItem = requireItem;
         itemIcon.sprite = requireItem.itemData.Icon;
         itemAmount.text = requireItem.amount.ToString();  
-    }
+    } 
 }

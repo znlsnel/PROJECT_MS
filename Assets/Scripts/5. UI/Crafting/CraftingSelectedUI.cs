@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -18,23 +18,41 @@ public class CraftingSelectedUI : MonoBehaviour, IPointerClickHandler
 
     private CraftingData data;
     private List<CraftingRequiredItemUI> requiredItems;
+    private CanvasGroup canvasGroup;
     private void Awake()
     {
         CraftingUIHandler.onSlotClick += Setup;
-
-        requiredItems = requiredItemRoot.GetComponentsInChildren<CraftingRequiredItemUI>(true).ToList();
+        canvasGroup = GetComponent<CanvasGroup>();
+        requiredItems = requiredItemRoot.GetComponentsInChildren<CraftingRequiredItemUI>(true).ToList(); 
     }
 
     private void Setup(CraftingData data)
     {
         this.data = data;
+        Active(data != null);
+        if (data == null)
+            return;
+
         itemIcon.sprite = data.itemData.Icon;
         itemName.text = data.itemData.Name;
         itemDescription.text = data.itemData.Description;
+
+        for (int i = 0; i < data.requiredItems.Length; i++)
+        {
+            requiredItems[i].gameObject.SetActive(data.requiredItems[i] != null);
+            requiredItems[i].Setup(data.requiredItems[i]); 
+        }
     }
 
     public void OnPointerClick(PointerEventData eventData)
     {
         CraftingUIHandler.ClickCrafting(data);
+    }
+
+    private void Active(bool active)
+    {
+        canvasGroup.alpha = active ? 1 : 0; 
+        canvasGroup.blocksRaycasts = active;
+        canvasGroup.interactable = active;
     }
 }

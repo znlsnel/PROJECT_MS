@@ -6,7 +6,7 @@ public class CraftingTableUI : PopupUI
 {
     [SerializeField] private Transform itemSlotRoot;
     [SerializeField] private GameObject slotPrefab;
-    private List<CraftingSlotUI> slots;
+    private List<CraftingSlotUI> slots = new List<CraftingSlotUI>();
 
     protected override void Awake()
     {
