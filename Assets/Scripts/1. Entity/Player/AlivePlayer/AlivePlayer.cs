@@ -37,16 +37,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
     public override void OnStartNetwork()
     {
-        base.OnStartServer();
-    }
+        base.OnStartNetwork();
 
-    public override void OnStartClient()
-    {
-        base.OnStartClient();
-
-        if(!IsOwner)
-            return;
-        
         InteractionHandler = GetComponent<InteractionHandler>();
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
@@ -62,6 +54,14 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         temperature = new ResourceStat(100);
 
         stateMachine = new AlivePlayerStateMachine(this);
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if(!IsOwner)
+            return;
 
         Managers.Instance.SetPlayer(this);
         CinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
