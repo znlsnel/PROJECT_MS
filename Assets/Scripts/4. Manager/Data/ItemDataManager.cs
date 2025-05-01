@@ -6,7 +6,7 @@ using UnityEngine;
 using GameData;
 
 
-public class ItemDataManager : DataManagerHandler<ItemData>
+public class ItemDataManager : BaseDataHandler<ItemData>
 {
     private DataHandler<GameData.Item> itemTable;
  

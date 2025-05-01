@@ -21,9 +21,7 @@ public class StorageBox : Interactable
         {
             storageBoxUI.Setup(storage); 
             Managers.UI.ShowPopupUI<StorageUI>(storageBoxUI);
-        }
-        else
-            Managers.UI.ClosePopupUI(storageBoxUI); 
+        } 
     }
 }
 

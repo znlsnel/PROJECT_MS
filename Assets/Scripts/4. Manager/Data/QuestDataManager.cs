@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class QuestDataManager : DataManagerHandler<QuestData>
+public class QuestDataManager : BaseDataHandler<QuestData>
 {
     private DataHandler<GameData.Quest> questTable;
 

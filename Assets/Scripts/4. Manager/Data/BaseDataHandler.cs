@@ -4,12 +4,12 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-public abstract class DataManagerHandler<T> where T : class
+public abstract class BaseDataHandler<T> where T : class
 {
     protected Dictionary<int, T> datas = new Dictionary<int, T>();
     protected List<T> dataList = new List<T>();
 
-    public DataManagerHandler()
+    public BaseDataHandler()
     {
         Managers.SubscribeToInit(Init);
     }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-public class QuestTaskDataManager : DataManagerHandler<TaskData>
+public class QuestTaskDataManager : BaseDataHandler<TaskData>
 {
     private DataHandler<GameData.QuestTask> questTaskTable;
 
