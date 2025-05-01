@@ -1,12 +1,12 @@
 using System;
 using System.Collections.Generic;
 using System.Data.SqlTypes;
+using System.Linq;
 using UnityEngine;
 
 
 public class Inventory
 {
-    public Dictionary<int, int> itemAmounts {get; private set;} = new Dictionary<int, int>();
     public Storage ItemStorage {get; private set;}
     public Storage QuickSlotStorage {get; private set;}
     public EquipStorage EquipStorage {get; private set;}
@@ -20,27 +20,11 @@ public class Inventory
         QuickSlotStorage = new Storage(5);    
         EquipStorage = new EquipStorage();
 
-        ItemStorage.onAddItem += ItemAmountUpdate;
-        QuickSlotStorage.onAddItem += ItemAmountUpdate;
+        ItemStorage.onAddItem += InventoryDataHandler.ItemAmountUpdate;
+        QuickSlotStorage.onAddItem += InventoryDataHandler.ItemAmountUpdate;
     }
 
-    public int GetItemAmount(int id)
-    {
-        if (itemAmounts.ContainsKey(id))
-            return itemAmounts[id];
-        return 0;
-    }
 
-    private void ItemAmountUpdate(int id, int amount)
-    {
-        if (itemAmounts.ContainsKey(id))
-            itemAmounts[id] += amount;
-        else
-            itemAmounts[id] = amount; 
-
-        onItemAmountUpdate?.Invoke();
-        Debug.Log($"ItemAmountUpdate: {id} {itemAmounts[id]}"); 
-    }
 
     public bool AddItem(ItemData itemData, int amount = 1)
     {
@@ -58,20 +42,11 @@ public class Inventory
 
         return false;
     } 
-
+    
     public bool RemoveItem(ItemData itemData, int amount)
     {
-        if (itemAmounts.ContainsKey(itemData.Id))
-        {
-            if (itemAmounts[itemData.Id] < amount)
-                return false;
-        }
-
-        //QuickSlotStorage.RemoveItem(itemData, amount);
-
         return true;
     }
-    
 
     public static void SwapItem(ItemSlot from, ItemSlot to)
     {

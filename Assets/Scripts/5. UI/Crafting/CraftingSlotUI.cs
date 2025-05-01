@@ -39,13 +39,13 @@ public class CraftingSlotUI : MonoBehaviour, IPointerClickHandler
         {
             if (data.requiredItems[i] == null)
                 continue;
-                
-            if (Managers.UserData.Inventory.GetItemAmount(data.requiredItems[i].itemData.Id) < data.requiredItems[i].amount)
+
+            if (InventoryDataHandler.GetItemAmount(data.requiredItems[i].itemData.Id) < data.requiredItems[i].amount)
             {
                 flag = false;
                 break;
             }
-        }
+        } 
 
         background_active.gameObject.SetActive(flag);
         background_inactive.gameObject.SetActive(!flag);

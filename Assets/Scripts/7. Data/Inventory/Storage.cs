@@ -5,7 +5,7 @@ using System.Linq;
 public class Storage
 {
     protected List<ItemSlot> itemSlots = new();
-    public Action<int, int> onAddItem;
+    public Action<int, ItemSlot> onAddItem;
 
     public Storage() {}
     public Storage(int size)

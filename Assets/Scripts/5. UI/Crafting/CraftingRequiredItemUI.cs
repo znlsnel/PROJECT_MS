@@ -32,7 +32,7 @@ public class CraftingRequiredItemUI : MonoBehaviour
 
     private void UpdateAmount()
     {
-        itemAmount.text = Managers.UserData.Inventory.GetItemAmount(requireItem.itemData.Id).ToString();
+        itemAmount.text = InventoryDataHandler.GetItemAmount(requireItem.itemData.Id).ToString();
         itemAmount.text += $" / {requireItem.amount}";
     }
 

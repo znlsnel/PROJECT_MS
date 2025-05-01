@@ -63,7 +63,7 @@ public class CraftingSelectedUI : MonoBehaviour
             if (data.requiredItems[i] == null)
                 continue;
 
-            if (Managers.UserData.Inventory.GetItemAmount(data.requiredItems[i].itemData.Id) < data.requiredItems[i].amount)
+            if (InventoryDataHandler.GetItemAmount(data.requiredItems[i].itemData.Id) < data.requiredItems[i].amount)
                 return;
         }
         
