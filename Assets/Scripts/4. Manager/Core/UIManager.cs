@@ -91,16 +91,6 @@ public class UIManager : IManager
 		return popup; 
     }
 
-	public T ShowPopupUI<T>(string name = null) where T : PopupUI
-    {
-        if (string.IsNullOrEmpty(name))
-            name = typeof(T).Name;
-    
-
-        GameObject go = Managers.Resource.Instantiate($"UI/Popup/{name}");
-        T popup = Util.GetOrAddComponent<T>(go);
-        return ShowPopupUI(popup);
-    }
 
     public void ClosePopupUI(PopupUI popup, float time = 0.0f)
     {

@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventory System Structure</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            line-height: 1.6;
+            margin: 20px;
+            color: #333;
+        }
+        h1, h2, h3 {
+            color: #2c3e50;
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .class-box {
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin: 10px 0;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+        .method {
+            margin-left: 20px;
+            color: #2980b9;
+        }
+        .property {
+            margin-left: 20px;
+            color: #27ae60;
+        }
+        .relationship {
+            margin: 10px 0;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border-left: 4px solid #3498db;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Inventory System Structure</h1>
+        
+        <h2>1. Core Components</h2>
+        
+        <div class="class-box">
+            <h3>InventoryManager</h3>
+            <p>인벤토리 시스템의 핵심 관리자 클래스</p>
+            <div class="property">- inventorySlots: List&lt;InventorySlot&gt;</div>
+            <div class="property">- currentInventory: Inventory</div>
+            <div class="method">+ Init(): void</div>
+            <div class="method">+ Clear(): void</div>
+            <div class="method">+ AddItem(itemData: ItemData): void</div>
+            <div class="method">+ RemoveItem(itemData: ItemData): void</div>
+        </div>
+
+        <div class="class-box">
+            <h3>Inventory</h3>
+            <p>인벤토리 데이터를 관리하는 클래스</p>
+            <div class="property">- items: List&lt;Item&gt;</div>
+            <div class="property">- maxSize: int</div>
+            <div class="method">+ AddItem(item: Item): bool</div>
+            <div class="method">+ RemoveItem(item: Item): bool</div>
+            <div class="method">+ GetItem(index: int): Item</div>
+        </div>
+
+        <div class="class-box">
+            <h3>Item</h3>
+            <p>아이템 데이터를 관리하는 클래스</p>
+            <div class="property">- itemData: ItemData</div>
+            <div class="property">- quantity: int</div>
+            <div class="method">+ Use(): void</div>
+            <div class="method">+ Split(amount: int): Item</div>
+        </div>
+
+        <h2>2. UI Components</h2>
+
+        <div class="class-box">
+            <h3>InventoryUI</h3>
+            <p>인벤토리 UI를 관리하는 클래스</p>
+            <div class="property">- inventorySlots: List&lt;InventorySlotUI&gt;</div>
+            <div class="property">- selectedSlot: InventorySlotUI</div>
+            <div class="method">+ UpdateUI(): void</div>
+            <div class="method">+ Show(): void</div>
+            <div class="method">+ Hide(): void</div>
+        </div>
+
+        <div class="class-box">
+            <h3>InventorySlotUI</h3>
+            <p>인벤토리 슬롯 UI를 관리하는 클래스</p>
+            <div class="property">- itemIcon: Image</div>
+            <div class="property">- quantityText: Text</div>
+            <div class="method">+ UpdateSlot(item: Item): void</div>
+            <div class="method">+ ClearSlot(): void</div>
+        </div>
+
+        <div class="class-box">
+            <h3>ItemPickupUI</h3>
+            <p>아이템 획득 시 표시되는 UI 클래스</p>
+            <div class="property">- itemIcon: Image</div>
+            <div class="property">- itemName: Text</div>
+            <div class="property">- panel: RectTransform</div>
+            <div class="method">+ Setup(data: ItemData): void</div>
+        </div>
+
+        <h2>3. Data Components</h2>
+
+        <div class="class-box">
+            <h3>ItemData</h3>
+            <p>아이템의 기본 데이터를 정의하는 클래스</p>
+            <div class="property">- id: int</div>
+            <div class="property">- name: string</div>
+            <div class="property">- icon: Sprite</div>
+            <div class="property">- maxStack: int</div>
+            <div class="property">- description: string</div>
+        </div>
+
+        <h2>4. Relationships</h2>
+
+        <div class="relationship">
+            <p><strong>InventoryManager → Inventory:</strong> 인벤토리 데이터를 관리</p>
+            <p><strong>Inventory → Item:</strong> 아이템 목록을 보유</p>
+            <p><strong>InventoryUI → InventorySlotUI:</strong> 슬롯 UI들을 관리</p>
+            <p><strong>Item → ItemData:</strong> 아이템의 기본 데이터 참조</p>
+        </div>
+
+        <h2>5. 주요 기능</h2>
+        <ul>
+            <li>아이템 추가/제거</li>
+            <li>아이템 스택 관리</li>
+            <li>인벤토리 UI 업데이트</li>
+            <li>아이템 획득 시 UI 표시</li>
+            <li>아이템 사용</li>
+        </ul>
+    </div>
+</body>
+</html> 
