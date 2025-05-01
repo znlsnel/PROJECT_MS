@@ -1,9 +1,10 @@
 using System;
+using FishNet.Object;
 using Unity.Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(InteractionHandler))]
-public class AlivePlayer : MonoBehaviour, IDamageable
+public class AlivePlayer : NetworkBehaviour, IDamageable
 {
     #region Stats
     protected ResourceStat health;
@@ -34,8 +35,13 @@ public class AlivePlayer : MonoBehaviour, IDamageable
     public event Action onDead;
     public event Action onDamaged;
 
-    public void Awake()
+    public override void OnStartClient()
     {
+        base.OnStartClient();
+
+        if(!IsOwner)
+            return;
+
         InteractionHandler = GetComponent<InteractionHandler>();
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
@@ -58,6 +64,9 @@ public class AlivePlayer : MonoBehaviour, IDamageable
 
     public void Update()
     {
+        if(!IsOwner)
+            return;
+
         stateMachine.Update();
 
         if(Input.GetKeyDown(KeyCode.Space))
@@ -68,6 +77,9 @@ public class AlivePlayer : MonoBehaviour, IDamageable
 
     public void FixedUpdate()
     {
+        if(!IsOwner)
+            return;
+
         stateMachine.FixedUpdate();
     }
 
