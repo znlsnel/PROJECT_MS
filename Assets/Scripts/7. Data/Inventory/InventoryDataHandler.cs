@@ -5,7 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 
 
-public static class InventoryDataHandler
+public class InventoryDataHandler
 {
     public static Action onItemAmountUpdate;
     public static Dictionary<int, HashSet<ItemSlot>> itemAmounts {get; private set;} = new Dictionary<int, HashSet<ItemSlot>>();
@@ -17,7 +17,7 @@ public static class InventoryDataHandler
         return 0;
     }
 
-    public static void ItemAmountUpdate(int id, ItemSlot itemSlot)
+    public void ItemAmountUpdate(int id, ItemSlot itemSlot)
     {
         if (itemAmounts.ContainsKey(id))
         {
@@ -32,4 +32,34 @@ public static class InventoryDataHandler
         onItemAmountUpdate?.Invoke();
         Debug.Log($"ItemAmountUpdate: {id} {itemAmounts[id].Sum(slot => slot.Stack)}"); 
     }
+
+    public void RemoveItem(int id, int amount)
+    {
+        RemoveItem(Managers.Data.items.GetByIndex(id), amount);
+    }
+
+    public void RemoveItem(ItemData itemData, int amount)
+    {
+        if (!itemAmounts.ContainsKey(itemData.Id) || itemAmounts[itemData.Id].Sum(slot => slot.Stack) < amount)
+            return;
+
+        foreach (var slot in itemAmounts[itemData.Id])
+        {
+            if (amount <= 0)
+                break;
+
+            int diff = slot.Stack - amount;
+            if (diff >= 0)
+            {
+                slot.ModifyStack(itemData, diff);
+                amount = 0;
+            }
+            else
+            {
+                amount -= slot.Stack;
+                slot.ModifyStack(itemData, 0);
+            } 
+        } 
+    }
+
 }

@@ -7,6 +7,7 @@ using UnityEngine;
 
 public class Inventory
 {
+    public InventoryDataHandler inventoryDataHandler {get; private set;}
     public Storage ItemStorage {get; private set;}
     public Storage QuickSlotStorage {get; private set;}
     public EquipStorage EquipStorage {get; private set;}
@@ -19,9 +20,10 @@ public class Inventory
         ItemStorage = new Storage(10);
         QuickSlotStorage = new Storage(5);    
         EquipStorage = new EquipStorage();
+        inventoryDataHandler = new InventoryDataHandler();
 
-        ItemStorage.onAddItem += InventoryDataHandler.ItemAmountUpdate;
-        QuickSlotStorage.onAddItem += InventoryDataHandler.ItemAmountUpdate;
+        ItemStorage.onAddItem += inventoryDataHandler.ItemAmountUpdate;
+        QuickSlotStorage.onAddItem += inventoryDataHandler.ItemAmountUpdate;
     }
 
 
@@ -42,9 +44,13 @@ public class Inventory
 
         return false;
     } 
-    
+     
     public bool RemoveItem(ItemData itemData, int amount)
     {
+        if (InventoryDataHandler.GetItemAmount(itemData.Id) < amount)
+            return false;
+
+        inventoryDataHandler.RemoveItem(itemData, amount);
         return true;
     }
 
