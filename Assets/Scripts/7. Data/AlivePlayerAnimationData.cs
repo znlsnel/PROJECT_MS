@@ -21,6 +21,8 @@ public class AlivePlayerAnimationData
     [SerializeField] private string damagedParameterHashName = "isDamaged";
     [SerializeField] private string deadParameterHashName = "isDead";
 
+    [SerializeField] private string holdingParameterHashName = "isHolding";
+
     public int GroundParameterHash { get; private set; }
     public int MovingParameterHash { get; private set; }
     public int CombatParameterHash { get; private set; }
@@ -34,6 +36,8 @@ public class AlivePlayerAnimationData
     public int AttackingParameterHash { get; private set; }
     public int DamagedParameterHash { get; private set; }
     public int DeadParameterHash { get; private set; }
+
+    public int HoldingParameterHash { get; private set; }
 
     public AlivePlayerAnimationData()
     {
@@ -50,5 +54,7 @@ public class AlivePlayerAnimationData
         AttackingParameterHash = Animator.StringToHash(attackingParameterHashName);
         DamagedParameterHash = Animator.StringToHash(damagedParameterHashName);
         DeadParameterHash = Animator.StringToHash(deadParameterHashName);
+
+        HoldingParameterHash = Animator.StringToHash(holdingParameterHashName);
     }
 }

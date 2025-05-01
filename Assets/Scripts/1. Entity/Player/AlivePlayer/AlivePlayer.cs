@@ -1,9 +1,10 @@
 using System;
+using FishNet.Object;
 using Unity.Cinemachine;
 using UnityEngine;
 
 [RequireComponent(typeof(InteractionHandler))]
-public class AlivePlayer : MonoBehaviour, IDamageable
+public class AlivePlayer : NetworkBehaviour, IDamageable
 {
     #region Stats
     protected ResourceStat health;
@@ -21,8 +22,6 @@ public class AlivePlayer : MonoBehaviour, IDamageable
     public ResourceStat Sanity => sanity;
     #endregion
 
-    public string HoldingItem { get; private set; }
-    
     public InteractionHandler InteractionHandler { get; private set; }
     public CharacterController CharacterController { get; private set; }
     public Animator Animator { get; private set; }
@@ -36,8 +35,10 @@ public class AlivePlayer : MonoBehaviour, IDamageable
     public event Action onDead;
     public event Action onDamaged;
 
-    public void Awake()
+    public override void OnStartNetwork()
     {
+        base.OnStartServer();
+
         InteractionHandler = GetComponent<InteractionHandler>();
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
@@ -45,10 +46,7 @@ public class AlivePlayer : MonoBehaviour, IDamageable
 
         overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
         Animator.runtimeAnimatorController = overrideController;
-    }
 
-    public void Start()
-    {
         health = new ResourceStat(100);
         hungerPoint = new ResourceStat(100);
         waterPoint = new ResourceStat(100);
@@ -58,8 +56,23 @@ public class AlivePlayer : MonoBehaviour, IDamageable
         stateMachine = new AlivePlayerStateMachine(this);
     }
 
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if(!IsOwner)
+            return;
+
+        Managers.Instance.SetPlayer(this);
+        CinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
+        CinemachineCamera.Follow = transform;
+    }
+
     public void Update()
     {
+        if(!IsOwner)
+            return;
+
         stateMachine.Update();
 
         if(Input.GetKeyDown(KeyCode.Space))
@@ -70,6 +83,9 @@ public class AlivePlayer : MonoBehaviour, IDamageable
 
     public void FixedUpdate()
     {
+        if(!IsOwner)
+            return;
+
         stateMachine.FixedUpdate();
     }
 
@@ -82,5 +98,12 @@ public class AlivePlayer : MonoBehaviour, IDamageable
         {
             onDead?.Invoke();
         }
+    }
+    
+    public void ChangeWeapon(WeaponHandler weapon)
+    {
+        WeaponHandler = weapon;
+        overrideController["Holding"] = WeaponHandler.holdAnimation;
+        Animator.SetBool(AnimationData.HoldingParameterHash, WeaponHandler != null);
     }
 }

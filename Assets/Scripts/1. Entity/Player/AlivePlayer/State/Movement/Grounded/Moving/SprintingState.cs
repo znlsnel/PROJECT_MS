@@ -36,6 +36,8 @@ public class SprintingState : MovingState
     {
         base.Update();
 
+        stateMachine.Player.Stamina.Subtract(Time.deltaTime * 10);
+
         if(stateMachine.ReusableData.MovementInput == Vector2.zero)
         {
             return;
@@ -46,6 +48,13 @@ public class SprintingState : MovingState
             movementStateMachine.ChangeState(movementStateMachine.RunningState);
             return;
         }
+    }
+    #endregion
+
+    #region Reusable Methods
+    protected override void UpdateStamina()
+    {
+        stateMachine.Player.Stamina.Subtract(Time.deltaTime * 10);
     }
     #endregion
 

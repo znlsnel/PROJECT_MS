@@ -32,7 +32,7 @@ public class AlivePlayerState : IState
 
     public virtual void Update()
     {
-
+        UpdateStamina();
     }
     #endregion
 
@@ -73,6 +73,12 @@ public class AlivePlayerState : IState
     protected virtual void OnDead()
     {
         
+    }
+
+    
+    protected virtual void UpdateStamina()
+    {
+        stateMachine.Player.Stamina.Add(Time.deltaTime * 2);
     }
     #endregion
 }
