@@ -58,6 +58,19 @@ public class Inventory
 
         return false;
     } 
+
+    public bool RemoveItem(ItemData itemData, int amount)
+    {
+        if (itemAmounts.ContainsKey(itemData.Id))
+        {
+            if (itemAmounts[itemData.Id] < amount)
+                return false;
+        }
+
+        //QuickSlotStorage.RemoveItem(itemData, amount);
+
+        return true;
+    }
     
 
     public static void SwapItem(ItemSlot from, ItemSlot to)
