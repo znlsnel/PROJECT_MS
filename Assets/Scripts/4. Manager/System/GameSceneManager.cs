@@ -4,6 +4,7 @@ using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Object;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameSceneManager : NetworkBehaviour
 {
@@ -46,20 +47,22 @@ public class GameSceneManager : NetworkBehaviour
     {
         if(!IsServerStarted) return;
 
-        if (UnityEngine.SceneManagement.SceneManager.GetActiveScene().name == "Demo")
+        Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+
+        if (scene.name == "Demo")
         {
             // 모든 클라이언트에 대해 플레이어 생성
             foreach (NetworkConnection conn in InstanceFinder.ServerManager.Clients.Values)
             {
                 if (!_spawnedPlayers.ContainsKey(conn.ClientId))
                 {
-                    SpawnPlayerForClient(conn);
+                    SpawnPlayerForClient(conn, scene);
                 }
             }
         }
     }
 
-    private void SpawnPlayerForClient(NetworkConnection conn)
+    private void SpawnPlayerForClient(NetworkConnection conn, Scene scene)
     {
         // 스폰 위치 결정
         Vector3 spawnPosition = Vector3.zero;
@@ -75,7 +78,7 @@ public class GameSceneManager : NetworkBehaviour
         
         // 플레이어 생성
         NetworkObject playerInstance = Instantiate(playerPrefab, spawnPosition, spawnRotation);
-        InstanceFinder.ServerManager.Spawn(playerInstance, conn, UnityEngine.SceneManagement.SceneManager.GetActiveScene());
+        InstanceFinder.ServerManager.Spawn(playerInstance, conn, scene);
         
         // 생성된 플레이어 저장
         _spawnedPlayers[conn.ClientId] = playerInstance;
