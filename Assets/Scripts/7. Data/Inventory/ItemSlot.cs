@@ -32,14 +32,13 @@ public class ItemSlot
 
     public void Setup(ItemData itemData)
     {
-        ModifyStack(itemData, 0); 
-        // this.Data = itemData;
-        // Stack = 0;
+        Stack = 0;
 
-        // if (Data != null)
-        //     onAddItem?.Invoke(Data.Id, this); 
+        if (Data != null)
+            onAddItem?.Invoke(Data.Id, this); 
 
-        // onChangeStack?.Invoke(this); 
+        this.Data = itemData; 
+        onChangeStack?.Invoke(this); 
     }
 
     
@@ -51,8 +50,8 @@ public class ItemSlot
 
     public bool CheckSlotCondition(ItemData itemData)
     {
-        return slotCondition == null ? true : slotCondition.Invoke(itemData); 
-    }  
+        return slotCondition == null ? true : slotCondition.Invoke(itemData);
+    }
 
     public bool AddStack(ItemData itemData, int amount = 1)
     { 

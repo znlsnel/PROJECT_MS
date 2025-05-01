@@ -2355,7 +2355,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6004198222083860071, guid: 8ddb7b140abaf468493ce5eb689e4b2b, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6927395498750123055, guid: 8ddb7b140abaf468493ce5eb689e4b2b, type: 3}
       propertyPath: <SceneId>k__BackingField
