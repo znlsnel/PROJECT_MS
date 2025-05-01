@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Runtime.InteropServices;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -30,7 +31,9 @@ public class Managers : Singleton<Managers>
     public static SteamManagerEx Steam => Instance.steam; 
     public static UserData UserData => Instance.userData;
 
-    public static AlivePlayer player;
+    private AlivePlayer player;
+    public static AlivePlayer Player => Instance.player;
+    public static event Action<AlivePlayer> onChangePlayer;
 
     public Action onInit;
     private bool isInit = false;
@@ -76,6 +79,12 @@ public class Managers : Singleton<Managers>
     public static void Clear()
     {
 
+    }
+
+    public void SetPlayer(AlivePlayer player)
+    {
+        this.player = player;
+        onChangePlayer?.Invoke(player);
     }
 
 }

@@ -9,8 +9,13 @@ public class StatUI : MonoBehaviour
 
     public void Start()
     {
-        Managers.player.Health.onResourceChanged += UpdateHealthUI;
-        Managers.player.Stamina.onResourceChanged += UpdateStaminaUI;
+        Managers.onChangePlayer += OnChangePlayer;
+    }
+
+    private void OnChangePlayer(AlivePlayer player)
+    {
+        player.Health.onResourceChanged += UpdateHealthUI;
+        player.Stamina.onResourceChanged += UpdateStaminaUI;
     }
 
     private void UpdateHealthUI(float current, float max)

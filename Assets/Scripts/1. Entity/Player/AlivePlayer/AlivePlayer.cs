@@ -35,12 +35,9 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public event Action onDead;
     public event Action onDamaged;
 
-    public override void OnStartClient()
+    public override void OnStartNetwork()
     {
-        base.OnStartClient();
-
-        if(!IsOwner)
-            return;
+        base.OnStartServer();
 
         InteractionHandler = GetComponent<InteractionHandler>();
         CharacterController = GetComponent<CharacterController>();
@@ -49,17 +46,26 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
         Animator.runtimeAnimatorController = overrideController;
-        stateMachine = new AlivePlayerStateMachine(this);
-    }
 
-    public void Start()
-    {
         health = new ResourceStat(100);
         hungerPoint = new ResourceStat(100);
         waterPoint = new ResourceStat(100);
         stamina = new ResourceStat(100);
         temperature = new ResourceStat(100);
 
+        stateMachine = new AlivePlayerStateMachine(this);
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        if(!IsOwner)
+            return;
+
+        Managers.Instance.SetPlayer(this);
+        CinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
+        CinemachineCamera.Follow = transform;
     }
 
     public void Update()
