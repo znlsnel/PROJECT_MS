@@ -49,6 +49,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
         Animator.runtimeAnimatorController = overrideController;
+        stateMachine = new AlivePlayerStateMachine(this);
     }
 
     public void Start()
@@ -59,7 +60,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stamina = new ResourceStat(100);
         temperature = new ResourceStat(100);
 
-        stateMachine = new AlivePlayerStateMachine(this);
     }
 
     public void Update()
