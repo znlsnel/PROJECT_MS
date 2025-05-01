@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FishNet;
+using FishNet.Component.Transforming;
 using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Object;
@@ -78,6 +79,7 @@ public class GameSceneManager : NetworkBehaviour
         
         // 플레이어 생성
         NetworkObject playerInstance = Instantiate(playerPrefab, spawnPosition, spawnRotation);
+        playerInstance.GetComponent<NetworkTransform>().SetIsNetworked(true);
         InstanceFinder.ServerManager.Spawn(playerInstance, conn, scene);
         
         // 생성된 플레이어 저장
