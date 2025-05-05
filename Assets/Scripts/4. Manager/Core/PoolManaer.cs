@@ -5,13 +5,6 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
-public interface IPoolable
-{
-    void Initialize(Action<GameObject> returnAction);
-    void OnSpawn(); 
-    void OnDespawn();   
-}
-
 public class PoolManager : IManager
 {
 	#region Pool
@@ -87,9 +80,19 @@ public class PoolManager : IManager
         _pool.Clear();
     }
 
-    private void CreatePool(GameObject original, int count = 5)
+
+    public void CreatePool(string key, int count = 1)
     {
-        Pool pool = new Pool();
+        GameObject original = Managers.Resource.Load<GameObject>(key);
+        if (original == null)
+            return;
+
+        CreatePool(original, count); 
+    }
+
+    public void CreatePool(GameObject original, int count = 1)
+    {
+        Pool pool = new Pool(); 
         pool.Init(original, count);  
         pool.Root.parent = _root;
 
@@ -134,8 +137,6 @@ public class PoolManager : IManager
             CreatePool(original);
 
         GameObject obj = _pool[original.name].Pop(parent);
-        obj.GetComponent<IPoolable>()?.Initialize(obj => Release(obj)); 
-        // obj.SetActive(false); 
         return obj;
     }
 

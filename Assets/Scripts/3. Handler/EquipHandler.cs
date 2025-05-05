@@ -4,24 +4,12 @@ using UnityEngine;
 
 public class EquipHandler : MonoBehaviour
 {
-    [SerializeField] private Transform hairParent;
-    [SerializeField] private Transform shirtParent;
-    [SerializeField] private Transform pantsParent;
-    [SerializeField] private Transform shoesParent; 
+    [SerializeField] private Transform equipParent;
 
-    private Dictionary<EEquipType, Transform> equipParents;
     private Dictionary<EEquipType, GameObject> equipObjects;
 
     private void Awake()
     {
-        equipParents = new Dictionary<EEquipType, Transform>()
-        {
-            {EEquipType.Hair, hairParent},
-            {EEquipType.Shirt, shirtParent},
-            {EEquipType.Pants, pantsParent},
-            {EEquipType.Shoes, shoesParent}
-        };
-
         EquipStorage equipStorage = Managers.UserData.Inventory.EquipStorage;
 
         foreach (EEquipType equipType in Enum.GetValues(typeof(EEquipType)))
@@ -36,17 +24,20 @@ public class EquipHandler : MonoBehaviour
         if (itemSlot.Data == null)
             return;
 
-        Transform parent = equipParents[itemSlot.slotEquipType];
 
         GameObject equipObject = equipObjects[itemSlot.slotEquipType];
         if (equipObject != null)
             Managers.Resource.Destroy(equipObject); 
- 
-        Managers.Resource.LoadAsync<GameObject>(itemSlot.Data.PrefabPath, (gameObject) =>
-        {
-            equipObject = Instantiate(gameObject, parent, false);  
-            equipObjects[itemSlot.slotEquipType] = equipObject; 
-        });
+        equipObjects[itemSlot.slotEquipType] = null;
+
+        if (itemSlot.Data == null)
+            return;
+
+        equipObject = Managers.Pool.Get(itemSlot.Data.PrefabPath, equipParent);
+        equipObjects[itemSlot.slotEquipType] = equipObject;
+
+        equipObject.transform.localPosition = Vector3.zero;
+        equipObject.transform.localRotation = Quaternion.identity;
     }
 
 }

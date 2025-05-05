@@ -31,7 +31,7 @@ public enum EItemType
 public enum EEquipType 
 {
     None,
-    Hair,
+    Head,
     Shirt,
     Pants,
     Shoes,
