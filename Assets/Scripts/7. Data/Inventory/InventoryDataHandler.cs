@@ -43,7 +43,7 @@ public class InventoryDataHandler
         if (!itemAmounts.ContainsKey(itemData.Id) || itemAmounts[itemData.Id].Sum(slot => slot.Stack) < amount)
             return;
 
-        foreach (var slot in itemAmounts[itemData.Id])
+        foreach (var slot in itemAmounts[itemData.Id].ToList())
         {
             if (amount <= 0)
                 break;

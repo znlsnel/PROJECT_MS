@@ -24,8 +24,8 @@ public class CraftingRequiredItemUI : MonoBehaviour
         if (requireItem == null)
             return;
              
-        Managers.UserData.Inventory.onItemAmountUpdate -= UpdateAmount;
-        Managers.UserData.Inventory.onItemAmountUpdate += UpdateAmount; 
+        InventoryDataHandler.onItemAmountUpdate -= UpdateAmount;
+        InventoryDataHandler.onItemAmountUpdate += UpdateAmount; 
         itemIcon.sprite = requireItem.itemData.Icon;
         UpdateAmount();
     } 

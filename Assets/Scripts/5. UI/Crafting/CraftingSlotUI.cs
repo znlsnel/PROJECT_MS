@@ -11,8 +11,6 @@ using UnityEngine.UI;
 
 public class CraftingSlotUI : MonoBehaviour, IPointerClickHandler
 {
-    [SerializeField] private Image background_active;
-    [SerializeField] private Image background_inactive;
     [SerializeField] private Image itemIcon;
 
     private CraftingData data;
@@ -22,8 +20,8 @@ public class CraftingSlotUI : MonoBehaviour, IPointerClickHandler
     {
         this.data = data;
         itemIcon.sprite = data.itemData.Icon;
-        Managers.UserData.Inventory.onItemAmountUpdate -= UpdateState;
-        Managers.UserData.Inventory.onItemAmountUpdate += UpdateState; 
+        InventoryDataHandler.onItemAmountUpdate -= UpdateState;
+        InventoryDataHandler.onItemAmountUpdate += UpdateState; 
         UpdateState();
     }
 
@@ -47,8 +45,8 @@ public class CraftingSlotUI : MonoBehaviour, IPointerClickHandler
             }
         } 
 
-        background_active.gameObject.SetActive(flag);
-        background_inactive.gameObject.SetActive(!flag);
+        itemIcon.color = flag ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f); 
+
     }
 
 

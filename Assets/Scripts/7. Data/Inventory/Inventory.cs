@@ -12,7 +12,6 @@ public class Inventory
     public Storage QuickSlotStorage {get; private set;}
     public EquipStorage EquipStorage {get; private set;}
     
-    public Action onItemAmountUpdate;
     public Action<ItemData> onAddItem;
  
     public Inventory() 
@@ -30,6 +29,8 @@ public class Inventory
 
     public bool AddItem(ItemData itemData, int amount = 1)
     {
+        Managers.Quest.ReceiveReport(ETaskCategory.Pickup, itemData.Id);
+
         if (QuickSlotStorage.AddItem(itemData, amount))
         {
             onAddItem?.Invoke(itemData);

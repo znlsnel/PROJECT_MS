@@ -30,6 +30,7 @@ public static class CraftingUIHandler
 
         onCrafting?.Invoke(data.itemData);
         Managers.UserData.Inventory.AddItem(data.itemData); 
+        Managers.Quest.ReceiveReport(ETaskCategory.Create, data.itemData.Id); 
 
         for (int i = 0; i < data.requiredItems.Length; i++)
         {
