@@ -20,13 +20,10 @@ public class UIHandler : MonoBehaviour
 
     private void ToggleInventory(InputAction.CallbackContext context)
     {
-        if (inventory.IsOpen)
-            Managers.UI.ClosePopupUI(inventory); 
-        else
-            Managers.UI.ShowPopupUI<InventoryUI>(inventory);    
+        Managers.UI.ShowPopupUI<InventoryUI>(inventory);     
     }
 
-    private void TurnOffPopup(InputAction.CallbackContext context)
+    private void TurnOffPopup(InputAction.CallbackContext context) 
     {
         Managers.UI.ClosePopupUI();
     }

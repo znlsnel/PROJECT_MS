@@ -30,7 +30,7 @@ public static class ItemDragHandler
             // 데이터의 교환이 일어난 경우
             else
             {
-                 SelectSlot(selectedItemSlot);  
+                SelectSlot(selectedItemSlot);  
                 SetupMovingSlot(selectedItemSlot); 
             }
         } 

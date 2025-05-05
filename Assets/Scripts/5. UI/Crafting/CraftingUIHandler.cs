@@ -18,10 +18,28 @@ public static class CraftingUIHandler
         onSlotClick?.Invoke(data); 
     }
 
-    public static void ClickCrafting(ItemData data)
+    public static void ClickCrafting(CraftingData data)
     {  
-        onCrafting?.Invoke(data);
-        Managers.UserData.Inventory.AddItem(data); 
+        for (int i = 0; i < data.requiredItems.Length; i++){
+            if (data.requiredItems[i] == null)
+                continue;
+
+            if (InventoryDataHandler.GetItemAmount(data.requiredItems[i].itemData.Id) < data.requiredItems[i].amount)
+                return;
+        }
+
+        onCrafting?.Invoke(data.itemData);
+        Managers.UserData.Inventory.AddItem(data.itemData); 
+        Managers.Quest.ReceiveReport(ETaskCategory.Create, data.itemData.Id); 
+
+        for (int i = 0; i < data.requiredItems.Length; i++)
+        {
+            if (data.requiredItems[i] == null)
+                continue;
+
+            Managers.UserData.Inventory.RemoveItem(data.requiredItems[i].itemData, data.requiredItems[i].amount); 
+        }
+
         Debug.Log("ClickCrafting");
     }
 }

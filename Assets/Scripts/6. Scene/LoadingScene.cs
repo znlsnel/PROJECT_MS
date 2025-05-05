@@ -24,7 +24,8 @@ public class LoadingScene : MonoBehaviour
 
     private void SuccessLoad()
     {
-        SceneManager.LoadScene("Demo"); 
+        SceneManager.LoadSceneAsync("Lobby", LoadSceneMode.Additive); 
+        SceneManager.UnloadSceneAsync("LoadingScene");
     }
 
 

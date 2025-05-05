@@ -4,6 +4,7 @@ using System.Collections;
 using System.Runtime.InteropServices;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 
 
@@ -17,7 +18,6 @@ public class Managers : Singleton<Managers>
     [field: SerializeField] private PoolManager pool = new PoolManager();
     [field: SerializeField] private SceneManagerEx scene = new SceneManagerEx();
     [field: SerializeField] private QuestManager quest = new QuestManager();
-    [field: SerializeField] private SteamManagerEx steam = new SteamManagerEx();
     private UserData userData = new UserData();
 
     public static DataManager Data => Instance.data;
@@ -28,7 +28,6 @@ public class Managers : Singleton<Managers>
     public static PoolManager Pool => Instance.pool;
     public static SceneManagerEx Scene => Instance.scene;
     public static QuestManager Quest => Instance.quest;
-    public static SteamManagerEx Steam => Instance.steam; 
     public static UserData UserData => Instance.userData;
 
     private AlivePlayer player;
@@ -61,8 +60,6 @@ public class Managers : Singleton<Managers>
         Scene?.Init();
         userData.Init(); 
 
-        Steam.Init(); 
-
         isInit = true;
         onInit?.Invoke(); 
         onInit = null;
@@ -85,6 +82,11 @@ public class Managers : Singleton<Managers>
     {
         this.player = player;
         onChangePlayer?.Invoke(player);
+    }
+
+    public void GotoLobby()
+    {
+        SceneManager.LoadScene("LoadingScene", LoadSceneMode.Additive);
     }
 
 }

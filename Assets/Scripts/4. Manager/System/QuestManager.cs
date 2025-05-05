@@ -45,6 +45,7 @@ public class QuestManager : IManager
         activeQuests.Add(quest);
 
         onQuestRegistered?.Invoke(quest);
+
         return quest;
     }
 

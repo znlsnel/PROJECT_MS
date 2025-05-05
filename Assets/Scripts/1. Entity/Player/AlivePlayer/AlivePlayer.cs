@@ -37,7 +37,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
     public override void OnStartNetwork()
     {
-        base.OnStartServer();
+        base.OnStartNetwork();
 
         InteractionHandler = GetComponent<InteractionHandler>();
         CharacterController = GetComponent<CharacterController>();

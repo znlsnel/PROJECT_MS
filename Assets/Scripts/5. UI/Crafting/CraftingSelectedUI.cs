@@ -59,15 +59,6 @@ public class CraftingSelectedUI : MonoBehaviour
         if (data == null)
             return;
 
-        for (int i = 0; i < data.requiredItems.Length; i++){
-            if (data.requiredItems[i] == null)
-                continue;
-
-            if (Managers.UserData.Inventory.GetItemAmount(data.requiredItems[i].itemData.Id) < data.requiredItems[i].amount)
-                return;
-        }
-        
-        
-        CraftingUIHandler.ClickCrafting(data.itemData);
+        CraftingUIHandler.ClickCrafting(data);
     }
 }
