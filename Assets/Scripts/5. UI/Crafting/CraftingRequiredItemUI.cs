@@ -12,11 +12,15 @@ using UnityEngine.UI;
 public class CraftingRequiredItemUI : MonoBehaviour
 {
     [SerializeField] private Image itemIcon;
-    [SerializeField] private Image outline;
     [SerializeField] private TextMeshProUGUI itemAmount;
 
     private RequireItem requireItem;
+    private Outline outline;
 
+    private void Awake()
+    {
+        outline = GetComponent<Outline>();
+    }
 
     public void Setup(RequireItem requireItem)
     {
@@ -32,8 +36,13 @@ public class CraftingRequiredItemUI : MonoBehaviour
 
     private void UpdateAmount()
     {
-        itemAmount.text = InventoryDataHandler.GetItemAmount(requireItem.itemData.Id).ToString();
-        itemAmount.text += $" / {requireItem.amount}";
+        int amount = InventoryDataHandler.GetItemAmount(requireItem.itemData.Id);
+        itemAmount.text = $"{Math.Min(amount, requireItem.amount)} / {requireItem.amount}";
+
+        if (amount >= requireItem.amount)
+            outline.effectColor = Color.green;
+        else
+            outline.effectColor = Color.red; 
     }
 
 }
