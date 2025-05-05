@@ -118,7 +118,16 @@ public class PoolManager : IManager
 
         _pool[name].Push(obj);
     } 
- 
+
+    public GameObject Get(string key, Transform parent = null)
+    {
+        GameObject obj = Managers.Resource.Load<GameObject>(key);
+        if (obj == null)
+            return null;
+
+        return Get(obj, parent); 
+    }
+
     public GameObject Get(GameObject original, Transform parent = null)
     {
         if (_pool.ContainsKey(original.name) == false)

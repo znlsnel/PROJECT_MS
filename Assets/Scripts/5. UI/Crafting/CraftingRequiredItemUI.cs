@@ -13,14 +13,9 @@ public class CraftingRequiredItemUI : MonoBehaviour
 {
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI itemAmount;
+    [SerializeField] private Outline outline;
 
     private RequireItem requireItem;
-    private Outline outline;
-
-    private void Awake()
-    {
-        outline = GetComponent<Outline>();
-    }
 
     public void Setup(RequireItem requireItem)
     {
