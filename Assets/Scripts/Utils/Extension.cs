@@ -81,4 +81,23 @@ public static class Extension
     {
         return Sprite.Create(texture, new Rect(0, 0, texture.width, texture.height), new Vector2(0.5f, 0.5f)); 
     }
+
+    public static Color ConvertColor(this string hex)
+    {
+        // # 제거
+        hex = hex.Replace("#", "");
+        
+        // 16진수 문자열을 정수로 변환
+        int r = Convert.ToInt32(hex.Substring(0, 2), 16);
+        int g = Convert.ToInt32(hex.Substring(2, 2), 16);
+        int b = Convert.ToInt32(hex.Substring(4, 2), 16);
+        
+        // 0-1 사이 값으로 변환
+        return new Color(r / 255f, g / 255f, b / 255f);
+    }
+
+    public static T Back<T>(this List<T> list)
+    {
+        return list[list.Count - 1];
+    }
 }
