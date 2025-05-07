@@ -22,12 +22,18 @@ public class InventoryUI : PopupUI
  
     private void RegisterInput()
     {
-        testItems.Add(Managers.Data.items.GetByIndex(3001));
-        testItems.Add(Managers.Data.items.GetByIndex(3002)); 
         testItems.Add(Managers.Data.items.GetByIndex(5001)); 
         testItems.Add(Managers.Data.items.GetByIndex(5002)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5003)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5004)); 
+        testItems.Add(Managers.Data.items.GetByIndex(5101)); 
+        testItems.Add(Managers.Data.items.GetByIndex(5102)); 
+        testItems.Add(Managers.Data.items.GetByIndex(5103)); 
+        testItems.Add(Managers.Data.items.GetByIndex(5201)); 
+        testItems.Add(Managers.Data.items.GetByIndex(5202)); 
+        testItems.Add(Managers.Data.items.GetByIndex(5301)); 
+        testItems.Add(Managers.Data.items.GetByIndex(5302));  
+        testItems.Add(Managers.Data.items.GetByIndex(5303)); 
+        
+
 
         
         Managers.Input.Test.started += TestInput;

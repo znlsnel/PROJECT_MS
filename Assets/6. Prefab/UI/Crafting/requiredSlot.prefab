@@ -378,5 +378,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   itemIcon: {fileID: 8986986179849316510}
-  outline: {fileID: 7745257679188102757}
   itemAmount: {fileID: 7159492388674509552}
+  outline: {fileID: 1487693220741299088}
