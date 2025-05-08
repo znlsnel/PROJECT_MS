@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 2a7f8ca76aef1ec40b60d188d20e3016
+timeCreated: 1516275486
+licenseType: Store
+NativeFormatImporter:
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Models/Bunker/Materials/Lights02_Red.mat
+  uploadId: 683487

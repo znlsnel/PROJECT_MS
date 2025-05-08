@@ -1,0 +1,22 @@
+➤UPDATE v1.0.13 ⬆️
+✓ Changes:
+- Added URP compatibility
+- slight changes to lighting to match visuals between Build-in and URP versions
+
+➤UPDATE v1.0.12 ⬆️
+✓ Changes:
+-updated to Unity 2021.3.39 LTS
+-changed Color space from gamma to linear
+-slight changes to lighting to match visuals after color space change
+
+➤UPDATE v1.0.11 ⬆️
+✓ Changes:
+-added support for Unity 2020.3.36 LTS
+
+➤UPDATE v1.0.1 ⬆️
+-updated the package to Unity 2019.4 LTS
+-small changes to folder structure organization
+
+➤UPDATE v1.0
+✓ Changes:
+-tomato, cucumber and pumpkin plants now have separated crops

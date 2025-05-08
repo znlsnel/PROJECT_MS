@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: c1b5f4f4eb32e1142b6f8ff9f18a0def
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 8574412962073106934
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 190208
+  packageName: SurrounDead - Garden
+  packageVersion: 1.0.13
+  assetPath: Assets/SurrounDead Garden/Terrain/layer_soil.terrainlayer
+  uploadId: 683489

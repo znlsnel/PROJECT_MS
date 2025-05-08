@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: e2e6c9e90dd4de3448be99f2d29abf86
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Models/Panels & Monitors/Materials/GaugeScreen01.mat
+  uploadId: 683487

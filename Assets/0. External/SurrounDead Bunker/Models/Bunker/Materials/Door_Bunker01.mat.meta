@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 324d595ea8c813548a706cb57108d38b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Models/Bunker/Materials/Door_Bunker01.mat
+  uploadId: 683487
