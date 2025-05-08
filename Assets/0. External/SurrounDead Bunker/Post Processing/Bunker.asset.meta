@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 1a83b13b8a5f2be4c8cb51a88f80c253
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 11400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Post Processing/Bunker.asset
+  uploadId: 683487

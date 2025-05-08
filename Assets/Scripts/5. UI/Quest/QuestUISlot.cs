@@ -4,10 +4,9 @@ using UnityEngine.UI;
 
 public class QuestUISlot : MonoBehaviour
 {
-    [SerializeField] private Image _icon;
-    [SerializeField] private Image stateIcon;
+    [SerializeField] private GameObject _taskUI;
+    [SerializeField] private Transform _taskRoot;
     [SerializeField] private TextMeshProUGUI _title;
-    [SerializeField] private TextMeshProUGUI _description;
     
     private CanvasGroup _canvasGroup;
 
@@ -18,13 +17,17 @@ public class QuestUISlot : MonoBehaviour
 
     public void Setup(Quest quest)
     {
-        _icon.sprite = quest.QuestData.Icon;
-        _title.text = quest.QuestData.QuestName;
-        _description.text = quest.QuestData.QuestDescription;
-        // currentCount.text = quest.CurrentCount.ToString();
-        // targetCount.text = quest.QuestData.TargetCount.ToString();
-
+        _title.text = quest.QuestData.Title;
         quest.onCompleted += OnCompleted; 
+
+        foreach (var task in quest.tasks)
+        {
+            GameObject taskUI = Instantiate(_taskUI, _taskRoot);
+            taskUI.GetComponent<QuestTaskUI>().Setup(task);
+        } 
+
+        var rect = transform as RectTransform;
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, 80 + (quest.tasks.Count * 15));     
     }
 
     private void OnCompleted(Quest quest)

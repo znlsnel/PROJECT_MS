@@ -5,9 +5,15 @@ using UnityEngine;
 public class EquipHandler : MonoBehaviour
 {
     [SerializeField] private Transform equipParent;
+    [SerializeField] private Transform bone;
 
-    private Dictionary<EEquipType, GameObject> equipObjects;
-
+    private Dictionary<EEquipType, GameObject> equipObjects = new Dictionary<EEquipType, GameObject>(){
+        {EEquipType.Head, null},
+        {EEquipType.Shirt, null},
+        {EEquipType.Pants, null},
+        {EEquipType.Shoes, null}
+    };
+ 
     private void Awake()
     {
         EquipStorage equipStorage = Managers.UserData.Inventory.EquipStorage;
@@ -19,15 +25,15 @@ public class EquipHandler : MonoBehaviour
         }
     }
 
+
     private void OnChangeEquip(ItemSlot itemSlot)
     {
-        if (itemSlot.Data == null)
-            return;
-
 
         GameObject equipObject = equipObjects[itemSlot.slotEquipType];
-        if (equipObject != null)
-            Managers.Resource.Destroy(equipObject); 
+        if (equipObject != null){
+            Managers.Resource.Destroy(equipObject);  
+        }
+
         equipObjects[itemSlot.slotEquipType] = null;
 
         if (itemSlot.Data == null)
@@ -38,6 +44,7 @@ public class EquipHandler : MonoBehaviour
 
         equipObject.transform.localPosition = Vector3.zero;
         equipObject.transform.localRotation = Quaternion.identity;
-    }
 
+        SkinnedMeshUpdater.UpdateMeshRenderer(bone, equipObject.GetComponentInChildren<SkinnedMeshRenderer>()); 
+    }
 }

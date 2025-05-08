@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 21881c4e55c143e4ab2387077a84d9bb
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Models/Items/Materials/ITEM_Batteries.mat
+  uploadId: 683487

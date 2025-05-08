@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: 53953baa5f653704c81438f08febbd6c
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 9100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Models/Bunker/Animations/wall01_fan_blades_broken.controller
+  uploadId: 683487
