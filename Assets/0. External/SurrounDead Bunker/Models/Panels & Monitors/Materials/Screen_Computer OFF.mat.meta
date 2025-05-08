@@ -1,0 +1,16 @@
+fileFormatVersion: 2
+guid: 94e728a75ca9916448b762294ef48f3b
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Models/Panels & Monitors/Materials/Screen_Computer
+    OFF.mat
+  uploadId: 683487
