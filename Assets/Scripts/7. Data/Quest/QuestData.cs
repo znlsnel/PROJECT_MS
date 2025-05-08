@@ -16,38 +16,34 @@ public enum EQuestState
     WaitingForCompletion
 }
 
-public class QuestData : ScriptableObject 
+public class QuestData 
 {
-    [Header("Quest Info")]
-    [SerializeField] private int questId;  
-    [SerializeField] private Sprite icon;
-    [SerializeField] private string questName;
-    [SerializeField, TextArea] private string questDescription;
+    // "Quest Info"
+    private int questId;  
+    private Sprite icon;
+    private string title;
 
 
-    [Header("Quest Setting")]
-    [SerializeField] private List<TaskData> tasks = new List<TaskData>(); // 몬스터 잡기 or 몬스터한테 맞기 or 인벤토리 열기 등등
-    [SerializeField] private QuestReward reward; // 보상 -> 아이템 or 골드 or 스킬 or 버프 등등
-    [SerializeField] private QuestCondition acceptionCondition; // 선행 퀘스트 or 레벨 조건 등등
+    // "Quest Setting"
+    private List<TaskData> tasks = new List<TaskData>(); // 몬스터 잡기 or 몬스터한테 맞기 or 인벤토리 열기 등등
+    private QuestReward reward; // 보상 -> 아이템 or 골드 or 스킬 or 버프 등등
+    private QuestCondition acceptionCondition; // 선행 퀘스트 or 레벨 조건 등등
  
 
-    [Header("Option")]
-    [SerializeField] private bool useAutoComplete;
-    [SerializeField] private bool isCancelable;
-    [SerializeField] private bool isSavable;
+    // "Quest Option"
+    private bool useAutoComplete;
+    private bool isCancelable;
+    private bool isSavable;
 
 
     #region Properties
-    
- 
     public IReadOnlyList<TaskData> Tasks => tasks; 
     public QuestReward Reward => reward; 
     public QuestCondition AcceptionConditions => acceptionCondition; 
 
     public int QuestId => questId; 
     public Sprite Icon => icon;
-    public string QuestName => questName;
-    public string QuestDescription => questDescription;
+    public string Title => title;
 
     public bool UseAutoComplete => useAutoComplete;
     public bool IsCancelable => isCancelable;
@@ -59,8 +55,7 @@ public class QuestData : ScriptableObject
     public QuestData(GameData.Quest quest)
     {
         questId = quest.index; 
-        questName = quest.name;
-        questDescription = quest.description;
+        title = quest.title;
         Managers.Resource.LoadAsync<Sprite>(quest.icon, obj => icon = obj);
 
         foreach (var task in quest.tasks)

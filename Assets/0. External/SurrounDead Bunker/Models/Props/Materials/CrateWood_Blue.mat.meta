@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: cb0f3024ec2610549b371328ba243e2e
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 2100000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Models/Props/Materials/CrateWood_Blue.mat
+  uploadId: 683487

@@ -33,8 +33,8 @@ public class Quest
     foreach (var taskData in questData.Tasks)
     {
       tasks.Add(new QuestTask());
-      tasks[tasks.Count - 1].Initialize(taskData);
-      tasks[tasks.Count - 1].onSuccessChanged += SuccessChangedTask;
+      tasks.Back().Initialize(taskData); 
+      tasks.Back().onSuccessChanged += SuccessChangedTask;
     }
   } 
 
@@ -53,7 +53,7 @@ public class Quest
   {
     completedTaskCount += isSuccess ? 1 : -1;
 
-    Debug.Log($"[{QuestData.QuestName}] 퀘스트 진행도 : {completedTaskCount}/{QuestData.Tasks.Count}");
+    Debug.Log($"[{QuestData.Title}] 퀘스트 진행도 : {completedTaskCount}/{QuestData.Tasks.Count}");
     if (completedTaskCount >= QuestData.Tasks.Count)
     {
       State = EQuestState.WaitingForCompletion;
@@ -69,7 +69,7 @@ public class Quest
   {
     State = EQuestState.Complete;
     onCompleted?.Invoke(this); 
-    Debug.Log($"[{QuestData.QuestName}] 퀘스트 완료"); 
+    Debug.Log($"[{QuestData.Title}] 퀘스트 완료"); 
   }
  
   public void Cancel()

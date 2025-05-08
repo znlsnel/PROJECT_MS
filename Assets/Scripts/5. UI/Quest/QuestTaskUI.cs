@@ -4,6 +4,7 @@ using UnityEngine.UI;
 
 public class QuestTaskUI : MonoBehaviour
 {
+    [SerializeField] private Image _checkImage;
     [SerializeField] private TextMeshProUGUI _title;
     [SerializeField] private TextMeshProUGUI _currentCount;
     [SerializeField] private TextMeshProUGUI _targetCount;
@@ -19,11 +20,13 @@ public class QuestTaskUI : MonoBehaviour
     public void Setup(QuestTask questTask)
     {
         this._questTask = questTask;
-        _title.text = questTask.taskData.TastTarget;
+        _title.text = questTask.taskData.TaskTitle;
         _currentCount.text = questTask.progress.ToString();
         _targetCount.text = questTask.taskData.SuccessCount.ToString();
 
         questTask.onProgressChanged += UpdateProgress;
+        UpdateProgress(questTask, questTask.progress, questTask.taskData.SuccessCount);
+
     }
 
     public void UpdateProgress(QuestTask questTask, int currentCount, int targetCount)
@@ -31,6 +34,7 @@ public class QuestTaskUI : MonoBehaviour
         _currentCount.text = currentCount.ToString();
         _targetCount.text = targetCount.ToString();
 
+        _checkImage.gameObject.SetActive(currentCount >= targetCount);
         if (currentCount >= targetCount)
         {
             // TODO 색 정리

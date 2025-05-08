@@ -57,6 +57,13 @@ public enum ETaskActionType
     ContinuousCount, // 연속 성공하지 못하면 0으로 초기화 (강화 10회 연속 성공하기)
 }
 
+public enum ETaskState
+{
+    Inactive,
+    Running,
+    Complete
+}
+
 #endregion
 
 #region Interface

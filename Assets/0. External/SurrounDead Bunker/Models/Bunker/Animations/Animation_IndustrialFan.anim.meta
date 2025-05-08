@@ -1,0 +1,15 @@
+fileFormatVersion: 2
+guid: ef40fcaab3c9286409a3085a24785181
+NativeFormatImporter:
+  externalObjects: {}
+  mainObjectFileID: 7400000
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+AssetOrigin:
+  serializedVersion: 1
+  productId: 202216
+  packageName: SurrounDead - Bunker
+  packageVersion: 1.3.3
+  assetPath: Assets/SurrounDead Bunker/Models/Bunker/Animations/Animation_IndustrialFan.anim
+  uploadId: 683487

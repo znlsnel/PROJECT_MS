@@ -4,7 +4,6 @@ using UnityEngine;
 public class QuestUI : UIBase
 {
     [SerializeField] private GameObject questSlotPrefab;
-    [SerializeField] private GameObject questTaskPrefab;
  
     protected override void Awake()
     {
@@ -34,11 +33,7 @@ public class QuestUI : UIBase
         GameObject slot = Instantiate(questSlotPrefab, transform);
         slot.GetComponent<QuestUISlot>().Setup(quest);
         
-        foreach (var task in quest.tasks)
-        {
-            GameObject taskUI = Instantiate(questTaskPrefab, transform);
-            taskUI.GetComponent<QuestTaskUI>().Setup(task);
-        } 
+        
     }
     
     private void OnQuestCompleted(Quest quest)
