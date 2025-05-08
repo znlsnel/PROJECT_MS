@@ -1,16 +1,16 @@
+using FishNet;
 using FishNet.Managing;
 using Steamworks;
 using UnityEngine;
 
-public class NetworkManagerEx : MonoBehaviour
+public class SteamManagerEx : MonoBehaviour
 {
-    private static NetworkManagerEx instance;
-    public static NetworkManagerEx Instance => instance;
+    private static SteamManagerEx instance;
+    public static SteamManagerEx Instance => instance;
 
     [field: SerializeField] public int maxConnections { get; set; } = 10;
     [field: SerializeField] public string networkAddress { get; set; } = "127.0.0.1";
 
-    [field: SerializeField] public NetworkManager NetworkManager { get; private set; }
     [field: SerializeField] public FishySteamworks.FishySteamworks FishySteamworks { get; private set; }
     
     protected Callback<LobbyCreated_t> _lobbyCreated;
@@ -27,10 +27,9 @@ public class NetworkManagerEx : MonoBehaviour
     public void Awake()
     {
         instance = this;
-        SteamAPI.Init();
-
-        NetworkManager = GetComponent<NetworkManager>();
         FishySteamworks = GetComponent<FishySteamworks.FishySteamworks>();
+
+        SteamAPI.Init();
     }
 
     public void Start()
@@ -97,7 +96,7 @@ public class NetworkManagerEx : MonoBehaviour
         CurrentLobbyId = 0;
 
         instance.FishySteamworks.StopConnection(false);
-        if(instance.NetworkManager.IsServerStarted)
+        if(InstanceFinder.NetworkManager.IsServerStarted)
             instance.FishySteamworks.StopConnection(true);
 
     }

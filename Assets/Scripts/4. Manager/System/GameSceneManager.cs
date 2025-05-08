@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using FishNet;
 using FishNet.Component.Transforming;
@@ -13,15 +14,11 @@ public class GameSceneManager : NetworkBehaviour
     [SerializeField] private NetworkObject playerPrefab;
     [SerializeField] private Transform[] spawnPoints;
 
-    private Dictionary<int, NetworkObject> _spawnedPlayers = new Dictionary<int, NetworkObject>();
-
     public override void OnStartNetwork()
     {
         base.OnStartNetwork();
 
-        if(!IsServerStarted) return;
-
-        InstanceFinder.SceneManager.OnClientLoadedStartScenes += OnClientLoadedStartScenes;
+        InstanceFinder.SceneManager.OnLoadStart += OnScenesLoadedStart;
         InstanceFinder.SceneManager.OnLoadEnd += OnSceneLoadEnd;
     }
 
@@ -29,19 +26,13 @@ public class GameSceneManager : NetworkBehaviour
     {
         base.OnStopNetwork();
 
-        if(!IsServerStarted) return;
-
-        InstanceFinder.SceneManager.OnClientLoadedStartScenes -= OnClientLoadedStartScenes;
+        InstanceFinder.SceneManager.OnLoadStart -= OnScenesLoadedStart;
         InstanceFinder.SceneManager.OnLoadEnd -= OnSceneLoadEnd;
     }
 
-    private void OnClientLoadedStartScenes(NetworkConnection conn, bool isFirstLoad)
+    private void OnScenesLoadedStart(SceneLoadStartEventArgs args)
     {
-        if(!IsServerStarted) return;
-
-        if(_spawnedPlayers.ContainsKey(conn.ClientId)) return;
-
-        //SpawnPlayerForClient(conn);
+        if(!IsClientStarted) return;
     }
 
     private void OnSceneLoadEnd(SceneLoadEndEventArgs args)
@@ -55,10 +46,7 @@ public class GameSceneManager : NetworkBehaviour
             // 모든 클라이언트에 대해 플레이어 생성
             foreach (NetworkConnection conn in InstanceFinder.ServerManager.Clients.Values)
             {
-                if (!_spawnedPlayers.ContainsKey(conn.ClientId))
-                {
-                    SpawnPlayerForClient(conn, scene);
-                }
+                SpawnPlayerForClient(conn, scene);
             }
         }
     }
@@ -81,9 +69,6 @@ public class GameSceneManager : NetworkBehaviour
         NetworkObject playerInstance = Instantiate(playerPrefab, spawnPosition, spawnRotation);
         playerInstance.GetComponent<NetworkTransform>().SetIsNetworked(true);
         InstanceFinder.ServerManager.Spawn(playerInstance, conn, scene);
-        
-        // 생성된 플레이어 저장
-        _spawnedPlayers[conn.ClientId] = playerInstance;
         
         Debug.Log($"클라이언트 {conn.ClientId}에 대한 플레이어가 생성되었습니다.");
     }

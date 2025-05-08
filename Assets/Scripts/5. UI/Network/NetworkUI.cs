@@ -6,11 +6,11 @@ public class NetworkUI : MonoBehaviour
 {
     public void OnClickHost()
     {
-        NetworkManagerEx.Instance.CreateLobby();
+        SteamManagerEx.Instance.CreateLobby();
     }
 
     public void OnClickStart()
     {
-        NetworkSystem.Instance.OnStartGameButtonClicked();
+        Managers.Scene.LoadScene("Demo");
     }
 }
