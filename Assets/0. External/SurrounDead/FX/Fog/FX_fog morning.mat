@@ -12,6 +12,8 @@ Material:
   m_Parent: {fileID: 0}
   m_ModifiedSerializedProperties: 0
   m_ValidKeywords:
+  - _ALPHATEST_ON
+  - _COLORADDSUBDIFF_ON
   - _EMISSION
   - _FADING_ON
   - _SURFACE_TYPE_TRANSPARENT
@@ -78,24 +80,24 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _AlphaClip: 0
+    - _AlphaClip: 1
     - _AlphaToMask: 0
-    - _Blend: 2
+    - _Blend: 0
     - _BlendOp: 0
     - _BumpScale: 1
     - _CameraFadingEnabled: 1
     - _CameraFarFadeDistance: 56.9
     - _CameraNearFadeDistance: 35.3
-    - _ColorMode: 0
+    - _ColorMode: 1
     - _Cull: 2
-    - _Cutoff: 0.5
+    - _Cutoff: 0.52
     - _DetailNormalMapScale: 1
     - _DistortionBlend: 0.5
     - _DistortionEnabled: 0
     - _DistortionStrength: 1
     - _DistortionStrengthScaled: 0.1
-    - _DstBlend: 1
-    - _DstBlendAlpha: 1
+    - _DstBlend: 10
+    - _DstBlendAlpha: 10
     - _EmissionEnabled: 0
     - _EmissionScaleUI: 0
     - _FlipbookBlending: 0
@@ -119,7 +121,7 @@ Material:
     - _ZWrite: 0
     m_Colors:
     - _BaseColor: {r: 0.9411765, g: 0.7187073, b: 0.43598616, a: 1}
-    - _BaseColorAddSubDiff: {r: 0, g: 0, b: 0, a: 0}
+    - _BaseColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
     - _CameraFadeParams: {r: 35.3, g: 0.04629629, b: 0, a: 0}
     - _Color: {r: 0.9411765, g: 0.7187073, b: 0.43598613, a: 1}
     - _ColorAddSubDiff: {r: 1, g: 0, b: 0, a: 0}
