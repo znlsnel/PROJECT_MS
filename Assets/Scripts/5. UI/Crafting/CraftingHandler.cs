@@ -8,14 +8,14 @@ using UnityEngine;
 using Debug = UnityEngine.Debug;
 
 
-public static class CraftingUIHandler
+public static class CraftingHandler
 {
     public static event Action<ItemData> onCrafting;
     public static event Action<CraftingData> onSlotClick;
 
     public static void ClickCraftingSlot(CraftingData data)
     {
-        onSlotClick?.Invoke(data); 
+        onSlotClick?.Invoke(data);  
     }
 
     public static void ClickCrafting(CraftingData data)

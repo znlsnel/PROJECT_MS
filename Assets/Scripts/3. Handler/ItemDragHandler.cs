@@ -12,7 +12,7 @@ public static class ItemDragHandler
     private static MovingSlotUI movingSlotUI;
     private static ItemSlot selectedItemSlot;
     
-    public static void SelectItemSlot(ItemSlotUI itemSlotUI)
+    public static void SelectItemSlot(InventorySlotUI itemSlotUI)
     {   
         // 이미 선택한 슬롯이 있는 경우
         if (selectedItemSlot != null) 
