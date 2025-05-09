@@ -1,4 +1,5 @@
 using System;
+using FishNet.Managing.Scened;
 using Steamworks;
 using UnityEngine;
 
@@ -11,6 +12,6 @@ public class NetworkUI : MonoBehaviour
 
     public void OnClickStart()
     {
-        Managers.Scene.LoadScene("Demo");
+        SceneManagerEx.Instance.LoadScene("Demo");
     }
 }

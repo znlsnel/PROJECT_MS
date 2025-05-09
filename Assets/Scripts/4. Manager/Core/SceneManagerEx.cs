@@ -6,9 +6,34 @@ using FishNet.Managing.Scened;
 using FishNet.Object;
 using System.Collections.Generic;
 using FishNet.Connection;
+using GameKit.Dependencies.Utilities.Types;
 
 public class SceneManagerEx : NetworkBehaviour
 {
+    private static SceneManagerEx instance;
+    
+    public static SceneManagerEx Instance
+    {
+        get
+        {
+            if (instance == null)
+            {
+                // 씬에서 오브젝트 탐색
+                instance = FindAnyObjectByType<SceneManagerEx>();
+            }
+            
+            return instance;
+        }
+    }
+
+    protected void Awake()
+    {
+        if (instance != null && instance != this)
+        {
+            instance = this;
+        }
+    }
+
     private HashSet<NetworkConnection> readyClients = new HashSet<NetworkConnection>();
 
     [Header("씬 이동 설정")]
@@ -21,13 +46,17 @@ public class SceneManagerEx : NetworkBehaviour
 
     private AsyncOperation operation;
 
-    public void Init()
+    public override void OnStartNetwork()
     {
+        base.OnStartNetwork();
+        
         InstanceFinder.SceneManager.OnLoadEnd += OnSceneLoaded;
     }
 
-    public void Clear()
+    public override void OnStopNetwork()
     {
+        base.OnStopNetwork();
+        
         InstanceFinder.SceneManager.OnLoadEnd -= OnSceneLoaded;
     }
 
@@ -73,6 +102,18 @@ public class SceneManagerEx : NetworkBehaviour
     {
         isInTransition = true;
         LoadingProgress = 0f;
+        
+        operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
+        operation.allowSceneActivation = false;
+
+        float resourceCount = 0;
+        float resourceTotal = 0;
+
+        Managers.Resource.LoadAllAsync<Object>("default", (key, count, total) =>
+        {
+            resourceCount = count;
+            resourceTotal = total;
+        });
 
         // 로딩 씬 로드
         if(useLoadingScene)
@@ -80,14 +121,13 @@ public class SceneManagerEx : NetworkBehaviour
             UnityEngine.SceneManagement.SceneManager.LoadScene(loadingSceneName, LoadSceneMode.Additive);
         }
 
-        operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
-        operation.allowSceneActivation = false;
-
-        while (operation.progress >= 0.9f)
+        while (Mathf.Approximately(LoadingProgress, 1f))
         {
-            LoadingProgress = operation.progress / 0.9f;
+            LoadingProgress = ((operation.progress / 0.9f) + (resourceCount / resourceTotal)) / 2;
             await UniTask.Yield();
         }
+
+        await UniTask.Delay(1000);
 
         LoadSceneServerRpc(sceneName);
     }
