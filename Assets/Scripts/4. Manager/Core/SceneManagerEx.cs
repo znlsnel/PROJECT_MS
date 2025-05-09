@@ -1,39 +1,14 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
+using System.Collections.Generic;
+using FishNet.Connection;
 using FishNet;
 using FishNet.Managing.Scened;
 using FishNet.Object;
-using System.Collections.Generic;
-using FishNet.Connection;
-using GameKit.Dependencies.Utilities.Types;
 
-public class SceneManagerEx : NetworkBehaviour
+public class SceneManagerEx : IManager
 {
-    private static SceneManagerEx instance;
-    
-    public static SceneManagerEx Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                // 씬에서 오브젝트 탐색
-                instance = FindAnyObjectByType<SceneManagerEx>();
-            }
-            
-            return instance;
-        }
-    }
-
-    protected void Awake()
-    {
-        if (instance != null && instance != this)
-        {
-            instance = this;
-        }
-    }
-
     private HashSet<NetworkConnection> readyClients = new HashSet<NetworkConnection>();
 
     [Header("씬 이동 설정")]
@@ -42,42 +17,32 @@ public class SceneManagerEx : NetworkBehaviour
     [SerializeField] private bool useLoadingScene = true;
 
     private bool isInTransition = false;
-    public float LoadingProgress { get; private set; }
 
-    private AsyncOperation operation;
+    public string CurrentTaskName { get; private set; }
+    public float CurrentTaskProgress { get; private set; }
 
-    public override void OnStartNetwork()
+    public event System.Action OnLoadingStart;
+    public event System.Action OnLoadingEnd;
+    public event System.Action<string> OnChangeTaskName;
+    public event System.Action<float> OnChangeTaskProgress;
+
+    public void Init()
     {
-        base.OnStartNetwork();
-        
-        InstanceFinder.SceneManager.OnLoadEnd += OnSceneLoaded;
+        InstanceFinder.SceneManager.OnLoadPercentChange += OnLoadPercentChange;
+        InstanceFinder.SceneManager.OnLoadEnd += OnLoadEnd;
     }
 
-    public override void OnStopNetwork()
+    public void Clear()
     {
-        base.OnStopNetwork();
-        
-        InstanceFinder.SceneManager.OnLoadEnd -= OnSceneLoaded;
-    }
-
-    private void OnSceneLoaded(SceneLoadEndEventArgs args)
-    {
-        for(int i = 0; i < args.LoadedScenes.Length; i++)
-        {
-            GameObject[] rootObjects = args.LoadedScenes[i].GetRootGameObjects();
-
-            for(int j = 0; j < rootObjects.Length; j++)
-            {
-                if(rootObjects[j].TryGetComponent(out SceneInitializer sceneInitializer))
-                    sceneInitializer.Initialize();
-            }
-        }
+        InstanceFinder.SceneManager.OnLoadPercentChange -= OnLoadPercentChange;
+        InstanceFinder.SceneManager.OnLoadEnd -= OnLoadEnd;
     }
 
     /// <summary>
     /// 지정된 씬으로 이동합니다.
     /// </summary>
     /// <param name="sceneName">이동할 씬 이름</param>
+    [Server]
     public void LoadScene(string sceneName, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
     {
         if (isInTransition)
@@ -90,6 +55,7 @@ public class SceneManagerEx : NetworkBehaviour
     /// 지정된 인덱스의 씬으로 이동합니다.
     /// </summary>
     /// <param name="sceneIndex">availableScenes 배열에서의 인덱스</param>
+    [Server]
     public void LoadScene(int sceneIndex, LoadSceneMode loadSceneMode = LoadSceneMode.Single)
     {
         if (isInTransition || sceneIndex < 0 || sceneIndex >= availableScenes.Length)
@@ -101,59 +67,52 @@ public class SceneManagerEx : NetworkBehaviour
     private async UniTaskVoid LoadSceneAsync(string sceneName, LoadSceneMode loadSceneMode)
     {
         isInTransition = true;
-        LoadingProgress = 0f;
-        
-        operation = UnityEngine.SceneManagement.SceneManager.LoadSceneAsync(sceneName, loadSceneMode);
-        operation.allowSceneActivation = false;
 
-        float resourceCount = 0;
-        float resourceTotal = 0;
+        CurrentTaskProgress = 0f;
+        OnLoadingStart?.Invoke();
+
+        CurrentTaskName = "게임 데이터 불러오는 중...";
+        OnChangeTaskName?.Invoke(CurrentTaskName);
 
         Managers.Resource.LoadAllAsync<Object>("default", (key, count, total) =>
         {
-            resourceCount = count;
-            resourceTotal = total;
+            CurrentTaskProgress = count / total;
+            OnChangeTaskProgress?.Invoke(CurrentTaskProgress);
         });
-
-        // 로딩 씬 로드
-        if(useLoadingScene)
+        
+        while(CurrentTaskProgress < 1f)
         {
-            UnityEngine.SceneManagement.SceneManager.LoadScene(loadingSceneName, LoadSceneMode.Additive);
-        }
-
-        while (Mathf.Approximately(LoadingProgress, 1f))
-        {
-            LoadingProgress = ((operation.progress / 0.9f) + (resourceCount / resourceTotal)) / 2;
             await UniTask.Yield();
         }
 
-        await UniTask.Delay(1000);
+        await UniTask.WaitForEndOfFrame();
 
-        LoadSceneServerRpc(sceneName);
+        SceneLoadData sceneLoadData = new SceneLoadData(sceneName);
+        sceneLoadData.ReplaceScenes = ReplaceOption.All;
+
+        CurrentTaskName = "씬 로드 중...";
+        OnChangeTaskName?.Invoke(CurrentTaskName);
+
+        InstanceFinder.SceneManager.LoadGlobalScenes(sceneLoadData);
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    private void LoadSceneServerRpc(string sceneName, NetworkConnection conn = null)
+    private void OnLoadPercentChange(SceneLoadPercentEventArgs args)
     {
-        readyClients.Add(conn);
-
-        if(readyClients.Count == InstanceFinder.ServerManager.Clients.Count)
-        {
-            foreach(var client in InstanceFinder.ServerManager.Clients)
-                LoadSceneClientRpc(client.Value, sceneName);
-        }
+        CurrentTaskProgress = args.Percent;
+        OnChangeTaskProgress?.Invoke(CurrentTaskProgress);
     }
 
-    [TargetRpc]
-    private void LoadSceneClientRpc(NetworkConnection conn, string sceneName)
+    private void OnLoadEnd(SceneLoadEndEventArgs args)
     {
-        InstanceFinder.SceneManager.LoadConnectionScenes(conn, new SceneLoadData(sceneName));
-
-        operation.allowSceneActivation = true;
-
-        UnityEngine.SceneManagement.SceneManager.UnloadSceneAsync(loadingSceneName);
-
         isInTransition = false;
+        OnLoadingEnd?.Invoke();
+        SceneInitializer();
+    }
+
+    private void SceneInitializer()
+    {
+        SceneInitializer sceneInitializer = Object.FindAnyObjectByType<SceneInitializer>();
+        sceneInitializer?.Initialize();
     }
 
     /// <summary>

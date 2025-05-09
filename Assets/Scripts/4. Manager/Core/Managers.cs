@@ -16,7 +16,8 @@ public class Managers : Singleton<Managers>
     [field: SerializeField] private SoundManager sound = new SoundManager();
     [field: SerializeField] private UIManager ui = new UIManager();
     [field: SerializeField] private PoolManager pool = new PoolManager();
-    [field: SerializeField] private SteamManagerEx network = new SteamManagerEx();
+    [field: SerializeField] private SceneManagerEx scene = new SceneManagerEx();
+    [field: SerializeField] private NetworkManagerEx network = new NetworkManagerEx();
     [field: SerializeField] private QuestManager quest = new QuestManager();
     private UserData userData = new UserData();
 
@@ -26,7 +27,8 @@ public class Managers : Singleton<Managers>
     public static SoundManager Sound => Instance.sound; 
     public static UIManager UI => Instance.ui;
     public static PoolManager Pool => Instance.pool;
-    public static SteamManagerEx Network => Instance.network;
+    public static SceneManagerEx Scene => Instance.scene;
+    public static NetworkManagerEx Network => Instance.network;
     public static QuestManager Quest => Instance.quest;
     public static UserData UserData => Instance.userData;
 
@@ -57,7 +59,8 @@ public class Managers : Singleton<Managers>
         Sound.Init(); 
         UI.Init();
         Pool.Init();
-        network = GetComponentInChildren<SteamManagerEx>();
+        Scene.Init();
+        network = GetComponentInChildren<NetworkManagerEx>();
         userData.Init(); 
 
         isInit = true;

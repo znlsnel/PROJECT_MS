@@ -1,12 +1,14 @@
 using FishNet;
 using FishNet.Managing;
+using GameKit.Dependencies.Utilities.Types;
 using Steamworks;
+using Unity.VisualScripting;
 using UnityEngine;
 
-public class SteamManagerEx : MonoBehaviour
+public class NetworkManagerEx : MonoBehaviour
 {
-    private static SteamManagerEx instance;
-    public static SteamManagerEx Instance => instance;
+    private static NetworkManagerEx instance;
+    public static NetworkManagerEx Instance => instance;
 
     [field: SerializeField] public int maxConnections { get; set; } = 10;
     [field: SerializeField] public string networkAddress { get; set; } = "127.0.0.1";
@@ -30,6 +32,9 @@ public class SteamManagerEx : MonoBehaviour
         FishySteamworks = GetComponent<FishySteamworks.FishySteamworks>();
 
         SteamAPI.Init();
+
+        DDOL ddol = DDOL.GetDDOL();
+        ddol.AddComponent<NetworkSystem>();
     }
 
     public void Start()

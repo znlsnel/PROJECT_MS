@@ -27,6 +27,8 @@ public class SceneBootstrap
         else
         {
             Debug.Log("Title Scene Detected. No Forced Initialization Required.");
+
+            SceneManager.LoadScene("Lobby", LoadSceneMode.Additive);
         }
     }
 }
