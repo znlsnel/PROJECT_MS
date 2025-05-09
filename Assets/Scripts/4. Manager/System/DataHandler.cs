@@ -10,14 +10,14 @@ using System.Diagnostics;
 using UnityEngine;
 using Debug = UnityEngine.Debug;
 
-public class DataHandler<T> where T : ITable
+public class UGSDataHandler<T> where T : ITable
 {
     private readonly Dictionary<int, T> dataDictionary;
     private readonly List<T> dataCollection;
     private readonly Action<bool> loadAction;
     private readonly Action<T, Action<WriteObjectResult>> writeAction;
 
-    public DataHandler()
+    public UGSDataHandler()
     {
         // UGS Data 클래스의 인스턴스 생성
          //var dataInstance = Activator.CreateInstance<T>(); 

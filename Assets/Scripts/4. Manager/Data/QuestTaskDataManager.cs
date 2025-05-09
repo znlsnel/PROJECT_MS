@@ -4,16 +4,16 @@ using System.Linq;
 using System.Threading.Tasks;
 
 
-public class QuestTaskDataManager : BaseDataHandler<TaskData>
+public class QuestTaskDataManager : DataHandler<TaskData>
 {
-    private DataHandler<GameData.QuestTask> questTaskTable;
+    private UGSDataHandler<GameData.QuestTask> questTaskTable;
 
     protected override void Init()
     {
         if (questTaskTable != null)
             return;
 
-        questTaskTable = new DataHandler<GameData.QuestTask>();
+        questTaskTable = new UGSDataHandler<GameData.QuestTask>();
 
         List<GameData.QuestTask> questTasks = questTaskTable.GetAll();
         foreach (GameData.QuestTask questTask in questTasks)

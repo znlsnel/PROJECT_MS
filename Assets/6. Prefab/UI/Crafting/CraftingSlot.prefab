@@ -34,8 +34,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: -35}
-  m_SizeDelta: {x: 0, y: -70}
+  m_AnchoredPosition: {x: 0, y: -27.65}
+  m_SizeDelta: {x: 0, y: -55.3}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &8529355949337181021
 CanvasRenderer:
@@ -92,8 +92,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 35
-  m_fontSizeBase: 35
+  m_fontSize: 25
+  m_fontSizeBase: 25
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -211,7 +211,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
-  m_PixelsPerUnitMultiplier: 1.5
+  m_PixelsPerUnitMultiplier: 2.2
 --- !u!114 &6313909730301195341
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -257,15 +257,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3165461836058136611, guid: 4e9da97517c1f7e4897871013d4cb4e5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: -40
+      value: -30
       objectReference: {fileID: 0}
     - target: {fileID: 3165461836058136611, guid: 4e9da97517c1f7e4897871013d4cb4e5, type: 3}
       propertyPath: m_AnchoredPosition.y
-      value: 20
+      value: 15
       objectReference: {fileID: 0}
     - target: {fileID: 4179920566555734492, guid: 4e9da97517c1f7e4897871013d4cb4e5, type: 3}
       propertyPath: m_PixelsPerUnitMultiplier
-      value: 1.5
+      value: 2.2
       objectReference: {fileID: 0}
     - target: {fileID: 4608342044225628004, guid: 4e9da97517c1f7e4897871013d4cb4e5, type: 3}
       propertyPath: m_Name
@@ -345,11 +345,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8539268626481020759, guid: 4e9da97517c1f7e4897871013d4cb4e5, type: 3}
       propertyPath: m_SizeDelta.x
-      value: 80
+      value: 60
       objectReference: {fileID: 0}
     - target: {fileID: 8539268626481020759, guid: 4e9da97517c1f7e4897871013d4cb4e5, type: 3}
       propertyPath: m_SizeDelta.y
-      value: 120
+      value: 90
       objectReference: {fileID: 0}
     - target: {fileID: 8539268626481020759, guid: 4e9da97517c1f7e4897871013d4cb4e5, type: 3}
       propertyPath: m_LocalPosition.x

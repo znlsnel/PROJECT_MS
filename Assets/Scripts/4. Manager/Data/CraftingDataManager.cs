@@ -46,9 +46,9 @@ public class CraftingData
 }
 
 
-public class CraftingDataManager : BaseDataHandler<CraftingData>
+public class CraftingDataManager : DataHandler<CraftingData>
 {
-    private DataHandler<GameData.Crafting> craftingTable;
+    private UGSDataHandler<GameData.Crafting> craftingTable;
 
 
     protected override void Init()
@@ -56,7 +56,7 @@ public class CraftingDataManager : BaseDataHandler<CraftingData>
         if (craftingTable != null)
             return;
 
-        craftingTable = new DataHandler<GameData.Crafting>();
+        craftingTable = new UGSDataHandler<GameData.Crafting>();
         List<GameData.Crafting> craftings = craftingTable.GetAll();
         foreach (GameData.Crafting crafting in craftings) 
         {
