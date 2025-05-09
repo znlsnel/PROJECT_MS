@@ -17,7 +17,7 @@ public class StorageUI : PopupUI
     public void Setup(Storage storage)
     {
 
-        ItemSlotUI[] storageSlots = storageRoot.GetComponentsInChildren<ItemSlotUI>();
+        InventorySlotUI[] storageSlots = storageRoot.GetComponentsInChildren<InventorySlotUI>();
         for (int i = 0; i < storageSlots.Length; i++)
         {
             storageSlots[i].UnSetup();
@@ -36,8 +36,8 @@ public class StorageUI : PopupUI
 
         Storage inventory = Managers.UserData.Inventory.ItemStorage;
         Storage quickSlot = Managers.UserData.Inventory.QuickSlotStorage;
-        ItemSlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<ItemSlotUI>();
-        ItemSlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
+        InventorySlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<InventorySlotUI>();
+        InventorySlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<InventorySlotUI>();
 
         for (int i = 0; i < inventorySlots.Length; i++)
         {
