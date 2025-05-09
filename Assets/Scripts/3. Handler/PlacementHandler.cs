@@ -5,30 +5,29 @@ using UnityEngine.InputSystem;
 public class PlacementHandler : MonoBehaviour
 {
     [Header("설정")]
-    public LayerMask placementLayer; // 설치 가능한 표면 레이어
-    public Material validMaterial; // 설치 가능 머터리얼
-    public Material invalidMaterial; // 설치 불가 머터리얼
-    public float rotateSpeed = 10f; // 회전 속도
+    public LayerMask placementLayer; // 배치 가능 레이어
+    public Material validMaterial; // 유효 머티리얼
+    public Material invalidMaterial; // 유효하지 않은 머티리얼
+    public float rotateSpeed = 10f; // 마우스 휠 회전 속도
 
     [Header("무시할 조건")]
-    public LayerMask ignoredLayers; // 무시할 레이어
-    public string[] ignoredTags; // 무시할 태그 목록
+    public LayerMask ignoredLayers; // 무시 레이어
+    public string[] ignoredTags; // 무시 태그
 
-    private GameObject previewObject; // 프리뷰 오브젝트
-    private bool isPlacing = false; // 설치 중 여부
-    private bool isValidPosition = false; // 현재 위치 설치 가능 여부
-    private Renderer[] previewRenderers; // 프리뷰 렌더러 목록
-    private Material[][] originalMaterials; // 원본 머터리얼 백업
-    private string currentPrefabAddress; // 설치할 프리팹 주소
-    private float yRotationOffset = 0f; // 수동 회전 각도
+    private GameObject previewObject; // 미리보기 오브젝트
+    private bool isPlacing = false; // 배치 모드 여부
+    private bool isValidPosition = false; // 유효 위치 여부
+    private Renderer[] previewRenderers; // 미리보기 렌더러 목록
+    private Material[][] originalMaterials; // 원본 머티리얼 백업
+    private string currentPrefabAddress; // 배치할 프리팹 주소
+    private float yRotationOffset = 0f; // 수동 회전값
 
     void Update()
     {
-        if (!isPlacing || previewObject == null)
-            return;
+        if (!isPlacing || previewObject == null) return;
 
-        HandleRotationInput();
-        UpdatePreview();
+        HandleRotationInput(); // 마우스 휠 입력 처리
+        UpdatePreview(); // 미리보기 위치 및 상태 업데이트
 
         if (Mouse.current.leftButton.wasPressedThisFrame && isValidPosition)
         {
@@ -36,32 +35,32 @@ public class PlacementHandler : MonoBehaviour
         }
     }
 
-    public void StartPlacement(string prefabAddress) // 설치 시작 - 어드레서블 프리팹 주소 로딩
+    public void StartPlacement(string prefabAddress) // 오브젝트 배치
     {
-    if (isPlacing) CancelPlacement(); // 중복 방지
+        if (isPlacing) CancelPlacement(); // 중복 방지
 
-    currentPrefabAddress = prefabAddress; // 현재 설치할 프리팹 주소 저장
+        currentPrefabAddress = prefabAddress; // 프리팹 주소 저장
 
-    // Addressables 프리팹 비동기 로드 및 인스턴스 생성
-    Addressables.InstantiateAsync(prefabAddress).Completed += handle =>
-    {
-        previewObject = handle.Result; // 로드된 프리팹 인스턴스 미리보기 오브젝트로 설정
-        previewRenderers = previewObject.GetComponentsInChildren<Renderer>(); // 모든 렌더러 컴포넌트를 가져옴
-
-        originalMaterials = new Material[previewRenderers.Length][]; // 원본 머터리얼 백업
-        for (int i = 0; i < previewRenderers.Length; i++)
+        // 프리팹 로드 및 인스턴스화
+        Addressables.InstantiateAsync(prefabAddress).Completed += handle =>
         {
-            originalMaterials[i] = previewRenderers[i].materials; // 각 렌더러의 머터리얼 배열 복사
-        }
+            previewObject = handle.Result;
+            previewRenderers = previewObject.GetComponentsInChildren<Renderer>();
 
-        ApplyPreviewMaterial(invalidMaterial); // 빨간색 머터리얼 적용
-        DisableColliders(previewObject); // 설치 전 미리보기 충돌 방지
-        isPlacing = true; // 설치 중 상태로 전환
-        yRotationOffset = 0f; // 사용자 회전 각도 초기화
+            originalMaterials = new Material[previewRenderers.Length][]; // 원본 머티리얼 저장
+            for (int i = 0; i < previewRenderers.Length; i++)
+            {
+                originalMaterials[i] = previewRenderers[i].materials;
+            }
+
+            ApplyPreviewMaterial(invalidMaterial);
+            DisableColliders(previewObject);
+            isPlacing = true;
+            yRotationOffset = 0f;
         };
     }
 
-    public void CancelPlacement() // 설치 취소
+    public void CancelPlacement()// 배치 취소
     {
         if (previewObject != null)
             Destroy(previewObject);
@@ -73,42 +72,64 @@ public class PlacementHandler : MonoBehaviour
         currentPrefabAddress = null;
     }
 
-    void UpdatePreview() // 프리뷰 위치 및 색상 업데이트
+    void UpdatePreview()
     {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue()); // 마우스 위치 기준으로 레이 생성
+        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());// 미리보기 오브젝트 위치 상태 업데이트
 
         if (Physics.Raycast(ray, out RaycastHit hit, 100f))
         {
-            GameObject hitObject = hit.collider.gameObject; // 충돌한 오브젝트 참조
+            GameObject hitObject = hit.collider.gameObject;
 
-            previewObject.transform.position = hit.point; // 미리보기 오브젝트 위치 이동
+            previewObject.transform.position = hit.point; // 미리보기 위치 설정
 
             Quaternion surfaceRotation = Quaternion.LookRotation(
                 Vector3.ProjectOnPlane(Camera.main.transform.forward, hit.normal),
                 hit.normal
             );
-            Quaternion userRotation = Quaternion.Euler(0, yRotationOffset, 0); // 사용자 회전
-            previewObject.transform.rotation = surfaceRotation * userRotation; // 최종 회전 적용
+            Quaternion userRotation = Quaternion.Euler(0, yRotationOffset, 0);
+            previewObject.transform.rotation = surfaceRotation * userRotation;
 
-            bool isIgnoredLayer = ((1 << hitObject.layer) & ignoredLayers) != 0; // 무시할 레이어 확인
-            bool isIgnoredTag = System.Array.Exists(ignoredTags, tag => hitObject.CompareTag(tag)); // 무시할 태그 확인
-            bool isPlaceable = ((1 << hitObject.layer) & placementLayer) != 0; // 설치 가능한 레이어 확인
+            // 배치 가능 여부 검사
+            bool isIgnoredLayer = ((1 << hitObject.layer) & ignoredLayers) != 0;
+            bool isIgnoredTag = System.Array.Exists(ignoredTags, tag => hitObject.CompareTag(tag));
+            bool isPlaceable = ((1 << hitObject.layer) & placementLayer) != 0;
 
-            if (isIgnoredLayer || isIgnoredTag || !isPlaceable)
+            // 경사도 검사
+            var rules = previewObject.GetComponent<PlacementCheck>();
+            bool slopeOkay = true;
+            if (rules == null || rules.enforceSlopeLimit)
             {
-                ApplyPreviewMaterial(invalidMaterial); // 빨간색 머터리얼 적용
-                isValidPosition = false; // 설치 불가 상태
+                float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+                float maxSlope = (rules != null) ? rules.maxSlopeAngle : 20f;
+                slopeOkay = slopeAngle <= maxSlope;
+            }
+
+            // 중첩 검사
+            bool overlapOkay = true;
+            if (rules == null || rules.enforceOverlapCheck)
+            {
+                Bounds bounds = GetBounds(previewObject);
+                Collider[] overlaps = Physics.OverlapBox(bounds.center, bounds.extents * 0.9f, 
+                    previewObject.transform.rotation, ~0, QueryTriggerInteraction.Ignore);
+                overlapOkay = overlaps.Length == 0;
+            }
+
+            // 최종 배치 가능 여부 결정
+            if (isIgnoredLayer || isIgnoredTag || !isPlaceable || !slopeOkay || !overlapOkay)
+            {
+                ApplyPreviewMaterial(invalidMaterial); // 빨간색 머터리얼
+                isValidPosition = false; //  불가능
             }
             else
             {
-                ApplyPreviewMaterial(validMaterial); // 초록색 머터리얼 적용
-                isValidPosition = true; // 설치 가능 상태
+                ApplyPreviewMaterial(validMaterial); // 녹색 머터리얼
+                isValidPosition = true; // 가능
             }
         }
         else
         {
-            ApplyPreviewMaterial(invalidMaterial); // 빨간색 머터리얼 적용
-            isValidPosition = false; // 설치 불가 상태
+            ApplyPreviewMaterial(invalidMaterial); // 빨간색 머터리얼
+            isValidPosition = false; // 불가능
         }
     }
 
@@ -118,31 +139,42 @@ public class PlacementHandler : MonoBehaviour
         yRotationOffset += scrollDelta * rotateSpeed * Time.deltaTime;
     }
 
-    void PlaceObject() // 설치
+    void PlaceObject() // 배치
     {
         Vector3 position = previewObject.transform.position;
         Quaternion rotation = previewObject.transform.rotation;
-
         Addressables.InstantiateAsync(currentPrefabAddress, position, rotation);
         CancelPlacement();
     }
 
-    void ApplyPreviewMaterial(Material mat) // 프리뷰 오브젝트에 머터리얼 일괄 적용
+    void ApplyPreviewMaterial(Material mat) // 미리보기 오브젝트 머티리얼 변경
     {
         foreach (var renderer in previewRenderers)
         {
             Material[] mats = new Material[renderer.materials.Length];
             for (int i = 0; i < mats.Length; i++)
-            {
                 mats[i] = mat;
-            }
+
             renderer.materials = mats;
         }
     }
 
-    void DisableColliders(GameObject go) // 프리뷰 충돌 제거
+    void DisableColliders(GameObject go) // 미리보기 충돌 방지
     {
         foreach (var col in go.GetComponentsInChildren<Collider>())
             col.enabled = false;
+    }
+
+    Bounds GetBounds(GameObject go) // 오브젝트 바운드 계산
+    {
+        var renderers = go.GetComponentsInChildren<Renderer>();
+        if (renderers.Length == 0)
+            return new Bounds(go.transform.position, Vector3.zero);
+
+        Bounds bounds = renderers[0].bounds;
+        foreach (var r in renderers)
+            bounds.Encapsulate(r.bounds);
+
+        return bounds;
     }
 }

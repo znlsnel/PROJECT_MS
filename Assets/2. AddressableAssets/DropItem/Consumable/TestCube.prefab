@@ -117,6 +117,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 171224487930702472}
+  - component: {fileID: 7078589929786780416}
   m_Layer: 7
   m_Name: TestCube
   m_TagString: Untagged
@@ -140,3 +141,18 @@ Transform:
   - {fileID: 3773351923804958460}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7078589929786780416
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7940887336743998335}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f3f11701c1248434aa83e2407f5a4181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  enforceSlopeLimit: 0
+  maxSlopeAngle: 21.4
+  enforceOverlapCheck: 1
