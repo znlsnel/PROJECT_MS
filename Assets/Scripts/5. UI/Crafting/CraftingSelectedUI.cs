@@ -21,7 +21,7 @@ public class CraftingSelectedUI : MonoBehaviour
     private CanvasGroup canvasGroup;
     private void Awake()
     {
-        CraftingUIHandler.onSlotClick += Setup;
+        CraftingHandler.onSlotClick += Setup;
         button.onClick.AddListener(OnClick);
 
         canvasGroup = GetComponent<CanvasGroup>();
@@ -59,6 +59,6 @@ public class CraftingSelectedUI : MonoBehaviour
         if (data == null)
             return;
 
-        CraftingUIHandler.ClickCrafting(data);
+        CraftingHandler.ClickCrafting(data);
     }
 }

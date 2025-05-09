@@ -10,7 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 8539268626481020759}
   - component: {fileID: 7860921187200689419}
-  - component: {fileID: 2356981940682404066}
+  - component: {fileID: 4943611068064739920}
+  - component: {fileID: 5628687438439433508}
   m_Layer: 5
   m_Name: ItemSlot
   m_TagString: Untagged
@@ -84,7 +85,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls: []
---- !u!114 &2356981940682404066
+--- !u!114 &4943611068064739920
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -93,17 +94,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 25263737537712720}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e58df76fc14dda340bed3bf10ac32d49, type: 3}
+  m_Script: {fileID: 11500000, guid: afb28b661322b1c40924fc325e789753, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  defaultBackground: {r: 0.7735849, g: 0.7735849, b: 0.7735849, a: 1}
-  weaponBackground: {r: 1, g: 0.5707547, b: 0.5707547, a: 1}
-  equipmentBackground: {r: 0.5896226, g: 0.5956576, b: 1, a: 1}
-  consumableBackground: {r: 1, g: 0.9894208, b: 0.5896226, a: 1}
-  resourceBackground: {r: 0.68578124, g: 1, b: 0.5707547, a: 1}
-  placeableBackground: {r: 1, g: 0.6084906, b: 0.9597512, a: 1}
-  itemIcon: {fileID: 883938638907322802}
   background: {fileID: 4179920566555734492}
+--- !u!114 &5628687438439433508
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 25263737537712720}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 708d309be91060645a30a944c4c3c1ce, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemIcon: {fileID: 883938638907322802}
   itemAmountText: {fileID: 5421432105402893401}
 --- !u!1 &405038562816556498
 GameObject:

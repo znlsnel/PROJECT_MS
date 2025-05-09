@@ -2,7 +2,7 @@ using UnityEngine;
 
 public static class MyColor
 {
-    public static Color Write = "#FDFAF6".ConvertColor();
+    public static Color White = "#FDFAF6".ConvertColor(); 
     public static Color Dark = "#504B38".ConvertColor();
     public static Color Brown = "#BF9264".ConvertColor();
     public static Color Red = "#E16A54".ConvertColor();
