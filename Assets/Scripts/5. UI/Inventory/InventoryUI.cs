@@ -10,6 +10,7 @@ public class InventoryUI : PopupUI
     [SerializeField] private GameObject quickSlotParent;
     [SerializeField] private GameObject equipSlotParent;
 
+
     private List<InventorySlotUI> itemSlots = new List<InventorySlotUI>();
     
     private List<ItemData> testItems = new List<ItemData>();

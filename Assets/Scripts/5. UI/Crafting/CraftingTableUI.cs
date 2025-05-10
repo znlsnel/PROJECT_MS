@@ -25,7 +25,7 @@ public class CraftingTableUI : PopupUI
 
     private void Setup()
     {
-        List<CraftingData> craftings = Managers.Data.craftings.GetAll();
+        List<CraftingItemData> craftings = Managers.Data.craftings.GetAll();
         
         for (int i = 0; i < craftings.Count; i++)
         {
@@ -36,3 +36,4 @@ public class CraftingTableUI : PopupUI
         }
     }
 }
+

@@ -3589,6 +3589,8 @@ GameObject:
   - component: {fileID: 2024063257}
   - component: {fileID: 2024063256}
   - component: {fileID: 2024063255}
+  - component: {fileID: 2024063260}
+  - component: {fileID: 2024063259}
   m_Layer: 5
   m_Name: QuestStorageUI
   m_TagString: Untagged
@@ -3679,6 +3681,33 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!114 &2024063259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024063254}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71d432e9eaa06b14d95583ac1fccb076, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  storageRoot: {fileID: 1123035621}
+  inventoryRoot: {fileID: 1521276905}
+  quickSlotRoot: {fileID: 370286157}
+--- !u!225 &2024063260
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2024063254}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &2067016201
 PrefabInstance:
   m_ObjectHideFlags: 0

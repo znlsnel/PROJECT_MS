@@ -125,7 +125,7 @@ GameObject:
   - component: {fileID: 8813308807118740663}
   - component: {fileID: 2293673128012815004}
   - component: {fileID: 8393689858600909811}
-  - component: {fileID: 6371348212782869382}
+  - component: {fileID: 5994186614961979175}
   m_Layer: 5
   m_Name: StorageBox
   m_TagString: Untagged
@@ -230,7 +230,7 @@ CanvasGroup:
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
---- !u!114 &6371348212782869382
+--- !u!114 &5994186614961979175
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -239,7 +239,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 3004119494725381407}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b4995493a15a0d5489ae57d942d57dfc, type: 3}
+  m_Script: {fileID: 11500000, guid: 9091bd0adf232c440af52f92b9c94eb5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   storageRoot: {fileID: 4036129411833333089}

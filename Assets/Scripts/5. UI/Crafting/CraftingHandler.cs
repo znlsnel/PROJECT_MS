@@ -11,14 +11,14 @@ using Debug = UnityEngine.Debug;
 public static class CraftingHandler
 {
     public static event Action<ItemData> onCrafting;
-    public static event Action<CraftingData> onSlotClick;
+    public static event Action<CraftingItemData> onSlotClick;
 
-    public static void ClickCraftingSlot(CraftingData data)
+    public static void ClickCraftingSlot(CraftingItemData data)
     {
         onSlotClick?.Invoke(data);  
     }
 
-    public static void ClickCrafting(CraftingData data)
+    public static void ClickCrafting(CraftingItemData data)
     {  
         for (int i = 0; i < data.requiredItems.Length; i++){
             if (data.requiredItems[i] == null)
@@ -28,9 +28,9 @@ public static class CraftingHandler
                 return;
         }
 
-        onCrafting?.Invoke(data.itemData);
-        Managers.UserData.Inventory.AddItem(data.itemData); 
-        Managers.Quest.ReceiveReport(ETaskCategory.Create, data.itemData.Id); 
+     //   onCrafting?.Invoke(data.itemData);
+     //   Managers.UserData.Inventory.AddItem(data.itemData); 
+     //   Managers.Quest.ReceiveReport(ETaskCategory.Create, data.itemData.Id); 
 
         for (int i = 0; i < data.requiredItems.Length; i++)
         {

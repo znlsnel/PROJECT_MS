@@ -14,7 +14,7 @@ public class QuickSlotHandler : MonoBehaviour
     private ItemData selectedItemData;
     private GameObject selectedItemObject;
 
-    public event Action<ItemData> onSelectItem;
+    public event Action<GameObject> onSelectItem;
 
     private void Awake()
     {
@@ -72,6 +72,7 @@ public class QuickSlotHandler : MonoBehaviour
             selectedItemObject.transform.localRotation = Quaternion.identity; 
         } 
 
+        onSelectItem?.Invoke(selectedItemObject);
         selectedItemSlot = itemSlot;
         selectedItemData = itemSlot.Data;
     }

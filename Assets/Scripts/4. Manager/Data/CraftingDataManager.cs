@@ -16,37 +16,9 @@ public class RequireItem
 }
 
 
-public class CraftingData
-{
-    public int index;
-    public ItemData itemData;
-
-    public RequireItem[] requiredItems = new RequireItem[3];
-
-    public CraftingData(GameData.Crafting crafting)
-    {
-        index = crafting.index;
-        itemData = Managers.Data.items.GetByIndex(crafting.ItemIdx);
-        
-        ItemData item1 = Managers.Data.items.GetByIndex(crafting.item1.Item1);
-        ItemData item2 = Managers.Data.items.GetByIndex(crafting.item2.Item1);
-        ItemData item3 = Managers.Data.items.GetByIndex(crafting.item3.Item1);
-
-        int amount1 = crafting.item1.Item2;
-        int amount2 = crafting.item2.Item2;
-        int amount3 = crafting.item3.Item2;
-
-        if (item1 != null)
-            requiredItems[0] = new RequireItem(item1, amount1); 
-        if (item2 != null)
-            requiredItems[1] = new RequireItem(item2, amount2); 
-        if (item3 != null)
-            requiredItems[2] = new RequireItem(item3, amount3);  
-    }
-}
 
 
-public class CraftingDataManager : DataHandler<CraftingData>
+public class CraftingDataManager : DataHandler<CraftingItemData>
 {
     private UGSDataHandler<GameData.Crafting> craftingTable;
 
@@ -60,7 +32,7 @@ public class CraftingDataManager : DataHandler<CraftingData>
         List<GameData.Crafting> craftings = craftingTable.GetAll();
         foreach (GameData.Crafting crafting in craftings) 
         {
-            CraftingData craftingData = new CraftingData(crafting);
+            CraftingItemData craftingData = new CraftingItemData(crafting);
         
             datas.Add(crafting.index, craftingData);
             dataList.Add(craftingData);  

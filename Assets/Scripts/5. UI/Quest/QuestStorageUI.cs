@@ -1,16 +1,23 @@
 using UnityEngine;
 
-public class QuestStorageUI : MonoBehaviour
+public class QuestStorageUI : StorageUI
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    private QuestStorageSlotUI[] slots;
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+        slots = storageRoot.GetComponentsInChildren<QuestStorageSlotUI>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Setup(Storage storage)
     {
-        
+        for (int i = 0; i < slots.Length; i++)
+        {
+            ItemSlot itemSlot = storage.GetSlotByIdx(i);
+            slots[i].gameObject.SetActive(itemSlot != null);
+            slots[i].Setup(itemSlot);
+        }
     }
 }
