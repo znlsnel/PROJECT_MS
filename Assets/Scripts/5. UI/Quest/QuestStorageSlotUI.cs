@@ -9,6 +9,7 @@ public class QuestStorageSlotUI : InventorySlotUI
 
     public Action onSuccess;
     private bool isSuccess = false;
+
     public override void UnSetup()
     {
         base.UnSetup();
@@ -19,7 +20,12 @@ public class QuestStorageSlotUI : InventorySlotUI
     public override void UpdateSlotState(ItemSlot itemSlot)
     {
         base.UpdateSlotState(itemSlot);
+
+        itemAmountText.gameObject.SetActive(true);
+        itemAmountText.text = itemSlot.Stack.ToString(); 
+        
         maxAmountText.text = itemSlot.MaxStack.ToString();
+
         if (itemSlot.Stack >= itemSlot.MaxStack)
         {
             if (isSuccess)

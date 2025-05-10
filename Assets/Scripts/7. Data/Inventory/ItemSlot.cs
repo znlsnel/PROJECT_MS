@@ -18,7 +18,7 @@ public class ItemSlot
 
     public bool IsFull() => Stack >= MaxStack;
     public bool IsEmpty() => Stack <= 0;
-    public int MaxStack => Data.MaxStack;
+    public virtual int MaxStack => Data.MaxStack;
 
     public ItemSlot() {}
     public ItemSlot(ItemSlot itemSlot)

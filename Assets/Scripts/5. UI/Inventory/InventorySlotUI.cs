@@ -12,7 +12,7 @@ public class InventorySlotUI : ItemSlotUI
     public Action<ItemSlot> onSetup;
     
 
-    public void Setup(ItemSlot itemSlot)
+    public virtual void Setup(ItemSlot itemSlot)
     {
         if (itemSlot == null)
             return;

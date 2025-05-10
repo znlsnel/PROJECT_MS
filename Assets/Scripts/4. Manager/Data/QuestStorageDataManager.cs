@@ -18,7 +18,6 @@ public class QuestStorageData
     public QuestStorageData(GameData.QuestStorage questStorage)
     {
         Action<RequireItem, (int, int)> Create = (RequireItem item, (int, int) requireItem) => {
-            items.Add(item);
             ItemData itemData = Managers.Data.items.GetByIndex(requireItem.Item1);
 
             if (itemData == null)

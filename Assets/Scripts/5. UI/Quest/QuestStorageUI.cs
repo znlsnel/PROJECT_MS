@@ -11,7 +11,7 @@ public class QuestStorageUI : StorageUI
         slots = storageRoot.GetComponentsInChildren<QuestStorageSlotUI>();
     }
 
-    private void Setup(Storage storage)
+    public void Setup(Storage storage)
     {
         for (int i = 0; i < slots.Length; i++)
         {
