@@ -9,29 +9,24 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
-public class CraftingSlotUI : MonoBehaviour, IPointerClickHandler
+
+
+public class CraftingSlotUI : ItemSlotUI
 {
-    [SerializeField] private Image itemIcon;
+    private CraftingItemData data;
 
-    private CraftingData data;
-
-
-    public void Setup(CraftingData data)
+    public void Setup(CraftingItemData data)
     {
         this.data = data;
-        itemIcon.sprite = data.itemData.Icon;
-        InventoryDataHandler.onItemAmountUpdate -= UpdateState;
-        InventoryDataHandler.onItemAmountUpdate += UpdateState; 
-        UpdateState();
+        itemIcon.sprite = data.Icon;
+        InventoryDataHandler.onItemAmountUpdate -= UpdateSlotState;
+        InventoryDataHandler.onItemAmountUpdate += UpdateSlotState; 
+        UpdateSlotState();
     }
 
-    public void OnPointerClick(PointerEventData eventData)
+    private void UpdateSlotState()
     {
-        CraftingUIHandler.ClickCraftingSlot(data); 
-    }
-
-    private void UpdateState()
-    {
+        onUpdate?.Invoke(data);
         bool flag = true;
         for (int i = 0; i < data.requiredItems.Length; i++)
         {
@@ -49,5 +44,13 @@ public class CraftingSlotUI : MonoBehaviour, IPointerClickHandler
 
     }
 
+    protected override void ClickAction()
+    {
+        CraftingHandler.ClickCraftingSlot(data); 
+    }
 
+    protected override void MouseHoverAction(bool isHover)
+    {
+        
+    }
 }

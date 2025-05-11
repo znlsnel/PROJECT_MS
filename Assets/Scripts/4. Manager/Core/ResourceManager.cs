@@ -33,6 +33,15 @@ public class ResourceManager : IManager
         return null; 
     }
     
+    public T Instantiate<T>(string key, Transform parent = null, bool pooling = false) where T : UnityEngine.Object
+    {
+        GameObject prefab = Instantiate(key, parent, pooling);
+        if (prefab == null)
+            return null;
+
+        return prefab.GetComponent<T>();
+    }
+
     public GameObject Instantiate(string key, Transform parent = null, bool pooling = false)
     {
         GameObject prefab = Load<GameObject>(key);

@@ -13,6 +13,7 @@ public class DataManager : IManager
     public ItemDataManager items {get; private set;}
     public QuestTaskDataManager questTasks {get; private set;}
     public CraftingDataManager craftings {get; private set;}
+    public QuestStorageDataManager questStorages {get; private set;}
 
 
     public void Init()
@@ -21,6 +22,7 @@ public class DataManager : IManager
         quests = new QuestDataManager();
         items = new ItemDataManager(); 
         craftings = new CraftingDataManager();
+        questStorages = new QuestStorageDataManager();
     }
 
     public void Clear()

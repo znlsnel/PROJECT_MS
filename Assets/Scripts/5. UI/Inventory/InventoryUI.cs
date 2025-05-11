@@ -10,7 +10,8 @@ public class InventoryUI : PopupUI
     [SerializeField] private GameObject quickSlotParent;
     [SerializeField] private GameObject equipSlotParent;
 
-    private List<ItemSlotUI> itemSlots = new List<ItemSlotUI>();
+
+    private List<InventorySlotUI> itemSlots = new List<InventorySlotUI>();
     
     private List<ItemData> testItems = new List<ItemData>();
 
@@ -22,16 +23,9 @@ public class InventoryUI : PopupUI
  
     private void RegisterInput()
     {
-        testItems.Add(Managers.Data.items.GetByIndex(5001)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5002)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5101)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5102)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5103)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5201)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5202)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5301)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5302));  
-        testItems.Add(Managers.Data.items.GetByIndex(5303)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3001)); 
+        testItems.Add(Managers.Data.items.GetByIndex(1001)); 
+  
         
 
 
@@ -52,7 +46,7 @@ public class InventoryUI : PopupUI
 
 
         // 아이템 슬롯 초기화
-        ItemSlotUI[] slots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
+        InventorySlotUI[] slots = itemSlotParent.GetComponentsInChildren<InventorySlotUI>();
         for (int i = 0; i < slots.Length; i++)
         {
             ItemSlot slot = itemStorage.GetSlotByIdx(i);
@@ -64,7 +58,7 @@ public class InventoryUI : PopupUI
         }
 
         // 퀵슬로 초기화
-        ItemSlotUI[] quickSlotUIs = quickSlotParent.GetComponentsInChildren<ItemSlotUI>();
+        InventorySlotUI[] quickSlotUIs = quickSlotParent.GetComponentsInChildren<InventorySlotUI>();
         for (int i = 0; i < quickSlotUIs.Length; i++)
         {
             ItemSlot slot = quickStorage.GetSlotByIdx(i);
@@ -75,7 +69,7 @@ public class InventoryUI : PopupUI
         } 
 
         // 장착 슬롯 초기화
-        ItemSlotUI[] equipSlotUIs = equipSlotParent.GetComponentsInChildren<ItemSlotUI>();
+        InventorySlotUI[] equipSlotUIs = equipSlotParent.GetComponentsInChildren<InventorySlotUI>();
         for (int i = 0; i < equipSlotUIs.Length; i++)
         {
             EEquipType equipType = equipSlotUIs[i].GetComponent<EquipSlotComponent>().EquipType;

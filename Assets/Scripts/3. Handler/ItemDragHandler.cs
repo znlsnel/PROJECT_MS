@@ -12,16 +12,30 @@ public static class ItemDragHandler
     private static MovingSlotUI movingSlotUI;
     private static ItemSlot selectedItemSlot;
     
-    public static void SelectItemSlot(ItemSlotUI itemSlotUI)
+    public static bool SelectItemSlot(InventorySlotUI itemSlotUI)
     {   
-        // 이미 선택한 슬롯이 있는 경우
-        if (selectedItemSlot != null) 
-        { 
-            if (!selectedItemSlot.CheckSlotCondition(itemSlotUI.ItemSlot.Data) 
-            || !itemSlotUI.ItemSlot.CheckSlotCondition(selectedItemSlot.Data))
-                return;
+        // 처음 선택한 경우
+        if (selectedItemSlot == null && itemSlotUI.ItemSlot.Data != null)
+        {
+            SelectSlot(itemSlotUI.ItemSlot); 
+            SetupMovingSlot(selectedItemSlot); 
+            return true;
+        }
 
-            Inventory.SwapItem(selectedItemSlot, itemSlotUI.ItemSlot); 
+        return false;
+    } 
+
+    public static void SwapItem(InventorySlotUI targetSlotUI)
+    {
+        if (selectedItemSlot == null)
+            return;
+
+
+        if (!selectedItemSlot.CheckSlotCondition(targetSlotUI.ItemSlot.Data) 
+            || !targetSlotUI.ItemSlot.CheckSlotCondition(selectedItemSlot.Data))
+            return;
+
+            Inventory.SwapItem(selectedItemSlot, targetSlotUI.ItemSlot); 
 
             // itemSlotUI가 비어있었을 경우
             if (selectedItemSlot.Data == null)
@@ -33,15 +47,31 @@ public static class ItemDragHandler
                 SelectSlot(selectedItemSlot);  
                 SetupMovingSlot(selectedItemSlot); 
             }
-        } 
 
-        // 처음 선택한 경우
-        else if (itemSlotUI.ItemSlot.Data != null)
+        return;
+    }
+
+    public static void MoveItem(InventorySlotUI targetSlotUI)
+    {
+        if (selectedItemSlot == null)
+            return;
+
+        if (!targetSlotUI.ItemSlot.CheckSlotCondition(selectedItemSlot.Data))
+            return;
+
+        int amount = selectedItemSlot.Stack;
+        if (targetSlotUI.ItemSlot.Data != null)
         {
-            SelectSlot(itemSlotUI.ItemSlot); 
-            SetupMovingSlot(selectedItemSlot); 
+            amount = Math.Min(amount, targetSlotUI.ItemSlot.MaxStack - targetSlotUI.ItemSlot.Stack);
         }
-    } 
+
+        targetSlotUI.ItemSlot.AddStack(selectedItemSlot.Data, amount);
+        selectedItemSlot.AddStack(selectedItemSlot.Data, -amount);
+
+        if (selectedItemSlot.Data == null)
+            SetupMovingSlot(null);
+    }
+
 
     public static void DropItem()
     {

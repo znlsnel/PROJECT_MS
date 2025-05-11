@@ -16,6 +16,11 @@ public class Storage
 
     public int Size => itemSlots.Count; 
 
+    public void AddItemSlot(ItemSlot itemSlot)
+    {
+        itemSlots.Add(itemSlot);
+    }
+
     public ItemSlot GetSlotByIdx(int idx)
     {
         if (idx < 0 || idx >= itemSlots.Count)
