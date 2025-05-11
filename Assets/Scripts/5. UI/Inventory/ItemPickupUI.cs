@@ -18,6 +18,7 @@ public class ItemPickupUI : PopupUI
 
     private void Setup(ItemData data)
     {
+        Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<ItemPickupUI>(this); 
         itemIcon.sprite = data.Icon;
         itemName.text = data.Name;
