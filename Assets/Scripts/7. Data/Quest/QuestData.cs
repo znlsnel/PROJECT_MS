@@ -20,7 +20,6 @@ public class QuestData
 {
     // "Quest Info"
     private int questId;  
-    private Sprite icon;
     private string title;
 
 
@@ -42,7 +41,6 @@ public class QuestData
     public QuestCondition AcceptionConditions => acceptionCondition; 
 
     public int QuestId => questId; 
-    public Sprite Icon => icon;
     public string Title => title;
 
     public bool UseAutoComplete => useAutoComplete;
@@ -56,7 +54,6 @@ public class QuestData
     {
         questId = quest.index; 
         title = quest.title;
-        Managers.Resource.LoadAsync<Sprite>(quest.icon, obj => icon = obj);
 
         foreach (var task in quest.tasks)
         {

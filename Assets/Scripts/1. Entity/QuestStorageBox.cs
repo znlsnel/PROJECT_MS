@@ -9,8 +9,9 @@ public class QuestStorageBox : Interactable
     [SerializeField] private GameObject questStorageUIPrefab;
     private static QuestStorageUI questStorageUI;
 
+    private QuestStorageData questStorageData;
     private Storage storage = new Storage();
-
+    int successCount = 0;
 
     private void Awake()
     {
@@ -28,10 +29,12 @@ public class QuestStorageBox : Interactable
 
     public void Setup(QuestStorageData questStorageData)
     {
+        this.questStorageData = questStorageData;
         foreach (var item in questStorageData.items)
         {
             QuestStorageSlot itemSlot = new QuestStorageSlot(item.amount);
             itemSlot.Setup(item.itemData);
+            itemSlot.onSuccess += SuccessQuest;
             storage.AddItemSlot(itemSlot);
         }
     }
@@ -42,5 +45,14 @@ public class QuestStorageBox : Interactable
         questStorageUI.Setup(storage);
 
         Managers.UI.ShowPopupUI<QuestStorageUI>(questStorageUI);
+    }
+
+
+    private void SuccessQuest()
+    {
+        successCount++;
+        
+        if (successCount == questStorageData.items.Count)
+            Managers.Quest.ReceiveReport(ETaskCategory.FillQuestStorage, 1001);
     }
 }

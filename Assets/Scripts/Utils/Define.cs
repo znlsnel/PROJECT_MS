@@ -46,6 +46,7 @@ public enum ETaskCategory
     Interact,
     Pickup, 
     Create,
+    FillQuestStorage,
 }
 
 

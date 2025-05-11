@@ -59,7 +59,6 @@ namespace GameData
 		public System.Int32 index;
 		public System.Int32 groupId;
 		public System.Int32 mapId;
-		public System.String icon;
 		public System.String title;
 		public System.Collections.Generic.List<Int32> tasks;
 		public System.Collections.Generic.List<Int32> rewardItems;
