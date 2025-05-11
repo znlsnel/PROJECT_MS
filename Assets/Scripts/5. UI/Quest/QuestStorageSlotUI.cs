@@ -37,7 +37,7 @@ public class QuestStorageSlotUI : InventorySlotUI
 
     protected override void ClickAction()
     {
-        
+        ItemDragHandler.MoveItem(this);
     }
 
     protected override void MouseHoverAction(bool isHover)

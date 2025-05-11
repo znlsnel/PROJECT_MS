@@ -52,7 +52,8 @@ public class InventorySlotUI : ItemSlotUI
 
     protected override void ClickAction()
     {
-        ItemDragHandler.SelectItemSlot(this); 
+        if (!ItemDragHandler.SelectItemSlot(this))
+            ItemDragHandler.SwapItem(this);
     }
 
     protected override void MouseHoverAction(bool isHover)
