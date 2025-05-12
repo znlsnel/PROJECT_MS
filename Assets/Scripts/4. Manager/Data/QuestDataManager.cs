@@ -13,6 +13,7 @@ public class QuestDataManager : BaseDataHandler<QuestData>
         if (questTable != null)
             return; 
 
+        
         questTable = new DataHandler<GameData.Quest>();
 
         List<GameData.Quest> quests = questTable.GetAll();
