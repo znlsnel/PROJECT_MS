@@ -39,6 +39,7 @@ public class QuestTaskUI : MonoBehaviour
         {
             // TODO 색 정리
             _canvasGroup.alpha = 0.5f;
+            _title.fontStyle = FontStyles.Strikethrough; 
         }
     }
 

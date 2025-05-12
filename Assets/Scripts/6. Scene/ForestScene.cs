@@ -8,6 +8,7 @@ public class ForestScene : MonoBehaviour
         {
             Managers.Quest.Register(1001);
             Managers.Quest.Register(1002);
+            Managers.Quest.Register(1003);
         });
     }
 }

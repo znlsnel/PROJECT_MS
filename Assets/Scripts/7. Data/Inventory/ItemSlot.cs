@@ -53,7 +53,7 @@ public class ItemSlot
         return slotCondition == null ? true : slotCondition.Invoke(itemData);
     }
 
-    public bool AddStack(ItemData itemData, int amount = 1)
+    public virtual bool AddStack(ItemData itemData, int amount = 1)
     { 
         if ((Data != null && itemData.Id != Data.Id) || !IsAddable(amount))
             return false;
