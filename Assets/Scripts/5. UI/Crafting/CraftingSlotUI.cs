@@ -9,14 +9,16 @@ using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
 
+
+
 public class CraftingSlotUI : ItemSlotUI
 {
-    private CraftingData data;
+    private CraftingItemData data;
 
-    public void Setup(CraftingData data)
+    public void Setup(CraftingItemData data)
     {
         this.data = data;
-        itemIcon.sprite = data.itemData.Icon;
+        itemIcon.sprite = data.Icon;
         InventoryDataHandler.onItemAmountUpdate -= UpdateSlotState;
         InventoryDataHandler.onItemAmountUpdate += UpdateSlotState; 
         UpdateSlotState();
@@ -24,7 +26,7 @@ public class CraftingSlotUI : ItemSlotUI
 
     private void UpdateSlotState()
     {
-        onUpdate?.Invoke(data.itemData);
+        onUpdate?.Invoke(data);
         bool flag = true;
         for (int i = 0; i < data.requiredItems.Length; i++)
         {

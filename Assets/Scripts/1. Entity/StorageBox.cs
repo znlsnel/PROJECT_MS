@@ -4,13 +4,13 @@ public class StorageBox : Interactable
 {
     [SerializeField] private GameObject storageBoxPrefab;
 
-    private static StorageUI storageBoxUI;
+    private static StorageBoxUI storageBoxUI;
     private Storage storage = new Storage();
     void Awake() 
     {
         if (storageBoxUI == null)
         {
-            storageBoxUI = Instantiate(storageBoxPrefab).GetComponent<StorageUI>();
+            storageBoxUI = Instantiate(storageBoxPrefab).GetComponent<StorageBoxUI>();
             storageBoxUI.Hide();  
         } 
     }

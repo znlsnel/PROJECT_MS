@@ -5,30 +5,13 @@ using System.Collections.Generic;
 public class StorageUI : PopupUI
 {
 
-    [SerializeField] private Transform storageRoot;
+    [SerializeField] protected Transform storageRoot;
     [SerializeField] private Transform inventoryRoot;
     [SerializeField] private Transform quickSlotRoot;
 
     private void Start()
     {
         SetInventory(); 
-    }
-
-    public void Setup(Storage storage)
-    {
-
-        InventorySlotUI[] storageSlots = storageRoot.GetComponentsInChildren<InventorySlotUI>();
-        for (int i = 0; i < storageSlots.Length; i++)
-        {
-            storageSlots[i].UnSetup();
-
-            ItemSlot itemSlot = storage.GetSlotByIdx(i);
-            if (itemSlot == null)
-                itemSlot = storage.CreateSlot();
-
-            storageSlots[i].Setup(itemSlot); 
-        }
-
     }
 
     private void SetInventory()

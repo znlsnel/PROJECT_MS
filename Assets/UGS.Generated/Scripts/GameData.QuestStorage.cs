@@ -17,39 +17,39 @@ using UnityEngine;
 namespace GameData
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class Quest : ITable
+    public partial class QuestStorage : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<Quest> loadedList, Dictionary<int, Quest> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<QuestStorage> loadedList, Dictionary<int, QuestStorage> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1g9CvdFyKHjyFdO0rdqnwl15ZCJD3-GE1bgCuo6xcBbk"; // it is file id
-        static string sheetID = "441026962"; // it is sheet id
+        static string sheetID = "448911669"; // it is sheet id
         static UnityFileReader reader = new UnityFileReader();
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<int, Quest> QuestMap = new Dictionary<int, Quest>();  
-        public static List<Quest> QuestList = new List<Quest>();   
+        public static Dictionary<int, QuestStorage> QuestStorageMap = new Dictionary<int, QuestStorage>();  
+        public static List<QuestStorage> QuestStorageList = new List<QuestStorage>();   
 
         /// <summary>
-        /// Get Quest List 
+        /// Get QuestStorage List 
         /// Auto Load
         /// </summary>
-        public static List<Quest> GetList()
+        public static List<QuestStorage> GetList()
         {{
            if (isLoaded == false) Load();
-           return QuestList;
+           return QuestStorageList;
         }}
 
         /// <summary>
-        /// Get Quest Dictionary, keyType is your sheet A1 field type.
+        /// Get QuestStorage Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<int, Quest>  GetDictionary()
+        public static Dictionary<int, QuestStorage>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return QuestMap;
+           return QuestStorageMap;
         }}
 
     
@@ -57,16 +57,12 @@ namespace GameData
 /* Fields. */
 
 		public System.Int32 index;
-		public System.Int32 groupId;
-		public System.Int32 mapId;
-		public System.String title;
-		public System.Collections.Generic.List<Int32> tasks;
-		public System.Collections.Generic.List<Int32> rewardItems;
-		public System.Collections.Generic.List<Int32> requiredQuest;
-		public System.Collections.Generic.List<Int32> requiredItem;
-		public System.Boolean useAutoComplete;
-		public System.Boolean isCancelable;
-		public System.Boolean isSavable;
+		public System.String name;
+		public System.ValueTuple<Int32, Int32> item1;
+		public System.ValueTuple<Int32, Int32> item2;
+		public System.ValueTuple<Int32, Int32> item3;
+		public System.ValueTuple<Int32, Int32> item4;
+		public System.ValueTuple<Int32, Int32> item5;
   
 
 #region fuctions
@@ -77,7 +73,7 @@ namespace GameData
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("Quest is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("QuestStorage is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -93,7 +89,7 @@ namespace GameData
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<Quest>, Dictionary<int, Quest>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<QuestStorage>, Dictionary<int, QuestStorage>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -121,14 +117,14 @@ namespace GameData
                
 
 
-    public static (List<Quest> list, Dictionary<int, Quest> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<int, Quest> Map = new Dictionary<int, Quest>();
-            List<Quest> List = new List<Quest>();     
+    public static (List<QuestStorage> list, Dictionary<int, QuestStorage> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<int, QuestStorage> Map = new Dictionary<int, QuestStorage>();
+            List<QuestStorage> List = new List<QuestStorage>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(Quest).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(QuestStorage).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["Quest"];
+            var sheet = jsonObject["QuestStorage"];
 
             foreach (var column in sheet.Keys)
             {
@@ -147,7 +143,7 @@ namespace GameData
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            Quest instance = new Quest();
+                            QuestStorage instance = new QuestStorage();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -188,8 +184,8 @@ namespace GameData
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            QuestList = List;
-                            QuestMap = Map;
+                            QuestStorageList = List;
+                            QuestStorageMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -199,10 +195,10 @@ namespace GameData
 
  
 
-        public static void Write(Quest data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(QuestStorage data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(Quest).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(QuestStorage).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

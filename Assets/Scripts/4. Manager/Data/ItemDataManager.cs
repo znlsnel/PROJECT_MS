@@ -6,16 +6,16 @@ using UnityEngine;
 using GameData;
 
 
-public class ItemDataManager : BaseDataHandler<ItemData>
+public class ItemDataManager : DataHandler<ItemData>
 {
-    private DataHandler<GameData.Item> itemTable;
+    private UGSDataHandler<GameData.Item> itemTable;
  
     protected override void Init()
     {
         if (itemTable != null)
             return;
 
-        itemTable = new DataHandler<GameData.Item>();
+        itemTable = new UGSDataHandler<GameData.Item>();
         List<Item> items = itemTable.GetAll();
 
         foreach (Item item in items)

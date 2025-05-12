@@ -18,7 +18,7 @@ public class ItemSlot
 
     public bool IsFull() => Stack >= MaxStack;
     public bool IsEmpty() => Stack <= 0;
-    public int MaxStack => Data.MaxStack;
+    public virtual int MaxStack => Data.MaxStack;
 
     public ItemSlot() {}
     public ItemSlot(ItemSlot itemSlot)
@@ -53,7 +53,7 @@ public class ItemSlot
         return slotCondition == null ? true : slotCondition.Invoke(itemData);
     }
 
-    public bool AddStack(ItemData itemData, int amount = 1)
+    public virtual bool AddStack(ItemData itemData, int amount = 1)
     { 
         if ((Data != null && itemData.Id != Data.Id) || !IsAddable(amount))
             return false;

@@ -16,7 +16,7 @@ public class CraftingSelectedUI : MonoBehaviour
 
     [SerializeField] private Transform requiredItemRoot;
     [SerializeField] private Button button;
-    private CraftingData data;
+    private CraftingItemData data;
     private List<CraftingRequiredItemUI> requiredItems;
     private CanvasGroup canvasGroup;
     private void Awake()
@@ -29,16 +29,16 @@ public class CraftingSelectedUI : MonoBehaviour
         CraftingTableUI.onShow += ()=>Active(false);
     }
 
-    private void Setup(CraftingData data)
+    private void Setup(CraftingItemData data)
     {
         this.data = data;
         Active(data != null);
         if (data == null)
             return;
 
-        itemIcon.sprite = data.itemData.Icon;
-        itemName.text = data.itemData.Name;
-        itemDescription.text = data.itemData.Description;
+        itemIcon.sprite = data.Icon;
+        itemName.text = data.Name;
+        itemDescription.text = data.Description;
 
         for (int i = 0; i < data.requiredItems.Length; i++)
         {

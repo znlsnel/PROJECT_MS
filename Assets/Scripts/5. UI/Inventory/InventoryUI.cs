@@ -10,6 +10,7 @@ public class InventoryUI : PopupUI
     [SerializeField] private GameObject quickSlotParent;
     [SerializeField] private GameObject equipSlotParent;
 
+
     private List<InventorySlotUI> itemSlots = new List<InventorySlotUI>();
     
     private List<ItemData> testItems = new List<ItemData>();
@@ -22,16 +23,9 @@ public class InventoryUI : PopupUI
  
     private void RegisterInput()
     {
-        testItems.Add(Managers.Data.items.GetByIndex(5001)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5002)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5101)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5102)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5103)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5201)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5202)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5301)); 
-        testItems.Add(Managers.Data.items.GetByIndex(5302));  
-        testItems.Add(Managers.Data.items.GetByIndex(5303)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3001)); 
+        testItems.Add(Managers.Data.items.GetByIndex(1001)); 
+  
         
 
 
