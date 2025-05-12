@@ -104,6 +104,7 @@ public class InteractionHandler : MonoBehaviour
         return sortedInteractables[0];
     }
 
+    
     public void SortInteractables()
     {
         // 외부에서 파괴되었을 수 있는 null 요소 제거
@@ -114,6 +115,7 @@ public class InteractionHandler : MonoBehaviour
              // 리스트에서 null이 제거된 경우, 일관성을 위해 HashSet 재생성
              // 약간 비효율적이지만 두 컬렉션의 동기화를 보장함
              uniqueInteractables = new HashSet<Interactable>(sortedInteractables);
+
         }
 
         if(sortedInteractables.Count < 2) 
