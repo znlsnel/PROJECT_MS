@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FishNet;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Transporting;
 using Steamworks;
@@ -37,6 +38,20 @@ public class NetworkManagerEx : IManager
         RegisterCallbacks();
 
         InstanceFinder.ServerManager.OnServerConnectionState += OnServerConnectionState;
+        InstanceFinder.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
+    }
+
+    private void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
+    {
+        switch(args.ConnectionState)
+        {
+            case RemoteConnectionState.Started:
+                foreach(NetworkBehaviour networkSystem in NetworkSystems)
+                {
+                    InstanceFinder.ServerManager.Spawn(networkSystem.NetworkObject);
+                }
+                break;
+        }
     }
 
     private void OnServerConnectionState(ServerConnectionStateArgs args)
