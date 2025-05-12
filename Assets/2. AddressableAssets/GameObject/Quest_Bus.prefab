@@ -1,0 +1,317 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &4127526258814667484
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 710728538902106869}
+  m_Layer: 0
+  m_Name: Quest_Bus
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &710728538902106869
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127526258814667484}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 52.453903, y: 0.00356856, z: 40.00708}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 5234054477579568557}
+  - {fileID: 6231855100385068598}
+  - {fileID: 9122687666645504377}
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1001 &5234054477579470381
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 710728538902106869}
+    m_Modifications:
+    - target: {fileID: 100604, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_Name
+      value: Veh_SchoolBus
+      objectReference: {fileID: 0}
+    - target: {fileID: 100604, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6468126, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 100604, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 5144686239903100791}
+  m_SourcePrefab: {fileID: 100100000, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+--- !u!1 &5234054477579505361 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100604, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+  m_PrefabInstance: {fileID: 5234054477579470381}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &5144686239903100791
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5234054477579505361}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf782a8dc85e6e444a1b0514ee74eb5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <interactAnimation>k__BackingField: {fileID: 0}
+  <interactAnimationSpeed>k__BackingField: 10
+  questStorageUIPrefab: {fileID: 6062953783743910609, guid: ec9f1a0bf7f94c94d97fd7d271889536, type: 3}
+  questStorageIndex: 1003
+  nextQuestObject: {fileID: 0}
+--- !u!4 &5234054477579568557 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 426880, guid: c62c8777587bbad45bfc5a81aa4b3bf4, type: 3}
+  m_PrefabInstance: {fileID: 5234054477579470381}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1001 &6231855100385539220
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 710728538902106869}
+    m_Modifications:
+    - target: {fileID: 198674, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_Name
+      value: Veh_SchoolBus_B
+      objectReference: {fileID: 0}
+    - target: {fileID: 198674, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6441594, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 198674, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7097920941224145326}
+  m_SourcePrefab: {fileID: 100100000, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+--- !u!4 &6231855100385068598 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 471714, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+  m_PrefabInstance: {fileID: 6231855100385539220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &6231855100385344646 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 198674, guid: 8ea9db1c58e8ed44494e57a8b6ce0f5f, type: 3}
+  m_PrefabInstance: {fileID: 6231855100385539220}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7097920941224145326
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6231855100385344646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf782a8dc85e6e444a1b0514ee74eb5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <interactAnimation>k__BackingField: {fileID: 0}
+  <interactAnimationSpeed>k__BackingField: 10
+  questStorageUIPrefab: {fileID: 6062953783743910609, guid: ec9f1a0bf7f94c94d97fd7d271889536, type: 3}
+  questStorageIndex: 1002
+  nextQuestObject: {fileID: 5234054477579505361}
+--- !u!1001 &9122687666645165641
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 710728538902106869}
+    m_Modifications:
+    - target: {fileID: 127686, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_Name
+      value: Veh_SchoolBus_C
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6499482, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      propertyPath: m_Convex
+      value: 1
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 127686, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 7615237682076215843}
+  m_SourcePrefab: {fileID: 100100000, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+--- !u!1 &9122687666645177487 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 127686, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+  m_PrefabInstance: {fileID: 9122687666645165641}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &7615237682076215843
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9122687666645177487}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf782a8dc85e6e444a1b0514ee74eb5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <interactAnimation>k__BackingField: {fileID: 0}
+  <interactAnimationSpeed>k__BackingField: 10
+  questStorageUIPrefab: {fileID: 6062953783743910609, guid: ec9f1a0bf7f94c94d97fd7d271889536, type: 3}
+  questStorageIndex: 1001
+  nextQuestObject: {fileID: 6231855100385344646}
+--- !u!4 &9122687666645504377 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 456496, guid: c24a6fc76918ee247a53403e2571c60c, type: 3}
+  m_PrefabInstance: {fileID: 9122687666645165641}
+  m_PrefabAsset: {fileID: 0}

@@ -108,7 +108,7 @@ public class InteractionHandler : MonoBehaviour
     {
         // 외부에서 파괴되었을 수 있는 null 요소 제거
         // 두 컬렉션을 모두 확인해야 하지만, 정렬을 위해 리스트를 정리하는 것이 주 목적임
-        int removedCount = sortedInteractables.RemoveAll(item => item == null);
+        int removedCount = sortedInteractables.RemoveAll(item => item == null || item.gameObject.activeSelf == false);
         if (removedCount > 0)
         {
              // 리스트에서 null이 제거된 경우, 일관성을 위해 HashSet 재생성

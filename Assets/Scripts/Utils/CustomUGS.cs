@@ -233,6 +233,10 @@ namespace Hamster.ZG.Type
             string value1 = tuple[0].Trim();
             string value2 = tuple[1].Trim();
 
+            if (value1 == "")
+                value1 = "-1";
+            if (value2 == "")
+                value2 = "-1";
 
             return new ValueTuple<int, int>(int.Parse(value1), int.Parse(value2));
         }
