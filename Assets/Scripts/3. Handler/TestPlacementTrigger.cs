@@ -6,12 +6,13 @@ public class TestPlacementTrigger : MonoBehaviour
     public PlacementHandler placementSystem;
     public QuickSlotHandler quickSlotHandler;
     private bool isPlacementModeActive = false; // 배치 모드 상태 추적
+    private ItemData currentItemData;
 
     private void Start()
     {
         quickSlotHandler.onSelectItem += (itemData) =>
         {
-            placementSystem.StartPlacement(itemData.PrefabPath);
+            currentItemData = itemData;
         };
 
         placementSystem.OnPlacementComplete += () => isPlacementModeActive = false;
@@ -23,9 +24,11 @@ public class TestPlacementTrigger : MonoBehaviour
         {
             if (!isPlacementModeActive)
             {
-                string prefabPath = "DropItem/Consumable/TestCube.prefab";
-                placementSystem.StartPlacement(prefabPath);
-                isPlacementModeActive = true;
+                if (currentItemData != null && currentItemData.ItemType == EItemType.Placeable)
+                {
+                    placementSystem.StartPlacement(currentItemData.PrefabPath);
+                    isPlacementModeActive = true;
+                }
             }
             else
             {
@@ -34,16 +37,4 @@ public class TestPlacementTrigger : MonoBehaviour
             }
         }
     }
-
-    // void Update()
-    // {
-    //     if (Keyboard.current.pKey.wasPressedThisFrame)
-    //     {
-    //         if (isPlacementModeActive)
-    //         {
-    //             placementSystem.CancelPlacement();
-    //             isPlacementModeActive = false;
-    //         }
-    //     }
-    // }
 }

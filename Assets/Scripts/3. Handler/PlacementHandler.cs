@@ -1,7 +1,6 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
-using FishNet;
 using FishNet.Object;
 using System;
 using System.Collections.Generic;
@@ -28,24 +27,30 @@ public class PlacementHandler : MonoBehaviour
 
     private Camera mainCamera;
     private Dictionary<Renderer, Material[]> materialCache = new Dictionary<Renderer, Material[]>();
+    public event Action OnPlacementComplete; // 배치 완료 이벤트
 
     private void Awake()
     {
         mainCamera = Camera.main;
     }
 
-    public event Action OnPlacementComplete; // 배치 완료 이벤트
-
     void Update()
     {
         if (!isPlacing || previewObject == null) return;
 
-        HandleRotationInput(); // 마우스 휠 회전
-        UpdatePreview(); // 미리보기 위치 및 상태 업데이트
+        float scrollDelta = Mouse.current.scroll.ReadValue().y;  // 마우스 휠 회전
+        yRotationOffset += scrollDelta * rotateSpeed * Time.deltaTime;
+
+        UpdatePreview();
 
         if (Mouse.current.leftButton.wasPressedThisFrame && isValidPosition)
         {
-            PlaceObject();
+            Vector3 position = previewObject.transform.position;
+            Quaternion rotation = previewObject.transform.rotation;
+            Addressables.InstantiateAsync(currentPrefabAddress, position, rotation);
+            CancelPlacement();
+
+            OnPlacementComplete?.Invoke(); // 배치 완료 이벤트 호출
         }
     }
 
@@ -55,22 +60,15 @@ public class PlacementHandler : MonoBehaviour
 
         currentPrefabAddress = prefabAddress; // 프리팹 주소 저장
 
-        // 프리팹 로드 및 인스턴스화
         Addressables.InstantiateAsync(prefabAddress).Completed += handle =>
         {
             previewObject = handle.Result;
 
-            if (previewObject.GetComponent<PlacementCheck>() == null) // 컴포넌트 확인
-            {
-                Destroy(previewObject);
-                return;
-            }
-
-            previewObject.SetActive(true); // 명시적으로 활성화
+            previewObject.SetActive(true);
 
             previewRenderers = previewObject.GetComponentsInChildren<Renderer>();
 
-            originalMaterials = new Material[previewRenderers.Length][]; // 원본 머티리얼 저장
+            originalMaterials = new Material[previewRenderers.Length][];
             for (int i = 0; i < previewRenderers.Length; i++)
             {
                 originalMaterials[i] = previewRenderers[i].materials;
@@ -83,43 +81,33 @@ public class PlacementHandler : MonoBehaviour
         };
     }
 
-    void UpdatePreview() // 미리보기 업데이트
-    {
-        if (!TryGetPlacementHit(out RaycastHit hit)) 
-        {
-            SetPreviewInvalid();
-            return;
-        }
-
-        UpdatePreviewTransform(hit);
-
-        if (!CanPlaceOnHit(hit, out string reason))
-        {
-            SetPreviewInvalid();
-            return;
-        }
-
-        ApplyPreviewMaterial(validMaterial);
-        isValidPosition = true;
-    }
-
-    bool TryGetPlacementHit(out RaycastHit hit) // 배치 히트 확인
+    void UpdatePreview() // 위치 및 회전 업데이트
     {
         Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
-        return Physics.Raycast(ray, out hit, 100f);
-    }
+        if (!Physics.Raycast(ray, out RaycastHit hit, 100f))
+        {
+            ApplyPreviewMaterial(invalidMaterial);
+            isValidPosition = false;
+            return;
+        }
 
-    void UpdatePreviewTransform(RaycastHit hit) // 미리보기 변환
-    {
         previewObject.transform.position = hit.point;
-
         Quaternion surfaceRotation = Quaternion.LookRotation(
             Vector3.ProjectOnPlane(mainCamera.transform.forward, hit.normal),
             hit.normal
         );
         Quaternion userRotation = Quaternion.Euler(0, yRotationOffset, 0);
-
         previewObject.transform.rotation = surfaceRotation * userRotation;
+
+        if (!CanPlaceOnHit(hit, out string reason))
+        {
+            ApplyPreviewMaterial(invalidMaterial);
+            isValidPosition = false;
+            return;
+        }
+
+        ApplyPreviewMaterial(validMaterial);
+        isValidPosition = true;
     }
 
     bool CanPlaceOnHit(RaycastHit hit, out string reason) // 배치 가능 여부
@@ -172,12 +160,6 @@ public class PlacementHandler : MonoBehaviour
         return true;
     }
 
-    void SetPreviewInvalid() // 미리보기 무효화
-    {
-        ApplyPreviewMaterial(invalidMaterial);
-        isValidPosition = false;
-    }
-
     public void CancelPlacement() // 배치 취소
     {
         if (previewObject != null)
@@ -190,22 +172,6 @@ public class PlacementHandler : MonoBehaviour
         currentPrefabAddress = null;
     }
 
-    void HandleRotationInput() // 오브젝트 회전
-    {
-        float scrollDelta = Mouse.current.scroll.ReadValue().y;
-        yRotationOffset += scrollDelta * rotateSpeed * Time.deltaTime;
-    }
-
-    void PlaceObject() // 배치
-    {
-        Vector3 position = previewObject.transform.position;
-        Quaternion rotation = previewObject.transform.rotation;
-        Addressables.InstantiateAsync(currentPrefabAddress, position, rotation);
-        CancelPlacement();
-
-        OnPlacementComplete?.Invoke(); // 배치 완료 이벤트 호출
-    }
-
     void ApplyPreviewMaterial(Material mat) // 미리보기 오브젝트 머티리얼 변경
     {
         foreach (var renderer in previewRenderers)
@@ -214,7 +180,7 @@ public class PlacementHandler : MonoBehaviour
             {
                 materialCache[renderer] = new Material[renderer.materials.Length];
             }
-            
+
             for (int i = 0; i < materialCache[renderer].Length; i++)
                 materialCache[renderer][i] = mat;
 
