@@ -1,6 +1,10 @@
 using UnityEngine;
 using UnityEngine.AddressableAssets;
 using UnityEngine.InputSystem;
+using FishNet;
+using FishNet.Object;
+using System;
+using System.Collections.Generic;
 
 public class PlacementHandler : MonoBehaviour
 {
@@ -10,7 +14,7 @@ public class PlacementHandler : MonoBehaviour
     public Material invalidMaterial; // 유효하지 않은 머티리얼
     public float rotateSpeed = 10f; // 마우스 휠 회전 속도
 
-    [Header("무시할 조건")]
+    [Header("무시 조건")]
     public LayerMask ignoredLayers; // 무시 레이어
     public string[] ignoredTags; // 무시 태그
 
@@ -22,11 +26,21 @@ public class PlacementHandler : MonoBehaviour
     private string currentPrefabAddress; // 배치할 프리팹 주소
     private float yRotationOffset = 0f; // 수동 회전값
 
+    private Camera mainCamera;
+    private Dictionary<Renderer, Material[]> materialCache = new Dictionary<Renderer, Material[]>();
+
+    private void Awake()
+    {
+        mainCamera = Camera.main;
+    }
+
+    public event Action OnPlacementComplete; // 배치 완료 이벤트
+
     void Update()
     {
         if (!isPlacing || previewObject == null) return;
 
-        HandleRotationInput(); // 마우스 휠 입력 처리
+        HandleRotationInput(); // 마우스 휠 회전
         UpdatePreview(); // 미리보기 위치 및 상태 업데이트
 
         if (Mouse.current.leftButton.wasPressedThisFrame && isValidPosition)
@@ -45,6 +59,15 @@ public class PlacementHandler : MonoBehaviour
         Addressables.InstantiateAsync(prefabAddress).Completed += handle =>
         {
             previewObject = handle.Result;
+
+            if (previewObject.GetComponent<PlacementCheck>() == null) // 컴포넌트 확인
+            {
+                Destroy(previewObject);
+                return;
+            }
+
+            previewObject.SetActive(true); // 명시적으로 활성화
+
             previewRenderers = previewObject.GetComponentsInChildren<Renderer>();
 
             originalMaterials = new Material[previewRenderers.Length][]; // 원본 머티리얼 저장
@@ -60,7 +83,102 @@ public class PlacementHandler : MonoBehaviour
         };
     }
 
-    public void CancelPlacement()// 배치 취소
+    void UpdatePreview() // 미리보기 업데이트
+    {
+        if (!TryGetPlacementHit(out RaycastHit hit)) 
+        {
+            SetPreviewInvalid();
+            return;
+        }
+
+        UpdatePreviewTransform(hit);
+
+        if (!CanPlaceOnHit(hit, out string reason))
+        {
+            SetPreviewInvalid();
+            return;
+        }
+
+        ApplyPreviewMaterial(validMaterial);
+        isValidPosition = true;
+    }
+
+    bool TryGetPlacementHit(out RaycastHit hit) // 배치 히트 확인
+    {
+        Ray ray = mainCamera.ScreenPointToRay(Mouse.current.position.ReadValue());
+        return Physics.Raycast(ray, out hit, 100f);
+    }
+
+    void UpdatePreviewTransform(RaycastHit hit) // 미리보기 변환
+    {
+        previewObject.transform.position = hit.point;
+
+        Quaternion surfaceRotation = Quaternion.LookRotation(
+            Vector3.ProjectOnPlane(mainCamera.transform.forward, hit.normal),
+            hit.normal
+        );
+        Quaternion userRotation = Quaternion.Euler(0, yRotationOffset, 0);
+
+        previewObject.transform.rotation = surfaceRotation * userRotation;
+    }
+
+    bool CanPlaceOnHit(RaycastHit hit, out string reason) // 배치 가능 여부
+    {
+        GameObject hitObject = hit.collider.gameObject;
+        var rules = previewObject.GetComponent<PlacementCheck>();
+
+        if (((1 << hitObject.layer) & placementLayer) == 0) // 배치 레이어
+        {
+            reason = "배치 불가능 레이어";
+            return false;
+        }
+
+        if (((1 << hitObject.layer) & ignoredLayers) != 0) // 무시 레이어
+        {
+            reason = "무시 레이어";
+            return false;
+        }
+
+        if (Array.Exists(ignoredTags, tag => hitObject.CompareTag(tag))) // 무시 태그
+        {
+            reason = "무시 태그";
+            return false;
+        }
+
+        if (rules.slopeLimit) // 경사도
+        {
+            float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
+            if (slopeAngle > rules.maxSlopeAngle)
+            {
+                reason = "가파른 경사";
+                return false;
+            }
+        }
+
+        if (rules.overlapCheck) // 중첩
+        {
+            Bounds bounds = GetBounds(previewObject);
+            Collider[] overlaps = Physics.OverlapBox(bounds.center, bounds.extents * 0.9f,
+                previewObject.transform.rotation, ~0, QueryTriggerInteraction.Ignore);
+
+            if (overlaps.Length > 0)
+            {
+                reason = "중첩";
+                return false;
+            }
+        }
+
+        reason = null;
+        return true;
+    }
+
+    void SetPreviewInvalid() // 미리보기 무효화
+    {
+        ApplyPreviewMaterial(invalidMaterial);
+        isValidPosition = false;
+    }
+
+    public void CancelPlacement() // 배치 취소
     {
         if (previewObject != null)
             Destroy(previewObject);
@@ -70,67 +188,6 @@ public class PlacementHandler : MonoBehaviour
         previewRenderers = null;
         originalMaterials = null;
         currentPrefabAddress = null;
-    }
-
-    void UpdatePreview()
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());// 미리보기 오브젝트 위치 상태 업데이트
-
-        if (Physics.Raycast(ray, out RaycastHit hit, 100f))
-        {
-            GameObject hitObject = hit.collider.gameObject;
-
-            previewObject.transform.position = hit.point; // 미리보기 위치 설정
-
-            Quaternion surfaceRotation = Quaternion.LookRotation(
-                Vector3.ProjectOnPlane(Camera.main.transform.forward, hit.normal),
-                hit.normal
-            );
-            Quaternion userRotation = Quaternion.Euler(0, yRotationOffset, 0);
-            previewObject.transform.rotation = surfaceRotation * userRotation;
-
-            // 배치 가능 여부 검사
-            bool isIgnoredLayer = ((1 << hitObject.layer) & ignoredLayers) != 0;
-            bool isIgnoredTag = System.Array.Exists(ignoredTags, tag => hitObject.CompareTag(tag));
-            bool isPlaceable = ((1 << hitObject.layer) & placementLayer) != 0;
-
-            // 경사도 검사
-            var rules = previewObject.GetComponent<PlacementCheck>();
-            bool slopeOkay = true;
-            if (rules == null || rules.enforceSlopeLimit)
-            {
-                float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-                float maxSlope = (rules != null) ? rules.maxSlopeAngle : 20f;
-                slopeOkay = slopeAngle <= maxSlope;
-            }
-
-            // 중첩 검사
-            bool overlapOkay = true;
-            if (rules == null || rules.enforceOverlapCheck)
-            {
-                Bounds bounds = GetBounds(previewObject);
-                Collider[] overlaps = Physics.OverlapBox(bounds.center, bounds.extents * 0.9f, 
-                    previewObject.transform.rotation, ~0, QueryTriggerInteraction.Ignore);
-                overlapOkay = overlaps.Length == 0;
-            }
-
-            // 최종 배치 가능 여부 결정
-            if (isIgnoredLayer || isIgnoredTag || !isPlaceable || !slopeOkay || !overlapOkay)
-            {
-                ApplyPreviewMaterial(invalidMaterial); // 빨간색 머터리얼
-                isValidPosition = false; //  불가능
-            }
-            else
-            {
-                ApplyPreviewMaterial(validMaterial); // 녹색 머터리얼
-                isValidPosition = true; // 가능
-            }
-        }
-        else
-        {
-            ApplyPreviewMaterial(invalidMaterial); // 빨간색 머터리얼
-            isValidPosition = false; // 불가능
-        }
     }
 
     void HandleRotationInput() // 오브젝트 회전
@@ -145,17 +202,23 @@ public class PlacementHandler : MonoBehaviour
         Quaternion rotation = previewObject.transform.rotation;
         Addressables.InstantiateAsync(currentPrefabAddress, position, rotation);
         CancelPlacement();
+
+        OnPlacementComplete?.Invoke(); // 배치 완료 이벤트 호출
     }
 
     void ApplyPreviewMaterial(Material mat) // 미리보기 오브젝트 머티리얼 변경
     {
         foreach (var renderer in previewRenderers)
         {
-            Material[] mats = new Material[renderer.materials.Length];
-            for (int i = 0; i < mats.Length; i++)
-                mats[i] = mat;
+            if (!materialCache.ContainsKey(renderer))
+            {
+                materialCache[renderer] = new Material[renderer.materials.Length];
+            }
+            
+            for (int i = 0; i < materialCache[renderer].Length; i++)
+                materialCache[renderer][i] = mat;
 
-            renderer.materials = mats;
+            renderer.materials = materialCache[renderer];
         }
     }
 

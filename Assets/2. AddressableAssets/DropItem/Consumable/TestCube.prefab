@@ -134,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 7940887336743998335}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 543.26697, y: 164.1681, z: 823.39496}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -153,6 +153,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3f11701c1248434aa83e2407f5a4181, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enforceSlopeLimit: 0
-  maxSlopeAngle: 21.4
-  enforceOverlapCheck: 1
+  slopeLimit: 1
+  maxSlopeAngle: 25
+  overlapCheck: 0
