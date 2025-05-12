@@ -129,7 +129,7 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
 
     private void SceneInitializer()
     {
-        NetworkSceneInitializer sceneInitializer = Object.FindAnyObjectByType<NetworkSceneInitializer>();
+        SceneInitializer sceneInitializer = Object.FindAnyObjectByType<SceneInitializer>();
         sceneInitializer?.Initialize();
     }
 

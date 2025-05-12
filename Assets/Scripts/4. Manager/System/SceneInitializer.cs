@@ -1,7 +1,7 @@
 using FishNet.Object;
 using UnityEngine;
 
-public abstract class NetworkSceneInitializer : NetworkBehaviour
+public abstract class SceneInitializer : MonoBehaviour
 {
     public abstract void Initialize();
 }
