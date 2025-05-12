@@ -7,11 +7,11 @@ public class NetworkUI : MonoBehaviour
 {
     public void OnClickHost()
     {
-        NetworkManagerEx.Instance.CreateLobby();
+        Managers.Network.CreateLobby();
     }
 
     public void OnClickStart()
     {
-        Managers.Scene.LoadScene("Demo");
+        NetworkSceneSystem.Instance?.LoadScene("Demo");
     }
 }

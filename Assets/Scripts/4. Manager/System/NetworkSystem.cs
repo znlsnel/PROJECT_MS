@@ -4,13 +4,11 @@ using FishNet;
 using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Object;
+using GameKit.Dependencies.Utilities.Types;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public class NetworkSystem : NetworkBehaviour
+public class NetworkSystem : NetworkSingleton<NetworkSystem>
 {
-    public void Update()
-    {
-        Debug.Log(Owner);
-    }
+
 }

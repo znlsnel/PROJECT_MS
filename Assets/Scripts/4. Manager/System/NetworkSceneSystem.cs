@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using UnityEngine.SceneManagement;
 using Cysharp.Threading.Tasks;
 using System.Collections.Generic;
@@ -6,8 +6,9 @@ using FishNet.Connection;
 using FishNet;
 using FishNet.Managing.Scened;
 using FishNet.Object;
+using System.Collections;
 
-public class SceneManagerEx : IManager
+public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
 {
     private HashSet<NetworkConnection> readyClients = new HashSet<NetworkConnection>();
 
@@ -26,13 +27,13 @@ public class SceneManagerEx : IManager
     public event System.Action<string> OnChangeTaskName;
     public event System.Action<float> OnChangeTaskProgress;
 
-    public void Init()
+    public void OnEnable()
     {
         InstanceFinder.SceneManager.OnLoadPercentChange += OnLoadPercentChange;
         InstanceFinder.SceneManager.OnLoadEnd += OnLoadEnd;
     }
 
-    public void Clear()
+    public void OnDisable()
     {
         InstanceFinder.SceneManager.OnLoadPercentChange -= OnLoadPercentChange;
         InstanceFinder.SceneManager.OnLoadEnd -= OnLoadEnd;
@@ -48,7 +49,7 @@ public class SceneManagerEx : IManager
         if (isInTransition)
             return;
 
-        LoadSceneAsync(sceneName, loadSceneMode).Forget();
+        LoadSceneRpc(sceneName, loadSceneMode);
     }
 
     /// <summary>
@@ -61,7 +62,13 @@ public class SceneManagerEx : IManager
         if (isInTransition || sceneIndex < 0 || sceneIndex >= availableScenes.Length)
             return;
 
-        LoadSceneAsync(availableScenes[sceneIndex], loadSceneMode).Forget();
+        LoadSceneRpc(availableScenes[sceneIndex], loadSceneMode);
+    }
+
+    [ObserversRpc]
+    private void LoadSceneRpc(string sceneName, LoadSceneMode loadSceneMode)
+    {
+        LoadSceneAsync(sceneName, loadSceneMode).Forget();
     }
 
     private async UniTaskVoid LoadSceneAsync(string sceneName, LoadSceneMode loadSceneMode)
@@ -76,7 +83,7 @@ public class SceneManagerEx : IManager
 
         Managers.Resource.LoadAllAsync<Object>("default", (key, count, total) =>
         {
-            CurrentTaskProgress = count / total;
+            CurrentTaskProgress = (float)count / total;
             OnChangeTaskProgress?.Invoke(CurrentTaskProgress);
         });
         
@@ -87,13 +94,24 @@ public class SceneManagerEx : IManager
 
         await UniTask.WaitForEndOfFrame();
 
-        SceneLoadData sceneLoadData = new SceneLoadData(sceneName);
-        sceneLoadData.ReplaceScenes = ReplaceOption.All;
-
         CurrentTaskName = "씬 로드 중...";
         OnChangeTaskName?.Invoke(CurrentTaskName);
 
-        InstanceFinder.SceneManager.LoadGlobalScenes(sceneLoadData);
+        OnPreloadComplete(sceneName);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void OnPreloadComplete(string sceneName, NetworkConnection conn = null)
+    {
+        readyClients.Add(conn);
+
+        if(readyClients.Count == InstanceFinder.ServerManager.Clients.Count)
+        {
+            SceneLoadData sceneLoadData = new SceneLoadData(sceneName);
+            sceneLoadData.ReplaceScenes = ReplaceOption.All;
+
+            InstanceFinder.SceneManager.LoadGlobalScenes(sceneLoadData);
+        }
     }
 
     private void OnLoadPercentChange(SceneLoadPercentEventArgs args)

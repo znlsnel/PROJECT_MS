@@ -247,7 +247,6 @@ GameObject:
   m_Component:
   - component: {fileID: 272950993}
   - component: {fileID: 272950997}
-  - component: {fileID: 272950996}
   - component: {fileID: 272950995}
   - component: {fileID: 272950994}
   m_Layer: 0
@@ -309,22 +308,6 @@ MonoBehaviour:
   _maximumClients: 9001
   _peerToPeer: 1
   _clientAddress: 
---- !u!114 &272950996
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 272950988}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a2add791412da0141b63191741de7392, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <maxConnections>k__BackingField: 10
-  <networkAddress>k__BackingField: 127.0.0.1
-  <FishySteamworks>k__BackingField: {fileID: 272950995}
-  LobbyType: 2
 --- !u!114 &272950997
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -375,7 +358,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   input:
     inputActionAsset: {fileID: -944628639613478452, guid: 2e952bd821ac0e944b68a01c9ad57942, type: 3}
-  network: {fileID: 0}
+  network:
+    <maxConnections>k__BackingField: 10
+    <networkAddress>k__BackingField: 127.0.0.1
+    <FishySteamworks>k__BackingField: {fileID: 0}
+    LobbyType: 2
+    NetworkPrefabs:
+    - {fileID: -1234943184309924623, guid: d4c820ff864f6c346bca55dcd89a3f71, type: 3}
 --- !u!4 &459606643
 Transform:
   m_ObjectHideFlags: 0
@@ -502,7 +491,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -0.98498535, y: 150}
+  m_AnchoredPosition: {x: -0.9848633, y: 150}
   m_SizeDelta: {x: 1.97, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &781010733

@@ -1,24 +1,22 @@
+using System.Collections.Generic;
 using FishNet;
-using FishNet.Managing;
-using GameKit.Dependencies.Utilities.Types;
+using FishNet.Object;
+using FishNet.Transporting;
 using Steamworks;
-using Unity.VisualScripting;
 using UnityEngine;
 
-public class NetworkManagerEx : MonoBehaviour
+[System.Serializable]
+public class NetworkManagerEx : IManager
 {
-    private static NetworkManagerEx instance;
-    public static NetworkManagerEx Instance => instance;
-
     [field: SerializeField] public int maxConnections { get; set; } = 10;
     [field: SerializeField] public string networkAddress { get; set; } = "127.0.0.1";
 
     [field: SerializeField] public FishySteamworks.FishySteamworks FishySteamworks { get; private set; }
     
-    protected Callback<LobbyCreated_t> _lobbyCreated;
-    protected Callback<GameLobbyJoinRequested_t> _gameLobbyJoinRequested;
-    protected Callback<LobbyEnter_t> _lobbyEntered;
-    protected Callback<LobbyMatchList_t> _lobbyList;
+    private Callback<LobbyCreated_t> _lobbyCreated;
+    private Callback<GameLobbyJoinRequested_t> _gameLobbyJoinRequested;
+    private Callback<LobbyEnter_t> _lobbyEntered;
+    private Callback<LobbyMatchList_t> _lobbyList;
     
     public ELobbyType LobbyType = ELobbyType.k_ELobbyTypePublic;
 
@@ -26,23 +24,57 @@ public class NetworkManagerEx : MonoBehaviour
 
     private const string HostAddressKey = "HostAddress";
 
-    public void Awake()
+    [SerializeField] private NetworkBehaviour[] NetworkPrefabs;
+
+    public List<NetworkBehaviour> NetworkSystems { get; private set; } = new List<NetworkBehaviour>();
+
+    public void Init()
     {
-        instance = this;
-        FishySteamworks = GetComponent<FishySteamworks.FishySteamworks>();
+        FishySteamworks = Object.FindAnyObjectByType<FishySteamworks.FishySteamworks>();
 
         SteamAPI.Init();
 
-        DDOL ddol = DDOL.GetDDOL();
-        ddol.AddComponent<NetworkSystem>();
+        RegisterCallbacks();
+
+        InstanceFinder.ServerManager.OnServerConnectionState += OnServerConnectionState;
     }
 
-    public void Start()
+    private void OnServerConnectionState(ServerConnectionStateArgs args)
+    {
+        switch(args.ConnectionState)
+        {
+            case LocalConnectionState.Started:
+                foreach(NetworkBehaviour prefab in NetworkPrefabs)
+                {
+                    NetworkBehaviour networkSystem = Object.Instantiate(prefab);
+                    networkSystem.NetworkObject.SetIsGlobal(true);
+                    InstanceFinder.ServerManager.Spawn(networkSystem.NetworkObject);
+                    NetworkSystems.Add(networkSystem);
+                }
+                break;
+            case LocalConnectionState.Stopped:
+                foreach(NetworkBehaviour networkSystem in NetworkSystems)
+                {
+                    InstanceFinder.ServerManager.Despawn(networkSystem.NetworkObject);
+                }
+                NetworkSystems.Clear();
+                break;
+        }
+    }
+
+    private void RegisterCallbacks()
     {
         _lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);
         _gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequested);
         _lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         _lobbyList = Callback<LobbyMatchList_t>.Create(OnLobbyList);
+    }
+
+    public void Clear()
+    {
+        SteamAPI.Shutdown();
+
+        InstanceFinder.ServerManager.OnServerConnectionState -= OnServerConnectionState;
     }
 
     public void Update()
@@ -84,7 +116,7 @@ public class NetworkManagerEx : MonoBehaviour
         FishySteamworks.StartConnection(false);
     }
 
-    public static void JoinByID(CSteamID steamID)
+    public void JoinByID(CSteamID steamID)
     {
         Debug.Log("Attempting to join lobby with ID: " + steamID.m_SteamID);
 
@@ -95,14 +127,14 @@ public class NetworkManagerEx : MonoBehaviour
 
     }
 
-    public static void LeaveLobby()
+    public void LeaveLobby()
     {
         SteamMatchmaking.LeaveLobby(new CSteamID(CurrentLobbyId));
         CurrentLobbyId = 0;
 
-        instance.FishySteamworks.StopConnection(false);
+        FishySteamworks.StopConnection(false);
         if(InstanceFinder.NetworkManager.IsServerStarted)
-            instance.FishySteamworks.StopConnection(true);
+            FishySteamworks.StopConnection(true);
 
     }
 
