@@ -43,18 +43,16 @@ public class LoadingScene : MonoBehaviour
         switch(args.ConnectionState)
         {
             case LocalConnectionState.Started:
-                networkSceneSystem = NetworkSceneSystem.Instance;
-
-                networkSceneSystem.OnLoadingStart += OnLoadingStart;
-                networkSceneSystem.OnChangeTaskName += (name) => {taskName.text = name;};
-                networkSceneSystem.OnChangeTaskProgress += (progress) => {slider.value = progress;};
-                networkSceneSystem.OnLoadingEnd += OnLoadingEnd;
+                NetworkSceneSystem.OnLoadingStart += OnLoadingStart;
+                NetworkSceneSystem.OnChangeTaskName += (name) => {taskName.text = name;};
+                NetworkSceneSystem.OnChangeTaskProgress += (progress) => {slider.value = progress;};
+                NetworkSceneSystem.OnLoadingEnd += OnLoadingEnd;
                 break;
             case LocalConnectionState.Stopped:
-                networkSceneSystem.OnLoadingStart -= OnLoadingStart;
-                networkSceneSystem.OnChangeTaskName -= (name) => {taskName.text = name;};
-                networkSceneSystem.OnChangeTaskProgress -= (progress) => {slider.value = progress;};
-                networkSceneSystem.OnLoadingEnd -= OnLoadingEnd;
+                NetworkSceneSystem.OnLoadingStart -= OnLoadingStart;
+                NetworkSceneSystem.OnChangeTaskName -= (name) => {taskName.text = name;};
+                NetworkSceneSystem.OnChangeTaskProgress -= (progress) => {slider.value = progress;};
+                NetworkSceneSystem.OnLoadingEnd -= OnLoadingEnd;
                 break;
         }
     }

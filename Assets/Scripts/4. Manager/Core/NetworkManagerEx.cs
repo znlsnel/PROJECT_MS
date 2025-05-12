@@ -41,14 +41,14 @@ public class NetworkManagerEx : IManager
         InstanceFinder.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
     }
 
-    private void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
+    private void OnRemoteConnectionState(NetworkConnection conn, RemoteConnectionStateArgs args)
     {
         switch(args.ConnectionState)
         {
             case RemoteConnectionState.Started:
                 foreach(NetworkBehaviour networkSystem in NetworkSystems)
                 {
-                    InstanceFinder.ServerManager.Spawn(networkSystem.NetworkObject);
+                    InstanceFinder.ServerManager.Spawn(networkSystem.NetworkObject, conn);
                 }
                 break;
         }

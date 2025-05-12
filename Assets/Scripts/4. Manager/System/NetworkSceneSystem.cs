@@ -22,10 +22,10 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
     public string CurrentTaskName { get; private set; }
     public float CurrentTaskProgress { get; private set; }
 
-    public event System.Action OnLoadingStart;
-    public event System.Action OnLoadingEnd;
-    public event System.Action<string> OnChangeTaskName;
-    public event System.Action<float> OnChangeTaskProgress;
+    public static event System.Action OnLoadingStart;
+    public static event System.Action OnLoadingEnd;
+    public static event System.Action<string> OnChangeTaskName;
+    public static event System.Action<float> OnChangeTaskProgress;
 
     public void OnEnable()
     {
@@ -129,7 +129,7 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
 
     private void SceneInitializer()
     {
-        SceneInitializer sceneInitializer = Object.FindAnyObjectByType<SceneInitializer>();
+        NetworkSceneInitializer sceneInitializer = Object.FindAnyObjectByType<NetworkSceneInitializer>();
         sceneInitializer?.Initialize();
     }
 
