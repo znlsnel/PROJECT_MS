@@ -27,6 +27,8 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
     public static event System.Action<string> OnChangeTaskName;
     public static event System.Action<float> OnChangeTaskProgress;
 
+    [SerializeField] private NetworkObject playerPrefab;
+
     public void OnEnable()
     {
         InstanceFinder.SceneManager.OnLoadPercentChange += OnLoadPercentChange;
@@ -131,6 +133,14 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
     {
         SceneInitializer sceneInitializer = Object.FindAnyObjectByType<SceneInitializer>();
         sceneInitializer?.Initialize();
+
+        if(!InstanceFinder.IsServerStarted) return;
+
+        foreach(var conn in InstanceFinder.ServerManager.Clients)
+        {
+            NetworkObject player = Instantiate(playerPrefab);
+            InstanceFinder.ServerManager.Spawn(player, conn.Value);
+        }
     }
 
     /// <summary>
