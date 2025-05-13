@@ -18,6 +18,7 @@ public class ItemPickupUI : PopupUI
 
     private void Setup(ItemData data)
     {
+        Managers.UI.ClosePopupUI(this);
         Managers.UI.ShowPopupUI<ItemPickupUI>(this); 
         itemIcon.sprite = data.Icon;
         itemName.text = data.Name;
@@ -25,9 +26,9 @@ public class ItemPickupUI : PopupUI
         // 기존에 panel에 적용된 모든 트윈을 종료
         panel.DOKill();
 
+        panel.localScale = Vector3.one;
         panel.DOScale(1.2f, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
         {
-
             DOVirtual.DelayedCall(0.5f, () =>
             {
                 panel.DOScale(1f, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
@@ -36,5 +37,6 @@ public class ItemPickupUI : PopupUI
                 });
             });
         });
+
     }
 }

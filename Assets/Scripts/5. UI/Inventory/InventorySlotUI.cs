@@ -7,27 +7,30 @@ using DG.Tweening;
 
 public class InventorySlotUI : ItemSlotUI
 {
-    public ItemSlot ItemSlot {get; private set;}
+    public ItemSlot ItemSlot {get; protected set;}
 
     public Action<ItemSlot> onSetup;
     
 
-    public void Setup(ItemSlot itemSlot)
+    public virtual void Setup(ItemSlot itemSlot)
     {
+        if (itemSlot == null)
+            return;
+ 
         ItemSlot = itemSlot;
         ItemSlot.onChangeStack += UpdateSlotState; 
         UpdateSlotState(itemSlot);
         onSetup?.Invoke(itemSlot);
     }
 
-    public void UnSetup()
+    public virtual void UnSetup()
     {
         if (ItemSlot != null && ItemSlot.onChangeStack != null)
             ItemSlot.onChangeStack -= UpdateSlotState;
         ItemSlot = null;
     } 
 
-    public void UpdateSlotState(ItemSlot itemSlot)
+    public virtual void UpdateSlotState(ItemSlot itemSlot)
     {
         onUpdate?.Invoke(itemSlot.Data);
         itemIcon.gameObject.SetActive(itemSlot.Data != null);
@@ -49,7 +52,8 @@ public class InventorySlotUI : ItemSlotUI
 
     protected override void ClickAction()
     {
-        ItemDragHandler.SelectItemSlot(this); 
+        if (!ItemDragHandler.SelectItemSlot(this))
+            ItemDragHandler.SwapItem(this);
     }
 
     protected override void MouseHoverAction(bool isHover)

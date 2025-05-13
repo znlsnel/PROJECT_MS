@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-public class QuestDataManager : BaseDataHandler<QuestData>
+public class QuestDataManager : DataHandler<QuestData>
 {
-    private DataHandler<GameData.Quest> questTable;
+    private UGSDataHandler<GameData.Quest> questTable;
 
 
     protected override void Init()
@@ -13,8 +13,7 @@ public class QuestDataManager : BaseDataHandler<QuestData>
         if (questTable != null)
             return; 
 
-        
-        questTable = new DataHandler<GameData.Quest>();
+        questTable = new UGSDataHandler<GameData.Quest>();
 
         List<GameData.Quest> quests = questTable.GetAll();
         foreach (GameData.Quest quest in quests)
