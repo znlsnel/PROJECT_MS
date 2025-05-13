@@ -1,24 +1,24 @@
+using System.Collections.Generic;
 using FishNet;
 using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 
-public class DemeSceneInitializer : SceneInitializer
+public class DemeSceneInitializer : NetworkSceneInitializer
 {
     [SerializeField] private NetworkObject playerPrefab;
 
     public override void Initialize()
     {
-        SpawnPlayer();
+        RequestSpawnPlayer();
     }
 
-    [Server]
-    public void SpawnPlayer()
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestSpawnPlayer(NetworkConnection conn = null)
     {
-        foreach(var conn in InstanceFinder.ServerManager.Clients)
-        {
-            NetworkObject player = Instantiate(playerPrefab);
-            InstanceFinder.ServerManager.Spawn(player, conn.Value);
-        }
+        if(conn.FirstObject != null)
+            return;
+
+        NetworkSceneSystem.Instance?.SpawnPlayerForConnection(conn, playerPrefab);
     }
 }

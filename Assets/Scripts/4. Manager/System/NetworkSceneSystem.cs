@@ -125,22 +125,26 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
     private void OnLoadEnd(SceneLoadEndEventArgs args)
     {
         isInTransition = false;
-        OnLoadingEnd?.Invoke();
+
         SceneInitializer();
+
+        OnLoadingEnd?.Invoke();
     }
 
-    private void SceneInitializer()
+    private void SceneInitializer(NetworkConnection conn = null)
     {
-        SceneInitializer sceneInitializer = Object.FindAnyObjectByType<SceneInitializer>();
+        Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
+        InstanceFinder.SceneManager.AddConnectionToScene(conn, scene);
+
+        NetworkSceneInitializer sceneInitializer = Object.FindAnyObjectByType<NetworkSceneInitializer>();
         sceneInitializer?.Initialize();
+    }
 
-        if(!InstanceFinder.IsServerStarted) return;
-
-        foreach(var conn in InstanceFinder.ServerManager.Clients)
-        {
-            NetworkObject player = Instantiate(playerPrefab);
-            InstanceFinder.ServerManager.Spawn(player, conn.Value);
-        }
+    [Server]
+    public void SpawnPlayerForConnection(NetworkConnection conn, NetworkObject playerPrefab)
+    {
+        NetworkObject playerInstance = Instantiate(playerPrefab);
+        InstanceFinder.ServerManager.Spawn(playerInstance, conn);
     }
 
     /// <summary>
