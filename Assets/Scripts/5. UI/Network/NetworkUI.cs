@@ -25,6 +25,6 @@ public class NetworkUI : MonoBehaviour
 
     public void OnClickStart()
     {
-        NetworkSceneSystem.Instance?.LoadScene("Demo");
+        NetworkSceneSystem.Instance?.LoadScene("Game");
     }
 }
