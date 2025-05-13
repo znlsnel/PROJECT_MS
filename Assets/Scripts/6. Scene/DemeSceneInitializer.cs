@@ -10,15 +10,6 @@ public class DemeSceneInitializer : NetworkSceneInitializer
 
     public override void Initialize()
     {
-        RequestSpawnPlayer();
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void RequestSpawnPlayer(NetworkConnection conn = null)
-    {
-        if(conn.FirstObject != null)
-            return;
-
-        NetworkSceneSystem.Instance?.SpawnPlayerForConnection(conn, playerPrefab);
+        
     }
 }
