@@ -19,7 +19,7 @@ public class PopupUI : UIBase
 	}
 
 
-	private IEnumerator Fade(float target, float duration)
+	protected IEnumerator Fade(float target, float duration)
 	{
 		float time = 0;
 		while (time < duration)
