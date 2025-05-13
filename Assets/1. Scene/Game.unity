@@ -1726,6 +1726,26 @@ PrefabInstance:
       propertyPath: m_LocalRotation.z
       value: 0.22911099
       objectReference: {fileID: 0}
+    - target: {fileID: 19937874, guid: fc218220255d9c84391077d4254c5942, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19947060, guid: fc218220255d9c84391077d4254c5942, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19947378, guid: fc218220255d9c84391077d4254c5942, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19969560, guid: fc218220255d9c84391077d4254c5942, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 19973006, guid: fc218220255d9c84391077d4254c5942, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -11288,7 +11308,6 @@ Transform:
   - {fileID: 166589611}
   - {fileID: 700132604}
   - {fileID: 96380756}
-  - {fileID: 818715904}
   - {fileID: 1022770642}
   - {fileID: 1309519335}
   - {fileID: 1643326021}
@@ -25808,76 +25827,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d632272b8d4062f46825999bcdbf6817, type: 3}
---- !u!1001 &818715903
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    serializedVersion: 3
-    m_TransformParent: {fileID: 358407802}
-    m_Modifications:
-    - target: {fileID: 128010, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_Name
-      value: ivy_cornerOut (4)
-      objectReference: {fileID: 0}
-    - target: {fileID: 128010, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_RootOrder
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -5.7300034
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1.3910007
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0.25999665
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.70710695
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0.000000015454313
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.70710665
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.000000015454306
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90.00001
-      objectReference: {fileID: 0}
-    - target: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-    m_RemovedGameObjects: []
-    m_AddedGameObjects: []
-    m_AddedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: c16e821b7165db147a5a2694d7404381, type: 3}
---- !u!4 &818715904 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 483246, guid: c16e821b7165db147a5a2694d7404381, type: 3}
-  m_PrefabInstance: {fileID: 818715903}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &821810131 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 438960, guid: 83cf31e2eaf01d944b7c1ae69ad78141, type: 3}
@@ -34645,6 +34594,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 1991488838}
     m_Modifications:
+    - target: {fileID: 7470205839699010032, guid: 38c4ea2fe75685f4a91cde44484523ef, type: 3}
+      propertyPath: m_Materials.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7470205839699010032, guid: 38c4ea2fe75685f4a91cde44484523ef, type: 3}
+      propertyPath: 'm_Materials.Array.data[1]'
+      value: 
+      objectReference: {fileID: 2100000, guid: ee8371488fbd60c47b71b28b4f2deb5c, type: 2}
     - target: {fileID: 7470205839700910864, guid: 38c4ea2fe75685f4a91cde44484523ef, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -62701,7 +62658,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3336991214496338284, guid: fc270811b6f964f4fba69a23afa43915, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 70.157
+      value: 69.97
       objectReference: {fileID: 0}
     - target: {fileID: 3336991214496338284, guid: fc270811b6f964f4fba69a23afa43915, type: 3}
       propertyPath: m_LocalPosition.y
@@ -62709,7 +62666,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3336991214496338284, guid: fc270811b6f964f4fba69a23afa43915, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 40.478
+      value: 42.19
       objectReference: {fileID: 0}
     - target: {fileID: 3336991214496338284, guid: fc270811b6f964f4fba69a23afa43915, type: 3}
       propertyPath: m_LocalRotation.w
