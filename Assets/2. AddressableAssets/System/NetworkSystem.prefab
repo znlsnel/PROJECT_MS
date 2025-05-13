@@ -11,8 +11,9 @@ GameObject:
   - component: {fileID: 5417057070565643282}
   - component: {fileID: -1234943184309924623}
   - component: {fileID: -5041718670282572282}
+  - component: {fileID: -8672764219875261486}
   m_Layer: 0
-  m_Name: NetworkSceneSystem
+  m_Name: NetworkSystem
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -98,10 +99,25 @@ MonoBehaviour:
   _teleportThreshold: 1
   <PrefabId>k__BackingField: 5
   <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 8761122310869816337
+  <AssetPathHash>k__BackingField: 10792601975105504259
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
     Position: {x: 514.2522, y: 192.88622, z: 812.1519}
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
+--- !u!114 &-8672764219875261486
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2442389167764763412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 70f323cbe0eaaea4ab4e3e9099c85a88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: -5041718670282572282}
+  _networkObjectCache: {fileID: 0}
