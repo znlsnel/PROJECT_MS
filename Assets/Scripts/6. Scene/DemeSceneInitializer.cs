@@ -4,12 +4,15 @@ using FishNet.Connection;
 using FishNet.Object;
 using UnityEngine;
 
-public class DemeSceneInitializer : NetworkSceneInitializer
+public class DemeSceneInitializer : SceneInitializer
 {
-    [SerializeField] private NetworkObject playerPrefab;
-
     public override void Initialize()
     {
-        
+        NetworkObject[] networkObjects = GetComponentsInChildren<NetworkObject>();
+
+        foreach(NetworkObject networkObject in networkObjects)
+        {
+            networkObject.Spawn(networkObject.gameObject);
+        }
     }
 }

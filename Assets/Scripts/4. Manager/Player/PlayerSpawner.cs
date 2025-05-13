@@ -1,28 +1,37 @@
 using FishNet;
 using FishNet.Connection;
+using FishNet.Managing.Scened;
 using FishNet.Object;
 using UnityEngine;
 
-public class PlayerSpawner : NetworkBehaviour
+public class PlayerSpawner : MonoBehaviour
 {
     [SerializeField] private NetworkObject playerPrefab;
 
-    [SerializeField] private Transform spawnPoints;
+    [SerializeField] private Transform spawnPoint;
 
-    [ServerRpc(RequireOwnership = false)]
-    public void SpawnPlayerRpc(NetworkConnection conn = null)
+    private void OnEnable()
     {
-        NetworkObject player = Instantiate(playerPrefab, spawnPoints.position, spawnPoints.rotation);
-        InstanceFinder.ServerManager.Spawn(player, conn);
+        InstanceFinder.SceneManager.OnLoadEnd += OnLoadEnd;
+    }
+
+    private void OnDisable()
+    {
+        InstanceFinder.SceneManager.OnLoadEnd -= OnLoadEnd;
+    }
+
+    private void OnLoadEnd(SceneLoadEndEventArgs args)
+    {
+        NetworkCommandSystem.Instance.RequestSpawnPlayer(playerPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.blue;
 
-        if(spawnPoints == null)
+        if(spawnPoint == null)
             return;
 
-        Gizmos.DrawWireSphere(spawnPoints.position, 1f);
+        Gizmos.DrawWireSphere(spawnPoint.position, 1f);
     }
 }
