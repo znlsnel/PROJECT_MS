@@ -1,12 +1,8 @@
 
 using System;
-using System.Collections;
-using System.Runtime.InteropServices;
-using Unity.VisualScripting;
+using FishNet.Managing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
-
-
 
 public class Managers : Singleton<Managers>
 { 
@@ -16,7 +12,8 @@ public class Managers : Singleton<Managers>
     [field: SerializeField] private SoundManager sound = new SoundManager();
     [field: SerializeField] private UIManager ui = new UIManager();
     [field: SerializeField] private PoolManager pool = new PoolManager();
-    [field: SerializeField] private SceneManagerEx scene = new SceneManagerEx();
+    [field: SerializeField] private NetworkManagerEx network = new NetworkManagerEx();
+    [field: SerializeField] private SteamManagerEx steam = new SteamManagerEx();
     [field: SerializeField] private QuestManager quest = new QuestManager();
     private UserData userData = new UserData();
 
@@ -26,16 +23,17 @@ public class Managers : Singleton<Managers>
     public static SoundManager Sound => Instance.sound; 
     public static UIManager UI => Instance.ui;
     public static PoolManager Pool => Instance.pool;
-    public static SceneManagerEx Scene => Instance.scene;
+    public static NetworkManagerEx Network => Instance.network;
     public static QuestManager Quest => Instance.quest;
+    public static SteamManagerEx Steam => Instance.steam;
     public static UserData UserData => Instance.userData;
 
     private AlivePlayer player;
     public static AlivePlayer Player => Instance.player;
     public static event Action<AlivePlayer> onChangePlayer;
 
-    public Action onInit;
-    private bool isInit = false;
+    public static event Action onInit;
+    private static bool isInit = false;
 
     protected override void Awake()
     {
@@ -47,9 +45,17 @@ public class Managers : Singleton<Managers>
         Init();
     }
 
+#if UNITY_EDITOR
+    private void OnValidate()
+    {
+        network.OnValidate();
+    }
+#endif
+
     private void Init() 
     {
         Debug.Log("Managers Init");
+        Network.Init();
         Data.Init();
         quest.Init();
         Input.Init();
@@ -57,7 +63,7 @@ public class Managers : Singleton<Managers>
         Sound.Init(); 
         UI.Init();
         Pool.Init();
-        Scene?.Init();
+        Steam.Init();
         userData.Init(); 
 
         isInit = true;
@@ -67,10 +73,16 @@ public class Managers : Singleton<Managers>
 
     public static void SubscribeToInit(Action callback)
     {
-        if (Instance.isInit)
+        if (isInit)
             callback?.Invoke();
         else
-            Instance.onInit += callback;  
+            onInit += callback;  
+    }
+
+    public void Update()
+    {
+        if(Network.Type == NetworkType.Steam)
+            steam.Update();
     }
 
     public static void Clear()
@@ -83,10 +95,10 @@ public class Managers : Singleton<Managers>
         this.player = player;
         onChangePlayer?.Invoke(player);
     }
+}
 
-    public void GotoLobby()
-    {
-        SceneManager.LoadScene("LoadingScene", LoadSceneMode.Additive);
-    }
-
+public enum NetworkType
+{
+    TCP_UDP,
+    Steam
 }
