@@ -5,14 +5,14 @@ public class TestPlacementTrigger : MonoBehaviour
 {
     public PlacementHandler placementSystem;
     public QuickSlotHandler quickSlotHandler;
-    private bool isPlacementModeActive = false; // 배치 모드 상태 추적
-    private ItemData currentItemData;
+    private bool isPlacementModeActive = false;
+    private ItemSlot currentItemSlot;
 
     private void Start()
     {
-        quickSlotHandler.onSelectItem += (itemData) =>
+        quickSlotHandler.onSelectItem += (itemSlot) =>
         {
-            currentItemData = itemData;
+            currentItemSlot = itemSlot;
         };
 
         placementSystem.OnPlacementComplete += () => isPlacementModeActive = false;
@@ -24,9 +24,10 @@ public class TestPlacementTrigger : MonoBehaviour
         {
             if (!isPlacementModeActive)
             {
-                if (currentItemData != null && currentItemData.ItemType == EItemType.Placeable)
+                if (currentItemSlot != null && currentItemSlot.Data != null && 
+                    currentItemSlot.Data.ItemType == EItemType.Placeable)
                 {
-                    placementSystem.StartPlacement(currentItemData.PrefabPath);
+                    placementSystem.StartPlacement(currentItemSlot.Data.PrefabPath);
                     isPlacementModeActive = true;
                 }
             }
