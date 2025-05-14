@@ -1,3 +1,5 @@
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Cysharp.Threading.Tasks.Triggers;
@@ -13,27 +15,42 @@ public class DynamicScrollRect : MonoBehaviour
     [SerializeField] private GameObject slotPrefab;
     
     private GridLayoutGroup gridLayoutGroup;
-    private float sellSize;
+
+    private float cellSize;
     private float spacing;
     private int slotBackIndex = 0;
 
-    private float ContextMaxY;
-    private float ContextMinY;
+    private float ContentMaxY;
+    private float ContentMinY;
+    private float secondStartPos;
+    private int slotVerticalCnt;
+
 
     private LinkedList<GameObject> slots = new LinkedList<GameObject>();
 
     private void Awake()
     {
         gridLayoutGroup = slotRoot.GetComponent<GridLayoutGroup>();
-        sellSize = gridLayoutGroup.cellSize.y;
+
+        cellSize = gridLayoutGroup.cellSize.y;
+
         spacing = gridLayoutGroup.spacing.y;
 
         slotBackIndex = slotRoot.childCount - 1;
 
-        ContextMaxY = scrollRect.content.position.y + scrollRect.content.rect.height / 2;
-        ContextMinY = scrollRect.content.position.y - scrollRect.content.rect.height / 2; 
+        InitScrollRect();
+    }
 
-        for (int i = 1; i <= 30; i++)
+    private void InitScrollRect()
+    {
+        ContentMaxY = scrollRect.content.position.y + scrollRect.content.rect.height / 2;
+        ContentMinY = scrollRect.content.position.y - scrollRect.content.rect.height / 2; 
+
+        slotVerticalCnt = (int)((scrollRect.content.rect.height) / cellSize) + 2; 
+        // if ((ContentMinY - ContentMaxY) % cellSize != 0)
+        //     slotVerticalCnt++;
+
+        for (int i = 1; i <= slotVerticalCnt * gridLayoutGroup.constraintCount; i++)
         {
             var slot = Instantiate(slotPrefab, slotRoot);
             slot.GetComponentInChildren<TextMeshProUGUI>().text = $"{i}";
@@ -41,89 +58,89 @@ public class DynamicScrollRect : MonoBehaviour
         }
 
         scrollRect.onValueChanged.AddListener(OnScroll);
+
+        secondStartPos = 1f - ((cellSize + spacing / 2) * slotVerticalCnt) / (cellSize + spacing / 2);
     }
 
     float testTime = 0;
     private void OnScroll(Vector2 value)
     {
-        if (Time.time - testTime < 0.5f)
+        Debug.Log($"OnScroll : {value}");
+        if (Time.time - testTime < 0.1f) 
             return;
 
         float scrollPos = scrollRect.verticalNormalizedPosition;
-        var (outCnt_up, outCnt_down) = CheckSlotPosition();
+        var outCnt = CheckSlotPosition();
 
-        int backNum = int.Parse(slots.Last.Value.GetComponentInChildren<TextMeshProUGUI>().text);
-        for (int i = 0; i < outCnt_up; i++)
+        if (outCnt > 0)
         {
-            var slot = slots.First;
-            slots.RemoveFirst();
-            slots.AddLast(slot.Value);
+            int backNum = int.Parse(slots.Last.Value.GetComponentInChildren<TextMeshProUGUI>().text);
+            for (int i = 0; i < outCnt; i++)
+            {
+                var slot = slots.First;
+                slots.RemoveFirst();
+                slots.AddLast(slot.Value);
 
-            // 데이터 초기화
-            slot.Value.GetComponentInChildren<TextMeshProUGUI>().text = $"{++backNum}";
+                // 데이터 초기화
+                slot.Value.GetComponentInChildren<TextMeshProUGUI>().text = $"{++backNum}";
 
-            // 위치 뒤로 바꾸기
-            slot.Value.transform.SetSiblingIndex(slotBackIndex);
-        }
+                // 위치 뒤로 바꾸기
+                slot.Value.transform.SetSiblingIndex(slotBackIndex);
+            }
 
-        int frontNum = int.Parse(slots.First.Value.GetComponentInChildren<TextMeshProUGUI>().text);
-        for (int i = 0; i < outCnt_down; i++)
-        {
-            var slot = slots.Last;
-            slots.RemoveLast();
-            slots.AddFirst(slot.Value);
-            
-            // 데이터 초기화
-            slot.Value.GetComponentInChildren<TextMeshProUGUI>().text = $"{--frontNum}";
-
-            // 위치 앞으로 바꾸기
-            slot.Value.transform.SetSiblingIndex(0);
-        }
-
-        // if (outCnt_up > 0)
-        //     scrollRect.verticalNormalizedPosition = 1f;
-        // else if (outCnt_down > 0)
-        //     scrollRect.verticalNormalizedPosition = 0f; 
-
-
-        if (outCnt_up > 0 || outCnt_down > 0)
-        {
+            scrollRect.verticalNormalizedPosition = 1f;
             testTime = Time.time;
-            scrollRect.verticalNormalizedPosition = scrollPos; 
         }
+        else if (value.y > 1)
+        {
+            int frontNum = int.Parse(slots.First.Value.GetComponentInChildren<TextMeshProUGUI>().text);
+            outCnt = gridLayoutGroup.constraintCount;
+
+            for (int i = 0; i < outCnt; i++)
+            {
+                var slot = slots.Last;
+                slots.RemoveLast();
+                slots.AddFirst(slot.Value); 
+                
+                // 데이터 초기화
+                slot.Value.GetComponentInChildren<TextMeshProUGUI>().text = $"{--frontNum}";
+
+                // 위치 앞으로 바꾸기
+                slot.Value.transform.SetSiblingIndex(0);
+            }
+
+
+            scrollRect.verticalNormalizedPosition = 1f - (0.5f); 
+            testTime = Time.time;
+        }
+        
+
+        
     }
 
-    private (int, int) CheckSlotPosition()
+    private int CheckSlotPosition()
     {
-        int outCnt_up = 0, outCnt_down = 0;
+        int outCnt = 0;
 
         foreach (var slot in slots)
         {
             float y = GetSlotHeight(slot.transform.position.y, true);
-            if (y > ContextMaxY)
-                outCnt_up++;
+
+            if (y > ContentMaxY)
+                outCnt++;
             else
                 break;
         }
 
-        foreach (var slot in slots.Reverse())
-        {
-            float y = GetSlotHeight(slot.transform.position.y);
-            if (y < ContextMinY)
-                outCnt_down++;
-            else
-                break;
-        }
-
-        return (outCnt_up, outCnt_down);
-        
+        return outCnt;
     }
 
     private float GetSlotHeight(float posY, bool down = false)
     {
         if (down)
-            return posY - (sellSize  );
-        return posY + (sellSize );
+            return posY - (cellSize / 2 + spacing / 2);
+        return posY + (cellSize / 2 + spacing / 2);
+
     }
 
 }
