@@ -75,7 +75,7 @@ public interface IInteractable
 
 public interface IDamageable
 {
-    void TakeDamage(float damage); 
+    void TakeDamage(float damage, GameObject attacker); 
 }
 
 public interface IManager

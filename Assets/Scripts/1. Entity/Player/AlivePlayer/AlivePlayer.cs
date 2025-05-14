@@ -75,9 +75,22 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         stateMachine.Update();
 
+       // hungerPoint.Subtract(Time.deltaTime * 10f); // 추후 float 값 수정
+       // waterPoint.Subtract(Time.deltaTime * 0.5f);
+
+        if(hungerPoint.Current <= 0)
+        {
+            Health.Subtract(Time.deltaTime * 5f);
+        }
+
+        if(Input.GetKeyDown(KeyCode.P)) // 테스트 코드
+        {
+            RestoreHunger(30f);
+        }
+
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            TakeDamage(10);
+          //  TakeDamage(10);
         }
     }
 
@@ -89,7 +102,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stateMachine.FixedUpdate();
     }
 
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject attacker)
     {
         Health.Subtract(damage);
         onDamaged?.Invoke();
@@ -105,5 +118,15 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         WeaponHandler = weapon;
         overrideController["Holding"] = WeaponHandler.holdAnimation;
         Animator.SetBool(AnimationData.HoldingParameterHash, WeaponHandler != null);
+    }
+
+    public void RestoreHunger(float amount) // 음식물 섭취
+    {
+        hungerPoint.Add(amount);
+    }
+
+    public void RestoreWater(float amount) // 물 섭취
+    {
+        waterPoint.Add(amount);
     }
 }

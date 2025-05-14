@@ -57,7 +57,8 @@ namespace GameData
 /* Fields. */
 
 		public System.Int32 index;
-		public System.String name;
+		public System.Int32 group;
+		public System.String title;
 		public System.ValueTuple<Int32, Int32> item1;
 		public System.ValueTuple<Int32, Int32> item2;
 		public System.ValueTuple<Int32, Int32> item3;

@@ -64,7 +64,7 @@ public class StatHandler : MonoBehaviour, IDamageable
         stats[statType].OnValueChanged += action; 
     }
  
-    public void TakeDamage(float damage)
+    public void TakeDamage(float damage, GameObject attacker)
     {
         float prevHealth = resourceStats[EStatType.Health].Current;
         resourceStats[(int)EStatType.Health].Subtract(damage); 
