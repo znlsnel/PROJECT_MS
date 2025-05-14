@@ -66,7 +66,7 @@ public class QuestStorageBox : Interactable
         if (successCount == questStorageData.items.Count)
         {
 
-            Managers.UI.CloseAllPopupUI();
+            questStorageUI.Hide();
             if (nextQuestObject != null)
             {
                 gameObject.SetActive(false);
