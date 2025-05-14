@@ -21,7 +21,7 @@ public class ResourceHandler : MonoBehaviour, IDamageable
         if(Hp.Current <= 0)
         {
             DropItem();
-            Destroy(gameObject.transform.parent.gameObject);
+            Destroy(gameObject);
         }
         else
         {

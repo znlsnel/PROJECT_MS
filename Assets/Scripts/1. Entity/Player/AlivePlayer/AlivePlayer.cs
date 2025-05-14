@@ -75,8 +75,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         stateMachine.Update();
 
-        hungerPoint.Subtract(Time.deltaTime * 10f); // 추후 float 값 수정
-        waterPoint.Subtract(Time.deltaTime * 0.5f);
+       // hungerPoint.Subtract(Time.deltaTime * 10f); // 추후 float 값 수정
+       // waterPoint.Subtract(Time.deltaTime * 0.5f);
 
         if(hungerPoint.Current <= 0)
         {
@@ -90,7 +90,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            TakeDamage(10);
+          //  TakeDamage(10);
         }
     }
 
