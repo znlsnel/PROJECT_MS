@@ -3,9 +3,15 @@ using UnityEngine.SceneManagement;
 
 public class ForestScene : MonoBehaviour
 {
+    [SerializeField] private GameObject _resultUIPrefab;
+
+    private ResultUI _resultUI;
+
     private void Awake()
     {
         Managers.SubscribeToInit(InitScene);
+        _resultUI = Instantiate(_resultUIPrefab).GetComponent<ResultUI>();
+        _resultUI.Hide();
     }
 
     private void InitScene()
@@ -21,6 +27,7 @@ public class ForestScene : MonoBehaviour
 
     private void OnCompletedMainQuest(Quest quest)
     {
-        SceneManager.LoadScene("Lobby");
+        Managers.UI.CloseAllPopupUI();
+        Managers.UI.ShowPopupUI(_resultUI);
     }
 }
