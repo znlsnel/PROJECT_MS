@@ -106,7 +106,7 @@ GameObject:
   - component: {fileID: 8118599953493027407}
   - component: {fileID: 8704618954886794003}
   m_Layer: 5
-  m_Name: Text (TMP)
+  m_Name: titletext
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -903,6 +903,7 @@ MonoBehaviour:
   storageRoot: {fileID: 2419975210458697171}
   inventoryRoot: {fileID: 4499881756397299703}
   quickSlotRoot: {fileID: 6811190635818170634}
+  _title: {fileID: 8704618954886794003}
 --- !u!1 &7317159319461176163
 GameObject:
   m_ObjectHideFlags: 0
