@@ -1,11 +1,18 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class ForestScene : MonoBehaviour
 {
     [SerializeField] private GameObject _resultUIPrefab;
+    [SerializeField] private int _mapIndex = 1000;
 
     private ResultUI _resultUI;
+
+
+    private MapData _mapData;
+    private List<GameObject> _fieldItemList = new();
+    private List<GameObject> _fieldResourceList = new();
 
     private void Awake()
     {
@@ -16,12 +23,13 @@ public class ForestScene : MonoBehaviour
 
     private void InitScene()
     {
-        Quest mainQuest =Managers.Quest.Register(1003);
-        Managers.Quest.Register(1001);
-        Managers.Quest.Register(1002);
-
+        _mapData = Managers.Data.maps.GetByIndex(_mapIndex);
+        Quest mainQuest = Managers.Quest.Register(_mapData.MainQuest);
+        //Quest subQuest = Managers.Quest.Register(mapData.SubQuest);
 
         mainQuest.onCompleted += OnCompletedMainQuest;
+        PlaceFieldItem();
+        PlaceFieldResource();
     }
 
 
@@ -29,5 +37,36 @@ public class ForestScene : MonoBehaviour
     {
         Managers.UI.CloseAllPopupUI();
         Managers.UI.ShowPopupUI(_resultUI);
+    }
+
+
+    private void PlaceFieldItem()
+    {
+        for (int i = 0; i < _mapData.FieldItemList.Count; i++)
+        {
+            int randomIndex = GetRandomIndex(_mapData.FieldItemRatio);
+            var go = Managers.Resource.Instantiate(_mapData.FieldItemList[randomIndex].PrefabPath);
+            _fieldItemList.Add(go);
+        }
+    }
+
+    private void PlaceFieldResource()
+    {
+        for (int i = 0; i < _mapData.FieldResourceList.Count; i++)
+        {
+            int randomIndex = GetRandomIndex(_mapData.FieldResourceRatio);
+            var go = Managers.Resource.Instantiate(_mapData.FieldResourceList[randomIndex].PrefabPath);
+            _fieldResourceList.Add(go);
+        }
+    }
+
+
+    private int GetRandomIndex(List<int> ratioList)
+    {
+        int random = Random.Range(0, 100);
+
+
+        return 0;
+
     }
 }
