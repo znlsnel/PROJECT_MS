@@ -7,6 +7,7 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
+using VInspector.Libs;
 
 public class DynamicScrollRect : MonoBehaviour
 {
@@ -62,14 +63,12 @@ public class DynamicScrollRect : MonoBehaviour
         secondStartPos = 1f - ((cellSize + spacing / 2) * slotVerticalCnt) / (cellSize + spacing / 2);
     }
 
-    float testTime = 0;
+    float prevScrollPos = 1;
+    float interval = 0;
     private void OnScroll(Vector2 value)
     {
-        Debug.Log($"OnScroll : {value}");
-        if (Time.time - testTime < 0.1f) 
-            return;
+        
 
-        float scrollPos = scrollRect.verticalNormalizedPosition;
         var outCnt = CheckSlotPosition();
 
         if (outCnt > 0)
@@ -88,8 +87,11 @@ public class DynamicScrollRect : MonoBehaviour
                 slot.Value.transform.SetSiblingIndex(slotBackIndex);
             }
 
-            scrollRect.verticalNormalizedPosition = 1f;
-            testTime = Time.time;
+            float diff = Math.Abs(value.y - prevScrollPos);
+            if (diff >= 0.5f)
+                diff -= 0.5f;
+            scrollRect.verticalNormalizedPosition += 0.5f;
+    
         }
         else if (value.y > 1)
         {
@@ -109,12 +111,14 @@ public class DynamicScrollRect : MonoBehaviour
                 slot.Value.transform.SetSiblingIndex(0);
             }
 
+            
+                
+            scrollRect.verticalNormalizedPosition -= 0.5f + Math.Abs(value.y - prevScrollPos);  
 
-            scrollRect.verticalNormalizedPosition = 1f - (0.5f); 
-            testTime = Time.time;
         }
         
 
+        prevScrollPos = scrollRect.verticalNormalizedPosition;
         
     }
 
@@ -138,7 +142,7 @@ public class DynamicScrollRect : MonoBehaviour
     private float GetSlotHeight(float posY, bool down = false)
     {
         if (down)
-            return posY - (cellSize / 2 + spacing / 2);
+            return posY - (cellSize / 2 + spacing);
         return posY + (cellSize / 2 + spacing / 2);
 
     }
