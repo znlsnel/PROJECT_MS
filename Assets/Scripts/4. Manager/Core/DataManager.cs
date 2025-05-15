@@ -14,7 +14,7 @@ public class DataManager : IManager
     public QuestTaskDataManager questTasks {get; private set;}
     public CraftingDataManager craftings {get; private set;}
     public QuestStorageDataManager questStorages {get; private set;}
-    public RuleGuideDataManager ruleGuides {get; private set;}  
+    public SystemDialogDataManager ruleGuides {get; private set;}  
 
 
     public void Init()
@@ -24,7 +24,7 @@ public class DataManager : IManager
         items = new ItemDataManager(); 
         craftings = new CraftingDataManager();
         questStorages = new QuestStorageDataManager();
-        ruleGuides = new RuleGuideDataManager();
+        ruleGuides = new SystemDialogDataManager();
     }
 
     public void Clear()

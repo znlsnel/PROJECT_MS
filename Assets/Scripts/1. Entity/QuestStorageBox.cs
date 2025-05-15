@@ -65,7 +65,7 @@ public class QuestStorageBox : Interactable
         
         if (successCount == questStorageData.items.Count)
         {
-
+ 
             questStorageUI.Hide();
             if (nextQuestObject != null)
             {

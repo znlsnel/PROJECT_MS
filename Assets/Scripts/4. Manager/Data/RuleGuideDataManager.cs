@@ -1,22 +1,22 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RuleGuideDataManager 
+public class SystemDialogDataManager 
 {
-    UGSDataHandler<GameData.RuleGuide> dataHandler;
+    UGSDataHandler<GameData.SystemDialog> dataHandler;
 
-    public RuleGuideDataManager()
+    public SystemDialogDataManager()
     {
-        dataHandler = new UGSDataHandler<GameData.RuleGuide>();
+        dataHandler = new UGSDataHandler<GameData.SystemDialog>();
     }
 
     public List<string> GetScript(bool isMafia = false)
     {
         int jobId = isMafia ? 2 : 1;
-        GameData.RuleGuide ruleGuide = dataHandler.GetByCondition((ruleGuide) => ruleGuide.jobId == jobId);
-        if (ruleGuide == null)
+        GameData.SystemDialog systemDialog = dataHandler.GetByCondition((systemDialog) => systemDialog.jobId == jobId);
+        if (systemDialog == null)
             return null;
 
-        return ruleGuide.texts;
+        return systemDialog.texts;
     }
 }
