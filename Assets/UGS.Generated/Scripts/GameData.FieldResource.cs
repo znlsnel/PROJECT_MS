@@ -58,7 +58,7 @@ namespace GameData
 
 		public System.Int32 index;
 		public System.Collections.Generic.List<Int32> dropItem;
-		public System.String filedItem;
+		public System.String prefab;
 		public System.Boolean canRotate_Roll;
 		public System.Boolean canRotate_Yaw;
 		public System.Boolean canRotate_Pitch;

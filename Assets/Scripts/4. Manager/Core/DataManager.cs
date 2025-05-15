@@ -15,6 +15,9 @@ public class DataManager : IManager
     public CraftingDataManager craftings {get; private set;}
     public QuestStorageDataManager questStorages {get; private set;}
     public SystemDialogDataManager ruleGuides {get; private set;}  
+    public MapDataManager maps {get; private set;}
+    public FieldResourceDataManager fieldResources {get; private set;}
+    
 
 
     public void Init()
@@ -25,6 +28,8 @@ public class DataManager : IManager
         craftings = new CraftingDataManager();
         questStorages = new QuestStorageDataManager();
         ruleGuides = new SystemDialogDataManager();
+        maps = new MapDataManager();
+        fieldResources = new FieldResourceDataManager();
     }
 
     public void Clear()
