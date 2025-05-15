@@ -54,7 +54,7 @@ public class QuestStorageBox : Interactable
 
     public override void Interact(GameObject obj)
     {
-        questStorageUI.Setup(storage);
+        questStorageUI.Setup(storage, questStorageData.Title);
         Managers.UI.ShowPopupUI<QuestStorageUI>(questStorageUI);
     }
 
@@ -65,7 +65,7 @@ public class QuestStorageBox : Interactable
         
         if (successCount == questStorageData.items.Count)
         {
-
+ 
             questStorageUI.Hide();
             if (nextQuestObject != null)
             {
@@ -73,7 +73,7 @@ public class QuestStorageBox : Interactable
                 nextQuestObject.SetActive(true);
                 nextQuestObject.GetComponent<QuestStorageBox>().PlaySpawnAnimation(); 
             }
-            Managers.Quest.ReceiveReport(ETaskCategory.FillQuestStorage, 1001);
+            Managers.Quest.ReceiveReport(ETaskCategory.FillQuestStorage, questStorageIndex);
         }
     }
 
