@@ -83,9 +83,14 @@ public class UGSDataHandler<T> where T : ITable
     /// <summary>
     /// 조건에 맞는 데이터들을 필터링하여 반환합니다.
     /// </summary>
-    public List<T> GetByCondition(Func<T, bool> predicate)
+    public List<T> GetAllByCondition(Func<T, bool> predicate)
     {
         return dataCollection.Where(predicate).ToList();
+    }
+
+    public T GetByCondition(Func<T, bool> predicate)
+    {
+        return dataCollection.FirstOrDefault(predicate);
     }
 
     /// <summary>

@@ -65,15 +65,15 @@ public class QuestStorageBox : Interactable
         
         if (successCount == questStorageData.items.Count)
         {
-            Managers.Quest.ReceiveReport(ETaskCategory.FillQuestStorage, 1001);
 
-            Managers.UI.CloseAllPopupUI();
+            questStorageUI.Hide();
             if (nextQuestObject != null)
             {
                 gameObject.SetActive(false);
                 nextQuestObject.SetActive(true);
                 nextQuestObject.GetComponent<QuestStorageBox>().PlaySpawnAnimation(); 
             }
+            Managers.Quest.ReceiveReport(ETaskCategory.FillQuestStorage, 1001);
         }
     }
 

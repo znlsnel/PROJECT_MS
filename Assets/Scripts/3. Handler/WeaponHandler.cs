@@ -31,7 +31,7 @@ public class WeaponHandler : MonoBehaviour
         {
             if(damageables.Add(damageable))
             {
-                damageable.TakeDamage(damage);
+                damageable.TakeDamage(damage, Owner.gameObject);
                 Debug.Log("Damaged");
             }
         }

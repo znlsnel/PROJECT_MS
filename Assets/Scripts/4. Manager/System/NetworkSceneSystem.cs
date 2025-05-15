@@ -113,7 +113,7 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
             sceneLoadData.ReplaceScenes = ReplaceOption.All;
 
             InstanceFinder.SceneManager.LoadGlobalScenes(sceneLoadData);
-        }   
+        }
     }
 
     private void OnLoadPercentChange(SceneLoadPercentEventArgs args)
@@ -125,28 +125,14 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
     private void OnLoadEnd(SceneLoadEndEventArgs args)
     {
         isInTransition = false;
-        SceneInitializer();
 
         OnLoadingEnd?.Invoke();
-    }
 
-    private void SceneInitializer(NetworkConnection conn = null)
-    {
-        Scene scene = UnityEngine.SceneManagement.SceneManager.GetActiveScene();
-        InstanceFinder.SceneManager.AddConnectionToScene(conn, scene);
-
-        PlayerSpawner playerSpawner = Object.FindAnyObjectByType<PlayerSpawner>();
-        playerSpawner.SpawnPlayerRpc();
-
-        NetworkSceneInitializer sceneInitializer = Object.FindAnyObjectByType<NetworkSceneInitializer>();
-        sceneInitializer?.Initialize();
-    }
-
-    [Server]
-    public void SpawnPlayerForConnection(NetworkConnection conn, NetworkObject playerPrefab)
-    {
-        NetworkObject playerInstance = Instantiate(playerPrefab);
-        InstanceFinder.ServerManager.Spawn(playerInstance, conn);
+        if(InstanceFinder.IsServerStarted)
+        {
+            SceneInitializer sceneInitializer = Object.FindAnyObjectByType<SceneInitializer>();
+            sceneInitializer?.Initialize();
+        }
     }
 
     /// <summary>

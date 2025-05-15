@@ -1,5 +1,6 @@
 fileFormatVersion: 2
-guid: 246f31a0e00fea74a93125fec6d80da8
+guid: 654b2b38770aa644196415ff2e471d1f
+folderAsset: yes
 DefaultImporter:
   externalObjects: {}
   userData: 
@@ -10,5 +11,5 @@ AssetOrigin:
   productId: 207815
   packageName: 'FishNet: Networking Evolved'
   packageVersion: 4.6.7hf0R
-  assetPath: Assets/FishNet/CodeGenerating/cecil-0.11.4/Mono.Cecil.sln
+  assetPath: Assets/FishNet/Runtime/Transporting/Transports/Tugboat/LiteNetLib/LiteNetLib.csproj
   uploadId: 753297

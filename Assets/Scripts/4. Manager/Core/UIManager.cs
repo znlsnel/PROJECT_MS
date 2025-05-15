@@ -107,6 +107,10 @@ public class UIManager : IManager
             return;
 
         PopupUI popup = _popupStack.Pop();
+        while (_popupStack.Count > 0 && (popup == null || popup.IsOpen == false))
+            popup = _popupStack.Pop();
+        
+
         popup.Hide();
         _order--; 
 

@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
+using Unity.VisualScripting;
 using UnityEngine;
 
 
@@ -245,6 +246,30 @@ namespace Hamster.ZG.Type
         {
             ValueTuple<int, int> pair = (ValueTuple<int, int>)value;
             return $"[{pair.Item1},{pair.Item2}]";    
+        }
+    }
+
+    [Type(typeof(List<string>), new string[] { "string[]" })]
+    public class stringList : IType
+    {
+        public object DefaultValue => new List<string>();
+
+        public object Read(string value)
+        {
+            var list = value.Split(',').ToList();
+            for (int i = 0; i < list.Count; i++)
+                list[i] = list[i].Trim().Trim('[', ']');
+            
+            return list;
+        }
+
+        public string Write(object value)
+        {
+            var list = (List<string>)value;
+            for (int i = 0; i < list.Count; i++)
+                list[i] = $"[{list[i]}]";
+
+            return $"[{string.Join(",", list)}]";
         }
     }
 }
