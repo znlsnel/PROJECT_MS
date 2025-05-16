@@ -4,13 +4,19 @@ using System.Linq;
 using System.Threading.Tasks;
 using UnityEngine;
 
-
-public class ResourceStat : Stat
+[Serializable]
+public class ResourceStat
 {
-    public float Current { get; private set; }
-    public float Maximum;
-    
-    public ResourceStat(float baseValue) : base(baseValue)
+    [field: SerializeField] public float Current { get; private set; }
+    [field: SerializeField] public float Maximum { get; private set; }
+
+    public ResourceStat()
+    {
+        Current = 0;
+        Maximum = 0;
+    }
+
+    public ResourceStat(float baseValue)
     {
         Maximum = baseValue;
         Current = baseValue;

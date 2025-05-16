@@ -55,12 +55,6 @@ public class AlivePlayerCombatState : AlivePlayerState
 
         Managers.Input.GetInput(EPlayerInput.Fire).started -= OnInputAttack;
     }
-    
-    public void SetAttackAnimation(AnimationClip animationClip, float speed = 1f)
-    {
-        stateMachine.Player.overrideController["Attack"] = animationClip;
-        stateMachine.Player.Animator.SetFloat("AttackSpeed", speed);
-    }
 
     protected override void OnDead()
     {
@@ -76,8 +70,6 @@ public class AlivePlayerCombatState : AlivePlayerState
         if(stateMachine.MovementStateMachine.currentState == stateMachine.MovementStateMachine.InterctingState)
             return;
 
-        WeaponHandler weaponHandler = stateMachine.Player.WeaponHandler;
-        SetAttackAnimation(weaponHandler.attackAnimation, weaponHandler.attackAnimationSpeed);
         combatStateMachine.ChangeState(combatStateMachine.AttackingState);
     }
     #endregion

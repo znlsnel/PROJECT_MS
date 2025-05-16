@@ -13,6 +13,15 @@ public class WeaponHandler : MonoBehaviour
 
     public AlivePlayer Owner { get; private set; }
 
+    public int HoldAnimationIndex { get; private set; }
+    public int AttackAnimationIndex { get; private set; }
+
+    public void Awake()
+    {
+        HoldAnimationIndex = AnimationDataManager.AddAnimationClip(holdAnimation);
+        AttackAnimationIndex = AnimationDataManager.AddAnimationClip(attackAnimation);
+    }
+
     public void Start()
     {
         Owner = GetComponentInParent<AlivePlayer>();

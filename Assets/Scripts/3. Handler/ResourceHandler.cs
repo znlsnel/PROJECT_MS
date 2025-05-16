@@ -1,7 +1,8 @@
 using DG.Tweening;
+using FishNet.Object;
 using UnityEngine;
 
-public class ResourceHandler : MonoBehaviour, IDamageable
+public class ResourceHandler : NetworkBehaviour, IDamageable
 {
     [SerializeField] private float maxHp = 100f;
     [SerializeField] private GameObject dropItem;
@@ -15,6 +16,7 @@ public class ResourceHandler : MonoBehaviour, IDamageable
         originalScale = transform.localScale;
     }
 
+    [ServerRpc]
     public void TakeDamage(float damage, GameObject attacker)
     {
      //   Hp.Subtract(damage);
