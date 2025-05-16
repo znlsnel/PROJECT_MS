@@ -868,6 +868,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3758094586
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 5.1399
@@ -2209,6 +2217,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3485466358
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 13.1399
@@ -2785,6 +2801,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (19)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3971718642
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -2865,6 +2889,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 74714821}
+  - component: {fileID: 74714822}
   m_Layer: 0
   m_Name: ==== Game Object ====
   m_TagString: Untagged
@@ -2894,6 +2919,58 @@ Transform:
   - {fileID: 1959975303}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &74714822
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 74714820}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 1
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 0
+  <SceneId>k__BackingField: 4261150715
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!1001 &74949533
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4617,6 +4694,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3757824762
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -3.1887665
@@ -5334,6 +5419,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (20)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3166673108
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -5479,6 +5572,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4005550333
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 19.031235
@@ -6673,6 +6774,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3741318898
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.9487648
@@ -7529,6 +7638,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (24)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2914769908
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -8638,6 +8755,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3485449981
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.631233
@@ -8700,6 +8825,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2633743614
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -9.967617
@@ -9236,6 +9369,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (23)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3435134457
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -10780,6 +10921,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3183212799
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -23.778767
@@ -11177,6 +11326,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2936012534
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.938766
@@ -13487,6 +13644,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3975937494
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -14536,6 +14701,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (21)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2650775248
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -15307,6 +15480,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2633997565
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -35.948765
@@ -15936,6 +16117,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (12)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3753902071
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -16058,6 +16247,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (30)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4026260479
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -16249,6 +16446,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3724533457
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17157,6 +17362,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2931538907
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -17482,6 +17695,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4261149177
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -17945,6 +18166,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2897992688
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -30.574625
@@ -18007,6 +18236,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4290493183
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.4012375
@@ -18193,6 +18430,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2898001651
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -4.967617
@@ -18695,6 +18940,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (13)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2365300690
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -19109,6 +19362,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (18)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2398878961
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -20423,6 +20684,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3468409341
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.690052
@@ -21241,6 +21510,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4026523129
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -1.8600998
@@ -22210,6 +22487,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (16)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2919209683
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -23131,6 +23416,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2663366133
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -21.786678
@@ -23302,6 +23595,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (28)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3166689503
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -24788,6 +25089,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2914778590
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.241234
@@ -25345,6 +25654,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (8)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3753622751
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -27850,6 +28167,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (22)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2935742428
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -28498,6 +28823,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3204161264
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.699623
@@ -29483,6 +29816,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3435109085
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 11.1399
@@ -29588,6 +29929,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (11)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3468680667
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -29848,6 +30197,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (26)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3976183806
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -31498,6 +31855,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (27)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3204161276
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32022,6 +32387,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (14)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2919210451
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32426,6 +32799,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3472882909
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -30.238766
@@ -32867,6 +33248,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (29)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3758078965
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -32994,6 +33383,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (9)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4009482747
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -34156,6 +34553,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (10)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4261386712
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -34174,6 +34579,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3988773338
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 17.1399
@@ -34368,6 +34781,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3434847487
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.967617
@@ -34430,6 +34851,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2378152177
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 20.531235
@@ -34734,6 +35163,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3456105432
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.031235
@@ -36669,6 +37106,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3707755477
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 18.091232
@@ -37656,6 +38101,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2415639032
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 12.301231
@@ -38061,6 +38514,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2365562108
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -21.678764
@@ -39143,6 +39604,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4290510076
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 4.1012344
@@ -39205,6 +39674,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4240153298
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -36.378765
@@ -42797,6 +43274,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2667551987
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -43066,6 +43551,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3741055474
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -43430,6 +43923,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3166674931
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -11.838764
@@ -43692,6 +44193,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3988510937
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.708763
@@ -45202,6 +45711,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3183451101
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -16.708763
@@ -45467,6 +45984,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4005297119
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -36.598763
@@ -45783,6 +46308,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4273978103
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.0312347
@@ -45954,6 +46487,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (25)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2919210489
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -47970,6 +48511,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4294941136
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -14.409752
@@ -48169,6 +48718,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2382100735
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -19.8601
@@ -49149,6 +49706,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4026513652
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -5.828766
@@ -49919,6 +50484,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (15)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2948315379
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -53789,6 +54362,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2398854650
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.8212357
@@ -55211,6 +55792,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3166437364
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -59061,6 +59650,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: RockA (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3183476432
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -60704,6 +61301,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2398861788
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -15.708763
@@ -62055,6 +62660,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3758096368
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -22.967617
@@ -62920,6 +63533,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4257192437
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 14.521233
@@ -63106,6 +63727,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3221224662
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -2.967617
@@ -63352,6 +63981,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4026521821
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: 1.1399002
@@ -67490,6 +68127,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -4306722879107070590, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3439311825
+      objectReference: {fileID: 0}
     - target: {fileID: 5252790321067046219, guid: 2f22069d43daa4746a30dc8d70d85aba, type: 3}
       propertyPath: m_LocalPosition.x
       value: -0.57876587
@@ -67971,6 +68616,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4290502650
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: 8.031235
@@ -68627,6 +69280,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2902186736
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -26.8601
@@ -70491,6 +71152,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -613012627208224277, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 2898255605
+      objectReference: {fileID: 0}
     - target: {fileID: 698228452732697798, guid: a07a1919321fed8428510eb56876e7d8, type: 3}
       propertyPath: m_LocalPosition.x
       value: -26.378765
@@ -70707,6 +71376,14 @@ PrefabInstance:
     - target: {fileID: 5906651137303712684, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
       propertyPath: m_Name
       value: RockA (17)
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7710765238683230894, guid: 6249f1e57c352a3429aa29d7ebb695a7, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 3204177144
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -73032,6 +73709,14 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 439119281}
     m_Modifications:
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: WasActiveDuringEdit
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -7012147604231541388, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
+      propertyPath: <SceneId>k__BackingField
+      value: 4290509013
+      objectReference: {fileID: 0}
     - target: {fileID: 851198604497515837, guid: f5acd30704a7c064d97d8ff45ac3619b, type: 3}
       propertyPath: m_LocalPosition.x
       value: -19.458763
