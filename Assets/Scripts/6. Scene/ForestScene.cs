@@ -28,8 +28,8 @@ public class ForestScene : MonoBehaviour
         //Quest subQuest = Managers.Quest.Register(mapData.SubQuest);
 
         mainQuest.onCompleted += OnCompletedMainQuest;
-        PlaceFieldItem();
-        PlaceFieldResource();
+       // PlaceFieldItem();
+       // PlaceFieldResource();
     }
 
 
