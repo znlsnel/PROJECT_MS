@@ -1,5 +1,6 @@
 using UnityEngine;
 using DG.Tweening;
+using UGS;
 
 public class ItemObject : Interactable
 {
@@ -8,7 +9,9 @@ public class ItemObject : Interactable
     private ItemData itemData;
     void Awake()
     {
-        itemData = Managers.Data.items.GetByIndex(itemId);
+        Managers.SubscribeToInit(()=>{
+            itemData = Managers.Data.items.GetByIndex(itemId);
+        });
     }
     public override void Interact(GameObject obj)
     {
@@ -18,5 +21,7 @@ public class ItemObject : Interactable
         {
             Destroy(gameObject);
         });
+
+        
     }
 }

@@ -10,7 +10,7 @@ public class ResourceHandler : MonoBehaviour, IDamageable
 
     [SerializeField] public List<int> dropItemIds = new List<int>();
 
-    private List<GameObject> dropItems;
+    private List<GameObject> dropItems = new List<GameObject>();
     private Vector3 originalScale;
 
     public ResourceStat Hp { get; private set; }

@@ -59,7 +59,7 @@ public class ItemEditor : EditorWindow
         if (!string.IsNullOrEmpty(resetMessage))
         {
             // 3초가 지났는지 확인
-            if (EditorApplication.timeSinceStartup - resetMessageTime > 3.0)
+            if (EditorApplication.timeSinceStartup - resetMessageTime > 2.0)
             {
                 resetMessage = "";
                 Repaint();
