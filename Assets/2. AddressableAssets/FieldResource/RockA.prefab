@@ -12,7 +12,8 @@ GameObject:
   - component: {fileID: 3247300431703139572}
   - component: {fileID: 3600884114430003404}
   - component: {fileID: 4404164234605755290}
-  - component: {fileID: 8530242389050445993}
+  - component: {fileID: -5816010121902590607}
+  - component: {fileID: 7710765238683230894}
   m_Layer: 0
   m_Name: RockA
   m_TagString: Untagged
@@ -110,7 +111,7 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.5471, y: 2.1934996, z: 3.4469898}
   m_Center: {x: 0.00000017881393, y: 1.0339465, z: 0}
---- !u!114 &8530242389050445993
+--- !u!114 &-5816010121902590607
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -122,12 +123,64 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5993e5cfa50a4408c92b5813f923bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 0}
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7710765238683230894}
   _networkObjectCache: {fileID: 0}
   maxHp: 100
   dropItemCount: 1
-  dropItemIds: ba0b0000
+  dropItemIds: 
+--- !u!114 &7710765238683230894
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5906651137303712684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours: []
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 65535
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 5700279531528834310
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 0}
+    Scale: {x: 0, y: 0, z: 0}
+    IsValid: 0
 --- !u!1 &8738198147857467035
 GameObject:
   m_ObjectHideFlags: 0
@@ -140,7 +193,6 @@ GameObject:
   - component: {fileID: 1646522236425089694}
   - component: {fileID: 2372696328691231278}
   - component: {fileID: 4429881777554832882}
-  - component: {fileID: 6347047012130438743}
   m_Layer: 0
   m_Name: RockA
   m_TagString: Untagged
@@ -237,21 +289,3 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 3.5471, y: 2.1934996, z: 3.4469898}
   m_Center: {x: 0.00000017881393, y: 1.0339465, z: 0}
---- !u!114 &6347047012130438743
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8738198147857467035}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: dd5993e5cfa50a4408c92b5813f923bc, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _componentIndexCache: 1
-  _addedNetworkObject: {fileID: 0}
-  _networkObjectCache: {fileID: 0}
-  maxHp: 100
-  dropItemCount: 1
-  dropItemIds: 

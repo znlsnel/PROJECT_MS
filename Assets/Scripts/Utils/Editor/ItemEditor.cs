@@ -1,9 +1,5 @@
 using UnityEngine;
 using UnityEditor;
-using System.Collections;
-using Hamster.ZG.Type;
-using UGS.Editor;
-using System.Linq;
 
 public class ItemEditor : EditorWindow
 {
@@ -134,6 +130,3 @@ public class ItemEditor : EditorWindow
     }
 
 }
-
-
-
