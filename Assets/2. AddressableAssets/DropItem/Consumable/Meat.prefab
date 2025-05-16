@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2339846083976910141}
   - component: {fileID: 7907153799212415728}
   - component: {fileID: 7790552278409550598}
+  - component: {fileID: 113094392554483239}
   m_Layer: 0
   m_Name: Meat
   m_TagString: Untagged
@@ -86,3 +87,18 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!114 &113094392554483239
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 113856975510468197}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5d40b5a84181d514b89a532bdd58f26b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <interactAnimation>k__BackingField: {fileID: 0}
+  <interactAnimationSpeed>k__BackingField: 1
+  itemId: 2001

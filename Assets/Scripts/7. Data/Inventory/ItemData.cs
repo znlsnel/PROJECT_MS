@@ -7,6 +7,7 @@ public class ItemData
     public string Name {get; protected set;}
     public string Description {get; protected set;}
     public string PrefabPath {get; protected set;}
+    public string DropPrefabPath {get; protected set;}
     public Sprite Icon {get; protected set;}
     public bool CanStack {get; protected set;}
     public int MaxStack {get; protected set;}
@@ -27,6 +28,7 @@ public class ItemData
         Name = item.name;
         Description = item.description;
         PrefabPath = item.prefab;
+        DropPrefabPath = item.dropPrefab;
         Managers.Resource.LoadAsync<Texture2D>(item.icon, (texture) =>
         {
             Icon = texture.ToSprite(); 
