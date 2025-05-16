@@ -14,7 +14,7 @@ public class QuickSlotHandler : MonoBehaviour
     private ItemData selectedItemData;
     private GameObject selectedItemObject;
 
-    public event Action<ItemSlot> onSelectItem;
+    public static event Action<ItemSlot> onSelectItem;
 
     private void Awake()
     {

@@ -1,16 +1,24 @@
+using FishNet.Component.Observing;
 using UnityEngine;
 
-public class ConsumableItemController : MonoBehaviour
+public class ConsumableItemController : ItemController
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
-    {
-        
-    }
+    private static GameObject _waterParticle;
+    private static GameObject _foodParticle;
+    private static GameObject _healParticle;
+    private static GameObject _sanityParticle;
+    private static GameObject _staminaParticle;
+    private static GameObject _temperatureParticle;
 
-    // Update is called once per frame
-    void Update()
+    public override void OnAction()
     {
-        
+        _owner.Health.Add(itemData.Heal);
+        _owner.HungerPoint.Add(itemData.RestoreHunger);
+        _owner.WaterPoint.Add(itemData.RestoreWater);
+        _owner.Stamina.Add(itemData.RestoreStamina);
+        _owner.Temperature.Add(itemData.RestoreTemperature);
+        _owner.Sanity.Add(itemData.RestoreSanity);
+
+        itemSlot.AddStack(itemData, -1);
     }
 }
