@@ -2,7 +2,7 @@ using UnityEngine;
 
 public abstract class ItemController : MonoBehaviour
 {
-    private ItemSlot itemSlot;
+    protected ItemSlot itemSlot;
     protected ItemData itemData;
 
     public void Setup(ItemSlot itemSlot)

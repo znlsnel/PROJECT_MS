@@ -1,3 +1,4 @@
+using System.Xml;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -70,6 +71,7 @@ public class AlivePlayerCombatState : AlivePlayerState
         if(stateMachine.MovementStateMachine.currentState == stateMachine.MovementStateMachine.InterctingState)
             return;
 
+        
         combatStateMachine.ChangeState(combatStateMachine.AttackingState);
     }
     #endregion
