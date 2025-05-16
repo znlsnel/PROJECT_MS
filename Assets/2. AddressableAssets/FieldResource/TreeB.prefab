@@ -213,6 +213,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5993e5cfa50a4408c92b5813f923bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   maxHp: 100
-  dropItem: {fileID: 4950536071972195052, guid: 0b61686748716a24cbed16163876bb1c, type: 3}
   dropItemCount: 1
+  dropItemIds: 
