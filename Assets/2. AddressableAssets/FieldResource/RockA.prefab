@@ -123,9 +123,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5993e5cfa50a4408c92b5813f923bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7710765238683230894}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 7710765238683230894}
   maxHp: 100
   dropItemCount: 1
   dropItemIds: 
@@ -147,7 +147,8 @@ MonoBehaviour:
   <ComponentIndex>k__BackingField: 0
   <PredictedSpawn>k__BackingField: {fileID: 0}
   <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours: []
+  NetworkBehaviours:
+  - {fileID: -5816010121902590607}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -172,15 +173,15 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 65535
+  <PrefabId>k__BackingField: 3
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 5700279531528834310
   <SceneId>k__BackingField: 0
   SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 0}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 0
+    Position: {x: 6.688877, y: 0.55736, z: 30.340446}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 0.5216802, y: 0.52168, z: 0.5216802}
+    IsValid: 1
 --- !u!1 &8738198147857467035
 GameObject:
   m_ObjectHideFlags: 0

@@ -32,6 +32,8 @@ public class WeaponHandler : MonoBehaviour
     {
         if(!isAttacking)
             return;
+
+        Debug.Log("TriggerEnter");
         
         if(other.gameObject == Owner.gameObject)
             return;
