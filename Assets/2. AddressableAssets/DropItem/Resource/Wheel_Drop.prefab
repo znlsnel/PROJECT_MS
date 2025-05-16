@@ -82,6 +82,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <interactAnimation>k__BackingField: {fileID: 0}
   <interactAnimationSpeed>k__BackingField: 1
+  itemId: 3007
 --- !u!65 &1428206708237636592
 BoxCollider:
   m_ObjectHideFlags: 0
