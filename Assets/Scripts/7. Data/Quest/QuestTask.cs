@@ -9,10 +9,9 @@ public class QuestTask
     public ETaskState State { get; private set; } = ETaskState.Inactive;
     public int progress {get; private set;}
  
-    public event Action<QuestTask, ETaskState, ETaskState> onStateChanged;
     public event Action<QuestTask, bool> onSuccessChanged;
     public event Action<QuestTask, int, int> onProgressChanged;
-    
+    public event Action<QuestTask> onMoveToNextTask;
    
 
     public void Initialize(TaskData taskDataSO, ETaskState state = ETaskState.Inactive, int progress = 0)
@@ -40,8 +39,14 @@ public class QuestTask
         if (progress >= taskData.SuccessCount)
         {
             State = ETaskState.Complete;
-            if (prevState != ETaskState.Complete){
-                onSuccessChanged?.Invoke(this, true);   
+            if (prevState != ETaskState.Complete)
+            {
+                // 연결된 작업이 있다면 새로 업데이트
+                TaskData linkedTaskData = Managers.Data.questTasks.GetByIndex(taskData.LinkedTaskId);
+                if (linkedTaskData != null)
+                    MoveToNextTask(linkedTaskData);
+                else
+                    onSuccessChanged?.Invoke(this, true);   
             }
         }
         else
@@ -51,12 +56,16 @@ public class QuestTask
                 onSuccessChanged?.Invoke(this, false);   
         }
 
-        onStateChanged?.Invoke(this, State, prevState);   
         onProgressChanged?.Invoke(this, progress, taskData.SuccessCount); 
     }
 
-    public void Register()
-    { 
-        State = ETaskState.Running;
-    } 
+
+    private void MoveToNextTask(TaskData linkedTaskData)
+    {
+        taskData = linkedTaskData;
+        progress = 0;
+        State = ETaskState.Inactive;
+        onMoveToNextTask?.Invoke(this);
+    }
+
 } 

@@ -17,10 +17,10 @@ using UnityEngine;
 namespace GameData
 {
     [GoogleSheet.Attribute.TableStruct]
-    public partial class RuleGuide : ITable
+    public partial class SystemDialog : ITable
     { 
 
-        public delegate void OnLoadedFromGoogleSheets(List<RuleGuide> loadedList, Dictionary<int, RuleGuide> loadedDictionary);
+        public delegate void OnLoadedFromGoogleSheets(List<SystemDialog> loadedList, Dictionary<int, SystemDialog> loadedDictionary);
 
         static bool isLoaded = false;
         static string spreadSheetID = "1g9CvdFyKHjyFdO0rdqnwl15ZCJD3-GE1bgCuo6xcBbk"; // it is file id
@@ -29,27 +29,27 @@ namespace GameData
 
 /* Your Loaded Data Storage. */
     
-        public static Dictionary<int, RuleGuide> RuleGuideMap = new Dictionary<int, RuleGuide>();  
-        public static List<RuleGuide> RuleGuideList = new List<RuleGuide>();   
+        public static Dictionary<int, SystemDialog> SystemDialogMap = new Dictionary<int, SystemDialog>();  
+        public static List<SystemDialog> SystemDialogList = new List<SystemDialog>();   
 
         /// <summary>
-        /// Get RuleGuide List 
+        /// Get SystemDialog List 
         /// Auto Load
         /// </summary>
-        public static List<RuleGuide> GetList()
+        public static List<SystemDialog> GetList()
         {{
            if (isLoaded == false) Load();
-           return RuleGuideList;
+           return SystemDialogList;
         }}
 
         /// <summary>
-        /// Get RuleGuide Dictionary, keyType is your sheet A1 field type.
+        /// Get SystemDialog Dictionary, keyType is your sheet A1 field type.
         /// - Auto Load
         /// </summary>
-        public static Dictionary<int, RuleGuide>  GetDictionary()
+        public static Dictionary<int, SystemDialog>  GetDictionary()
         {{
            if (isLoaded == false) Load();
-           return RuleGuideMap;
+           return SystemDialogMap;
         }}
 
     
@@ -70,7 +70,7 @@ namespace GameData
             if(isLoaded && forceReload == false)
             {
 #if UGS_DEBUG
-                 Debug.Log("RuleGuide is already loaded! if you want reload then, forceReload parameter set true");
+                 Debug.Log("SystemDialog is already loaded! if you want reload then, forceReload parameter set true");
 #endif
                  return;
             }
@@ -86,7 +86,7 @@ namespace GameData
         }
  
 
-        public static void LoadFromGoogle(System.Action<List<RuleGuide>, Dictionary<int, RuleGuide>> onLoaded, bool updateCurrentData = false)
+        public static void LoadFromGoogle(System.Action<List<SystemDialog>, Dictionary<int, SystemDialog>> onLoaded, bool updateCurrentData = false)
         {      
                 IHttpProtcol webInstance = null;
     #if UNITY_EDITOR
@@ -114,14 +114,14 @@ namespace GameData
                
 
 
-    public static (List<RuleGuide> list, Dictionary<int, RuleGuide> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
-            Dictionary<int, RuleGuide> Map = new Dictionary<int, RuleGuide>();
-            List<RuleGuide> List = new List<RuleGuide>();     
+    public static (List<SystemDialog> list, Dictionary<int, SystemDialog> map) CommonLoad(Dictionary<string, Dictionary<string, List<string>>> jsonObject, bool forceReload){
+            Dictionary<int, SystemDialog> Map = new Dictionary<int, SystemDialog>();
+            List<SystemDialog> List = new List<SystemDialog>();     
             TypeMap.Init();
-            FieldInfo[] fields = typeof(RuleGuide).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(SystemDialog).GetFields(BindingFlags.Public | BindingFlags.Instance);
             List<(string original, string propertyName, string type)> typeInfos = new List<(string, string, string)>(); 
             List<List<string>> rows = new List<List<string>>();
-            var sheet = jsonObject["RuleGuide"];
+            var sheet = jsonObject["SystemDialog"];
 
             foreach (var column in sheet.Keys)
             {
@@ -140,7 +140,7 @@ namespace GameData
                         int rowCount = rows[0].Count;
                         for (int i = 0; i < rowCount; i++)
                         {
-                            RuleGuide instance = new RuleGuide();
+                            SystemDialog instance = new SystemDialog();
                             for (int j = 0; j < typeInfos.Count; j++)
                             {
                                 try
@@ -181,8 +181,8 @@ namespace GameData
                         }
                         if(isLoaded == false || forceReload)
                         { 
-                            RuleGuideList = List;
-                            RuleGuideMap = Map;
+                            SystemDialogList = List;
+                            SystemDialogMap = Map;
                             isLoaded = true;
                         }
                     } 
@@ -192,10 +192,10 @@ namespace GameData
 
  
 
-        public static void Write(RuleGuide data, System.Action<WriteObjectResult> onWriteCallback = null)
+        public static void Write(SystemDialog data, System.Action<WriteObjectResult> onWriteCallback = null)
         { 
             TypeMap.Init();
-            FieldInfo[] fields = typeof(RuleGuide).GetFields(BindingFlags.Public | BindingFlags.Instance);
+            FieldInfo[] fields = typeof(SystemDialog).GetFields(BindingFlags.Public | BindingFlags.Instance);
             var datas = new string[fields.Length];
             for (int i = 0; i < fields.Length; i++)
             {

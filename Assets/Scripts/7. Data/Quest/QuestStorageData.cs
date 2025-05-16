@@ -4,6 +4,7 @@ using System.Collections.Generic;
 
 public class QuestStorageData
 {
+    public string Title {get; private set;}
     public List<RequireItem> items {get; private set;} = new List<RequireItem>();
 
     public QuestStorageData(GameData.QuestStorage questStorage)
@@ -22,5 +23,7 @@ public class QuestStorageData
         Create(questStorage.item3);
         Create(questStorage.item4);
         Create(questStorage.item5);
+
+        Title = questStorage.title;
     }
 }

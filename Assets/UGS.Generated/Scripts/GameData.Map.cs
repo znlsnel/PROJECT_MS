@@ -60,6 +60,12 @@ namespace GameData
 		public System.String name;
 		public System.Int32 mainQuest;
 		public System.Int32 subQuest;
+		public System.Int32 fieldItemDistribution;
+		public System.Collections.Generic.List<Int32> fieldItems;
+		public System.Collections.Generic.List<Int32> fieldItemRatio;
+		public System.Int32 fieldResourceDistribution;
+		public System.Collections.Generic.List<Int32> fieldResource;
+		public System.Collections.Generic.List<Int32> resourceRatio;
   
 
 #region fuctions

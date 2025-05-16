@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using DG.Tweening;
 using FishNet.Object;
 using UnityEngine;
@@ -5,13 +6,24 @@ using UnityEngine;
 public class ResourceHandler : NetworkBehaviour, IDamageable
 {
     [SerializeField] private float maxHp = 100f;
-    [SerializeField] private GameObject dropItem;
     [SerializeField] private int dropItemCount = 1;
-    public ResourceStat Hp { get; private set; }
+
+    [SerializeField] public List<int> dropItemIds = new List<int>();
+
+    private List<GameObject> dropItems;
     private Vector3 originalScale;
+
+    public ResourceStat Hp { get; private set; }
+
 
     public void Awake()
     {
+        Managers.SubscribeToInit(()=>{
+
+            foreach(int itemId in dropItemIds)
+                dropItems.Add(Managers.Resource.Load<GameObject>(Managers.Data.items.GetByIndex(itemId).DropPrefabPath));
+            
+        });
         Hp = new ResourceStat(maxHp);
         originalScale = transform.localScale;
     }
@@ -50,7 +62,7 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
     {
         for(int i = 0; i < dropItemCount; i++)
         {
-            GameObject item = Managers.Pool.Get(dropItem);
+            GameObject item = Managers.Pool.Get(dropItems[Random.Range(0, dropItems.Count)]);
             item.transform.position = transform.position;
 
             item.GetOrAddComponent<Rigidbody>().AddForce(Vector3.up * 5f, ForceMode.Impulse);
