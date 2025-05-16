@@ -51,6 +51,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c218eae851380514682c9ac76faca90d
+    m_Address: Animation
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - Game
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7dfdcbb89603fa47a95bc5777e2cef9
     m_Address: Sprite
     m_ReadOnly: 0

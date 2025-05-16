@@ -7,7 +7,6 @@ using TMPro;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
-using VInspector.Libs;
 
 public class DynamicScrollRect : MonoBehaviour
 {
