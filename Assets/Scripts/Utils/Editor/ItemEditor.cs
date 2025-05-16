@@ -1,5 +1,11 @@
 using UnityEngine;
 using UnityEditor;
+using System.Collections;
+using Hamster.ZG.Type;
+using UGS.Editor;
+using System.Linq;
+using FishNet.Managing.Object;
+using FishNet;
 
 public class ItemEditor : EditorWindow
 {
@@ -40,6 +46,7 @@ public class ItemEditor : EditorWindow
         if (GUILayout.Button("아이템 만들기", GUILayout.Height(30)))
         {
             // 아이템 만들기 로직 실행
+            ItemCreateWindow.ShowWindow();
         }
     }
 
@@ -86,6 +93,10 @@ public class ItemEditor : EditorWindow
             if (AssetDatabase.IsValidFolder(assetPath))
                 continue;
             GameObject asset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+            
+            if (asset == null)
+                continue;
+
             string dataPath = assetPath.Replace("Assets/2. AddressableAssets/", "");
             // 필요하다면 리스트에 저장하거나 추가 작업 수행 가능
 
@@ -96,10 +107,14 @@ public class ItemEditor : EditorWindow
 
                 ItemObject itemObject = asset.GetOrAddComponent<ItemObject>();
                 itemObject.itemId = item.index;
+                EditorUtility.SetDirty(asset);
+                PrefabUtility.SavePrefabAsset(asset);
             }
         }
 
+
         AssetDatabase.SaveAssets();
+
     }
 
     private void ResourceInit()
@@ -115,6 +130,10 @@ public class ItemEditor : EditorWindow
             if (AssetDatabase.IsValidFolder(assetPath))
                 continue;
             GameObject asset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+
+            if (asset == null)
+                continue;
+
             string dataPath = assetPath.Replace("Assets/2. AddressableAssets/", "");
             // 필요하다면 리스트에 저장하거나 추가 작업 수행 가능
 
@@ -124,9 +143,18 @@ public class ItemEditor : EditorWindow
                 ResourceHandler resourceHandler = asset.GetOrAddComponent<ResourceHandler>();
                 resourceHandler.dropItemIds = fieldResource.dropItems;
                 Debug.Log($"[초기화 완료] {fieldResource.index}, {dataPath}"); 
+
+                EditorUtility.SetDirty(asset);
+                PrefabUtility.SavePrefabAsset(asset);
+
+            
             }
         }
         AssetDatabase.SaveAssets();
+
     }
 
 }
+
+
+
