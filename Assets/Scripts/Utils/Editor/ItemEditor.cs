@@ -130,6 +130,7 @@ public class ItemEditor : EditorWindow
                 Debug.Log($"[초기화 완료] {fieldResource.index}, {dataPath}"); 
             }
         }
+        AssetDatabase.SaveAssets();
     }
 
 }
