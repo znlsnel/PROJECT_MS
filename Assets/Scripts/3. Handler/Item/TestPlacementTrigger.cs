@@ -10,7 +10,7 @@ public class TestPlacementTrigger : MonoBehaviour
 
     private void Start()
     {
-        QuickSlotHandler.onSelectItem += (itemSlot) =>
+        QuickSlotHandler.onSelectItem += (itemSlot, selectedItemObject) =>
         {
             currentItemSlot = itemSlot;
         };

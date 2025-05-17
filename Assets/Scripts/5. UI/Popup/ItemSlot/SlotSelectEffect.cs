@@ -6,10 +6,7 @@ using UnityEngine.UI;
 public class SlotSelectEffect : MonoBehaviour
 {
     [SerializeField] private Image selectImage;
-    [SerializeField] private float time = 0.2f;
-    [SerializeField] private float overshoot = 5f;
-    [SerializeField] private float scale = 1.2f;
-    [SerializeField] private float period = 0.2f;
+
 
     private void Awake()
     {
@@ -21,6 +18,9 @@ public class SlotSelectEffect : MonoBehaviour
     private void SelectSlot(bool isSelect)
     {
         transform.DOKill();
+
+        transform.localScale = !isSelect ? Vector3.one * 1.1f : Vector3.one;
+
         if (isSelect)
             transform.DOScale(1.1f, 0.5f).SetEase(Ease.InOutBack, 10f, 1f);
         else

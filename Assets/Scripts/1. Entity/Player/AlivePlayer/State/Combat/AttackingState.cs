@@ -45,9 +45,9 @@ public class AttackingState : AlivePlayerCombatState
     #endregion
     
     #region Input Methods
-    protected override void OnInputAttack(InputAction.CallbackContext context)
+    protected override void OnInputAttack(ItemController itemController)
     {
-        
+
     }
     #endregion
 }

@@ -12,6 +12,8 @@ public class ConsumableItemController : ItemController
 
     public override void OnAction()
     {
+        // 체력, 배고픔, 물, 스태미나, 온도, 정신력 회복
+        
         _owner.Health.Add(itemData.Heal);
         _owner.HungerPoint.Add(itemData.RestoreHunger);
         _owner.WaterPoint.Add(itemData.RestoreWater);

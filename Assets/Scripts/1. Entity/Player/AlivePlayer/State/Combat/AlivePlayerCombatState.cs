@@ -47,14 +47,16 @@ public class AlivePlayerCombatState : AlivePlayerState
     {
         base.AddInputActionCallbacks();
 
-        Managers.Input.GetInput(EPlayerInput.Fire).started += OnInputAttack;
+       // Managers.Input.GetInput(EPlayerInput.Fire).started += OnInputAttack;
+        ItemHandler.onAction += OnInputAttack;
     }
 
     protected override void RemoveInputActionCallbacks()
     {
         base.RemoveInputActionCallbacks();
 
-        Managers.Input.GetInput(EPlayerInput.Fire).started -= OnInputAttack;
+      //  Managers.Input.GetInput(EPlayerInput.Fire).started -= OnInputAttack;
+        ItemHandler.onAction -= OnInputAttack;
     }
 
     protected override void OnDead()
@@ -66,13 +68,15 @@ public class AlivePlayerCombatState : AlivePlayerState
     #endregion
 
     #region Input Methods
-    protected virtual void OnInputAttack(InputAction.CallbackContext context)
+    protected virtual void OnInputAttack(ItemController itemController)
     {
         if(stateMachine.MovementStateMachine.currentState == stateMachine.MovementStateMachine.InterctingState)
             return;
 
-        
-        combatStateMachine.ChangeState(combatStateMachine.AttackingState);
+        if (itemController is WeaponController)
+        {
+            combatStateMachine.ChangeState(combatStateMachine.AttackingState);
+        }
     }
     #endregion
 

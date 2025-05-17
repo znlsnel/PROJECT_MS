@@ -59,7 +59,7 @@ public class WeaponController : ItemController
 
     public override void OnAction()
     {
-        
+        // 공격 시작
     }
 
 }

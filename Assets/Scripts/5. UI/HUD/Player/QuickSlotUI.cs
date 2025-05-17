@@ -25,7 +25,7 @@ public class QuickSlotUI : MonoBehaviour
         QuickSlotHandler.onSelectItem += SelectSlot;
     }
 
-    private void SelectSlot(ItemSlot itemSlot)
+    private void SelectSlot(ItemSlot itemSlot, GameObject selectedItemObject)
     {
         if (selectedItemSlot == itemSlot)
             return;

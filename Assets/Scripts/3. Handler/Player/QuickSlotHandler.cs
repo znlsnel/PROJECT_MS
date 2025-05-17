@@ -14,14 +14,17 @@ public class QuickSlotHandler : MonoBehaviour
     private ItemData selectedItemData;
     private GameObject selectedItemObject;
 
-    public static event Action<ItemSlot> onSelectItem;
+    public static event Action<ItemSlot, GameObject> onSelectItem;
 
     private void Awake()
     {
         quickSlotStorage = Managers.UserData.Inventory.QuickSlotStorage;
 
-        Managers.SubscribeToInit(InitInput);
-        Managers.SubscribeToInit(InitQuickSlot);
+        Managers.SubscribeToInit(()=>{
+            InitInput();
+            InitQuickSlot();
+            SelectItem(quickSlotStorage.GetSlotByIdx(0));
+        });
     }
 
     private void InitInput()
@@ -74,7 +77,7 @@ public class QuickSlotHandler : MonoBehaviour
             }
         } 
 
-        onSelectItem?.Invoke(itemSlot); 
+        onSelectItem?.Invoke(itemSlot, selectedItemObject); 
         selectedItemSlot = itemSlot;
         selectedItemData = itemSlot.Data;
     }

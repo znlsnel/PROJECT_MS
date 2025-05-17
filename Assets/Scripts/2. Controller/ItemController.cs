@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class ItemController : MonoBehaviour
 {
@@ -11,6 +12,7 @@ public abstract class ItemController : MonoBehaviour
         this.itemSlot = itemSlot;
         this.itemData = itemSlot.Data;
         _owner = owner;
+
     }
 
     public abstract void OnAction();
