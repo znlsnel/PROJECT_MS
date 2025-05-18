@@ -46,6 +46,12 @@ public class PlacementHandler : MonoBehaviour
                     StartPlacement(buildingItemController);
             };
 
+            Managers.Input.LeftMouse.started += (a) =>
+            {
+                if(isPlacing) 
+                    Place();
+            };
+
             Managers.Input.RightMouse.started += (a) =>
             {
                 if(isPlacing)
@@ -56,31 +62,40 @@ public class PlacementHandler : MonoBehaviour
 
     void Update()
     {
-        if (!isPlacing || previewObject == null) return;
+        if (!isPlacing || previewObject == null) 
+            return;
+        
+        UpdatePreview();
 
         float scrollDelta = Mouse.current.scroll.ReadValue().y;  // 마우스 휠 회전
         yRotationOffset += scrollDelta * rotateSpeed * Time.deltaTime;
+    }
 
-        UpdatePreview();
 
-        if (Mouse.current.leftButton.wasPressedThisFrame && isValidPosition)
+    private void Place()
+    {
+        if (isValidPosition)
         {
             Vector3 position = previewObject.transform.position;
             Quaternion rotation = previewObject.transform.rotation;
             Addressables.InstantiateAsync(currentPrefabAddress, position, rotation);
-            CancelPlacement();
 
             OnPlacementComplete?.Invoke(); // 배치 완료 이벤트 호출
             buildingItemController.OnPlacementComplete();
+            CancelPlacement();
         }
     }
 
-    public void StartPlacement(BuildingItemController buildingItemController) // 오브젝트 배치
+
+    private void StartPlacement(BuildingItemController buildingItemController) // 오브젝트 배치
     {
+
+        if(isPlacing)
+            return;
+
         this.buildingItemController = buildingItemController;
         string prefabAddress = buildingItemController.itemData.PrefabPath;
         placementCheck = buildingItemController.PlacementCheck;
-        if (isPlacing) CancelPlacement(); // 중복 방지
 
         currentPrefabAddress = prefabAddress; // 프리팹 주소 저장
 
@@ -141,7 +156,6 @@ public class PlacementHandler : MonoBehaviour
             isValidPosition = false;
             return;
         }
-        Debug.Log(reason);
 
 
         ApplyPreviewMaterial(validMaterial);
