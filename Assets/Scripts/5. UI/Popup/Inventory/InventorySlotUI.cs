@@ -41,7 +41,9 @@ public class InventorySlotUI : ItemSlotUI
         onUpdate?.Invoke(itemSlot.Data);
         itemIcon.gameObject.SetActive(itemSlot.Data != null);
         itemAmountText.gameObject.SetActive(itemSlot.Data != null && itemSlot.Data.CanStack);
-        _slider.gameObject.SetActive(itemSlot.Data != null && itemSlot.Data.HasDurability);
+
+        if (_slider != null)
+            _slider.gameObject.SetActive(itemSlot.Data != null && itemSlot.Data.HasDurability);
 
         if (itemSlot.Data == null)
             return;
@@ -49,8 +51,12 @@ public class InventorySlotUI : ItemSlotUI
 
         itemIcon.sprite = itemSlot.Data.Icon; 
         itemAmountText.text = itemSlot.Stack.ToString(); 
-        _slider.value = itemSlot.Durability / itemSlot.Data.MaxDurability;
-        _sliderFill.color = Color.Lerp(MyColor.Red, MyColor.Green, _slider.value);
+
+        if (_slider != null)
+        {
+            _slider.value = itemSlot.Durability / itemSlot.Data.MaxDurability;
+            _sliderFill.color = Color.Lerp(MyColor.Red, MyColor.Green, _slider.value);
+        }
         
 
         itemIcon.transform.DOScale(1.4f, 0.1f).OnComplete(()=>

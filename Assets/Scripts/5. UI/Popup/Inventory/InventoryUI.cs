@@ -26,6 +26,11 @@ public class InventoryUI : PopupUI
         testItems.Add(Managers.Data.items.GetByIndex(2001)); 
         testItems.Add(Managers.Data.items.GetByIndex(1001)); 
         testItems.Add(Managers.Data.items.GetByIndex(4001)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3001)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3003)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3006)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3004)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3007)); 
 
 
   
