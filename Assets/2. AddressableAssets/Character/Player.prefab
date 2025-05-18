@@ -306,7 +306,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 24293180bcf0ba84683385f228906677, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  itemRoot: {fileID: 1245483052935477432}
+  itemRoot: {fileID: 2167595066333299813}
   waeponRoot: {fileID: 2167595066333299813}
 --- !u!114 &2680119267649215582
 MonoBehaviour:
@@ -571,6 +571,10 @@ PrefabInstance:
     - target: {fileID: 3707404562706320488, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
       propertyPath: m_Name
       value: axe_001
+      objectReference: {fileID: 0}
+    - target: {fileID: 3707404562706320488, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4051137819382748882, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
       propertyPath: m_LocalPosition.x

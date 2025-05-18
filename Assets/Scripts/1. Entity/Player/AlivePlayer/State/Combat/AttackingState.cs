@@ -34,7 +34,7 @@ public class AttackingState : AlivePlayerCombatState
         }
         else
         {
-            stateMachine.Player.WeaponHandler.SetIsAttacking(false);
+            stateMachine.Player.WeaponHandler.SetIsAttacking(false); 
         }
 
         if(normalizedTime >= 0.8f)
