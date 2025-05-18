@@ -492,6 +492,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5507004161608063469}
   - component: {fileID: 4538038667839603399}
+  - component: {fileID: -2043880546407341114}
   m_Layer: 0
   m_Name: StudentHat
   m_TagString: Untagged
@@ -538,6 +539,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-2043880546407341114
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4220203741877055336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3c198fa23067348a574607e8fc32e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4491994002354986609
 GameObject:
   m_ObjectHideFlags: 0

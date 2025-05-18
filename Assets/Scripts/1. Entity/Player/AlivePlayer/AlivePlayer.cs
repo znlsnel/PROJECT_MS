@@ -1,5 +1,6 @@
 using System;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
 using UnityEngine;
 
@@ -7,19 +8,19 @@ using UnityEngine;
 public class AlivePlayer : NetworkBehaviour, IDamageable
 {
     #region Stats
-    protected ResourceStat health;
-    protected ResourceStat hungerPoint;
-    protected ResourceStat waterPoint;
-    protected ResourceStat stamina;
-    protected ResourceStat temperature;
-    protected ResourceStat sanity;
+    protected readonly SyncVar<ResourceStat> health = new SyncVar<ResourceStat>(new ResourceStat(100));
+    protected readonly SyncVar<ResourceStat> hungerPoint = new SyncVar<ResourceStat>(new ResourceStat(100));
+    protected readonly SyncVar<ResourceStat> waterPoint = new SyncVar<ResourceStat>(new ResourceStat(100));
+    protected readonly SyncVar<ResourceStat> stamina = new SyncVar<ResourceStat>(new ResourceStat(100));
+    protected readonly SyncVar<ResourceStat> temperature = new SyncVar<ResourceStat>(new ResourceStat(100));
+    protected readonly SyncVar<ResourceStat> sanity = new SyncVar<ResourceStat>(new ResourceStat(100));
 
-    public ResourceStat Health => health;
-    public ResourceStat HungerPoint => hungerPoint;
-    public ResourceStat WaterPoint => waterPoint;
-    public ResourceStat Stamina => stamina;
-    public ResourceStat Temperature => temperature;
-    public ResourceStat Sanity => sanity;
+    public ResourceStat Health => health.Value;
+    public ResourceStat HungerPoint => hungerPoint.Value;
+    public ResourceStat WaterPoint => waterPoint.Value;
+    public ResourceStat Stamina => stamina.Value;
+    public ResourceStat Temperature => temperature.Value;
+    public ResourceStat Sanity => sanity.Value;
     #endregion
 
     public InteractionHandler InteractionHandler { get; private set; }
@@ -29,7 +30,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     [field: SerializeField] public CinemachineCamera CinemachineCamera { get; private set; }
     [field: SerializeField] public AlivePlayerSO AlivePlayerSO { get; private set; }
     [field: SerializeField] public AlivePlayerAnimationData AnimationData { get; private set; }
-    [field: SerializeField] public WeaponHandler WeaponHandler { get; private set; }
+    [field: SerializeField] public WeaponController WeaponHandler { get; private set; }
     private AlivePlayerStateMachine stateMachine;
 
     public event Action onDead;
@@ -46,14 +47,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
         Animator.runtimeAnimatorController = overrideController;
-
-        health = new ResourceStat(100);
-        hungerPoint = new ResourceStat(100);
-        waterPoint = new ResourceStat(100);
-        stamina = new ResourceStat(100);
-        temperature = new ResourceStat(100);
-
-        stateMachine = new AlivePlayerStateMachine(this);
     }
 
     public override void OnStartClient()
@@ -63,9 +56,19 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         if(!IsOwner)
             return;
 
+        Init();
+
         Managers.Instance.SetPlayer(this);
         CinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
         CinemachineCamera.Follow = transform;
+
+        stateMachine = new AlivePlayerStateMachine(this);
+    }
+
+    [ServerRpc]
+    private void Init()
+    {
+        
     }
 
     public void Update()
@@ -78,7 +81,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
        // hungerPoint.Subtract(Time.deltaTime * 10f); // 추후 float 값 수정
        // waterPoint.Subtract(Time.deltaTime * 0.5f);
 
-        if(hungerPoint.Current <= 0)
+        if(hungerPoint.Value.Current <= 0)
         {
             Health.Subtract(Time.deltaTime * 5f);
         }
@@ -102,6 +105,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stateMachine.FixedUpdate();
     }
 
+    [ServerRpc]
     public void TakeDamage(float damage, GameObject attacker)
     {
         Health.Subtract(damage);
@@ -112,21 +116,47 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
             onDead?.Invoke();
         }
     }
-    
-    public void ChangeWeapon(WeaponHandler weapon)
+
+    public void ChangeWeapon(WeaponController weapon)
     {
         WeaponHandler = weapon;
         overrideController["Holding"] = WeaponHandler.holdAnimation;
+        overrideController["Attack"] = WeaponHandler.attackAnimation;
         Animator.SetBool(AnimationData.HoldingParameterHash, WeaponHandler != null);
+        Animator.SetFloat("AttackSpeed", WeaponHandler.attackAnimationSpeed);
+
+        ServerRpcOnChangeWeapon(WeaponHandler.HoldAnimationIndex, WeaponHandler.AttackAnimationIndex, WeaponHandler.attackAnimationSpeed, WeaponHandler != null);
     }
 
+    private void OnChangeWeapon(int holdAnimationIndex, int attackAnimationIndex, float speed, bool isHolding)
+    {
+        overrideController["Holding"] = AnimationDataManager.GetByIndex(holdAnimationIndex);
+        overrideController["Attack"] = AnimationDataManager.GetByIndex(attackAnimationIndex);
+        Animator.SetFloat("AttackSpeed", speed);
+        Animator.SetBool(AnimationData.HoldingParameterHash, isHolding);
+    }
+
+    [ServerRpc]
+    private void ServerRpcOnChangeWeapon(int holdAnimationIndex, int attackAnimationIndex, float speed, bool isHolding)
+    {
+        ObserverRpcChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
+    }
+
+    [ObserversRpc]
+    private void ObserverRpcChangeWeapon(int holdAnimationIndex, int attackAnimationIndex, float speed, bool isHolding)
+    {
+        OnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
+    }
+
+    [ServerRpc]
     public void RestoreHunger(float amount) // 음식물 섭취
     {
-        hungerPoint.Add(amount);
+        hungerPoint.Value.Add(amount);
     }
 
+    [ServerRpc]
     public void RestoreWater(float amount) // 물 섭취
     {
-        waterPoint.Add(amount);
+        waterPoint.Value.Add(amount);
     }
 }

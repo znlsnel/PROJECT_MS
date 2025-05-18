@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3438365831925265476}
   - component: {fileID: 3438365831904370924}
+  - component: {fileID: 4099755175790642997}
   m_Layer: 0
   m_Name: Prefab_Birch_03
   m_TagString: Untagged
@@ -67,6 +68,59 @@ LODGroup:
     renderers:
     - renderer: {fileID: 3438365831922972330}
   m_Enabled: 1
+--- !u!114 &4099755175790642997
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3438365831924901988}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
+  - {fileID: 8419575294494911266}
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 11
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 11709596504526098985
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 0, y: 0, z: 0}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!1 &3438365831924901992
 GameObject:
   m_ObjectHideFlags: 0
@@ -253,7 +307,7 @@ GameObject:
   - component: {fileID: 3438365831921841260}
   - component: {fileID: 3438365831922972332}
   - component: {fileID: 7433555366861186748}
-  - component: {fileID: 2972415661121441195}
+  - component: {fileID: 8419575294494911266}
   m_Layer: 0
   m_Name: Birch_03_LOD0
   m_TagString: Untagged
@@ -353,7 +407,7 @@ CapsuleCollider:
   m_Height: 10.8
   m_Direction: 1
   m_Center: {x: 0.22, y: 4.94, z: -0.019579768}
---- !u!114 &2972415661121441195
+--- !u!114 &8419575294494911266
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -365,6 +419,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd5993e5cfa50a4408c92b5813f923bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 4099755175790642997}
+  _networkObjectCache: {fileID: 4099755175790642997}
+  maxHp: 100
+  dropItemCount: 1
+  dropItemIds: 
 --- !u!1 &3438365831924901998
 GameObject:
   m_ObjectHideFlags: 0

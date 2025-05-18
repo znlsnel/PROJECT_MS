@@ -71,11 +71,14 @@ namespace GameData
 		public System.Boolean hasDurability;
 		public System.Single durability;
 		public System.Single health;
-		public System.Single thirst;
+		public System.Single water;
 		public System.Single hunger;
 		public System.Single temperature;
 		public System.Single sanity;
 		public System.Single stamina;
+		public System.Boolean slopeLimit;
+		public System.Single maxSlopeAngle;
+		public System.Boolean overlapCheck;
   
 
 #region fuctions

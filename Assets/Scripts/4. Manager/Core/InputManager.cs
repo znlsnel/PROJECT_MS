@@ -8,7 +8,8 @@ public enum EPlayerInput
 	Move,
 	Look,
 	Interact,
-	Fire,
+	LeftMouse,
+	RightMouse,
 	Sprint,
 	Aim,
 	Test,
@@ -45,7 +46,8 @@ public class InputManager : IManager
 	public InputAction Look => playerInputs[EPlayerInput.Look]; 
 	public InputAction Interact => playerInputs[EPlayerInput.Interact]; 
 	public InputAction Aim => playerInputs[EPlayerInput.Aim];
-	public InputAction Fire => playerInputs[EPlayerInput.Fire]; 
+	public InputAction LeftMouse => playerInputs[EPlayerInput.LeftMouse]; 
+	public InputAction RightMouse => playerInputs[EPlayerInput.RightMouse];
 	public InputAction Run => playerInputs[EPlayerInput.Sprint];   
 	public InputAction Test => playerInputs[EPlayerInput.Test];   
 

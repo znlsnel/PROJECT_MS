@@ -1,3 +1,4 @@
+using System.Xml;
 using Cysharp.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -46,20 +47,16 @@ public class AlivePlayerCombatState : AlivePlayerState
     {
         base.AddInputActionCallbacks();
 
-        Managers.Input.GetInput(EPlayerInput.Fire).started += OnInputAttack;
+       // Managers.Input.GetInput(EPlayerInput.Fire).started += OnInputAttack;
+        ItemHandler.onAction += OnInputAttack;
     }
 
     protected override void RemoveInputActionCallbacks()
     {
         base.RemoveInputActionCallbacks();
 
-        Managers.Input.GetInput(EPlayerInput.Fire).started -= OnInputAttack;
-    }
-    
-    public void SetAttackAnimation(AnimationClip animationClip, float speed = 1f)
-    {
-        stateMachine.Player.overrideController["Attack"] = animationClip;
-        stateMachine.Player.Animator.SetFloat("AttackSpeed", speed);
+      //  Managers.Input.GetInput(EPlayerInput.Fire).started -= OnInputAttack;
+        ItemHandler.onAction -= OnInputAttack;
     }
 
     protected override void OnDead()
@@ -71,14 +68,15 @@ public class AlivePlayerCombatState : AlivePlayerState
     #endregion
 
     #region Input Methods
-    protected virtual void OnInputAttack(InputAction.CallbackContext context)
+    protected virtual void OnInputAttack(ItemController itemController)
     {
         if(stateMachine.MovementStateMachine.currentState == stateMachine.MovementStateMachine.InterctingState)
             return;
 
-        WeaponHandler weaponHandler = stateMachine.Player.WeaponHandler;
-        SetAttackAnimation(weaponHandler.attackAnimation, weaponHandler.attackAnimationSpeed);
-        combatStateMachine.ChangeState(combatStateMachine.AttackingState);
+        if (itemController is WeaponController)
+        {
+            combatStateMachine.ChangeState(combatStateMachine.AttackingState);
+        }
     }
     #endregion
 

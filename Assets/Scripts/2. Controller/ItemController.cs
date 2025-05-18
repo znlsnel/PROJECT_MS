@@ -1,14 +1,18 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public abstract class ItemController : MonoBehaviour
 {
-    private ItemSlot itemSlot;
-    protected ItemData itemData;
+    public ItemSlot itemSlot {get; private set;}
+    public ItemData itemData {get; private set;}
 
-    public void Setup(ItemSlot itemSlot)
+    protected AlivePlayer _owner;
+    public virtual void Setup(AlivePlayer owner, ItemSlot itemSlot)
     {
         this.itemSlot = itemSlot;
         this.itemData = itemSlot.Data;
+        _owner = owner;
+
     }
 
     public abstract void OnAction();
