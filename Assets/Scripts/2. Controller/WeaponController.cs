@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponHandler : MonoBehaviour
+public class WeaponController : ItemController
 {
     [field: SerializeField] public AnimationClip holdAnimation { get; private set; }
     [field: SerializeField] public AnimationClip attackAnimation { get; private set; }
@@ -56,4 +56,10 @@ public class WeaponHandler : MonoBehaviour
             damageables.Clear();
         }
     }
+
+    public override void OnAction()
+    {
+        // 공격 시작
+    }
+
 }

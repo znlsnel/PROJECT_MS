@@ -1,16 +1,24 @@
 using UnityEngine;
 
-public class BuildingItemController : MonoBehaviour
+public class BuildingItemController : ItemController
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    public PlacementCheck PlacementCheck {get; private set;}
+
+    public override void Setup(AlivePlayer owner, ItemSlot itemSlot)
     {
+        base.Setup(owner, itemSlot);
+        PlacementCheck = new PlacementCheck(itemData);
+    }
+
+    public override void OnAction()
+    {
+        // 건축 모드 시작
         
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnPlacementComplete()
     {
-        
+        // 건축 모드 종료
+        itemSlot.AddStack(itemData, -1);
     }
 }

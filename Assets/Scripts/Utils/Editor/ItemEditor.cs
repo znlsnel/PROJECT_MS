@@ -28,11 +28,18 @@ public class ItemEditor : EditorWindow
 
     private void DrawMainButtons()
     {
-        if (GUILayout.Button("아이템 데이터 초기화", GUILayout.Height(30)))
+        if (GUILayout.Button("드롭 아이템 데이터 초기화", GUILayout.Height(30)))
+        {
+            DropItemInit();
+            ShowResetMessage();
+        }
+
+        if (GUILayout.Button("아이템 컴포넌트 자동 세팅", GUILayout.Height(30)))
         {
             ItemInit();
             ShowResetMessage();
         }
+
 
         if (GUILayout.Button("자원 데이터 초기화", GUILayout.Height(30)))
         {
@@ -78,7 +85,7 @@ public class ItemEditor : EditorWindow
         }
     }
 
-    private void ItemInit()
+    private void DropItemInit()
     {
 
         GameData.Item.Load(true);
@@ -111,8 +118,48 @@ public class ItemEditor : EditorWindow
                 PrefabUtility.SavePrefabAsset(asset);
             }
         }
+        AssetDatabase.SaveAssets();
+    }
 
+    private void ItemInit()
+    {
+        string rootPath = "Assets/2. AddressableAssets/Item";
+        // 모든 하위 폴더까지 포함하여 에셋 경로 가져오기
+        string[] guids = AssetDatabase.FindAssets("", new[] { rootPath });
+        foreach (string guid in guids)
+        {
+            string assetPath = AssetDatabase.GUIDToAssetPath(guid);
+            // 폴더라면 건너뛴다
+            if (AssetDatabase.IsValidFolder(assetPath))
+                continue;
 
+            GameObject asset = AssetDatabase.LoadAssetAtPath<GameObject>(assetPath);
+            if (asset == null)
+                continue;
+
+            if (assetPath.Contains("Consumable"))
+            {
+                asset.GetOrAddComponent<ConsumableItemController>();
+            }
+            else if (assetPath.Contains("Equipment"))
+            {
+                asset.GetOrAddComponent<ResourceItemController>();
+            }
+            else if (assetPath.Contains("Resource"))
+            {
+                asset.GetOrAddComponent<ResourceItemController>();
+            }
+            else if (assetPath.Contains("Weapon"))
+            {
+                asset.GetOrAddComponent<WeaponController>();
+            }  
+            else if (assetPath.Contains("Building"))
+            {
+                asset.GetOrAddComponent<BuildingItemController>();
+            }
+            EditorUtility.SetDirty(asset);
+            PrefabUtility.SavePrefabAsset(asset);
+        }
         AssetDatabase.SaveAssets();
 
     }
@@ -145,9 +192,7 @@ public class ItemEditor : EditorWindow
                 Debug.Log($"[초기화 완료] {fieldResource.index}, {dataPath}"); 
 
                 EditorUtility.SetDirty(asset);
-                PrefabUtility.SavePrefabAsset(asset);
-
-            
+                PrefabUtility.SavePrefabAsset(asset);  
             }
         }
         AssetDatabase.SaveAssets();

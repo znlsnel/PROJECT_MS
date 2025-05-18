@@ -10,6 +10,7 @@ public abstract class ItemSlotUI : MonoBehaviour, IPointerClickHandler, IPointer
     [SerializeField] protected TextMeshProUGUI itemAmountText;
 
     public Action<ItemData> onUpdate;
+    public Action<bool> onSelect;
 
     protected abstract void ClickAction();
     protected abstract void MouseHoverAction(bool isHover);

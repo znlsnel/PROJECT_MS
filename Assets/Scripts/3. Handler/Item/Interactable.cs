@@ -7,7 +7,7 @@ public abstract class Interactable : MonoBehaviour
 
     public int AnimationIndex { get; private set; }
 
-    public void Awake()
+    public virtual void Awake()
     {
         AnimationIndex = AnimationDataManager.AddAnimationClip(interactAnimation);
     }

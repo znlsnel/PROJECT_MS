@@ -30,7 +30,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     [field: SerializeField] public CinemachineCamera CinemachineCamera { get; private set; }
     [field: SerializeField] public AlivePlayerSO AlivePlayerSO { get; private set; }
     [field: SerializeField] public AlivePlayerAnimationData AnimationData { get; private set; }
-    [field: SerializeField] public WeaponHandler WeaponHandler { get; private set; }
+    [field: SerializeField] public WeaponController WeaponHandler { get; private set; }
     private AlivePlayerStateMachine stateMachine;
 
     public event Action onDead;
@@ -117,7 +117,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         }
     }
 
-    public void ChangeWeapon(WeaponHandler weapon)
+    public void ChangeWeapon(WeaponController weapon)
     {
         WeaponHandler = weapon;
         overrideController["Holding"] = WeaponHandler.holdAnimation;

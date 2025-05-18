@@ -10,7 +10,7 @@ public class TestPlacementTrigger : MonoBehaviour
 
     private void Start()
     {
-        quickSlotHandler.onSelectItem += (itemSlot) =>
+        QuickSlotHandler.onSelectItem += (itemSlot, selectedItemObject) =>
         {
             currentItemSlot = itemSlot;
         };
@@ -18,24 +18,26 @@ public class TestPlacementTrigger : MonoBehaviour
         placementSystem.OnPlacementComplete += () => isPlacementModeActive = false;
     }
 
+
+
     void Update()
     {
-        if (Keyboard.current.pKey.wasPressedThisFrame)
-        {
-            if (!isPlacementModeActive)
-            {
-                if (currentItemSlot != null && currentItemSlot.Data != null && 
-                    currentItemSlot.Data.ItemType == EItemType.Placeable)
-                {
-                    placementSystem.StartPlacement(currentItemSlot.Data.PrefabPath);
-                    isPlacementModeActive = true;
-                }
-            }
-            else
-            {
-                placementSystem.CancelPlacement();
-                isPlacementModeActive = false;
-            }
-        }
+        // if (Keyboard.current.pKey.wasPressedThisFrame)
+        // {
+        //     if (!isPlacementModeActive)
+        //     {
+        //         if (currentItemSlot != null && currentItemSlot.Data != null && 
+        //             currentItemSlot.Data.ItemType == EItemType.Placeable)
+        //         {
+        //          //   placementSystem.StartPlacement(currentItemSlot.Data.PrefabPath);
+        //             isPlacementModeActive = true;
+        //         }
+        //     }
+        //     else
+        //     {
+        //         placementSystem.CancelPlacement();
+        //         isPlacementModeActive = false;
+        //     }
+        // }
     }
 }
