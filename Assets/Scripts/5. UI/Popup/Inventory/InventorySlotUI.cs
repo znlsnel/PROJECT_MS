@@ -3,10 +3,16 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
+using UnityEngine;
+using UnityEngine.UI;
 
 
 public class InventorySlotUI : ItemSlotUI
 {
+    [SerializeField] private Slider _slider;
+    [SerializeField] private Image _sliderFill;
+
+
     public ItemSlot ItemSlot {get; protected set;}
 
     public Action<ItemSlot> onSetup;
@@ -35,6 +41,7 @@ public class InventorySlotUI : ItemSlotUI
         onUpdate?.Invoke(itemSlot.Data);
         itemIcon.gameObject.SetActive(itemSlot.Data != null);
         itemAmountText.gameObject.SetActive(itemSlot.Data != null && itemSlot.Data.CanStack);
+        _slider.gameObject.SetActive(itemSlot.Data != null && itemSlot.Data.HasDurability);
 
         if (itemSlot.Data == null)
             return;
@@ -42,7 +49,9 @@ public class InventorySlotUI : ItemSlotUI
 
         itemIcon.sprite = itemSlot.Data.Icon; 
         itemAmountText.text = itemSlot.Stack.ToString(); 
-
+        _slider.value = itemSlot.Durability / itemSlot.Data.MaxDurability;
+        _sliderFill.color = Color.Lerp(MyColor.Red, MyColor.Green, _slider.value);
+        
 
         itemIcon.transform.DOScale(1.4f, 0.1f).OnComplete(()=>
         {
