@@ -76,6 +76,9 @@ namespace GameData
 		public System.Single temperature;
 		public System.Single sanity;
 		public System.Single stamina;
+		public System.Boolean slopeLimit;
+		public System.Single maxSlopeAngle;
+		public System.Boolean overlapCheck;
   
 
 #region fuctions

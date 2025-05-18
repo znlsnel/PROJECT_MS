@@ -28,10 +28,30 @@ public class PlacementHandler : MonoBehaviour
     private Camera mainCamera;
     private Dictionary<Renderer, Material[]> materialCache = new Dictionary<Renderer, Material[]>();
     public event Action OnPlacementComplete; // 배치 완료 이벤트
+    
+    private BuildingItemController buildingItemController;
+    private PlacementCheck placementCheck;
+    
 
     private void Awake()
     {
         mainCamera = Camera.main;
+
+
+        Managers.SubscribeToInit(()=>
+        {
+            ItemHandler.onAction += (selectedItemObject) =>
+            {
+                if(selectedItemObject is BuildingItemController buildingItemController)
+                    StartPlacement(buildingItemController);
+            };
+
+            Managers.Input.RightMouse.started += (a) =>
+            {
+                if(isPlacing)
+                    CancelPlacement();
+            };
+        });
     }
 
     void Update()
@@ -51,11 +71,15 @@ public class PlacementHandler : MonoBehaviour
             CancelPlacement();
 
             OnPlacementComplete?.Invoke(); // 배치 완료 이벤트 호출
+            buildingItemController.OnPlacementComplete();
         }
     }
 
-    public void StartPlacement(string prefabAddress) // 오브젝트 배치
+    public void StartPlacement(BuildingItemController buildingItemController) // 오브젝트 배치
     {
+        this.buildingItemController = buildingItemController;
+        string prefabAddress = buildingItemController.itemData.PrefabPath;
+        placementCheck = buildingItemController.PlacementCheck;
         if (isPlacing) CancelPlacement(); // 중복 방지
 
         currentPrefabAddress = prefabAddress; // 프리팹 주소 저장
@@ -79,6 +103,18 @@ public class PlacementHandler : MonoBehaviour
             isPlacing = true;
             yRotationOffset = 0f;
         };
+    }
+
+    public void CancelPlacement() // 배치 취소
+    {
+        if (previewObject != null)
+            Destroy(previewObject);
+
+        isPlacing = false;
+        previewObject = null;
+        previewRenderers = null;
+        originalMaterials = null;
+        currentPrefabAddress = null;
     }
 
     void UpdatePreview() // 위치 및 회전 업데이트
@@ -105,16 +141,20 @@ public class PlacementHandler : MonoBehaviour
             isValidPosition = false;
             return;
         }
+        Debug.Log(reason);
+
 
         ApplyPreviewMaterial(validMaterial);
         isValidPosition = true;
+
+        
     }
 
     bool CanPlaceOnHit(RaycastHit hit, out string reason) // 배치 가능 여부
     {
-        GameObject hitObject = hit.collider.gameObject;
-        var rules = previewObject.GetComponent<PlacementCheck>();
 
+        GameObject hitObject = hit.collider.gameObject;
+        
         if (((1 << hitObject.layer) & placementLayer) == 0) // 배치 레이어
         {
             reason = "배치 불가능 레이어";
@@ -130,20 +170,20 @@ public class PlacementHandler : MonoBehaviour
         if (Array.Exists(ignoredTags, tag => hitObject.CompareTag(tag))) // 무시 태그
         {
             reason = "무시 태그";
-            return false;
+            return false; 
         }
 
-        if (rules.slopeLimit) // 경사도
+        if (placementCheck.slopeLimit) // 경사도
         {
             float slopeAngle = Vector3.Angle(hit.normal, Vector3.up);
-            if (slopeAngle > rules.maxSlopeAngle)
+            if (slopeAngle > placementCheck.maxSlopeAngle)
             {
                 reason = "가파른 경사";
                 return false;
             }
         }
 
-        if (rules.overlapCheck) // 중첩
+        if (placementCheck.overlapCheck) // 중첩
         {
             Bounds bounds = GetBounds(previewObject);
             Collider[] overlaps = Physics.OverlapBox(bounds.center, bounds.extents * 0.9f,
@@ -156,21 +196,13 @@ public class PlacementHandler : MonoBehaviour
             }
         }
 
+
+
         reason = null;
         return true;
     }
 
-    public void CancelPlacement() // 배치 취소
-    {
-        if (previewObject != null)
-            Destroy(previewObject);
 
-        isPlacing = false;
-        previewObject = null;
-        previewRenderers = null;
-        originalMaterials = null;
-        currentPrefabAddress = null;
-    }
 
     void ApplyPreviewMaterial(Material mat) // 미리보기 오브젝트 머티리얼 변경
     {

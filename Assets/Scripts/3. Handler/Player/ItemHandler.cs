@@ -21,14 +21,14 @@ public class ItemHandler : MonoBehaviour
         Managers.SubscribeToInit(()=>
         {
             QuickSlotHandler.onSelectItem += SelectItem;
-            Managers.Input.Fire.started += InputUse;
+            Managers.Input.LeftMouse.started += InputUse;
         });
     }
 
     private void OnDisable()
     {
         QuickSlotHandler.onSelectItem -= SelectItem;
-        Managers.Input.Fire.started -= InputUse;
+        Managers.Input.LeftMouse.started -= InputUse;
     }
 
     private void SelectItem(ItemSlot itemSlot, GameObject selectedItemObject)

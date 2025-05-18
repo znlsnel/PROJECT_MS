@@ -27,6 +27,10 @@ public class ItemData
     public float RestoreTemperature {get; protected set;}
     public float RestoreSanity {get; protected set;}
 
+    public bool SlopeLimit {get; protected set;}
+    public float MaxSlopeAngle {get; protected set;}
+    public bool OverlapCheck {get; protected set;}
+
     public ItemData() {}
     public ItemData(GameData.Item item)
     { 
@@ -60,6 +64,10 @@ public class ItemData
         RestoreStamina = item.stamina;
         RestoreTemperature = item.temperature;
         RestoreSanity = item.sanity;
+
+        SlopeLimit = item.slopeLimit;
+        MaxSlopeAngle = item.maxSlopeAngle;
+        OverlapCheck = item.overlapCheck;
     }
 
     protected virtual void Setup(ItemData item)
@@ -84,5 +92,9 @@ public class ItemData
         RestoreStamina = item.RestoreStamina;
         RestoreTemperature = item.RestoreTemperature;
         RestoreSanity = item.RestoreSanity;
+
+        SlopeLimit = item.SlopeLimit;
+        MaxSlopeAngle = item.MaxSlopeAngle;
+        OverlapCheck = item.OverlapCheck;
     }
 }

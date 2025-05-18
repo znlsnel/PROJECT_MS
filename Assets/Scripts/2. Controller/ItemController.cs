@@ -3,8 +3,8 @@ using UnityEngine.InputSystem;
 
 public abstract class ItemController : MonoBehaviour
 {
-    protected ItemSlot itemSlot;
-    protected ItemData itemData;
+    public ItemSlot itemSlot {get; private set;}
+    public ItemData itemData {get; private set;}
 
     protected AlivePlayer _owner;
     public virtual void Setup(AlivePlayer owner, ItemSlot itemSlot)

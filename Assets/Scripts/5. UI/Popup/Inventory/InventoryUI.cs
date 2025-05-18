@@ -25,6 +25,7 @@ public class InventoryUI : PopupUI
     {
         testItems.Add(Managers.Data.items.GetByIndex(2001)); 
         testItems.Add(Managers.Data.items.GetByIndex(1001)); 
+        testItems.Add(Managers.Data.items.GetByIndex(4001)); 
 
 
   
