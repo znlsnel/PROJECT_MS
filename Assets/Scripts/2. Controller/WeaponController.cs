@@ -13,21 +13,6 @@ public class WeaponController : ItemController
 
     public AlivePlayer Owner { get; private set; }
 
-    public int HoldAnimationIndex { get; private set; }
-    public int AttackAnimationIndex { get; private set; }
-
-    public void OnValidate()
-    {
-        if(holdAnimation != null)
-        {
-            HoldAnimationIndex = AnimationDataManager.AddAnimationClip(holdAnimation);
-        }
-        if(attackAnimation != null)
-        {
-            AttackAnimationIndex = AnimationDataManager.AddAnimationClip(attackAnimation);
-        }
-    }
-
     public void Start()
     {
         Owner = GetComponentInParent<AlivePlayer>();
