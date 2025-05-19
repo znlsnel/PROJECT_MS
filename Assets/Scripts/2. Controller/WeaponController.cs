@@ -11,8 +11,6 @@ public class WeaponController : ItemController
     [SerializeField] private float damage = 10f;
     private bool isAttacking;
 
-    public AlivePlayer Owner { get; private set; }
-
     public int HoldAnimationIndex { get; private set; }
     public int AttackAnimationIndex { get; private set; }
 
@@ -22,9 +20,9 @@ public class WeaponController : ItemController
         AttackAnimationIndex = AnimationDataManager.AddAnimationClip(attackAnimation);
     }
 
-    public void Start()
+    public override void Setup(AlivePlayer owner, ItemSlot itemSlot)
     {
-        Owner = GetComponentInParent<AlivePlayer>();
+        base.Setup(owner, itemSlot);
         Owner.ChangeWeapon(this);
     }
 

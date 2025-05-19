@@ -6,13 +6,12 @@ public abstract class ItemController : MonoBehaviour
     public ItemSlot itemSlot {get; private set;}
     public ItemData itemData {get; private set;}
 
-    protected AlivePlayer _owner;
+    public AlivePlayer Owner {get; private set;}
     public virtual void Setup(AlivePlayer owner, ItemSlot itemSlot)
     {
         this.itemSlot = itemSlot;
         this.itemData = itemSlot.Data;
-        _owner = owner;
-
+        Owner = owner;
     }
 
     public abstract void OnAction();
