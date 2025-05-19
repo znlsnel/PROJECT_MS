@@ -15139,7 +15139,7 @@ GameObject:
   - component: {fileID: 443328367}
   m_Layer: 0
   m_Name: CinemachineCamera
-  m_TagString: Untagged
+  m_TagString: MainCinemachineCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -29369,7 +29369,7 @@ GameObject:
   - component: {fileID: 846849463}
   - component: {fileID: 846849462}
   - component: {fileID: 846849461}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Terrain
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -65714,7 +65714,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _resultUIPrefab: {fileID: 2712966867076584349, guid: 9ea78e39b2154f84a8a5bbbb812f5ff7, type: 3}
   _mapIndex: 1000
-  _endingTimeline: {fileID: 0}
 --- !u!320 &1910473380
 PlayableDirector:
   m_ObjectHideFlags: 0

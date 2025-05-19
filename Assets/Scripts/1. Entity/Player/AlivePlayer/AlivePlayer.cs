@@ -59,7 +59,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         Init();
 
         Managers.Instance.SetPlayer(this);
-        CinemachineCamera = FindAnyObjectByType<CinemachineCamera>();
+        CinemachineCamera = GameObject.FindWithTag("MainCinemachineCamera").GetComponent<CinemachineCamera>();
         CinemachineCamera.Follow = transform;
 
         stateMachine = new AlivePlayerStateMachine(this);
