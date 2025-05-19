@@ -16,10 +16,16 @@ public class WeaponHandler : MonoBehaviour
     public int HoldAnimationIndex { get; private set; }
     public int AttackAnimationIndex { get; private set; }
 
-    public void Awake()
+    public void OnValidate()
     {
-        HoldAnimationIndex = AnimationDataManager.AddAnimationClip(holdAnimation);
-        AttackAnimationIndex = AnimationDataManager.AddAnimationClip(attackAnimation);
+        if(holdAnimation != null)
+        {
+            HoldAnimationIndex = AnimationDataManager.AddAnimationClip(holdAnimation);
+        }
+        if(attackAnimation != null)
+        {
+            AttackAnimationIndex = AnimationDataManager.AddAnimationClip(attackAnimation);
+        }
     }
 
     public void Start()
@@ -32,11 +38,11 @@ public class WeaponHandler : MonoBehaviour
     {
         if(!isAttacking)
             return;
-
-        Debug.Log("TriggerEnter");
         
         if(other.gameObject == Owner.gameObject)
             return;
+
+        Debug.Log("TriggerEnter");
 
         if(other.gameObject.TryGetComponent(out IDamageable damageable))
         {

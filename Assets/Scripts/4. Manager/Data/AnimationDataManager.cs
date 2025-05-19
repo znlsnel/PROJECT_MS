@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 public static class AnimationDataManager
@@ -18,8 +19,24 @@ public static class AnimationDataManager
         return animationClips.Count - 1;
     }
 
+    public static void ResetData()
+    {
+        animationClips.Clear();
+        animationClipToIndex.Clear();
+    }
+
     public static AnimationClip GetByIndex(int index)
     {
         return animationClips[index];
+    }
+
+    public static IReadOnlyList<AnimationClip> GetAnimationClips()
+    {
+        return animationClips;
+    }
+
+    public static int GetIndex(AnimationClip animationClip)
+    {
+        return animationClipToIndex[animationClip];
     }
 }

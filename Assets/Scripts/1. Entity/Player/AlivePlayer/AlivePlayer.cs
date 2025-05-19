@@ -119,13 +119,19 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
     public void ChangeWeapon(WeaponHandler weapon)
     {
-        WeaponHandler = weapon;
-        overrideController["Holding"] = WeaponHandler.holdAnimation;
-        overrideController["Attack"] = WeaponHandler.attackAnimation;
-        Animator.SetBool(AnimationData.HoldingParameterHash, WeaponHandler != null);
-        Animator.SetFloat("AttackSpeed", WeaponHandler.attackAnimationSpeed);
+        if(!IsOwner)
+            return;
 
-        ServerRpcOnChangeWeapon(WeaponHandler.HoldAnimationIndex, WeaponHandler.AttackAnimationIndex, WeaponHandler.attackAnimationSpeed, WeaponHandler != null);
+        WeaponHandler = weapon;
+        
+        int holdAnimationIndex = AnimationDataManager.GetIndex(WeaponHandler.holdAnimation);
+        int attackAnimationIndex = AnimationDataManager.GetIndex(WeaponHandler.attackAnimation);
+        float speed = WeaponHandler.attackAnimationSpeed;
+        bool isHolding = WeaponHandler != null;
+
+        OnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
+
+        ServerRpcOnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
     }
 
     private void OnChangeWeapon(int holdAnimationIndex, int attackAnimationIndex, float speed, bool isHolding)

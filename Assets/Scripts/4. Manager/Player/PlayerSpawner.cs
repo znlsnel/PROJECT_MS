@@ -1,23 +1,24 @@
+using System.Collections;
 using FishNet;
 using FishNet.Connection;
 using FishNet.Managing.Scened;
 using FishNet.Object;
 using UnityEngine;
 
-public class PlayerSpawner : MonoBehaviour
+public class PlayerSpawner : NetworkBehaviour
 {
     [SerializeField] private NetworkObject playerPrefab;
 
     [SerializeField] private Transform spawnPoint;
 
-    private void OnEnable()
+    public override void OnStartClient()
     {
-        InstanceFinder.SceneManager.OnLoadEnd += OnLoadEnd;
+        NetworkCommandSystem.Instance.RequestSpawnPlayer(playerPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 
-    private void OnDisable()
+    public override void OnStopClient()
     {
-        InstanceFinder.SceneManager.OnLoadEnd -= OnLoadEnd;
+        NetworkCommandSystem.Instance.RequestDespawnPlayer(playerPrefab);
     }
 
     private void OnLoadEnd(SceneLoadEndEventArgs args)
