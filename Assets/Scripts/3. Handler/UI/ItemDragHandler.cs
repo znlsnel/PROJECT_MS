@@ -75,8 +75,23 @@ public static class ItemDragHandler
 
     public static void DropItem()
     {
-        // TODO
-        // 아이템 버리기 로직
+        if (selectedItemSlot == null || Managers.Player == null)
+            return;
+
+        GameObject dropItem = Managers.Resource.Instantiate(selectedItemSlot.Data.DropPrefabPath);
+
+
+        Vector3 forward = Managers.Player.transform.forward;
+        Vector3 pos = Managers.Player.transform.position + forward * 1.5f;
+
+
+        dropItem.transform.position = pos;
+
+        dropItem.GetOrAddComponent<Rigidbody>().AddForce(Vector3.Lerp(forward, Vector3.up, 0.5f) * 5f, ForceMode.Impulse);
+
+        selectedItemSlot.AddStack(selectedItemSlot.Data, -1);
+        if (selectedItemSlot.Stack <= 0)
+            CloseMovingSlot(); 
     }
 
     private static void SelectSlot(ItemSlot itemSlot)
@@ -85,6 +100,7 @@ public static class ItemDragHandler
         itemSlot.Setup(null); 
     }
 
+    private static void CloseMovingSlot() => SetupMovingSlot(null);
     private static void SetupMovingSlot(ItemSlot itemSlot)
     {
         selectedItemSlot = itemSlot;
@@ -106,14 +122,14 @@ public static class ItemDragHandler
             {
                 GameObject go = GameObject.Instantiate(prefab); 
                 movingSlotUI = go.GetComponent<MovingSlotUI>();
-                movingSlotUI.SetItem(selectedItemSlot.Data, selectedItemSlot.Stack);
+                movingSlotUI.SetItem(selectedItemSlot);
                 Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI);
             });
         } 
         else 
         {
-            Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI);  
-            movingSlotUI.SetItem(selectedItemSlot.Data, selectedItemSlot.Stack);
+            Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI);   
+            movingSlotUI.SetItem(selectedItemSlot);
         }
     }
 
