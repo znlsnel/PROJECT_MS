@@ -1,6 +1,6 @@
 using UnityEngine;
 
-[RequireComponent(typeof(InventorySlotUI))]
+[RequireComponent(typeof(ItemSlotUI))]
 public class EquipSlotComponent : MonoBehaviour
 {
    [SerializeField] private EEquipType equipType; 
@@ -8,7 +8,7 @@ public class EquipSlotComponent : MonoBehaviour
 
    public void Awake()
    {
-      GetComponent<InventorySlotUI>().onSetup += Setup;
+      GetComponent<ItemSlotUI>().onSetup += Setup;
    }
 
    private void Setup(ItemSlot itemSlot)

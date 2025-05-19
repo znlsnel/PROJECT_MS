@@ -45,7 +45,7 @@ public class QuickSlotHandler : MonoBehaviour
     private void InitQuickSlot()
     {
         // 선택한 퀵슬롯이 변경되면 새로 업데이트
-        for (int i = 0; i < quickSlotStorage.Size; i++)
+        for (int i = 0; i < quickSlotStorage.Count; i++)
             quickSlotStorage.GetSlotByIdx(i).onChangeStack += (ItemSlot itemSlot) => 
             {
                 if (selectedItemSlot == itemSlot && itemSlot.Data != selectedItemData)

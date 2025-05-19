@@ -10,7 +10,9 @@ public class SlotSelectEffect : MonoBehaviour
 
     private void Awake()
     {
-        selectImage.gameObject.SetActive(false);
+        if (selectImage != null)
+            selectImage.gameObject.SetActive(false);
+
         ItemSlotUI itemSlotUI = GetComponent<ItemSlotUI>();
         itemSlotUI.onSelect += SelectSlot;
     }
@@ -26,6 +28,7 @@ public class SlotSelectEffect : MonoBehaviour
         else
             transform.DOScale(1f, 0.5f).SetEase(Ease.InOutBack, 7f, 1f);
 
-        selectImage.gameObject.SetActive(isSelect);
+        if (selectImage != null)
+            selectImage.gameObject.SetActive(isSelect);
     }
 }

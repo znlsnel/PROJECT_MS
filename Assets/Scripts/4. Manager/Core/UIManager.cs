@@ -6,7 +6,7 @@ using UnityEngine;
 public class UIManager : IManager
 {
     private Stack<PopupUI> _popupStack = new Stack<PopupUI>();
-    private SceneUI _sceneUI = null; 
+    private UIBase _sceneUI = null; 
 
     private int _order = 10;
 
@@ -39,6 +39,31 @@ public class UIManager : IManager
         }
     }
 
+    public void RegisterSceneUI(SceneUI sceneUI)
+    {
+        if (_sceneUI != null)
+            _sceneUI.Hide();
+
+        _sceneUI = sceneUI;
+    }
+
+    public void HideSceneUI()
+    {
+        if (_sceneUI == null)
+            return;
+
+        _sceneUI.Hide();
+    }
+
+    public void ShowSceneUI()
+    {
+        if (_sceneUI == null)
+            return;
+
+        _sceneUI.Show();
+    }
+
+
     public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UIBase
 	{
 		if (string.IsNullOrEmpty(name))
@@ -49,31 +74,6 @@ public class UIManager : IManager
 			go.transform.SetParent(parent);
 
 		return Util.GetOrAddComponent<T>(go); 
-	}
-
-    public T ShowSceneChildUI<T>(string name = null) where T : SceneUI
-    {
-        if (string.IsNullOrEmpty(name))
-            name = typeof(T).Name;
-
-        GameObject go = Managers.Resource.Instantiate($"UI/Scene/{name}");
-      // go.transform.SetParent(_sceneUIParent.transform, false);
- 
-        return Util.GetOrAddComponent<T>(go); 
-    }
-
-	public T ShowSceneUI<T>(string name = null) where T : SceneUI
-	{
-		if (string.IsNullOrEmpty(name))
-			name = typeof(T).Name;
-
-		GameObject go = Managers.Resource.Instantiate($"UI/Scene/{name}");
-		T sceneUI = Util.GetOrAddComponent<T>(go);
-        _sceneUI = sceneUI; 
-  
-		//go.transform.SetParent(_sceneUIParent.transform, false);
-
-		return sceneUI; 
 	}
 
     public T ShowPopupUI<T>(T popup) where T : PopupUI

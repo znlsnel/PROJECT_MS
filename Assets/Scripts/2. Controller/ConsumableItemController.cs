@@ -14,12 +14,12 @@ public class ConsumableItemController : ItemController
     {
         // 체력, 배고픔, 물, 스태미나, 온도, 정신력 회복
         
-        _owner.Health.Add(itemData.Heal);
-        _owner.HungerPoint.Add(itemData.RestoreHunger);
-        _owner.WaterPoint.Add(itemData.RestoreWater);
-        _owner.Stamina.Add(itemData.RestoreStamina);
-        _owner.Temperature.Add(itemData.RestoreTemperature);
-        _owner.Sanity.Add(itemData.RestoreSanity);
+        Owner.Health.Add(itemData.Heal);
+        Owner.HungerPoint.Add(itemData.RestoreHunger);
+        Owner.WaterPoint.Add(itemData.RestoreWater);
+        Owner.Stamina.Add(itemData.RestoreStamina);
+        Owner.Temperature.Add(itemData.RestoreTemperature);
+        Owner.Sanity.Add(itemData.RestoreSanity);
 
         itemSlot.AddStack(itemData, -1);
     }
