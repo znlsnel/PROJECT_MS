@@ -36,28 +36,34 @@ public class PlacementHandler : MonoBehaviour
     private void Awake()
     {
         mainCamera = Camera.main;
+        Managers.SubscribeToInit(Binding);
+    }
 
-
-        Managers.SubscribeToInit(()=>
+    private void Binding()
+    {
+        ItemHandler.onAction += (selectedItemObject) =>
         {
-            ItemHandler.onAction += (selectedItemObject) =>
-            {
-                if(selectedItemObject is BuildingItemController buildingItemController)
-                    StartPlacement(buildingItemController);
-            };
+            if(selectedItemObject is BuildingItemController buildingItemController)
+                StartPlacement(buildingItemController);
+        };
 
-            Managers.Input.LeftMouse.started += (a) =>
-            {
-                if(isPlacing) 
-                    Place();
-            };
+        Managers.Input.LeftMouse.started += (a) =>
+        {
+            if(isPlacing) 
+                Place();
+        };
 
-            Managers.Input.RightMouse.started += (a) =>
-            {
-                if(isPlacing)
-                    CancelPlacement();
-            };
-        });
+        Managers.Input.RightMouse.started += (a) =>
+        {
+            if(isPlacing)
+                CancelPlacement();
+        };
+
+        QuickSlotHandler.onSelectItem += (a, b) =>
+        {
+            if(isPlacing)
+                CancelPlacement();       
+        };
     }
 
     void Update()
