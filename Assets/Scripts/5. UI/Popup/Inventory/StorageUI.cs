@@ -19,8 +19,8 @@ public class StorageUI : PopupUI
 
         Storage inventory = Managers.UserData.Inventory.ItemStorage;
         Storage quickSlot = Managers.UserData.Inventory.QuickSlotStorage;
-        InventorySlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<InventorySlotUI>();
-        InventorySlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<InventorySlotUI>();
+        ItemSlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<ItemSlotUI>();
+        ItemSlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
 
         for (int i = 0; i < inventorySlots.Length; i++)
         {

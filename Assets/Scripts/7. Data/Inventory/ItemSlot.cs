@@ -33,9 +33,9 @@ public class ItemSlot
         slotEquipType = itemSlot.slotEquipType;
     }
 
-    public void Setup(ItemData itemData)
+    public void Setup(ItemData itemData, int amount = 0)
     {
-        Stack = 0;
+        Stack = amount;
         
         if (Data != null)
             onAddItem?.Invoke(Data.Id, this); 

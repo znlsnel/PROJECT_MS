@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
+using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -10,22 +11,22 @@ using UnityEngine.Experimental.GlobalIllumination;
 using UnityEngine.UI;
 
 
-public class RequiredItemSlotUI : InventorySlotUI
+public class RequiredItemSlotUI : ItemSlotUI
 {
     [SerializeField] private Outline outline;
-
-    private ItemSlot itemSlot;
 
     public override void Setup(ItemSlot itemSlot)
     {
         base.Setup(itemSlot);
-        this.itemSlot = itemSlot;
+        ItemSlot = itemSlot;
 
         Action onUpdate = ()=>UpdateSlotState(itemSlot);
 
         InventoryDataHandler.onItemAmountUpdate -= onUpdate;
         InventoryDataHandler.onItemAmountUpdate += onUpdate; 
         onUpdate.Invoke();
+
+        onSelect?.Invoke(false); 
     } 
 
     public override void UpdateSlotState(ItemSlot itemSlot)
@@ -39,6 +40,13 @@ public class RequiredItemSlotUI : InventorySlotUI
             outline.effectColor = Color.green;
         else
             outline.effectColor = Color.red; 
+
+        onUpdate?.Invoke(itemSlot.Data);
+ 
+        itemIcon.transform.DOScale(1.4f, 0.1f).OnComplete(()=>
+        {
+            itemIcon.transform.DOScale(1f, 0.1f);  
+        });
     }
 
     protected override void ClickAction()

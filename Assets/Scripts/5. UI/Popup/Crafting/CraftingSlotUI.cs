@@ -11,7 +11,7 @@ using UnityEngine.UI;
 
 
 
-public class CraftingSlotUI : InventorySlotUI
+public class CraftingSlotUI : ItemSlotUI
 {
     private CraftingItemData data;
 
@@ -25,33 +25,37 @@ public class CraftingSlotUI : InventorySlotUI
         Action onUpdate = () => UpdateSlotState(itemSlot);
         InventoryDataHandler.onItemAmountUpdate -= onUpdate;
         InventoryDataHandler.onItemAmountUpdate += onUpdate; 
-        
+
         onUpdate?.Invoke();
     }
 
     public override void UpdateSlotState(ItemSlot itemSlot)
     {
         onUpdate?.Invoke(data);
-        bool flag = true;
+
+        int result = 100000;
         for (int i = 0; i < data.requiredStorage.Count; i++)
         {
-            if (data.requiredStorage.GetSlotByIdx(i) == null)
+            if (data.requiredStorage.GetSlotByIdx(i).Data == null) 
                 continue;
 
-            if (InventoryDataHandler.GetItemAmount(data.requiredStorage.GetSlotByIdx(i).Data.Id) < data.requiredStorage.GetSlotByIdx(i).Stack)
-            {
-                flag = false;
-                break;
-            }
+            int amount = InventoryDataHandler.GetItemAmount(data.requiredStorage.GetSlotByIdx(i).Data.Id);
+            int requiredAmount = data.requiredStorage.GetSlotByIdx(i).Stack;
+
+            result = Math.Min(result, amount / requiredAmount);
+            if (result == 0)
+                break; 
         } 
 
-        itemIcon.color = flag ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f); 
 
+        itemAmountText.text = result == 0 ? "-" : $"{result}";
+        // itemIcon.color = Amount ? Color.white : new Color(0.5f, 0.5f, 0.5f, 1f);
     }
 
     protected override void ClickAction()
     {
         onSlotClick?.Invoke(data);  
+        onSelect?.Invoke(false);
     }
 
     protected override void MouseHoverAction(bool isHover)

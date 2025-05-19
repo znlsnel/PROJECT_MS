@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 public class CraftingItemData : ItemData
 {
-    public Storage requiredStorage {get; private set;} = new Storage();
+    public Storage requiredStorage {get; private set;} = new Storage(3);
 
     public CraftingItemData(GameData.Crafting crafting)
     {
@@ -21,12 +21,14 @@ public class CraftingItemData : ItemData
         int amount2 = crafting.item2.Item2;
         int amount3 = crafting.item3.Item2;
 
+        int idx = 0; 
+
         if (item1 != null)
-            requiredStorage.AddItem(item1, amount1);
+            requiredStorage.GetSlotByIdx(idx++).Setup(item1, amount1);
         if (item2 != null)
-            requiredStorage.AddItem(item2, amount2);
+            requiredStorage.GetSlotByIdx(idx++).Setup(item2, amount2);
         if (item3 != null)
-            requiredStorage.AddItem(item3, amount3);  
+            requiredStorage.GetSlotByIdx(idx).Setup(item3, amount3);  
     }
 
 }
