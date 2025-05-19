@@ -11,29 +11,34 @@ using UnityEngine.UI;
 
 
 
-public class CraftingSlotUI : ItemSlotUI
+public class CraftingSlotUI : InventorySlotUI
 {
     private CraftingItemData data;
 
-    public void Setup(CraftingItemData data)
+    public static event Action<CraftingItemData> onSlotClick;
+
+    public override void Setup(ItemSlot itemSlot)
     {
-        this.data = data;
+        this.data = itemSlot.Data as CraftingItemData;
         itemIcon.sprite = data.Icon;
-        InventoryDataHandler.onItemAmountUpdate -= UpdateSlotState;
-        InventoryDataHandler.onItemAmountUpdate += UpdateSlotState; 
-        UpdateSlotState();
+
+        Action onUpdate = () => UpdateSlotState(itemSlot);
+        InventoryDataHandler.onItemAmountUpdate -= onUpdate;
+        InventoryDataHandler.onItemAmountUpdate += onUpdate; 
+        
+        onUpdate?.Invoke();
     }
 
-    private void UpdateSlotState()
+    public override void UpdateSlotState(ItemSlot itemSlot)
     {
         onUpdate?.Invoke(data);
         bool flag = true;
-        for (int i = 0; i < data.requiredItems.Length; i++)
+        for (int i = 0; i < data.requiredStorage.Count; i++)
         {
-            if (data.requiredItems[i] == null)
+            if (data.requiredStorage.GetSlotByIdx(i) == null)
                 continue;
 
-            if (InventoryDataHandler.GetItemAmount(data.requiredItems[i].itemData.Id) < data.requiredItems[i].amount)
+            if (InventoryDataHandler.GetItemAmount(data.requiredStorage.GetSlotByIdx(i).Data.Id) < data.requiredStorage.GetSlotByIdx(i).Stack)
             {
                 flag = false;
                 break;
@@ -46,7 +51,7 @@ public class CraftingSlotUI : ItemSlotUI
 
     protected override void ClickAction()
     {
-        CraftingHandler.ClickCraftingSlot(data); 
+        onSlotClick?.Invoke(data);  
     }
 
     protected override void MouseHoverAction(bool isHover)

@@ -31,7 +31,11 @@ public class CraftingTableUI : PopupUI
         {
             GameObject slot = Instantiate(slotPrefab, itemSlotRoot, false);
             CraftingSlotUI slotUI = slot.GetComponent<CraftingSlotUI>();
-            slotUI.Setup(craftings[i]);
+
+            ItemSlot itemSlot = new ItemSlot();
+            itemSlot.Setup(craftings[i]);
+
+            slotUI.Setup(itemSlot);
             slots.Add(slotUI); 
         }
     }

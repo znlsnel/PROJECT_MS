@@ -17,17 +17,20 @@ public class CraftingSelectedUI : MonoBehaviour
     [SerializeField] private Transform requiredItemRoot;
     [SerializeField] private Button button;
     private CraftingItemData data;
-    private List<CraftingRequiredItemUI> requiredItems;
+    private List<RequiredItemSlotUI> requiredItems;
     private CanvasGroup canvasGroup;
+
+
     private void Awake()
     {
-        CraftingHandler.onSlotClick += Setup;
+        CraftingSlotUI.onSlotClick += Setup;
         button.onClick.AddListener(OnClick);
 
         canvasGroup = GetComponent<CanvasGroup>();
-        requiredItems = requiredItemRoot.GetComponentsInChildren<CraftingRequiredItemUI>(true).ToList(); 
+        requiredItems = requiredItemRoot.GetComponentsInChildren<RequiredItemSlotUI>(true).ToList(); 
         CraftingTableUI.onShow += ()=>Active(false);
     }
+
 
     private void Setup(CraftingItemData data)
     {
@@ -40,18 +43,19 @@ public class CraftingSelectedUI : MonoBehaviour
         itemName.text = data.Name;
         itemDescription.text = data.Description;
 
-        for (int i = 0; i < data.requiredItems.Length; i++)
+        for (int i = 0; i < data.requiredStorage.Count; i++)
         {
-            requiredItems[i].gameObject.SetActive(data.requiredItems[i] != null);
-            requiredItems[i].Setup(data.requiredItems[i]); 
+            ItemSlot slot = data.requiredStorage.GetSlotByIdx(i);
+            requiredItems[i].gameObject.SetActive(slot != null);
+            requiredItems[i].Setup(slot); 
         }
     }
 
     private void Active(bool active)
     {
-        canvasGroup.alpha = active ? 1 : 0; 
-        canvasGroup.blocksRaycasts = active;
-        canvasGroup.interactable = active;
+        // canvasGroup.alpha = active ? 1 : 0; 
+        // canvasGroup.blocksRaycasts = active; 
+        // canvasGroup.interactable = active;
     }
 
     private void OnClick() 
@@ -59,6 +63,31 @@ public class CraftingSelectedUI : MonoBehaviour
         if (data == null)
             return;
 
-        CraftingHandler.ClickCrafting(data);
+        MakeItem(data);
+    }
+
+    private void MakeItem(CraftingItemData data)
+    {  
+        for (int i = 0; i < data.requiredStorage.Count; i++){
+            if (data.requiredStorage.GetSlotByIdx(i) == null)
+                continue;
+
+            ItemSlot slot = data.requiredStorage.GetSlotByIdx(i);
+            if (InventoryDataHandler.GetItemAmount(slot.Data.Id) < slot.Stack)
+                return;
+        }
+
+        Managers.UserData.Inventory.AddItem(data); 
+        Managers.Quest.ReceiveReport(ETaskCategory.Crafting, data.Id); 
+
+        for (int i = 0; i < data.requiredStorage.Count; i++){
+            if (data.requiredStorage.GetSlotByIdx(i) == null)
+                continue;
+
+            ItemSlot slot = data.requiredStorage.GetSlotByIdx(i);
+            Managers.UserData.Inventory.RemoveItem(slot.Data, slot.Stack); 
+        }
+
+        Debug.Log("ClickCrafting");
     }
 }

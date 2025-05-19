@@ -6,14 +6,13 @@ using System.Threading.Tasks;
 
 public class CraftingItemData : ItemData
 {
-    public RequireItem[] requiredItems = new RequireItem[3];
-
+    public Storage requiredStorage {get; private set;} = new Storage();
 
     public CraftingItemData(GameData.Crafting crafting)
     {
         var itemData = Managers.Data.items.GetByIndex(crafting.ItemIdx);
         Setup(itemData);
-        
+
         ItemData item1 = Managers.Data.items.GetByIndex(crafting.item1.Item1);
         ItemData item2 = Managers.Data.items.GetByIndex(crafting.item2.Item1);
         ItemData item3 = Managers.Data.items.GetByIndex(crafting.item3.Item1);
@@ -23,11 +22,11 @@ public class CraftingItemData : ItemData
         int amount3 = crafting.item3.Item2;
 
         if (item1 != null)
-            requiredItems[0] = new RequireItem(item1, amount1); 
+            requiredStorage.AddItem(item1, amount1);
         if (item2 != null)
-            requiredItems[1] = new RequireItem(item2, amount2); 
+            requiredStorage.AddItem(item2, amount2);
         if (item3 != null)
-            requiredItems[2] = new RequireItem(item3, amount3);  
+            requiredStorage.AddItem(item3, amount3);  
     }
 
 }

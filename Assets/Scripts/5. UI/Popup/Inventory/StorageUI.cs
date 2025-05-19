@@ -24,8 +24,8 @@ public class StorageUI : PopupUI
 
         for (int i = 0; i < inventorySlots.Length; i++)
         {
-            inventorySlots[i].gameObject.SetActive(i < inventory.Size);
-            if (i >= inventory.Size)
+            inventorySlots[i].gameObject.SetActive(i < inventory.Count);
+            if (i >= inventory.Count)
                 continue; 
 
             inventorySlots[i].UnSetup();
@@ -34,8 +34,8 @@ public class StorageUI : PopupUI
 
         for (int i = 0; i < quickSlots.Length; i++)
         {
-            quickSlots[i].gameObject.SetActive(i < quickSlot.Size); 
-            if (i >= quickSlot.Size)
+            quickSlots[i].gameObject.SetActive(i < quickSlot.Count); 
+            if (i >= quickSlot.Count)
                 continue;
 
             quickSlots[i].UnSetup();
