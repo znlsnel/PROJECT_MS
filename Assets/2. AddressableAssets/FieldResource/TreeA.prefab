@@ -130,7 +130,7 @@ MonoBehaviour:
   _networkObjectCache: {fileID: -4306722879107070590}
   maxHp: 100
   dropItemCount: 1
-  dropItemIds: 
+  dropItemIds: b90b0000
 --- !u!114 &-4306722879107070590
 MonoBehaviour:
   m_ObjectHideFlags: 0

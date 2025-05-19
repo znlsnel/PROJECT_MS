@@ -1,11 +1,14 @@
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
+using UnityEngine.Timeline;
 
 public class ForestScene : MonoBehaviour
 {
     [SerializeField] private GameObject _resultUIPrefab;
     [SerializeField] private int _mapIndex = 1000;
+    [SerializeField] private PlayableDirector _endingTimeline;
 
     private ResultUI _resultUI;
 
@@ -35,10 +38,15 @@ public class ForestScene : MonoBehaviour
 
     private void OnCompletedMainQuest(Quest quest)
     {
+        // TODO 타임라인 플레이
+        _endingTimeline.Play();
+    }
+
+    public void ShowResultUI()
+    {
         Managers.UI.CloseAllPopupUI();
         Managers.UI.ShowPopupUI(_resultUI);
     }
-
 
     private void PlaceFieldItem()
     {

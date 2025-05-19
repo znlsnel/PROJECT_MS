@@ -806,6 +806,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1563167286023420299}
   - component: {fileID: 4150431551529652610}
+  - component: {fileID: -1684495109022766310}
   m_Layer: 0
   m_Name: PinkPants
   m_TagString: Untagged
@@ -852,6 +853,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-1684495109022766310
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4528959137504538535}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3c198fa23067348a574607e8fc32e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &4559184516343524338
 GameObject:
   m_ObjectHideFlags: 0

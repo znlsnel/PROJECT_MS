@@ -72,6 +72,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7698351958568238069}
   - component: {fileID: 2161758703912512288}
+  - component: {fileID: 7661148934115019782}
   m_Layer: 0
   m_Name: LightBlueTShirt
   m_TagString: Untagged
@@ -118,6 +119,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &7661148934115019782
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 117420927801298488}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3c198fa23067348a574607e8fc32e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &144572351156622689
 GameObject:
   m_ObjectHideFlags: 0

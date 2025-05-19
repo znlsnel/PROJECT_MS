@@ -34,7 +34,7 @@ public class AttackingState : AlivePlayerCombatState
         }
         else
         {
-            stateMachine.Player.WeaponHandler.SetIsAttacking(false);
+            stateMachine.Player.WeaponHandler.SetIsAttacking(false); 
         }
 
         if(normalizedTime >= 0.8f)
@@ -45,9 +45,9 @@ public class AttackingState : AlivePlayerCombatState
     #endregion
     
     #region Input Methods
-    protected override void OnInputAttack(InputAction.CallbackContext context)
+    protected override void OnInputAttack(ItemController itemController)
     {
-        
+
     }
     #endregion
 }

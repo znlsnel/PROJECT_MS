@@ -1,16 +1,23 @@
 using UnityEngine;
 using FishNet.Object;
 
-public class PlacementCheck : MonoBehaviour
+public class PlacementCheck
 {
-    [Header("기울기 제한 여부")]
+    // "기울기 제한 여부"
     public bool slopeLimit = true;
 
-    [Header("기울기 각도")]
-    [Range(0f, 90f)]
 
+    // "기울기 각도" (0f, 90f)
     public float maxSlopeAngle = 30f;
 
-    [Header("겹침 검사 여부")]
+    // "겹침 검사 여부"
     public bool overlapCheck = true;
+
+    public PlacementCheck() {}
+    public PlacementCheck(ItemData itemData)
+    {
+        slopeLimit = itemData.SlopeLimit;
+        maxSlopeAngle = itemData.MaxSlopeAngle;
+        overlapCheck = itemData.OverlapCheck;
+    }
 }

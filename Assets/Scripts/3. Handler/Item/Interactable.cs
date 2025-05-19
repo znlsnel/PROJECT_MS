@@ -7,7 +7,7 @@ public abstract class Interactable : MonoBehaviour
 
     public int AnimationIndex { get; private set; }
 
-    public void OnValidate()
+    public virtual void Awake()
     {
         if (interactAnimation != null)
         {

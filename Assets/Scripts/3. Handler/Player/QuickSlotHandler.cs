@@ -14,14 +14,17 @@ public class QuickSlotHandler : MonoBehaviour
     private ItemData selectedItemData;
     private GameObject selectedItemObject;
 
-    public event Action<ItemSlot> onSelectItem;
+    public static event Action<ItemSlot, GameObject> onSelectItem;
 
     private void Awake()
     {
         quickSlotStorage = Managers.UserData.Inventory.QuickSlotStorage;
 
-        Managers.SubscribeToInit(InitInput);
-        Managers.SubscribeToInit(InitQuickSlot);
+        Managers.SubscribeToInit(()=>{
+            InitInput();
+            InitQuickSlot();
+            SelectItem(quickSlotStorage.GetSlotByIdx(0));
+        });
     }
 
     private void InitInput()
@@ -55,24 +58,26 @@ public class QuickSlotHandler : MonoBehaviour
         if (itemSlot == null || (itemSlot == selectedItemSlot && itemSlot.Data == selectedItemData)) 
             return;
 
-        if (itemSlot.Data == null)
-            return;
-
 
         if (itemSlot.Data != selectedItemData) 
         {
-            if (selectedItemObject != null)
+            if (selectedItemObject != null){
                 Managers.Resource.Destroy(selectedItemObject);  
+                selectedItemObject = null;
+            }
 
-            EItemType itemType = itemSlot.Data.ItemType;
-            selectedItemObject = Managers.Pool.Get(itemSlot.Data.PrefabPath, transform); 
-            selectedItemObject.transform.SetParent(itemType == EItemType.Weapon ? waeponRoot : itemRoot, false);
+            if (itemSlot.Data != null)
+            {
+                EItemType itemType = itemSlot.Data.ItemType;
+                selectedItemObject = Managers.Pool.Get(itemSlot.Data.PrefabPath, transform); 
+                selectedItemObject.transform.SetParent(itemType == EItemType.Weapon ? waeponRoot : itemRoot, false);
 
-            selectedItemObject.transform.localPosition = Vector3.zero;  
-            selectedItemObject.transform.localRotation = Quaternion.identity; 
+                selectedItemObject.transform.localPosition = Vector3.zero;  
+                selectedItemObject.transform.localRotation = Quaternion.identity; 
+            }
         } 
 
-        onSelectItem?.Invoke(itemSlot); 
+        onSelectItem?.Invoke(itemSlot, selectedItemObject); 
         selectedItemSlot = itemSlot;
         selectedItemData = itemSlot.Data;
     }

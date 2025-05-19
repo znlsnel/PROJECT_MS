@@ -458,6 +458,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5416735428156689853}
   - component: {fileID: 8943355386442272101}
+  - component: {fileID: -2430151370974493074}
   m_Layer: 0
   m_Name: BlackHoodedShirt
   m_TagString: Untagged
@@ -504,6 +505,18 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &-2430151370974493074
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2701180861887831639}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7d3c198fa23067348a574607e8fc32e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &2751899080340775224
 GameObject:
   m_ObjectHideFlags: 0
