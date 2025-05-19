@@ -10,10 +10,23 @@ public class MovingSlotUI : PopupUI
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemCountText;
 
-    public void SetItem(ItemData itemData, int amount)
+    public void SetItem(ItemSlot itemSlot)
     {
-        if (itemData == null)
+        if (itemSlot.Data == null)
             return;
+
+        itemSlot.onChangeStack += UpdateSlotInfo; 
+        UpdateSlotInfo(itemSlot);
+    }
+
+    private void UpdateSlotInfo(ItemSlot itemSlot)
+    {
+        ItemData itemData = itemSlot.Data;
+        int amount = itemSlot.Stack;
+        if (amount <= 0)
+        {
+            return;
+        }
 
         itemCountText.transform.parent.gameObject.SetActive(itemData.CanStack); 
 
