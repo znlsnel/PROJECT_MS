@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class QuestStorageSlotUI : InventorySlotUI
+public class QuestStorageSlotUI : ItemSlotUI
 {
     [SerializeField] private TextMeshProUGUI maxAmountText;
 

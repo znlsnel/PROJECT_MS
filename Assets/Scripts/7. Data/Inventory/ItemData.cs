@@ -9,6 +9,7 @@ public class ItemData
     public string PrefabPath {get; protected set;}
     public string DropPrefabPath {get; protected set;}
     public Sprite Icon {get; protected set;}
+    public string IconPath {get; protected set;}
     public bool CanStack {get; protected set;}
     public int MaxStack {get; protected set;}
 
@@ -44,7 +45,8 @@ public class ItemData
         Description = item.description;
         PrefabPath = item.prefab;
         DropPrefabPath = item.dropPrefab;
-        Managers.Resource.LoadAsync<Texture2D>(item.icon, (texture) =>
+        IconPath = item.icon;
+        Managers.Resource.LoadAsync<Texture2D>(IconPath, (texture) =>
         {
             Icon = texture.ToSprite(); 
         });
@@ -76,7 +78,15 @@ public class ItemData
         Name = item.Name;
         Description = item.Description;
         PrefabPath = item.PrefabPath;
-        Icon = item.Icon;
+        DropPrefabPath = item.DropPrefabPath; 
+
+        IconPath = item.IconPath;
+
+        Managers.Resource.LoadAsync<Texture2D>(IconPath, (texture) =>
+        { 
+            Icon = texture.ToSprite(); 
+        }); 
+
         CanStack = item.CanStack;
         MaxStack = item.MaxStack;
         ItemType = item.ItemType;
