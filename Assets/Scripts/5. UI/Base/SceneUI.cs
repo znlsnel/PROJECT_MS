@@ -1,16 +1,12 @@
 using UnityEngine;
 
-public class SceneUI : MonoBehaviour
+public class SceneUI : UIBase
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    protected override void Awake()
     {
-        
+        base.Awake();
+        Managers.UI.RegisterSceneUI(this);
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
 }

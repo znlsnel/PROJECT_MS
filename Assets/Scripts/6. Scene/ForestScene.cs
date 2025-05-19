@@ -8,7 +8,7 @@ public class ForestScene : MonoBehaviour
 {
     [SerializeField] private GameObject _resultUIPrefab;
     [SerializeField] private int _mapIndex = 1000;
-    [SerializeField] private PlayableDirector _endingTimeline;
+    private PlayableDirector _endingTimeline;
 
     private ResultUI _resultUI;
 
@@ -19,6 +19,7 @@ public class ForestScene : MonoBehaviour
 
     private void Awake()
     {
+        _endingTimeline = GetComponent<PlayableDirector>(); 
         Managers.SubscribeToInit(InitScene);
         _resultUI = Instantiate(_resultUIPrefab).GetComponent<ResultUI>();
         _resultUI.Hide();
@@ -39,6 +40,9 @@ public class ForestScene : MonoBehaviour
     private void OnCompletedMainQuest(Quest quest)
     {
         // TODO 타임라인 플레이
+        Managers.UI.CloseAllPopupUI();
+        Managers.UI.HideSceneUI();
+
         _endingTimeline.Play();
     }
 
