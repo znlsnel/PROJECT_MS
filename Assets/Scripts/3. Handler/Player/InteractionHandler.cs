@@ -14,7 +14,6 @@ public class InteractionHandler : MonoBehaviour
     private bool isDirty = true; // 필요할 경우 초기 정렬을 위해 dirty 상태로 시작
     public event Action onInputInteract;
 
-    private string testKey = "UI/InteractionUI.prefab";
     private void Awake()
     {
         Managers.SubscribeToInit(Init);
@@ -22,7 +21,6 @@ public class InteractionHandler : MonoBehaviour
 
     private void Init()
     {
-        Managers.Resource.LoadAsync<GameObject>(testKey);
         Managers.Input.Interact.started += InputInteract;
     }
 
@@ -50,7 +48,6 @@ public class InteractionHandler : MonoBehaviour
             return;
         
         Managers.Input.Interact.started -= InputInteract;
-        Managers.Resource.Release(testKey);
     }
     
     private void InputInteract(InputAction.CallbackContext context)
