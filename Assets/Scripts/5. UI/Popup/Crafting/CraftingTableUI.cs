@@ -5,10 +5,10 @@ using UnityEngine;
 
 public class CraftingTableUI : PopupUI
 {
-    public static Action onShow;
-
     [SerializeField] private Transform itemSlotRoot;
     [SerializeField] private GameObject slotPrefab;
+    [SerializeField] private GameObject emptyStatePanel;
+
     private List<CraftingSlotUI> slots = new List<CraftingSlotUI>();
 
     protected override void Awake()
@@ -20,18 +20,22 @@ public class CraftingTableUI : PopupUI
     public override void Show()
     {
         base.Show();
-        onShow?.Invoke(); 
+        emptyStatePanel.SetActive(true);
     }
 
     private void Setup()
     {
         List<CraftingItemData> craftings = Managers.Data.craftings.GetAll();
         
-        for (int i = 0; i < craftings.Count; i++)
+        for (int i = 0; i < craftings.Count; i++) 
         {
             GameObject slot = Instantiate(slotPrefab, itemSlotRoot, false);
             CraftingSlotUI slotUI = slot.GetComponent<CraftingSlotUI>();
-            slotUI.Setup(craftings[i]);
+
+            ItemSlot itemSlot = new ItemSlot();
+            itemSlot.Setup(craftings[i]);
+
+            slotUI.Setup(itemSlot);
             slots.Add(slotUI); 
         }
     }

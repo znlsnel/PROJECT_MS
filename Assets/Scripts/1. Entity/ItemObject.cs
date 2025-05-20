@@ -7,9 +7,8 @@ public class ItemObject : Interactable
     [SerializeField] public int itemId;
 
     private ItemData itemData;
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
         Managers.SubscribeToInit(()=>{
             itemData = Managers.Data.items.GetByIndex(itemId);
         });

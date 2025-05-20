@@ -97,7 +97,13 @@ public class PlacementHandler : MonoBehaviour
     {
 
         if(isPlacing)
-            return;
+            return; 
+
+        buildingItemController.itemSlot.onChangeStack += (ItemSlot itemSlot) =>
+        {
+            if (itemSlot.Data == null)
+                CancelPlacement();
+        };
 
         this.buildingItemController = buildingItemController;
         string prefabAddress = buildingItemController.itemData.PrefabPath;
@@ -153,6 +159,7 @@ public class PlacementHandler : MonoBehaviour
             Vector3.ProjectOnPlane(mainCamera.transform.forward, hit.normal),
             hit.normal
         );
+
         Quaternion userRotation = Quaternion.Euler(0, yRotationOffset, 0);
         previewObject.transform.rotation = surfaceRotation * userRotation;
 

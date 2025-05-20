@@ -1,9 +1,11 @@
 using System;
+using FishNet;
+using FishNet.Object;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class QuickSlotHandler : MonoBehaviour
+public class QuickSlotHandler : NetworkBehaviour
 {
     [SerializeField] private Transform itemRoot;
     [SerializeField] private Transform waeponRoot;
@@ -45,7 +47,7 @@ public class QuickSlotHandler : MonoBehaviour
     private void InitQuickSlot()
     {
         // 선택한 퀵슬롯이 변경되면 새로 업데이트
-        for (int i = 0; i < quickSlotStorage.Size; i++)
+        for (int i = 0; i < quickSlotStorage.Count; i++)
             quickSlotStorage.GetSlotByIdx(i).onChangeStack += (ItemSlot itemSlot) => 
             {
                 if (selectedItemSlot == itemSlot && itemSlot.Data != selectedItemData)
@@ -61,19 +63,12 @@ public class QuickSlotHandler : MonoBehaviour
 
         if (itemSlot.Data != selectedItemData) 
         {
-            if (selectedItemObject != null){
-                Managers.Resource.Destroy(selectedItemObject);  
-                selectedItemObject = null;
-            }
+            RequestHideItem();
 
             if (itemSlot.Data != null)
             {
                 EItemType itemType = itemSlot.Data.ItemType;
-                selectedItemObject = Managers.Pool.Get(itemSlot.Data.PrefabPath, transform); 
-                selectedItemObject.transform.SetParent(itemType == EItemType.Weapon ? waeponRoot : itemRoot, false);
-
-                selectedItemObject.transform.localPosition = Vector3.zero;  
-                selectedItemObject.transform.localRotation = Quaternion.identity; 
+                RequestShowItem(itemSlot.Data.PrefabPath, itemType);
             }
         } 
 
@@ -82,5 +77,35 @@ public class QuickSlotHandler : MonoBehaviour
         selectedItemData = itemSlot.Data;
     }
 
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestShowItem(string PrefabPath, EItemType itemType)
+    {
+        ObserversRpcShowItem(PrefabPath, itemType);
+    }
 
+    [ObserversRpc]
+    public void ObserversRpcShowItem(string PrefabPath, EItemType itemType)
+    {
+        selectedItemObject = Managers.Pool.Get(PrefabPath, transform); 
+
+        selectedItemObject.transform.SetParent(itemType == EItemType.Weapon ? waeponRoot : itemRoot, false);
+
+        selectedItemObject.transform.localPosition = Vector3.zero;  
+        selectedItemObject.transform.localRotation = Quaternion.identity; 
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestHideItem()
+    {
+        ObserversRpcHideItem();
+    }
+
+    [ObserversRpc]
+    public void ObserversRpcHideItem()
+    {
+        if (selectedItemObject != null){
+            Managers.Pool.Release(selectedItemObject);
+            selectedItemObject = null;
+        }
+    }
 }

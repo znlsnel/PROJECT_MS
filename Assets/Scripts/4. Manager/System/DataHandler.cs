@@ -11,7 +11,7 @@ public abstract class DataHandler<T> where T : class
 
     public DataHandler()
     {
-        Managers.SubscribeToInit(Init);
+        Init();
     }
 
     protected abstract void Init();

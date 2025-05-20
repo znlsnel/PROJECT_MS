@@ -12,7 +12,7 @@ public static class ItemDragHandler
     private static MovingSlotUI movingSlotUI;
     private static ItemSlot selectedItemSlot;
     
-    public static bool SelectItemSlot(InventorySlotUI itemSlotUI)
+    public static bool SelectItemSlot(ItemSlotUI itemSlotUI)
     {   
         // 처음 선택한 경우
         if (selectedItemSlot == null && itemSlotUI.ItemSlot.Data != null)
@@ -25,7 +25,7 @@ public static class ItemDragHandler
         return false;
     } 
 
-    public static void SwapItem(InventorySlotUI targetSlotUI)
+    public static void SwapItem(ItemSlotUI targetSlotUI)
     {
         if (selectedItemSlot == null)
             return;
@@ -51,7 +51,7 @@ public static class ItemDragHandler
         return;
     }
 
-    public static void MoveItem(InventorySlotUI targetSlotUI)
+    public static void MoveItem(ItemSlotUI targetSlotUI)
     {
         if (selectedItemSlot == null)
             return;

@@ -11,7 +11,7 @@ public class InventoryUI : PopupUI
     [SerializeField] private GameObject equipSlotParent;
 
 
-    private List<InventorySlotUI> itemSlots = new List<InventorySlotUI>();
+    private List<ItemSlotUI> itemSlots = new List<ItemSlotUI>();
     
     private List<ItemData> testItems = new List<ItemData>();
 
@@ -23,14 +23,11 @@ public class InventoryUI : PopupUI
  
     private void RegisterInput()
     {
-        testItems.Add(Managers.Data.items.GetByIndex(2001)); 
+
         testItems.Add(Managers.Data.items.GetByIndex(1001)); 
-        testItems.Add(Managers.Data.items.GetByIndex(4001)); 
-        testItems.Add(Managers.Data.items.GetByIndex(3001)); 
-        testItems.Add(Managers.Data.items.GetByIndex(3003)); 
-        testItems.Add(Managers.Data.items.GetByIndex(3006)); 
-        testItems.Add(Managers.Data.items.GetByIndex(3004)); 
-        testItems.Add(Managers.Data.items.GetByIndex(3007)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3002)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3002));
+   
 
 
   
@@ -54,7 +51,7 @@ public class InventoryUI : PopupUI
 
 
         // 아이템 슬롯 초기화
-        InventorySlotUI[] slots = itemSlotParent.GetComponentsInChildren<InventorySlotUI>();
+        ItemSlotUI[] slots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();
         for (int i = 0; i < slots.Length; i++)
         {
             ItemSlot slot = itemStorage.GetSlotByIdx(i);
@@ -66,7 +63,7 @@ public class InventoryUI : PopupUI
         }
 
         // 퀵슬로 초기화
-        InventorySlotUI[] quickSlotUIs = quickSlotParent.GetComponentsInChildren<InventorySlotUI>();
+        ItemSlotUI[] quickSlotUIs = quickSlotParent.GetComponentsInChildren<ItemSlotUI>();
         for (int i = 0; i < quickSlotUIs.Length; i++)
         {
             ItemSlot slot = quickStorage.GetSlotByIdx(i);
@@ -77,7 +74,7 @@ public class InventoryUI : PopupUI
         } 
 
         // 장착 슬롯 초기화
-        InventorySlotUI[] equipSlotUIs = equipSlotParent.GetComponentsInChildren<InventorySlotUI>();
+        ItemSlotUI[] equipSlotUIs = equipSlotParent.GetComponentsInChildren<ItemSlotUI>();
         for (int i = 0; i < equipSlotUIs.Length; i++)
         {
             EEquipType equipType = equipSlotUIs[i].GetComponent<EquipSlotComponent>().EquipType;

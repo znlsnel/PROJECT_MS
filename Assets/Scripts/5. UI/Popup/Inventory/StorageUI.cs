@@ -19,13 +19,13 @@ public class StorageUI : PopupUI
 
         Storage inventory = Managers.UserData.Inventory.ItemStorage;
         Storage quickSlot = Managers.UserData.Inventory.QuickSlotStorage;
-        InventorySlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<InventorySlotUI>();
-        InventorySlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<InventorySlotUI>();
+        ItemSlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<ItemSlotUI>();
+        ItemSlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
 
         for (int i = 0; i < inventorySlots.Length; i++)
         {
-            inventorySlots[i].gameObject.SetActive(i < inventory.Size);
-            if (i >= inventory.Size)
+            inventorySlots[i].gameObject.SetActive(i < inventory.Count);
+            if (i >= inventory.Count)
                 continue; 
 
             inventorySlots[i].UnSetup();
@@ -34,8 +34,8 @@ public class StorageUI : PopupUI
 
         for (int i = 0; i < quickSlots.Length; i++)
         {
-            quickSlots[i].gameObject.SetActive(i < quickSlot.Size); 
-            if (i >= quickSlot.Size)
+            quickSlots[i].gameObject.SetActive(i < quickSlot.Count); 
+            if (i >= quickSlot.Count)
                 continue;
 
             quickSlots[i].UnSetup();

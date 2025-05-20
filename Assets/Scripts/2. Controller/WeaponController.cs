@@ -11,15 +11,6 @@ public class WeaponController : ItemController
     [SerializeField] private float damage = 10f;
     private bool isAttacking;
 
-    public int HoldAnimationIndex { get; private set; }
-    public int AttackAnimationIndex { get; private set; }
-
-    public void Awake()
-    {
-        HoldAnimationIndex = AnimationDataManager.AddAnimationClip(holdAnimation);
-        AttackAnimationIndex = AnimationDataManager.AddAnimationClip(attackAnimation);
-    }
-
     public override void Setup(AlivePlayer owner, ItemSlot itemSlot)
     {
         base.Setup(owner, itemSlot);
@@ -30,11 +21,11 @@ public class WeaponController : ItemController
     {
         if(!isAttacking)
             return;
-
-        Debug.Log("TriggerEnter");
         
         if(other.gameObject == Owner.gameObject)
             return;
+
+        Debug.Log("TriggerEnter");
 
         if(other.gameObject.TryGetComponent(out IDamageable damageable))
         {

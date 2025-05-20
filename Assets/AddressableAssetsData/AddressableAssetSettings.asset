@@ -15,7 +15,7 @@ MonoBehaviour:
   m_DefaultGroup: 6712a6a135afea84cb3b8b9c0c3739d9
   m_currentHash:
     serializedVersion: 2
-    Hash: c2da36f50e46f0f045ee89cf73bcab54
+    Hash: 411181870e9049c771eea784ec3a5586
   m_OptimizeCatalogSize: 0
   m_BuildRemoteCatalog: 0
   m_CatalogRequestsTimeout: 0
@@ -100,6 +100,7 @@ MonoBehaviour:
     m_LabelNames:
     - default
     - DefaultUI
+    - Game
   m_SchemaTemplates: []
   m_GroupTemplateObjects:
   - {fileID: 11400000, guid: 62734fdd0b773ea4194fdd59c155a06c, type: 2}
