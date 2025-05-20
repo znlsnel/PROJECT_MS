@@ -14,7 +14,7 @@ public class WeaponController : ItemController
     public override void Setup(AlivePlayer owner, ItemSlot itemSlot)
     {
         base.Setup(owner, itemSlot);
-        _owner.ChangeWeapon(this);
+        Owner.ChangeWeapon(this);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -22,7 +22,7 @@ public class WeaponController : ItemController
         if(!isAttacking)
             return;
         
-        if(other.gameObject == _owner.gameObject)
+        if(other.gameObject == Owner.gameObject)
             return;
 
         Debug.Log("TriggerEnter");
@@ -31,7 +31,7 @@ public class WeaponController : ItemController
         {
             if(damageables.Add(damageable))
             {
-                damageable.TakeDamage(damage, _owner.gameObject);
+                damageable.TakeDamage(damage, Owner.gameObject);
                 itemSlot.UseDurability(1f);
                 Debug.Log("Damaged");
             }

@@ -24,8 +24,9 @@ public class InventoryUI : PopupUI
     private void RegisterInput()
     {
 
-        testItems.Add(Managers.Data.items.GetByIndex(3001)); 
+        testItems.Add(Managers.Data.items.GetByIndex(1001)); 
         testItems.Add(Managers.Data.items.GetByIndex(3002)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3002));
    
 
 
