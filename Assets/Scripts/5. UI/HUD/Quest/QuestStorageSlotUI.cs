@@ -4,7 +4,8 @@ using UnityEngine;
 
 public class QuestStorageSlotUI : ItemSlotUI
 {
-    [SerializeField] private TextMeshProUGUI maxAmountText;
+    private static readonly string _clickSound = "Sound/UI/Click_01.mp3";
+    [SerializeField] private TextMeshProUGUI maxAmountText; 
 
     public override void UpdateSlotState(ItemSlot itemSlot)
     {
@@ -18,5 +19,6 @@ public class QuestStorageSlotUI : ItemSlotUI
     protected override void ClickAction()
     {
         ItemDragHandler.MoveItem(this);
+        Managers.Sound.Play(_clickSound); 
     }
 }

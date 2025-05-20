@@ -9,6 +9,9 @@ using System.Linq;
 
 public class QuickSlotHandler : NetworkBehaviour
 {
+    private static readonly string _changeSlotSound = "Sound/UI/Click_06.mp3";
+    
+
     [SerializeField] private Transform itemRoot;
     [SerializeField] private Transform waeponRoot;
 
@@ -64,8 +67,7 @@ public class QuickSlotHandler : NetworkBehaviour
         if (itemSlot == null || (itemSlot == selectedItemSlot && itemSlot.Data == selectedItemData)) 
             return;
 
-
-
+        Managers.Sound.Play(_changeSlotSound);
 
         if (itemSlot.Data != selectedItemData) 
         {

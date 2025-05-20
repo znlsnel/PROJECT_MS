@@ -13,9 +13,12 @@ using UnityEngine.UI;
 [RequireComponent(typeof(CanvasGroup))]
 public class CraftingSelectedUI : MonoBehaviour
 {
+    private static readonly string _successSound = "Sound/UI/Click_02.mp3"; 
+    private static readonly string _failedSound = "Sound/UI/Click_01.mp3"; 
     [SerializeField] private GameObject emptyStatePanel;
     [SerializeField] private Transform requiredItemRoot;
     [SerializeField] private Button button;
+
 
     private CraftingItemData data;
     private List<RequiredItemSlotUI> requiredItems;
@@ -28,6 +31,7 @@ public class CraftingSelectedUI : MonoBehaviour
         button.onClick.AddListener(OnClick);
 
         canvasGroup = GetComponent<CanvasGroup>();
+
         requiredItems = requiredItemRoot.GetComponentsInChildren<RequiredItemSlotUI>(true).ToList(); 
     }
 
@@ -65,9 +69,13 @@ public class CraftingSelectedUI : MonoBehaviour
 
             ItemSlot slot = data.requiredStorage.GetSlotByIdx(i);
             if (InventoryDataHandler.GetItemAmount(slot.Data.Id) < slot.Stack)
+            {
+                Managers.Sound.Play(_failedSound);
                 return;
+            }
         }
 
+        Managers.Sound.Play(_successSound);
 
         for (int i = 0; i < data.requiredStorage.Count; i++){
             if (data.requiredStorage.GetSlotByIdx(i).Data == null)

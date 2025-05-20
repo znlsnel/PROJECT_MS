@@ -94,15 +94,19 @@ public class SoundManager : IManager
 
 		if (type == ESound.Bgm)
 		{
-			//audioClip = Managers.Resource.Load<AudioClip>(path);
+			audioClip = Managers.Resource.Load<AudioClip>(path);
 		}
 		else
 		{
-			if (_audioClips.TryGetValue(path, out audioClip) == false)
-			{
-			//	audioClip = Managers.Resource.Load<AudioClip>(path);
-				_audioClips.Add(path, audioClip);
-			}
+			if (_audioClips.ContainsKey(path) == false)
+            {
+                var a = Managers.Resource.Load<AudioClip>(path);
+				_audioClips.Add(path, a);
+            }
+                
+			
+            
+            audioClip = _audioClips[path];
 		}
 
 		if (audioClip == null)

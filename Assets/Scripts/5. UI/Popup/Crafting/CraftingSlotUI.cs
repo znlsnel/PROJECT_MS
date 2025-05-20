@@ -13,6 +13,9 @@ using UnityEngine.UI;
 
 public class CraftingSlotUI : ItemSlotUI
 {
+    private static readonly string _clickSound = "Sound/UI/Click_03.mp3";
+
+
     private CraftingItemData data;
 
     public static event Action<CraftingItemData> onSlotClick;
@@ -56,6 +59,7 @@ public class CraftingSlotUI : ItemSlotUI
     {
         onSlotClick?.Invoke(data);  
         onSelect?.Invoke(false);
+        Managers.Sound.Play(_clickSound);
     }
 
     protected override void MouseHoverAction(bool isHover)

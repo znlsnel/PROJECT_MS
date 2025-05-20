@@ -116,6 +116,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e321c08852bd29418a60307100e76dc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlaySound: 0
   panelRT: {fileID: 3834981527889528445}
   itemImage: {fileID: 1362048232646786413}
   itemCountText: {fileID: 309439489956730377}

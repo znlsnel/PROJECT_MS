@@ -10,6 +10,8 @@ using DG.Tweening;
 
 public class InventoryToggleUI : MonoBehaviour
 {
+    private static readonly string _toggleSound = "Sound/UI/Click_03.mp3";
+
     [SerializeField] private RectTransform CheckImage;
     [SerializeField] private Toggle allButton;
     [SerializeField] private Toggle weaponButton;
@@ -42,6 +44,7 @@ public class InventoryToggleUI : MonoBehaviour
         inventoryUI.FilterInventoryByType(itemType);
         Vector3 position = CheckImage.parent.InverseTransformPoint(target.position);
         CheckImage.DOLocalMove(position, 0.5f); 
+        Managers.Sound.Play(_toggleSound); 
     }
 
 
