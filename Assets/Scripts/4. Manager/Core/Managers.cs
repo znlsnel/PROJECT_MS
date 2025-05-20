@@ -1,11 +1,15 @@
 
 using System;
+using System.Collections.Generic;
+using FishNet;
+using FishNet.Connection;
 using FishNet.Managing;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
 public class Managers : Singleton<Managers>
 { 
+    #region Manager Class
     [field: SerializeField] private DataManager data  = new DataManager();
     [field: SerializeField] private InputManager input = new InputManager();
     [field: SerializeField] private ResourceManager resource = new ResourceManager();
@@ -15,7 +19,7 @@ public class Managers : Singleton<Managers>
     [field: SerializeField] private NetworkManagerEx network = new NetworkManagerEx();
     [field: SerializeField] private SteamManagerEx steam = new SteamManagerEx();
     [field: SerializeField] private QuestManager quest = new QuestManager();
-    private UserData userData = new UserData();
+
 
     public static DataManager Data => Instance.data;
     public static InputManager Input => Instance.input;
@@ -26,8 +30,9 @@ public class Managers : Singleton<Managers>
     public static NetworkManagerEx Network => Instance.network;
     public static QuestManager Quest => Instance.quest;
     public static SteamManagerEx Steam => Instance.steam;
-    public static UserData UserData => Instance.userData;
 
+    #endregion
+    
     private AlivePlayer player;
     public static AlivePlayer Player => Instance.player;
     public static event Action<AlivePlayer> onChangePlayer;
@@ -38,6 +43,7 @@ public class Managers : Singleton<Managers>
     protected override void Awake()
     {
         base.Awake();
+        
 
         if (isDestroy)
             return; 
@@ -52,9 +58,12 @@ public class Managers : Singleton<Managers>
     }
 #endif
 
+
+
     private void Init() 
     {
-        Debug.Log("Managers Init");
+
+
         Network.Init();
         Data.Init();
         quest.Init();
@@ -64,7 +73,6 @@ public class Managers : Singleton<Managers>
         UI.Init();
         Pool.Init();
         Steam.Init();
-        userData.Init(); 
 
         isInit = true;
         onInit?.Invoke(); 
@@ -95,6 +103,7 @@ public class Managers : Singleton<Managers>
         this.player = player;
         onChangePlayer?.Invoke(player);
     }
+
 }
 
 public enum NetworkType

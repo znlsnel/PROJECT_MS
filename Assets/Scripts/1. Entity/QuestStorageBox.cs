@@ -19,9 +19,8 @@ public class QuestStorageBox : Interactable
     private int successCount = 0;
 
 
-    public override void Awake()
+    public void Awake()
     {
-        base.Awake();
         if (questStorageUI == null)
         {
             questStorageUI = Instantiate(questStorageUIPrefab).GetComponent<QuestStorageUI>();

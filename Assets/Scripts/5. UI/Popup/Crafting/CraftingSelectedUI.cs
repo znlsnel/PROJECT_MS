@@ -74,10 +74,10 @@ public class CraftingSelectedUI : MonoBehaviour
                 continue;
 
             ItemSlot slot = data.requiredStorage.GetSlotByIdx(i);
-            Managers.UserData.Inventory.RemoveItem(slot.Data, slot.Stack); 
+            Managers.Player.Inventory.RemoveItem(slot.Data, slot.Stack); 
         }
 
-        Managers.UserData.Inventory.AddItem(data); 
+        Managers.Player.Inventory.AddItem(data); 
         Managers.Quest.ReceiveReport(ETaskCategory.Crafting, data.Id); 
     }
 }
