@@ -14,4 +14,25 @@ public class NetworkCommandSystem : NetworkSingleton<NetworkCommandSystem>
         NetworkObject playerInstance = Instantiate(playerPrefab, position, rotation);
         InstanceFinder.ServerManager.Spawn(playerInstance, conn);
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestDespawnPlayer(NetworkObject playerPrefab, NetworkConnection conn = null)
+    {
+        if(conn.FirstObject != null)
+            return;
+
+        InstanceFinder.ServerManager.Despawn(playerPrefab);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestSpawnObject(NetworkObject objectPrefab, Vector3 position, Quaternion rotation, NetworkConnection conn = null)
+    {
+        InstanceFinder.ServerManager.Spawn(objectPrefab, conn);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestDespawnObject(NetworkObject objectPrefab, NetworkConnection conn = null)
+    {
+        InstanceFinder.ServerManager.Despawn(objectPrefab);
+    }
 }

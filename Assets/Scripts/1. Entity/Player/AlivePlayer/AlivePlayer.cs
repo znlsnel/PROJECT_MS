@@ -105,7 +105,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stateMachine.FixedUpdate();
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void TakeDamage(float damage, GameObject attacker)
     {
         Health.Subtract(damage);
@@ -119,19 +119,25 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
     public void ChangeWeapon(WeaponController weapon)
     {
-        WeaponHandler = weapon;
-        overrideController["Holding"] = WeaponHandler.holdAnimation;
-        overrideController["Attack"] = WeaponHandler.attackAnimation;
-        Animator.SetBool(AnimationData.HoldingParameterHash, WeaponHandler != null);
-        Animator.SetFloat("AttackSpeed", WeaponHandler.attackAnimationSpeed);
+        if(!IsOwner)
+            return;
 
-        ServerRpcOnChangeWeapon(WeaponHandler.HoldAnimationIndex, WeaponHandler.AttackAnimationIndex, WeaponHandler.attackAnimationSpeed, WeaponHandler != null);
+        WeaponHandler = weapon;
+        
+        int holdAnimationIndex = Managers.Data.animation.GetIndex(WeaponHandler.holdAnimation);
+        int attackAnimationIndex = Managers.Data.animation.GetIndex(WeaponHandler.attackAnimation);
+        float speed = WeaponHandler.attackAnimationSpeed;
+        bool isHolding = WeaponHandler != null;
+
+        OnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
+
+        ServerRpcOnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
     }
 
     private void OnChangeWeapon(int holdAnimationIndex, int attackAnimationIndex, float speed, bool isHolding)
     {
-        overrideController["Holding"] = AnimationDataManager.GetByIndex(holdAnimationIndex);
-        overrideController["Attack"] = AnimationDataManager.GetByIndex(attackAnimationIndex);
+        overrideController["Holding"] = Managers.Data.animation.GetByIndex(holdAnimationIndex);
+        overrideController["Attack"] = Managers.Data.animation.GetByIndex(attackAnimationIndex);
         Animator.SetFloat("AttackSpeed", speed);
         Animator.SetBool(AnimationData.HoldingParameterHash, isHolding);
     }
