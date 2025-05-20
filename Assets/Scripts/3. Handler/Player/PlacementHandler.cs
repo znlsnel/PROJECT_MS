@@ -31,12 +31,13 @@ public class PlacementHandler : MonoBehaviour
     
     private BuildingItemController buildingItemController;
     private PlacementCheck placementCheck;
-    
+    private QuickSlotHandler quickSlotHandler;
 
-    private void Awake()
+    public void Setup(QuickSlotHandler quickSlotHandler)
     {
+        this.quickSlotHandler = quickSlotHandler;
         mainCamera = Camera.main;
-        Managers.SubscribeToInit(Binding);
+        Binding();
     }
 
     private void Binding()
@@ -59,7 +60,7 @@ public class PlacementHandler : MonoBehaviour
                 CancelPlacement();
         };
 
-        QuickSlotHandler.onSelectItem += (a, b) =>
+        quickSlotHandler.onSelectItem += (a, b) =>
         {
             if(isPlacing)
                 CancelPlacement();       

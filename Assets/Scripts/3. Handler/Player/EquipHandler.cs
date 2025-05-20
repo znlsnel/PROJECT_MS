@@ -14,9 +14,10 @@ public class EquipHandler : MonoBehaviour
         {EEquipType.Shoes, null}
     };
  
-    private void Awake()
+
+    public void Setup(Inventory inventory)
     {
-        EquipStorage equipStorage = Managers.UserData.Inventory.EquipStorage;
+        EquipStorage equipStorage = inventory.EquipStorage;
 
         foreach (EEquipType equipType in Enum.GetValues(typeof(EEquipType)))
         {
@@ -24,7 +25,6 @@ public class EquipHandler : MonoBehaviour
             itemSlot.onChangeStack += OnChangeEquip;
         }
     }
-
 
     private void OnChangeEquip(ItemSlot itemSlot)
     {

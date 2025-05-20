@@ -7,6 +7,7 @@ public class ItemObject : Interactable
     [SerializeField] public int itemId;
 
     private ItemData itemData;
+
     public void Awake()
     {
         Managers.SubscribeToInit(()=>{
@@ -16,7 +17,8 @@ public class ItemObject : Interactable
 
     public override void Interact(GameObject obj)
     {
-        Managers.UserData.Inventory.AddItem(itemData, 1);
+        AlivePlayer player = obj.GetComponent<AlivePlayer>();
+        player.Inventory.AddItem(itemData, 1);
 
         transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
         {

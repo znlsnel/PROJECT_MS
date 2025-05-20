@@ -19,7 +19,7 @@ public class QuestStorageBox : Interactable
     private int successCount = 0;
 
 
-    private void Awake()
+    public void Awake()
     {
         if (questStorageUI == null)
         {
