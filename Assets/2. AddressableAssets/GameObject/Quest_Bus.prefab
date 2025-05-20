@@ -9,6 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 710728538902106869}
+  - component: {fileID: 2957087558679984666}
   m_Layer: 0
   m_Name: Quest_Bus
   m_TagString: Untagged
@@ -34,6 +35,61 @@ Transform:
   - {fileID: 9122687666645504377}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2957087558679984666
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4127526258814667484}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
+  - {fileID: 5144686239903100791}
+  - {fileID: 7097920941224145326}
+  - {fileID: 7615237682076215843}
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 2
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 1606455094871580443
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 52.453903, y: 0.00356856, z: 40.00708}
+    Rotation: {x: 0, y: 0, z: 0, w: 1}
+    Scale: {x: 1, y: 1, z: 1}
+    IsValid: 1
 --- !u!1001 &5234054477579470381
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -119,6 +175,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf782a8dc85e6e444a1b0514ee74eb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 2957087558679984666}
+  _networkObjectCache: {fileID: 2957087558679984666}
   <interactAnimation>k__BackingField: {fileID: 0}
   <interactAnimationSpeed>k__BackingField: 10
   questStorageUIPrefab: {fileID: 6062953783743910609, guid: ec9f1a0bf7f94c94d97fd7d271889536, type: 3}
@@ -219,6 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf782a8dc85e6e444a1b0514ee74eb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 1
+  _addedNetworkObject: {fileID: 2957087558679984666}
+  _networkObjectCache: {fileID: 2957087558679984666}
   <interactAnimation>k__BackingField: {fileID: 0}
   <interactAnimationSpeed>k__BackingField: 10
   questStorageUIPrefab: {fileID: 6062953783743910609, guid: ec9f1a0bf7f94c94d97fd7d271889536, type: 3}
@@ -305,6 +367,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cf782a8dc85e6e444a1b0514ee74eb5c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 2
+  _addedNetworkObject: {fileID: 2957087558679984666}
+  _networkObjectCache: {fileID: 2957087558679984666}
   <interactAnimation>k__BackingField: {fileID: 0}
   <interactAnimationSpeed>k__BackingField: 10
   questStorageUIPrefab: {fileID: 6062953783743910609, guid: ec9f1a0bf7f94c94d97fd7d271889536, type: 3}

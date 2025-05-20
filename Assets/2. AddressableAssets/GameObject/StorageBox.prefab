@@ -121,6 +121,7 @@ GameObject:
   - component: {fileID: 6102282736067395595}
   - component: {fileID: 2579225417347389416}
   - component: {fileID: 2697258756110631346}
+  - component: {fileID: 8824237579625811058}
   m_Layer: 0
   m_Name: StorageBox
   m_TagString: Untagged
@@ -231,6 +232,62 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c12c17d7f3dbc34cbe63a581b89893d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 8824237579625811058}
+  _networkObjectCache: {fileID: 8824237579625811058}
   <interactAnimation>k__BackingField: {fileID: 0}
   <interactAnimationSpeed>k__BackingField: 10
   storageBoxPrefab: {fileID: 3004119494725381407, guid: d6fc2d18ab1b8894aaae42bc7102ccba, type: 3}
+--- !u!114 &8824237579625811058
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9060326695378535571}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  <IsNested>k__BackingField: 0
+  WasActiveDuringEdit: 0
+  WasActiveDuringEdit_Set1: 1
+  <ComponentIndex>k__BackingField: 0
+  <PredictedSpawn>k__BackingField: {fileID: 0}
+  <PredictedOwner>k__BackingField: {fileID: 0}
+  NetworkBehaviours:
+  - {fileID: 2697258756110631346}
+  InitializedParentNetworkBehaviour: {fileID: 0}
+  InitializedNestedNetworkObjects: []
+  RuntimeParentNetworkBehaviour: {fileID: 0}
+  RuntimeChildNetworkBehaviours: []
+  _isNetworked: 1
+  _isSpawnable: 1
+  _isGlobal: 0
+  _initializeOrder: 0
+  _preventDespawnOnDisconnect: 0
+  _defaultDespawnType: 0
+  NetworkObserver: {fileID: 0}
+  _enablePrediction: 0
+  _predictionType: 0
+  _graphicalObject: {fileID: 0}
+  _detachGraphicalObject: 0
+  _enableStateForwarding: 1
+  _networkTransform: {fileID: 0}
+  _ownerInterpolation: 1
+  _ownerSmoothedProperties: 255
+  _adaptiveInterpolation: 3
+  _spectatorSmoothedProperties: 255
+  _spectatorInterpolation: 2
+  _enableTeleport: 0
+  _teleportThreshold: 1
+  <PrefabId>k__BackingField: 7
+  <SpawnableCollectionId>k__BackingField: 0
+  <AssetPathHash>k__BackingField: 4539791551132058659
+  <SceneId>k__BackingField: 0
+  SerializedTransformProperties:
+    Position: {x: 66.83, y: 0.051999986, z: 31.94}
+    Rotation: {x: -0, y: 0.999462, z: -0, w: 0.032797955}
+    Scale: {x: 2, y: 2, z: 2}
+    IsValid: 1
