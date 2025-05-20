@@ -24,12 +24,15 @@ public class DataManager : IManager
     {
         questTasks = new QuestTaskDataManager(); 
         quests = new QuestDataManager();
+        
         items = new ItemDataManager(); 
         craftings = new CraftingDataManager();
         questStorages = new QuestStorageDataManager();
+        fieldResources = new FieldResourceDataManager();
+
         ruleGuides = new SystemDialogDataManager();
         maps = new MapDataManager();
-        fieldResources = new FieldResourceDataManager();
+
         animation = new AnimationDataManager();
         animation.Init();
     }

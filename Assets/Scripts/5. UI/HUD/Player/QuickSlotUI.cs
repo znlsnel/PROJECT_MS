@@ -12,7 +12,13 @@ public class QuickSlotUI : MonoBehaviour
 
     private void Awake()
     {
-        InventorySlotUI[] itemSlotUIs = quickSlotRoot.GetComponentsInChildren<InventorySlotUI>();
+        Managers.SubscribeToInit(Init);
+        
+    }
+
+    private void Init()
+    {
+        ItemSlotUI[] itemSlotUIs = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
         
         for (int i = 0; i < itemSlotUIs.Length; i++)
         {

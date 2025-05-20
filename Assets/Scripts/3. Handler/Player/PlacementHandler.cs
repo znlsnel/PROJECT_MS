@@ -36,28 +36,34 @@ public class PlacementHandler : MonoBehaviour
     private void Awake()
     {
         mainCamera = Camera.main;
+        Managers.SubscribeToInit(Binding);
+    }
 
-
-        Managers.SubscribeToInit(()=>
+    private void Binding()
+    {
+        ItemHandler.onAction += (selectedItemObject) =>
         {
-            ItemHandler.onAction += (selectedItemObject) =>
-            {
-                if(selectedItemObject is BuildingItemController buildingItemController)
-                    StartPlacement(buildingItemController);
-            };
+            if(selectedItemObject is BuildingItemController buildingItemController)
+                StartPlacement(buildingItemController);
+        };
 
-            Managers.Input.LeftMouse.started += (a) =>
-            {
-                if(isPlacing) 
-                    Place();
-            };
+        Managers.Input.LeftMouse.started += (a) =>
+        {
+            if(isPlacing) 
+                Place();
+        };
 
-            Managers.Input.RightMouse.started += (a) =>
-            {
-                if(isPlacing)
-                    CancelPlacement();
-            };
-        });
+        Managers.Input.RightMouse.started += (a) =>
+        {
+            if(isPlacing)
+                CancelPlacement();
+        };
+
+        QuickSlotHandler.onSelectItem += (a, b) =>
+        {
+            if(isPlacing)
+                CancelPlacement();       
+        };
     }
 
     void Update()
@@ -91,7 +97,13 @@ public class PlacementHandler : MonoBehaviour
     {
 
         if(isPlacing)
-            return;
+            return; 
+
+        buildingItemController.itemSlot.onChangeStack += (ItemSlot itemSlot) =>
+        {
+            if (itemSlot.Data == null)
+                CancelPlacement();
+        };
 
         this.buildingItemController = buildingItemController;
         string prefabAddress = buildingItemController.itemData.PrefabPath;
@@ -147,6 +159,7 @@ public class PlacementHandler : MonoBehaviour
             Vector3.ProjectOnPlane(mainCamera.transform.forward, hit.normal),
             hit.normal
         );
+
         Quaternion userRotation = Quaternion.Euler(0, yRotationOffset, 0);
         previewObject.transform.rotation = surfaceRotation * userRotation;
 

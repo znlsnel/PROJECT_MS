@@ -9,7 +9,7 @@ public class StorageBoxUI : StorageUI
     public void Setup(Storage storage)
     {
 
-        InventorySlotUI[] storageSlots = storageRoot.GetComponentsInChildren<InventorySlotUI>();
+        ItemSlotUI[] storageSlots = storageRoot.GetComponentsInChildren<ItemSlotUI>();
         for (int i = 0; i < storageSlots.Length; i++)
         {
             storageSlots[i].UnSetup();

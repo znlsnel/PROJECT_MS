@@ -14,7 +14,7 @@ public class Storage
             CreateSlot();
     }
 
-    public int Size => itemSlots.Count; 
+    public int Count => itemSlots.Count; 
 
     public void AddItemSlot(ItemSlot itemSlot)
     {
