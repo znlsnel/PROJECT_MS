@@ -36,6 +36,12 @@ public class SprintingState : MovingState
     {
         base.Update();
 
+        if(stateMachine.Player.Stamina.Current <= 0)
+        {
+            movementStateMachine.ChangeState(movementStateMachine.RunningState);
+            return;
+        }
+
         stateMachine.Player.Stamina.Subtract(Time.deltaTime * 10);
 
         if(stateMachine.ReusableData.MovementInput == Vector2.zero)
