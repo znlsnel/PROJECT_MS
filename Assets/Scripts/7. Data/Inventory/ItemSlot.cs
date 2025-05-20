@@ -13,9 +13,9 @@ public class ItemSlot
     public float Durability {get; private set;}
  
 
-    public Func<ItemData, bool> slotCondition;
-    public Action<ItemSlot> onChangeStack;
-    public Action<int, ItemSlot> onAddItem;
+    [NonSerialized] public Func<ItemData, bool> slotCondition;
+    [NonSerialized] public Action<ItemSlot> onChangeStack;
+    [NonSerialized] public Action<int, ItemSlot> onAddItem;
 
     public bool IsFull() => Stack >= MaxStack;
     public bool IsEmpty() => Stack <= 0;

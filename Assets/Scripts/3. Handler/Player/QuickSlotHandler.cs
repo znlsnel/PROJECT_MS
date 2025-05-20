@@ -25,7 +25,7 @@ public class QuickSlotHandler : NetworkBehaviour
 
         InitInput();
         InitQuickSlot();
-        SelectItem(quickSlotStorage.GetSlotByIdx(0));
+        RequestSelectItem(0);
     }
 
     private void InitInput()
@@ -38,7 +38,7 @@ public class QuickSlotHandler : NetworkBehaviour
 
             Managers.Input.GetInput(quickSlot).started += (InputAction.CallbackContext context) =>
             {
-                SelectItem(quickSlotStorage.GetSlotByIdx(idx));  
+                RequestSelectItem(idx);  
             };
         }
     }
@@ -49,58 +49,61 @@ public class QuickSlotHandler : NetworkBehaviour
         for (int i = 0; i < quickSlotStorage.Count; i++)
             quickSlotStorage.GetSlotByIdx(i).onChangeStack += (ItemSlot itemSlot) => 
             {
+                int idx = i;
                 if (selectedItemSlot == itemSlot && itemSlot.Data != selectedItemData)
-                    SelectItem(itemSlot);
+                    RequestSelectItem(idx);
             };
     }
 
-    private void SelectItem(ItemSlot itemSlot)
+    [ServerRpc(RequireOwnership = false)]
+    private void RequestSelectItem(int itemSlotIdx )
     {
+        ObserversRpcSelectItem(itemSlotIdx);
+    }
+
+    [ObserversRpc]
+    private void ObserversRpcSelectItem(int itemSlotIdx)
+    {
+        ItemSlot itemSlot = quickSlotStorage.GetSlotByIdx(itemSlotIdx);
         if (itemSlot == null || (itemSlot == selectedItemSlot && itemSlot.Data == selectedItemData)) 
             return;
 
 
         if (itemSlot.Data != selectedItemData) 
         {
-            RequestHideItem();
+            HideItem();
 
             if (itemSlot.Data != null)
             {
                 EItemType itemType = itemSlot.Data.ItemType;
-                RequestShowItem(itemSlot.Data.PrefabPath, itemType);
+                ShowItem(itemSlot, itemType);
             }
         } 
+
 
         onSelectItem?.Invoke(itemSlot, selectedItemObject); 
         selectedItemSlot = itemSlot;
         selectedItemData = itemSlot.Data;
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void RequestShowItem(string PrefabPath, EItemType itemType)
-    {
-        ObserversRpcShowItem(PrefabPath, itemType);
-    }
 
-    [ObserversRpc]
-    public void ObserversRpcShowItem(string PrefabPath, EItemType itemType)
+
+    public void ShowItem(ItemSlot itemSlot, EItemType itemType)
     {
+        string PrefabPath = itemSlot.Data.PrefabPath;
         selectedItemObject = Managers.Pool.Get(PrefabPath, transform); 
 
         selectedItemObject.transform.SetParent(itemType == EItemType.Weapon ? waeponRoot : itemRoot, false);
 
         selectedItemObject.transform.localPosition = Vector3.zero;  
         selectedItemObject.transform.localRotation = Quaternion.identity; 
+
+        
     }
 
-    [ServerRpc(RequireOwnership = false)]
-    public void RequestHideItem()
-    {
-        ObserversRpcHideItem();
-    }
 
-    [ObserversRpc]
-    public void ObserversRpcHideItem()
+
+    public void HideItem()
     {
         if (selectedItemObject != null){
             Managers.Pool.Release(selectedItemObject);
