@@ -1,42 +1,67 @@
-using System.Collections.Generic;
-using System.Linq;
 using UnityEngine;
 
-public static class AnimationDataManager
+[System.Serializable]
+public class AnimationDataManager
 {
-    private static List<AnimationClip> animationClips = new List<AnimationClip>();
-    private static Dictionary<AnimationClip, int> animationClipToIndex = new Dictionary<AnimationClip, int>();
-
-    public static int AddAnimationClip(AnimationClip animationClip)
+    [field: SerializeField] public AnimationDataSO AnimationDataSO { get; private set; }
+    [field: SerializeField] public string REGISTRY_PATH { get; private set; } = "AnimationDataSO";
+    
+    public void Init()
     {
-        if (animationClipToIndex.ContainsKey(animationClip))
+        LoadRegistry();
+    }
+
+    // 저장소 로드
+    private void LoadRegistry()
+    {
+        if (AnimationDataSO == null)
         {
-            return animationClipToIndex[animationClip];
+            AnimationDataSO = Resources.Load<AnimationDataSO>(REGISTRY_PATH);
+
+            if(AnimationDataSO == null)
+                return;
         }
-
-        animationClips.Add(animationClip);
-        animationClipToIndex[animationClip] = animationClips.Count - 1;
-        return animationClips.Count - 1;
+        
+        RebuildCache();
+    }
+    
+    // 캐시 재구성
+    private void RebuildCache()
+    {
+        AnimationDataSO.animationClipToIndex.Clear();
+        
+        if (AnimationDataSO != null)
+        {
+            var clips = AnimationDataSO.animationClips;
+            for (int i = 0; i < clips.Count; i++)
+            {
+                if (clips[i] != null)
+                {
+                    AnimationDataSO.animationClipToIndex[clips[i]] = i;
+                }
+            }
+        }
     }
 
-    public static void ResetData()
+    // 애니메이션 클립의 인덱스 가져오기
+    public int GetIndex(AnimationClip animationClip)
     {
-        animationClips.Clear();
-        animationClipToIndex.Clear();
-    }
+        if (animationClip == null)
+            return -1;
+            
+        // 캐시에서 먼저 찾기
+        if (AnimationDataSO.animationClipToIndex.TryGetValue(animationClip, out int index))
+            return index;
 
-    public static AnimationClip GetByIndex(int index)
-    {
-        return animationClips[index];
+        return -1;
     }
-
-    public static IReadOnlyList<AnimationClip> GetAnimationClips()
+    
+    // 인덱스로 애니메이션 클립 가져오기
+    public AnimationClip GetByIndex(int index)
     {
-        return animationClips;
-    }
+        if(index < 0 || index >= AnimationDataSO.animationClips.Count)
+            return null;
 
-    public static int GetIndex(AnimationClip animationClip)
-    {
-        return animationClipToIndex[animationClip];
+        return AnimationDataSO.animationClips[index];
     }
 }

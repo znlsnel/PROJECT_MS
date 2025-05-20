@@ -7,6 +7,7 @@ using FishNet;
 using FishNet.Managing.Scened;
 using FishNet.Object;
 using System.Collections;
+using FishNet.Object.Synchronizing;
 
 public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
 {

@@ -105,7 +105,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stateMachine.FixedUpdate();
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void TakeDamage(float damage, GameObject attacker)
     {
         Health.Subtract(damage);
@@ -124,8 +124,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         WeaponHandler = weapon;
         
-        int holdAnimationIndex = AnimationDataManager.GetIndex(WeaponHandler.holdAnimation);
-        int attackAnimationIndex = AnimationDataManager.GetIndex(WeaponHandler.attackAnimation);
+        int holdAnimationIndex = Managers.Data.animation.GetIndex(WeaponHandler.holdAnimation);
+        int attackAnimationIndex = Managers.Data.animation.GetIndex(WeaponHandler.attackAnimation);
         float speed = WeaponHandler.attackAnimationSpeed;
         bool isHolding = WeaponHandler != null;
 
@@ -136,8 +136,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
     private void OnChangeWeapon(int holdAnimationIndex, int attackAnimationIndex, float speed, bool isHolding)
     {
-        overrideController["Holding"] = AnimationDataManager.GetByIndex(holdAnimationIndex);
-        overrideController["Attack"] = AnimationDataManager.GetByIndex(attackAnimationIndex);
+        overrideController["Holding"] = Managers.Data.animation.GetByIndex(holdAnimationIndex);
+        overrideController["Attack"] = Managers.Data.animation.GetByIndex(attackAnimationIndex);
         Animator.SetFloat("AttackSpeed", speed);
         Animator.SetBool(AnimationData.HoldingParameterHash, isHolding);
     }

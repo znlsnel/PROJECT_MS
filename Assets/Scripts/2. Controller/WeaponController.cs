@@ -11,12 +11,10 @@ public class WeaponController : ItemController
     [SerializeField] private float damage = 10f;
     private bool isAttacking;
 
-    public AlivePlayer Owner { get; private set; }
-
-    public void Start()
+    public override void Setup(AlivePlayer owner, ItemSlot itemSlot)
     {
-        Owner = GetComponentInParent<AlivePlayer>();
-        Owner.ChangeWeapon(this);
+        base.Setup(owner, itemSlot);
+        _owner.ChangeWeapon(this);
     }
 
     public void OnTriggerEnter(Collider other)
@@ -24,7 +22,7 @@ public class WeaponController : ItemController
         if(!isAttacking)
             return;
         
-        if(other.gameObject == Owner.gameObject)
+        if(other.gameObject == _owner.gameObject)
             return;
 
         Debug.Log("TriggerEnter");
@@ -33,7 +31,7 @@ public class WeaponController : ItemController
         {
             if(damageables.Add(damageable))
             {
-                damageable.TakeDamage(damage, Owner.gameObject);
+                damageable.TakeDamage(damage, _owner.gameObject);
                 itemSlot.UseDurability(1f);
                 Debug.Log("Damaged");
             }

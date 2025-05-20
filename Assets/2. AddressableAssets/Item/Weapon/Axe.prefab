@@ -91,7 +91,7 @@ MeshCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 5
@@ -112,5 +112,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   <holdAnimation>k__BackingField: {fileID: 0}
   <attackAnimation>k__BackingField: {fileID: 7400000, guid: 4ce2e34330eeb3d49ab95f44927d7ac5, type: 2}
-  <attackAnimationSpeed>k__BackingField: 1
+  <attackAnimationSpeed>k__BackingField: 2
   damage: 10
