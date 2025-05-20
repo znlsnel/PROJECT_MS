@@ -16,17 +16,16 @@ public class QuickSlotHandler : NetworkBehaviour
     private ItemData selectedItemData;
     private GameObject selectedItemObject;
 
-    public static event Action<ItemSlot, GameObject> onSelectItem;
+    public event Action<ItemSlot, GameObject> onSelectItem;
 
-    private void Awake()
+
+    public void Setup(Inventory inventory)
     {
-        quickSlotStorage = Managers.UserData.Inventory.QuickSlotStorage;
+        quickSlotStorage = inventory.QuickSlotStorage;
 
-        Managers.SubscribeToInit(()=>{
-            InitInput();
-            InitQuickSlot();
-            SelectItem(quickSlotStorage.GetSlotByIdx(0));
-        });
+        InitInput();
+        InitQuickSlot();
+        SelectItem(quickSlotStorage.GetSlotByIdx(0));
     }
 
     private void InitInput()

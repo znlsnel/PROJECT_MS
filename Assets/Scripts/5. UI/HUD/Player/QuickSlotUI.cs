@@ -12,24 +12,30 @@ public class QuickSlotUI : MonoBehaviour
 
     private void Awake()
     {
-        Managers.SubscribeToInit(Init);
-        
+        Managers.onChangePlayer += Setup;
     }
 
-    private void Init()
+    private void OnDestroy()
+    {
+        Managers.Player.QuickSlotHandler.onSelectItem -= SelectSlot;
+        Managers.onChangePlayer -= Setup;
+    }
+    private void Setup(AlivePlayer player)
     {
         ItemSlotUI[] itemSlotUIs = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
         
         for (int i = 0; i < itemSlotUIs.Length; i++)
         {
-            ItemSlot itemSlot = Managers.UserData.Inventory.QuickSlotStorage.GetSlotByIdx(i);
+            ItemSlot itemSlot = player.Inventory.QuickSlotStorage.GetSlotByIdx(i);
             itemSlotUIs[i].Setup(itemSlot);
 
             quickSlotEffects.Add(itemSlot, itemSlotUIs[i]);
         }
 
-        QuickSlotHandler.onSelectItem += SelectSlot;
+        player.QuickSlotHandler.onSelectItem += SelectSlot;
     }
+
+
 
     private void SelectSlot(ItemSlot itemSlot, GameObject selectedItemObject)
     {
@@ -42,8 +48,5 @@ public class QuickSlotUI : MonoBehaviour
         selectedItemSlot = itemSlot;
     }
 
-    private void OnDestroy()
-    {
-        QuickSlotHandler.onSelectItem -= SelectSlot;
-    }
+
 }

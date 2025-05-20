@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.CompilerServices;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
@@ -14,6 +15,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     protected readonly SyncVar<ResourceStat> stamina = new SyncVar<ResourceStat>(new ResourceStat(100));
     protected readonly SyncVar<ResourceStat> temperature = new SyncVar<ResourceStat>(new ResourceStat(100));
     protected readonly SyncVar<ResourceStat> sanity = new SyncVar<ResourceStat>(new ResourceStat(100));
+   // private readonly SyncVar<Inventory> Inventory = new SyncVar<Inventory>(new Inventory());
+    public Inventory Inventory {get; private set;} = new Inventory();
 
     public ResourceStat Health => health.Value;
     public ResourceStat HungerPoint => hungerPoint.Value;
@@ -33,8 +36,15 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     [field: SerializeField] public WeaponController WeaponHandler { get; private set; }
     private AlivePlayerStateMachine stateMachine;
 
+    public QuickSlotHandler QuickSlotHandler {get; private set;}
+    public ItemHandler ItemHandler {get; private set;}
+    public PlacementHandler PlacementHandler {get; private set;}
+    public EquipHandler EquipHandler {get; private set;}
+
+
     public event Action onDead;
     public event Action onDamaged;
+
 
     public override void OnStartNetwork()
     {
@@ -47,6 +57,18 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         overrideController = new AnimatorOverrideController(Animator.runtimeAnimatorController);
         Animator.runtimeAnimatorController = overrideController;
+
+        EquipHandler = gameObject.GetOrAddComponent<EquipHandler>();
+        EquipHandler.Setup(Inventory);
+
+        QuickSlotHandler = gameObject.GetOrAddComponent<QuickSlotHandler>();
+        QuickSlotHandler.Setup(Inventory);
+
+        ItemHandler = gameObject.GetOrAddComponent<ItemHandler>();
+        ItemHandler.Setup(QuickSlotHandler); 
+
+        PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
+        PlacementHandler.Setup(QuickSlotHandler);
     }
 
     public override void OnStartClient()
@@ -96,6 +118,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
           //  TakeDamage(10);
         }
     }
+
 
     public void FixedUpdate()
     {

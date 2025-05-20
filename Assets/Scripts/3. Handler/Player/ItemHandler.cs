@@ -8,22 +8,20 @@ public class ItemHandler : MonoBehaviour
 
     private ItemController currentItemController;
     private ItemSlot currentItemSlot;
-
     private AlivePlayer _owner;
-    private void Awake()
+    private QuickSlotHandler quickSlotHandler;
+
+
+    public void Setup(QuickSlotHandler quickSlotHandler)
     {
         _owner = GetComponent<AlivePlayer>();
-
-        Managers.SubscribeToInit(()=>
-        {
-            QuickSlotHandler.onSelectItem += SelectItem;
-            Managers.Input.LeftMouse.started += InputUse;
-        });
+        this.quickSlotHandler = quickSlotHandler;
+        quickSlotHandler.onSelectItem += SelectItem;
+        Managers.Input.LeftMouse.started += InputUse;
     }
-
     private void OnDisable()
     {
-        QuickSlotHandler.onSelectItem -= SelectItem;
+        quickSlotHandler.onSelectItem -= SelectItem;
         Managers.Input.LeftMouse.started -= InputUse;
     }
 
