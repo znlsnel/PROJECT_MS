@@ -31,6 +31,8 @@ public abstract class AlivePlayerMovementState : AlivePlayerState
 
     public override void Update()
     {
+        base.Update();
+
         ReadMovementInput();
         Move();
     }

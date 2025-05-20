@@ -28,8 +28,14 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
         originalScale = transform.localScale;
     }
 
-    [ServerRpc]
+    [ServerRpc(RequireOwnership = false)]
     public void TakeDamage(float damage, GameObject attacker)
+    {
+        TakeDamageRpc(damage, attacker);
+    }
+
+    [ObserversRpc]
+    private void TakeDamageRpc(float damage, GameObject attacker)
     {
      //   Hp.Subtract(damage);
         Hp.Subtract(30);

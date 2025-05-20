@@ -16,18 +16,12 @@ public class SprintingState : MovingState
         
         stateMachine.ReusableData.MovementSpeed = stateMachine.Player.AlivePlayerSO.SprintSpeed;
 
-        UpdateCamera(10f, .5f).Forget();
-
         StartAnimation(stateMachine.Player.AnimationData.SprintingParameterHash);
-
-        
     }
 
     public override void Exit()
     {
         base.Exit();
-
-        UpdateCamera(8f, .5f).Forget();
 
         StopAnimation(stateMachine.Player.AnimationData.SprintingParameterHash);
     }
@@ -36,20 +30,13 @@ public class SprintingState : MovingState
     {
         base.Update();
 
-        if(stateMachine.Player.Stamina.Current <= 0)
-        {
-            movementStateMachine.ChangeState(movementStateMachine.RunningState);
-            return;
-        }
-
-        stateMachine.Player.Stamina.Subtract(Time.deltaTime * 10);
-
         if(stateMachine.ReusableData.MovementInput == Vector2.zero)
         {
+            movementStateMachine.ChangeState(movementStateMachine.IdlingState);
             return;
         }
 
-        if(!stateMachine.ReusableData.ShouldSprint)
+        if(!stateMachine.ReusableData.ShouldSprint || stateMachine.Player.Stamina.Current <= 0)
         {
             movementStateMachine.ChangeState(movementStateMachine.RunningState);
             return;
@@ -72,21 +59,4 @@ public class SprintingState : MovingState
         base.OnMovementCanceled(context);
     }
     #endregion
-
-    async UniTaskVoid UpdateCamera(float targetOffsetY, float duration)
-    {
-        CinemachineOrbitalFollow camera = stateMachine.Player.CinemachineCamera.GetComponent<CinemachineOrbitalFollow>();
-
-        float elapsedTime = 0f;
-        float startOffsetY = camera.TargetOffset.y;
-
-        while(elapsedTime < duration)
-        {
-            camera.TargetOffset.y = Mathf.Lerp(startOffsetY, targetOffsetY, elapsedTime / duration);
-            elapsedTime += Time.deltaTime;
-            await UniTask.Yield();
-        }
-
-        camera.TargetOffset.y = targetOffsetY;
-    }
 }
