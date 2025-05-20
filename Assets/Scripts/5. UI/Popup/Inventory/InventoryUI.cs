@@ -15,17 +15,34 @@ public class InventoryUI : PopupUI
     
     private List<ItemData> testItems = new List<ItemData>();
 
-    private void Start()
+    private Inventory inventory;
+
+
+    protected override void Awake()
     {
+        base.Awake();
+        Managers.onChangePlayer += Setup;
+    }
+
+    private void OnDestroy()
+    {
+        Managers.onChangePlayer -= Setup;
+    }
+
+    private void Setup(AlivePlayer player)
+    {
+        inventory = player.Inventory;
         SetItemSlots();
         RegisterInput();
     }
+
  
     private void RegisterInput()
     {
 
-        testItems.Add(Managers.Data.items.GetByIndex(3001)); 
+        testItems.Add(Managers.Data.items.GetByIndex(1001)); 
         testItems.Add(Managers.Data.items.GetByIndex(3002)); 
+        testItems.Add(Managers.Data.items.GetByIndex(3002));
    
 
 
@@ -39,14 +56,14 @@ public class InventoryUI : PopupUI
 
     private void TestInput(InputAction.CallbackContext context)
     {
-        Managers.UserData.Inventory.AddItem(testItems[Random.Range(0, testItems.Count)]); 
+        inventory.AddItem(testItems[Random.Range(0, testItems.Count)]); 
     }
 
     private void SetItemSlots()
     {
-        Storage itemStorage = Managers.UserData.Inventory.ItemStorage;
-        Storage quickStorage = Managers.UserData.Inventory.QuickSlotStorage;
-        EquipStorage equipStorage = Managers.UserData.Inventory.EquipStorage;
+        Storage itemStorage = inventory.ItemStorage;
+        Storage quickStorage = inventory.QuickSlotStorage;
+        EquipStorage equipStorage = inventory.EquipStorage;
 
 
         // 아이템 슬롯 초기화

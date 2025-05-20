@@ -69,9 +69,6 @@ PrefabInstance:
       addedObject: {fileID: 7512047245760202901}
     - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 600e1c0f4ad93214eaa8c0095b1f971d, type: 3}
       insertIndex: -1
-      addedObject: {fileID: -5292470455163757306}
-    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 600e1c0f4ad93214eaa8c0095b1f971d, type: 3}
-      insertIndex: -1
       addedObject: {fileID: -4009428138206876880}
   m_SourcePrefab: {fileID: 100100000, guid: 600e1c0f4ad93214eaa8c0095b1f971d, type: 3}
 --- !u!1 &3707404562706320488 stripped
@@ -101,22 +98,6 @@ MeshCollider:
   m_Convex: 1
   m_CookingOptions: 30
   m_Mesh: {fileID: -6935657459595579912, guid: 600e1c0f4ad93214eaa8c0095b1f971d, type: 3}
---- !u!114 &-5292470455163757306
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3707404562706320488}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 3f2dace896bf4fe47bb6048510a9a2a4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <holdAnimation>k__BackingField: {fileID: 0}
-  <attackAnimation>k__BackingField: {fileID: 7400000, guid: 4ce2e34330eeb3d49ab95f44927d7ac5, type: 2}
-  <attackAnimationSpeed>k__BackingField: 1
-  damage: 10
 --- !u!114 &-4009428138206876880
 MonoBehaviour:
   m_ObjectHideFlags: 0

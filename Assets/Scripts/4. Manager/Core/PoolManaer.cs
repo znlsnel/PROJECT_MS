@@ -140,6 +140,18 @@ public class PoolManager : IManager
         return obj;
     }
 
+    public T Get<T>(string key, Transform parent = null) where T : Component
+    {
+        GameObject obj = Get(key, parent);
+        return obj.GetComponent<T>();
+    }
+
+    public T Get<T>(GameObject original, Transform parent = null) where T : Component
+    {
+        GameObject obj = Get(original, parent);
+        return obj.GetComponent<T>();
+    }
+
     public bool IsPooling(GameObject obj)
     {
         return _pool.ContainsKey(obj.name);

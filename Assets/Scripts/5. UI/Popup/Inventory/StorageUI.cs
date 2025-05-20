@@ -9,16 +9,17 @@ public class StorageUI : PopupUI
     [SerializeField] private Transform inventoryRoot;
     [SerializeField] private Transform quickSlotRoot;
 
-    private void Start()
+    protected override void Awake()
     {
-        SetInventory(); 
+        base.Awake();
+        Managers.onChangePlayer += SetInventory; 
     }
 
-    private void SetInventory()
+    private void SetInventory(AlivePlayer player)
     {
 
-        Storage inventory = Managers.UserData.Inventory.ItemStorage;
-        Storage quickSlot = Managers.UserData.Inventory.QuickSlotStorage;
+        Storage inventory = player.Inventory.ItemStorage;
+        Storage quickSlot = player.Inventory.QuickSlotStorage;
         ItemSlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<ItemSlotUI>();
         ItemSlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
 

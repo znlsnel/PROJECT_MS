@@ -13,7 +13,17 @@ public class ItemPickupUI : PopupUI
     protected override void Awake()
     {
         base.Awake();
-        Managers.UserData.Inventory.onAddItem += Setup;
+        Managers.onChangePlayer += Init;
+    }
+
+    private void OnDestroy()
+    {
+        Managers.onChangePlayer -= Init;
+    }
+
+    private void Init(AlivePlayer player)
+    {
+        player.Inventory.onAddItem += Setup;
     }
 
     private void Setup(ItemData data)

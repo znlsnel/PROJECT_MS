@@ -100,4 +100,14 @@ public static class Extension
     {
         return list[list.Count - 1];
     }
+
+    public static Dictionary<int, T> ToDictionary<T>(this List<T> list)
+    {
+        Dictionary<int, T> dictionary = new Dictionary<int, T>();
+        for (int i = 0; i < list.Count; i++)
+        {
+            dictionary.Add(i, list[i]);
+        }
+        return dictionary;
+    }
 }

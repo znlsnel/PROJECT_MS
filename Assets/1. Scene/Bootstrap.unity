@@ -266,6 +266,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 04e961f20ba095047aa5645250437935, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  data:
+    <animation>k__BackingField:
+      <AnimationDataSO>k__BackingField: {fileID: 0}
+      <REGISTRY_PATH>k__BackingField: AnimationDataSO
   input:
     inputActionAsset: {fileID: -944628639613478452, guid: 2e952bd821ac0e944b68a01c9ad57942, type: 3}
   network:
