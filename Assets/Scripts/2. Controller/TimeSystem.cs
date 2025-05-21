@@ -30,15 +30,18 @@ public class TimeSystem : NetworkBehaviour
     private readonly SyncVar<int> currentHour = new SyncVar<int>(0);
     private readonly SyncVar<int> currentMinute = new SyncVar<int>(0);
     private readonly SyncVar<bool> isEndTime = new SyncVar<bool>(false);
+    private readonly SyncVar<float> time = new SyncVar<float>(0f);
 
     public event Action<int, int, int> onChangedTime;
     public event Action<int> onChangedDay;
     public event Action onEndTime;
 
+    public float startTime {get; private set;} 
     public float dayStartTime {get; private set;} 
     public float dayEndTime {get; private set;}
-        public float startTime {get; private set;} 
     public float fullDayLength {get; private set;} 
+    public SyncVar<float> Time => time;
+    public float TimeScale => timeScale;
 
     private void Awake()
     {
@@ -46,26 +49,26 @@ public class TimeSystem : NetworkBehaviour
         dayEndTime = (dayEndHour * 60 + dayEndMinute) / 1440f;
         startTime = (startHour * 60 + startMinute) / 1440f;
         fullDayLength = timeScale * 60f;
-    }
+        timeScale = (60f / 60f / 24f) * timeScale;  
+    } 
 
     public override void OnStartServer()
     {
         if (!IsServerStarted) return;
- 
+
         currentDay.Value = 1;
         currentHour.Value = startHour;
         currentMinute.Value = startMinute;
 
-        float scale = (60f / 60f / 24f) * timeScale;  
-
-       InvokeRepeating(nameof(UpdateTimeOnServer), 0f, scale);   
-  
-    }
+        time.Value = startTime;
+        InvokeRepeating(nameof(UpdateTimeOnServer), 0f, timeScale);   
+    } 
  
     public void Start()
     {
         currentMinute.OnChange += (p, n, s)=>UpdateTime(currentDay.Value, currentHour.Value, currentMinute.Value);
     }
+
 
     private void UpdateTimeOnServer()
     {
@@ -83,6 +86,8 @@ public class TimeSystem : NetworkBehaviour
             currentHour.Value = 0;
             currentDay.Value += 1;
         }
+
+        time.Value = (currentHour.Value * 60 + currentMinute.Value) / 1440f;
     }
     
 
