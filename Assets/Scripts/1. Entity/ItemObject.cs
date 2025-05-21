@@ -1,6 +1,7 @@
 using UnityEngine;
 using DG.Tweening;
 using UGS;
+using FishNet.Object;
 
 public class ItemObject : Interactable
 {
@@ -15,7 +16,14 @@ public class ItemObject : Interactable
         });
     }
 
+    [ServerRpc(RequireOwnership = false)]
     public override void Interact(GameObject obj)
+    {
+        InteractRpc(obj);
+    }
+
+    [ObserversRpc]
+    private void InteractRpc(GameObject obj)
     {
         AlivePlayer player = obj.GetComponent<AlivePlayer>();
         player.Inventory.AddItem(itemData, 1);

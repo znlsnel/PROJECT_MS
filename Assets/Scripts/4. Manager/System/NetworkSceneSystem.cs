@@ -30,13 +30,13 @@ public class NetworkSceneSystem : NetworkSingleton<NetworkSceneSystem>
 
     [SerializeField] private NetworkObject playerPrefab;
 
-    public void OnEnable()
+    public override void OnStartClient()
     {
         InstanceFinder.SceneManager.OnLoadPercentChange += OnLoadPercentChange;
         InstanceFinder.SceneManager.OnLoadEnd += OnLoadEnd;
     }
 
-    public void OnDisable()
+    public override void OnStopClient()
     {
         InstanceFinder.SceneManager.OnLoadPercentChange -= OnLoadPercentChange;
         InstanceFinder.SceneManager.OnLoadEnd -= OnLoadEnd;

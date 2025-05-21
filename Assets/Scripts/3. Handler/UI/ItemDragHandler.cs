@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FishNet.Object;
 using UnityEngine;
 
 
@@ -80,12 +81,12 @@ public static class ItemDragHandler
 
         GameObject dropItem = Managers.Resource.Instantiate(selectedItemSlot.Data.DropPrefabPath);
 
-
         Vector3 forward = Managers.Player.transform.forward;
         Vector3 pos = Managers.Player.transform.position + forward * 1.5f;
 
-
         dropItem.transform.position = pos;
+        
+        NetworkCommandSystem.Instance.RequestSpawnObject(dropItem.GetComponent<NetworkObject>(), pos, Quaternion.identity);
 
         dropItem.GetOrAddComponent<Rigidbody>().AddForce(Vector3.Lerp(forward, Vector3.up, 0.5f) * 5f, ForceMode.Impulse);
 

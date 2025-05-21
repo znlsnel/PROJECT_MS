@@ -70,6 +70,14 @@ public class InputManager : IManager
     { 
          
     }
+
+	public void SetInputActive(bool active)
+	{
+		if (active)
+			inputActionAsset.Enable();
+		else
+			inputActionAsset.Disable();
+	}
  
 	private InputActionMap BindAction<T>(Type type, out Dictionary<T, InputAction> playerInputs) where T : Enum
 	{
