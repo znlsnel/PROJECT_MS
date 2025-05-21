@@ -770,6 +770,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0c23a3c07b9ed8428a8d4a4fd31722d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlaySound: 0
   itemIcon: {fileID: 633634276675761536}
   itemName: {fileID: 1202925427614957626}
   panel: {fileID: 5911743704165455783}

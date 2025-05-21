@@ -7,6 +7,10 @@ using Image = UnityEngine.UI.Image;
 
 public class PopupUI : UIBase
 {
+	[SerializeField] private bool _isPlaySound = true;
+    private static readonly string _popupOpenSound = "Sound/UI/Popup_02.mp3";
+    private static readonly string _popupCloseSound = "Sound/UI/PopupClose_01.mp3";
+
     protected override void Awake()
     {
         base.Awake();
@@ -18,8 +22,21 @@ public class PopupUI : UIBase
 		Managers.UI.SetCanvas(gameObject);
 	}
 
+	public override void Show()
+	{
+		base.Show();
+		if (_isPlaySound)
+			Managers.Sound.Play(_popupOpenSound);
+	}
 
-	protected IEnumerator Fade(float target, float duration)
+    public override void Hide()
+    {
+        base.Hide();
+		if (_isPlaySound)
+			Managers.Sound.Play(_popupCloseSound);
+    }
+
+    protected IEnumerator Fade(float target, float duration)
 	{
 		float time = 0;
 		while (time < duration)

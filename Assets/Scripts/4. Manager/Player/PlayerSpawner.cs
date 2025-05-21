@@ -13,17 +13,17 @@ public class PlayerSpawner : NetworkBehaviour
 
     public override void OnStartClient()
     {
-        NetworkCommandSystem.Instance.RequestSpawnPlayer(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        NetworkCommandSystem.Instance?.RequestSpawnPlayer(playerPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 
     public override void OnStopClient()
     {
-        NetworkCommandSystem.Instance.RequestDespawnPlayer(playerPrefab);
+        NetworkCommandSystem.Instance?.RequestDespawnPlayer(playerPrefab);
     }
 
     private void OnLoadEnd(SceneLoadEndEventArgs args)
     {
-        NetworkCommandSystem.Instance.RequestSpawnPlayer(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        NetworkCommandSystem.Instance?.RequestSpawnPlayer(playerPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 
     private void OnDrawGizmos()

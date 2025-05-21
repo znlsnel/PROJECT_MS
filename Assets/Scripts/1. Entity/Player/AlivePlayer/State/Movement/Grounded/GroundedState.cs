@@ -37,7 +37,7 @@ public class GroundedState : AlivePlayerMovementState
             return false;
         }
 
-        if(stateMachine.ReusableData.ShouldSprint)
+        if(stateMachine.ReusableData.ShouldSprint && stateMachine.Player.Stamina.Current > stateMachine.Player.Stamina.Maximum * 0.1f)
         {
             movementStateMachine.ChangeState(movementStateMachine.SprintingState);
             return true;

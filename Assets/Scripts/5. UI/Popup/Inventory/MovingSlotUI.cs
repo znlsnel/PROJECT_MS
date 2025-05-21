@@ -6,14 +6,29 @@ using DG.Tweening;
 
 public class MovingSlotUI : PopupUI
 {
+    private static readonly string _movingSlotSound = "Sound/UI/Click_03.mp3";
+
     [SerializeField] private RectTransform panelRT;
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemCountText;
+
+    public override void Show()
+    {
+        base.Show();
+        Managers.Sound.Play(_movingSlotSound);
+    } 
+
+    public override void Hide()
+    {
+        base.Hide();
+        Managers.Sound.Play(_movingSlotSound);
+    }
 
     public void SetItem(ItemSlot itemSlot)
     {
         if (itemSlot.Data == null)
             return;
+
 
         itemSlot.onChangeStack += UpdateSlotInfo; 
         UpdateSlotInfo(itemSlot);

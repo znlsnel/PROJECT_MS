@@ -17,13 +17,14 @@ public class ChatUI : MonoBehaviour
     private bool inputActive = false;
     private List<GameObject> chatMessages = new List<GameObject>();
 
-    // 네트워크 확장 위한 델리게이트 (네트워크 기능 추가 시 사용)
-    public delegate void OnChatMessageSent(string nickname, string message);
-    public static OnChatMessageSent onChatMessageSent;
-
-    private void Start()
+    private void OnEnable()
     {
-        chatInput.gameObject.SetActive(false);
+        NetworkChatSystem.OnChatMessageRecived += DisplayMessage;
+    }
+
+    private void OnDisable()
+    {
+        NetworkChatSystem.OnChatMessageRecived -= DisplayMessage;
     }
 
     private void Update()
@@ -35,6 +36,7 @@ public class ChatUI : MonoBehaviour
                 chatInput.gameObject.SetActive(true); // 채팅 입력창 활성화
                 chatInput.ActivateInputField();
                 inputActive = true;
+                Managers.Input.SetInputActive(false);
             }
             else
             {
@@ -47,6 +49,7 @@ public class ChatUI : MonoBehaviour
                 chatInput.DeactivateInputField(); // 채팅 입력창 비활성화
                 chatInput.gameObject.SetActive(false);
                 inputActive = false;
+                Managers.Input.SetInputActive(true);
             }
         }
     }
@@ -56,9 +59,7 @@ public class ChatUI : MonoBehaviour
         if (string.IsNullOrWhiteSpace(message))
             return;
 
-        DisplayMessage(playerNickname, message); // 채팅 생성 및 표시
-
-        onChatMessageSent?.Invoke(playerNickname, message); // 네트워크 확장을 위한 이벤트 발생 (네트워크 기능 추가 시 사용)
+        NetworkChatSystem.Instance.SendChatMessage(message);
     }
 
     public void SetNickname(string nickname) // 닉네임 설정
@@ -69,9 +70,9 @@ public class ChatUI : MonoBehaviour
         }
     }
 
-    public void DisplayMessage(string nickname, string message) // 채팅 UI에 표시
+    public void DisplayMessage(ChatMessage message) // 채팅 UI에 표시
     {
-        string formattedMessage = $"[{nickname}] {message}";
+        string formattedMessage = $"[{message.sender}] {message.message}";
 
         GameObject chatObj = Instantiate(chatMessagePrefab, chatRoot); // 새 채팅 생성
         TextMeshProUGUI textComponent = chatObj.GetComponentInChildren<TextMeshProUGUI>();

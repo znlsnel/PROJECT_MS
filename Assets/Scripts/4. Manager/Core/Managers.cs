@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using FishNet;
 using FishNet.Connection;
 using FishNet.Managing;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -39,6 +40,8 @@ public class Managers : Singleton<Managers>
 
     public static event Action onInit;
     private static bool isInit = false;
+
+    public static SceneBase scene {get; private set;}
 
     protected override void Awake()
     {
@@ -102,6 +105,11 @@ public class Managers : Singleton<Managers>
     {
         this.player = player;
         onChangePlayer?.Invoke(player);
+    }
+
+    public static void SetScene(SceneBase s)
+    {
+        scene = s;
     }
 
 }

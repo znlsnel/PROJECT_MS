@@ -6,6 +6,8 @@ using DG.Tweening;
 
 public class ItemPickupUI : PopupUI
 {
+    private static readonly string _itemPickupSound = "Sound/UI/Click_02.mp3";
+
     [SerializeField] private Image itemIcon;
     [SerializeField] private TextMeshProUGUI itemName;
     [SerializeField] private Transform panel;
@@ -20,6 +22,14 @@ public class ItemPickupUI : PopupUI
     {
         Managers.onChangePlayer -= Init;
     }
+
+    public override void Show()
+    {
+        base.Show();
+        Managers.Sound.Play(_itemPickupSound);
+    }
+
+    
 
     private void Init(AlivePlayer player)
     {
