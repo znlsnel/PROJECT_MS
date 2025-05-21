@@ -17,6 +17,8 @@ public class UIRoom : MonoBehaviour
         Managers.Steam.OnLeaveLobby += UpdateUI;
 
         _startButton.SetActive(InstanceFinder.IsHostStarted);
+
+        UpdateUI();
     }
 
     public void OnDisable()
