@@ -9,7 +9,7 @@ using System.Linq;
 
 public class QuickSlotHandler : NetworkBehaviour
 {
-    private static readonly string _changeSlotSound = "Sound/UI/Click_06.mp3";
+    private static readonly string _selectSlotSound = "Sound/UI/Click_06.mp3";
     
 
     [SerializeField] private Transform itemRoot;
@@ -30,6 +30,10 @@ public class QuickSlotHandler : NetworkBehaviour
 
         InitInput();
         InitQuickSlot();
+    }
+
+    public override void OnStartClient()
+    {
         SelectItem(0);
     }
 
@@ -43,6 +47,7 @@ public class QuickSlotHandler : NetworkBehaviour
 
             Managers.Input.GetInput(quickSlot).started += (InputAction.CallbackContext context) =>
             {
+                Managers.Sound.Play(_selectSlotSound);
                 SelectItem(idx);  
             };
         }
@@ -52,12 +57,17 @@ public class QuickSlotHandler : NetworkBehaviour
     {
         // 선택한 퀵슬롯이 변경되면 새로 업데이트
         for (int i = 0; i < quickSlotStorage.Count; i++)
+        {
+            int idx = i;
             quickSlotStorage.GetSlotByIdx(i).onChangeStack += (ItemSlot itemSlot) => 
             {
-                int idx = i;
                 if (selectedItemSlot == itemSlot && itemSlot.Data != selectedItemData)
+                {
+                    //Managers.Sound.Play(_selectSlotSound);
                     SelectItem(idx);
-            };
+                }
+            }; 
+        }
     }
 
  
@@ -67,7 +77,6 @@ public class QuickSlotHandler : NetworkBehaviour
         if (itemSlot == null || (itemSlot == selectedItemSlot && itemSlot.Data == selectedItemData)) 
             return;
 
-        Managers.Sound.Play(_changeSlotSound);
 
         if (itemSlot.Data != selectedItemData) 
         {
