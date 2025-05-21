@@ -110,4 +110,10 @@ public static class Extension
         }
         return dictionary;
     }
+
+
+    public static void AddKey(this AnimationCurve curve, float time, float value, float inTangent, float outTangent)
+    {
+        curve.AddKey(new Keyframe(time, value, inTangent, outTangent)); 
+    }
 }

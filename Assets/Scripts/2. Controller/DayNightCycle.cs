@@ -6,11 +6,11 @@ using UnityEngine;
 public class DayNightCycle : MonoBehaviour
 {
     [Range(0.0f, 1.0f)]
-    public float time;
-    public float fullDayLength;
-    public float startTime = 0.4f;
+    private float time;
+    private float fullDayLength;
+    private float startTime = 0.4f;
 	private float timeRate;
-	public Vector3 noon; // Vector 90 0 0
+	private Vector3 noon = new Vector3(90, 0, 0); // Vector 90 0 0
 
 	[Header("Sun")]
 	public Light sun;
@@ -23,24 +23,52 @@ public class DayNightCycle : MonoBehaviour
 	public AnimationCurve moonIntensity;
 
 	[Header("Other Lighting")]
-	public AnimationCurve lightingIntensityMultiplier;
+	public AnimationCurve IntensityMultiplier;
 	public AnimationCurve reflectionIntensityMultiplier;
+
+
+    private TimeSystem timeSystem;
 
 	private void Start()
 	{
+        timeSystem = Managers.scene.GetComponent<TimeSystem>();
+        startTime = timeSystem.startTime;
+        fullDayLength = timeSystem.fullDayLength; 
+ 
+        sunIntensity.ClearKeys();
+        sunIntensity.AddKey(timeSystem.dayStartTime, 0f, 0f, 0f);
+        sunIntensity.AddKey((timeSystem.dayEndTime + timeSystem.dayStartTime) / 2f, 1f, 0f, 0f);
+        sunIntensity.AddKey(timeSystem.dayEndTime, 0f, 0f, 0f);
+
+
+        moonIntensity.ClearKeys();
+        moonIntensity.AddKey(0f, 1f, 0f, 0f);
+        moonIntensity.AddKey(timeSystem.dayStartTime, 0f, 0f, 0f);
+        moonIntensity.AddKey(timeSystem.dayEndTime, 0f, 0f, 0f);
+        moonIntensity.AddKey(1f, 1f, 0f, 0f);  
+
+        float multiplier = (timeSystem.dayStartTime + timeSystem.dayEndTime) / 3f;
+        IntensityMultiplier.ClearKeys();
+        IntensityMultiplier.AddKey(0, 0f, 0f, 0f); 
+        IntensityMultiplier.AddKey(multiplier, 1f, 0f, 0f);
+        IntensityMultiplier.AddKey(multiplier * 2f, 1f, 0f, 0f);  
+        IntensityMultiplier.AddKey(1, 0f, 0f, 0f);
+
 		timeRate = 1.0f / fullDayLength;
 		time = startTime;
 	}
 
 	private void Update()
 	{
+
+        
 		time = (time + timeRate * Time.deltaTime) % 1.0f;
 
 		UpdateLighting(sun, sunColor, sunIntensity);
 		UpdateLighting(moon, moonColor, moonIntensity);
 
-		RenderSettings.ambientIntensity = lightingIntensityMultiplier.Evaluate(time);
-		RenderSettings.reflectionIntensity = reflectionIntensityMultiplier.Evaluate(time);
+		RenderSettings.ambientIntensity = IntensityMultiplier.Evaluate(time);
+		RenderSettings.reflectionIntensity = IntensityMultiplier.Evaluate(time);
 	}
 
 	void UpdateLighting(Light lightSource, Gradient gradient, AnimationCurve intensityCurve)

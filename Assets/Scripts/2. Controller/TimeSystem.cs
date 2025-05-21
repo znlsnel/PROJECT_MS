@@ -16,8 +16,16 @@ public class TimeSystem : NetworkBehaviour
     [SerializeField, Range(0, 59)] private int endMinute;
 
     [Header("24시간이 지나는 현실 시간 (분)")]
-    [SerializeField, Range(1, 10)] private int timeScale;
+    [SerializeField, Range(0.1f, 10f)] private float timeScale;
+
+    [Header("DayNightCycle")]
+    [SerializeField, Range(6, 10)] private int dayStartHour = 6;
+    [SerializeField, Range(0, 59)] private int dayStartMinute = 0;
+    [SerializeField, Range(18, 23)] private int dayEndHour = 18;
+    [SerializeField, Range(0, 59)] private int dayEndMinute = 0;
     
+
+
     private readonly SyncVar<int> currentDay = new SyncVar<int>(0);
     private readonly SyncVar<int> currentHour = new SyncVar<int>(0);
     private readonly SyncVar<int> currentMinute = new SyncVar<int>(0);
@@ -27,8 +35,19 @@ public class TimeSystem : NetworkBehaviour
     public event Action<int> onChangedDay;
     public event Action onEndTime;
 
-    
-  
+    public float dayStartTime {get; private set;} 
+    public float dayEndTime {get; private set;}
+        public float startTime {get; private set;} 
+    public float fullDayLength {get; private set;} 
+
+    private void Awake()
+    {
+        dayStartTime = (dayStartHour * 60 + dayStartMinute) / 1440f;
+        dayEndTime = (dayEndHour * 60 + dayEndMinute) / 1440f;
+        startTime = (startHour * 60 + startMinute) / 1440f;
+        fullDayLength = timeScale * 60f;
+    }
+
     public override void OnStartServer()
     {
         if (!IsServerStarted) return;

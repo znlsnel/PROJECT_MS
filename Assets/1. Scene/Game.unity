@@ -18,23 +18,23 @@ RenderSettings:
   m_FogColor: {r: 1, g: 1, b: 1, a: 1}
   m_FogMode: 1
   m_FogDensity: 0.2
-  m_LinearFogStart: 53.1
+  m_LinearFogStart: 5
   m_LinearFogEnd: 265.5
   m_AmbientSkyColor: {r: 0.111264065, g: 0.30022818, b: 0.5604412, a: 0.74}
   m_AmbientEquatorColor: {r: 0.74, g: 0.74, b: 0.74, a: 0.74}
   m_AmbientGroundColor: {r: 0.47882354, g: 0.32934904, b: 0.19364189, a: 0.74}
   m_AmbientIntensity: 0.74
-  m_AmbientMode: 1
+  m_AmbientMode: 0
   m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 0}
+  m_SkyboxMaterial: {fileID: 10304, guid: 0000000000000000f000000000000000, type: 0}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
   m_HaloTexture: {fileID: 0}
   m_SpotCookie: {fileID: 10001, guid: 0000000000000000e000000000000000, type: 0}
   m_DefaultReflectionMode: 0
-  m_DefaultReflectionResolution: 256
-  m_ReflectionBounces: 3
+  m_DefaultReflectionResolution: 128
+  m_ReflectionBounces: 1
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 1959216544}
@@ -23591,7 +23591,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &673303709
 Transform:
   m_ObjectHideFlags: 0
@@ -58087,7 +58087,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1663552844
 Transform:
   m_ObjectHideFlags: 0
@@ -58117,10 +58117,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 17a3087140535da4f9f1c6d53a34cc22, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  time: 0
-  fullDayLength: 0
-  startTime: 0.4
-  noon: {x: 0, y: 0, z: 0}
   sun: {fileID: 1959216544}
   sunColor:
     serializedVersion: 2
@@ -58258,45 +58254,9 @@ MonoBehaviour:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
-  lightingIntensityMultiplier:
+  IntensityMultiplier:
     serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
-    - serializedVersion: 3
-      time: 0.4
-      value: 1
-      inSlope: 0.080741264
-      outSlope: 0.080741264
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.24076237
-    - serializedVersion: 3
-      time: 0.6
-      value: 1
-      inSlope: -0.029076336
-      outSlope: -0.029076336
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0
-      outWeight: 0
+    m_Curve: []
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
@@ -66318,7 +66278,11 @@ MonoBehaviour:
   endDay: 5
   endHour: 22
   endMinute: 30
-  timeScale: 3
+  timeScale: 0.1
+  dayStartHour: 6
+  dayStartMinute: 30
+  dayEndHour: 22
+  dayEndMinute: 0
 --- !u!1001 &1911027433
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -67826,7 +67790,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!108 &1959216544
 Light:
   m_ObjectHideFlags: 0
