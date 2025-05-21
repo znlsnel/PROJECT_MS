@@ -13,6 +13,7 @@ public class SteamManagerEx : IManager
     private Callback<GameLobbyJoinRequested_t> _gameLobbyJoinRequested;
     private Callback<LobbyEnter_t> _lobbyEntered;
     private Callback<LobbyMatchList_t> _lobbyList;
+    private Callback<LobbyDataUpdate_t> _lobbyDataUpdate;
     
     public ELobbyType LobbyType = ELobbyType.k_ELobbyTypePublic;
 
@@ -24,8 +25,7 @@ public class SteamManagerEx : IManager
 
     private const string HostAddressKey = "HostAddress";
 
-    public event System.Action OnJoinLobby;
-    public event System.Action OnLeaveLobby;
+    public event System.Action OnLobbyDataUpdate;
 
     public void Init()
     {
@@ -56,6 +56,7 @@ public class SteamManagerEx : IManager
         _gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequested);
         _lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         _lobbyList = Callback<LobbyMatchList_t>.Create(OnLobbyList);
+        _lobbyDataUpdate = Callback<LobbyDataUpdate_t>.Create(LobbyDataUpdate);
     }
 
     public void CreateLobby()
@@ -82,7 +83,7 @@ public class SteamManagerEx : IManager
         FishySteamworks.StartConnection(true);
         Debug.Log("Lobby creation was successful");
 
-        OnJoinLobby?.Invoke();
+        OnLobbyDataUpdate?.Invoke();
     }
 
     private void OnJoinRequested(GameLobbyJoinRequested_t callback)
@@ -97,7 +98,12 @@ public class SteamManagerEx : IManager
         FishySteamworks.SetClientAddress(SteamMatchmaking.GetLobbyData(new CSteamID(CurrentLobbyId), HostAddressKey));
         FishySteamworks.StartConnection(false);
 
-        OnJoinLobby?.Invoke();
+        OnLobbyDataUpdate?.Invoke();
+    }
+
+    private void LobbyDataUpdate(LobbyDataUpdate_t param)
+    {
+        OnLobbyDataUpdate?.Invoke();
     }
 
     public bool JoinByID(ulong steamID)
@@ -125,7 +131,7 @@ public class SteamManagerEx : IManager
         if(InstanceFinder.NetworkManager.IsServerStarted)
             FishySteamworks.StopConnection(true);
 
-        OnLeaveLobby?.Invoke();
+        OnLobbyDataUpdate?.Invoke();
     }
 
     private void OnLobbyList(LobbyMatchList_t callback)

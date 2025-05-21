@@ -16,7 +16,7 @@ public class NetworkUI : MonoBehaviour
 
     private void Start()
     {
-        Managers.Steam.OnJoinLobby += OpenRoomPanel;
+        Managers.Steam.OnLobbyDataUpdate += OpenRoomPanel;
 
         if(Managers.Network.Type == NetworkType.TCP_UDP)
         {

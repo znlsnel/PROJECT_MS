@@ -13,8 +13,7 @@ public class UIRoom : MonoBehaviour
 
     public void OnEnable()
     {
-        Managers.Steam.OnJoinLobby += UpdateUI;
-        Managers.Steam.OnLeaveLobby += UpdateUI;
+        Managers.Steam.OnLobbyDataUpdate += UpdateUI;
 
         _startButton.SetActive(InstanceFinder.IsHostStarted);
 
@@ -23,8 +22,7 @@ public class UIRoom : MonoBehaviour
 
     public void OnDisable()
     {
-        Managers.Steam.OnJoinLobby -= UpdateUI;
-        Managers.Steam.OnLeaveLobby -= UpdateUI;
+        Managers.Steam.OnLobbyDataUpdate -= UpdateUI;
     }
 
     private void CreatePlayerInfoPanel(ulong steamId)
