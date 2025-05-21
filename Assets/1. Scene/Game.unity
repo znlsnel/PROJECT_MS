@@ -15374,8 +15374,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Priority:
-    Enabled: 0
-    m_Value: 0
+    Enabled: 1
+    m_Value: 1
   OutputChannel: 1
   StandbyUpdate: 2
   m_StreamingVersion: 20241001
@@ -22386,7 +22386,7 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 186.84
-  field of view: 60.000004
+  field of view: 60
   orthographic: 0
   orthographic size: 9.9
   m_Depth: -1
@@ -22412,8 +22412,8 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 648413835}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.32608578, y: -0.32039362, z: 0.11848147, w: -0.88146365}
-  m_LocalPosition: {x: -9.572109, y: 5.835265, z: 28.755684}
+  m_LocalRotation: {x: 0.3539311, y: 0.000000027873266, z: -0.000000010547969, w: 0.93527156}
+  m_LocalPosition: {x: 3.4512367, y: 5.301614, z: -16.991081}
   m_LocalScale: {x: 1.2000002, y: 1.2000003, z: 1.2000005}
   m_ConstrainProportionsScale: 0
   m_Children: []
