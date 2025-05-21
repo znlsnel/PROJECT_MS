@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using DG.Tweening;
+using FishNet;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
 public class ResourceHandler : NetworkBehaviour, IDamageable
@@ -13,7 +15,7 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
     private List<GameObject> dropItems = new List<GameObject>();
     private Vector3 originalScale;
 
-    public ResourceStat Hp { get; private set; }
+    public readonly SyncVar<ResourceStat> Hp = new SyncVar<ResourceStat>(new ResourceStat(100));
 
 
     public void Awake()
@@ -24,22 +26,24 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
                 dropItems.Add(Managers.Resource.Load<GameObject>(Managers.Data.items.GetByIndex(itemId).DropPrefabPath));
             
         });
-        Hp = new ResourceStat(maxHp);
+        Hp.Value = new ResourceStat(maxHp);
         originalScale = transform.localScale;
     }
 
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamage(float damage, GameObject attacker)
     {
-        TakeDamageRpc(damage, attacker);
+        DamageEffect(attacker);
+        Hp.Value.Subtract(30);
+        if(Hp.Value.Current <= 0)
+        {
+            ResourceDestory();
+        }
     }
 
     [ObserversRpc]
-    private void TakeDamageRpc(float damage, GameObject attacker)
+    private void DamageEffect(GameObject attacker)
     {
-     //   Hp.Subtract(damage);
-        Hp.Subtract(30);
-        
         transform.DOKill();
 
         Vector3 attDir = (transform.position - attacker.transform.position).normalized;
@@ -55,32 +59,26 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
         transform.DOScale(originalScale * 0.9f, 0.1f).SetEase(Ease.OutCubic).OnComplete(() => 
         {
             transform.DOScale(originalScale, 0.1f).SetEase(Ease.InCubic);
-            if(Hp.Current <= 0)
-            {
-                ResourceDestory();
-                return;
-            }
         });
-        
     }
 
+    [Server]
     private void DropItem()
     {
         for(int i = 0; i < dropItemCount; i++)
         {
-            GameObject item = Managers.Pool.Get(dropItems[Random.Range(0, dropItems.Count)]);
+            GameObject item = Instantiate(dropItems[Random.Range(0, dropItems.Count)]);
             item.transform.position = transform.position;
+            InstanceFinder.ServerManager.Spawn(item);
 
             item.GetOrAddComponent<Rigidbody>().AddForce(Vector3.up * 5f, ForceMode.Impulse);
         }
     }
 
+    [Server]
     private void ResourceDestory()
     {
-        transform.DOScale(Vector3.zero, 0.1f).SetEase(Ease.OutQuint).OnComplete(() => 
-        {
-            DropItem();
-            Destroy(gameObject);
-        });
+        DropItem();
+        InstanceFinder.ServerManager.Despawn(gameObject);
     }
 }

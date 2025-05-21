@@ -27,7 +27,8 @@ public class NetworkCommandSystem : NetworkSingleton<NetworkCommandSystem>
     [ServerRpc(RequireOwnership = false)]
     public void RequestSpawnObject(NetworkObject objectPrefab, Vector3 position, Quaternion rotation, NetworkConnection conn = null)
     {
-        InstanceFinder.ServerManager.Spawn(objectPrefab, conn);
+        NetworkObject instance = Instantiate(objectPrefab, position, rotation);
+        InstanceFinder.ServerManager.Spawn(instance, conn);
     }
 
     [ServerRpc(RequireOwnership = false)]
