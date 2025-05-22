@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using FishNet;
+using Steamworks;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -14,8 +15,6 @@ public class UIRoom : MonoBehaviour
     public void OnEnable()
     {
         Managers.Network.OnClientConnected += UpdateUI;
-
-        _startButton.SetActive(InstanceFinder.IsHostStarted);
 
         UpdateUI();
     }
@@ -42,6 +41,8 @@ public class UIRoom : MonoBehaviour
         {
             CreatePlayerInfoPanel(member.m_SteamID);
         }
+
+        _startButton.SetActive(InstanceFinder.IsServerStarted);
     }
 
     public void ResetUI()

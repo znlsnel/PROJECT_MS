@@ -18,11 +18,25 @@ public class NetworkUI : MonoBehaviour
     {
         if(Managers.Network.Type == NetworkType.TCP_UDP)
         {
-            OpenTestPanel();
+            if(InstanceFinder.IsClientStarted)
+            {
+                OpenRoomPanel();
+            }
+            else
+            {
+                OpenTestPanel();
+            }
         }
         else
         {
-            OpenLobbyPanel();
+            if(InstanceFinder.IsClientStarted)
+            {
+                OpenRoomPanel();
+            }
+            else
+            {
+                OpenLobbyPanel();
+            }
         }
     }
 
@@ -54,7 +68,7 @@ public class NetworkUI : MonoBehaviour
 
     public void OnClickStart()
     {
-        NetworkSceneSystem.Instance?.LoadScene("Game");
+        NetworkGameSystem.Instance.StartGame();
     }
 
     public void OnClickLeave()

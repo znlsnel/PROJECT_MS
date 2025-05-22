@@ -57974,8 +57974,9 @@ MonoBehaviour:
   _componentIndexCache: 255
   _addedNetworkObject: {fileID: 74714822}
   _networkObjectCache: {fileID: 0}
-  playerPrefab: {fileID: 6927395498750123055, guid: 8ddb7b140abaf468493ce5eb689e4b2b, type: 3}
-  spawnPoint: {fileID: 2094810734}
+  <playerPrefab>k__BackingField: {fileID: 6927395498750123055, guid: 8ddb7b140abaf468493ce5eb689e4b2b, type: 3}
+  <spawnPoint>k__BackingField: {fileID: 2094810734}
+  <UseAutoSpawning>k__BackingField: 1
 --- !u!4 &1660616589
 Transform:
   m_ObjectHideFlags: 0
