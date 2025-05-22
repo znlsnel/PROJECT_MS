@@ -41,10 +41,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public PlacementHandler PlacementHandler {get; private set;}
     public EquipHandler EquipHandler {get; private set;}
 
-
     public event Action onDead;
     public event Action onDamaged;
-
 
     public override void OnStartNetwork()
     {
@@ -69,6 +67,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
         PlacementHandler.Setup(QuickSlotHandler);
+
+        onDead += OnDead;
     }
 
     public override void OnStartClient()
@@ -187,5 +187,10 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void RestoreWater(float amount) // 물 섭취
     {
         waterPoint.Value.Add(amount);
+    }
+
+    public void OnDead()
+    {
+        NetworkGameSystem.Instance.OnPlayerDead();
     }
 }

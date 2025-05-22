@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 2054502387314891451}
   - component: {fileID: 3813470129652835384}
   - component: {fileID: -321007397477620295}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Rock_Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}

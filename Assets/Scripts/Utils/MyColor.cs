@@ -13,4 +13,7 @@ public static class MyColor
     public static Color Purple = "#604652".ConvertColor();
     public static Color Pink = "#E5989B".ConvertColor();
     public static Color Gray = "#D0DDD0".ConvertColor();
+
+    public static Color On = "#FDF4E4".ConvertColor();
+    public static Color Off = "#634748".ConvertColor(); 
 }

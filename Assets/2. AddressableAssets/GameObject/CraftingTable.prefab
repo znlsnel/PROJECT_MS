@@ -210,6 +210,10 @@ PrefabInstance:
       value: workbench02
       objectReference: {fileID: 0}
     - target: {fileID: 6618712151778061540, guid: ea6ae388d2e8d034994ca65c0247e666, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 6618712151778061540, guid: ea6ae388d2e8d034994ca65c0247e666, type: 3}
       propertyPath: m_IsActive
       value: 1
       objectReference: {fileID: 0}
@@ -259,7 +263,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6618712151779996196, guid: ea6ae388d2e8d034994ca65c0247e666, type: 3}
       propertyPath: m_Materials.Array.size
-      value: 2
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6618712151779996196, guid: ea6ae388d2e8d034994ca65c0247e666, type: 3}
       propertyPath: 'm_Materials.Array.data[1]'
