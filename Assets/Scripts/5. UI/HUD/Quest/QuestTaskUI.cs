@@ -1,4 +1,4 @@
-using DG.Tweening;
+﻿using DG.Tweening;
 using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
@@ -29,6 +29,7 @@ public class QuestTaskUI : MonoBehaviour
         questTask.onMoveToNextTask += OnMoveToNextTask;
 
         UpdateProgress(questTask, questTask.progress, questTask.taskData.SuccessCount);
+        
     }
 
     public void UpdateProgress(QuestTask questTask, int currentCount, int targetCount)

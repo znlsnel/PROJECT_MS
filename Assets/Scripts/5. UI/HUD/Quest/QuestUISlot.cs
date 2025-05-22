@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.Jobs;
 using UnityEngine.UI;
 
 public class QuestUISlot : MonoBehaviour
@@ -27,7 +28,7 @@ public class QuestUISlot : MonoBehaviour
         } 
 
         var rect = transform as RectTransform;
-        rect.sizeDelta = new Vector2(rect.sizeDelta.x, 80 + (quest.tasks.Count * 15));     
+        rect.sizeDelta = new Vector2(rect.sizeDelta.x, 80 + (quest.tasks.Count * 15));   
     }
 
     private void OnCompleted(Quest quest)

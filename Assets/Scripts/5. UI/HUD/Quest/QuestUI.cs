@@ -1,6 +1,6 @@
 using Unity.VisualScripting;
 using UnityEngine;
-
+using UnityEngine.UI;
 public class QuestUI : UIBase
 {
     [SerializeField] private GameObject questSlotPrefab;
@@ -32,10 +32,10 @@ public class QuestUI : UIBase
     {
         GameObject slot = Instantiate(questSlotPrefab, transform);
         slot.GetComponent<QuestUISlot>().Setup(quest);
-        
-        
+
+      //  Invoke(nameof(ForceRebuildLayout), 1f); 
     }
-    
+     
     private void OnQuestCompleted(Quest quest)
     {
         
@@ -44,5 +44,10 @@ public class QuestUI : UIBase
     private void OnQuestCanceled(Quest quest)
     {
 
+    } 
+
+    private void ForceRebuildLayout()
+    {
+   //     LayoutRebuilder.ForceRebuildLayoutImmediate(transform as RectTransform);
     }
 }

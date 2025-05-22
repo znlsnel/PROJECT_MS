@@ -4,25 +4,25 @@ using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
 
-public class ForestScene : MonoBehaviour
+[RequireComponent(typeof(TimeSystem))]
+public class ForestScene : SceneBase
 {
     [SerializeField] private GameObject _resultUIPrefab;
     [SerializeField] private int _mapIndex = 1000;
     private PlayableDirector _endingTimeline;
-
     private ResultUI _resultUI;
-
-
     private MapData _mapData;
     private List<GameObject> _fieldItemList = new();
     private List<GameObject> _fieldResourceList = new();
 
-    private void Awake()
+
+    protected override void Awake()
     {
+        base.Awake();
+
         _endingTimeline = GetComponent<PlayableDirector>(); 
+
         Managers.SubscribeToInit(InitScene);
-        _resultUI = Instantiate(_resultUIPrefab).GetComponent<ResultUI>();
-        _resultUI.Hide();
     }
 
     private void InitScene()
@@ -48,6 +48,9 @@ public class ForestScene : MonoBehaviour
 
     public void ShowResultUI()
     {
+        if (_resultUI == null)
+            _resultUI = Instantiate(_resultUIPrefab).GetComponent<ResultUI>();
+
         Managers.UI.CloseAllPopupUI();
         Managers.UI.ShowPopupUI(_resultUI);
     }

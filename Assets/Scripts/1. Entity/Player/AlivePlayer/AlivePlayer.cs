@@ -121,7 +121,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-          //  TakeDamage(10);
+            TakeDamage(10, null); 
         }
     }
 
@@ -138,7 +138,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void TakeDamage(float damage, GameObject attacker)
     {
         Health.Subtract(damage);
-        onDamaged?.Invoke();
+        onDamaged?.Invoke(); 
 
         if(Health.Current <= 0)
         {
