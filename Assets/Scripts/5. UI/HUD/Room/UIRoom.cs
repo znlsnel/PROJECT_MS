@@ -13,7 +13,7 @@ public class UIRoom : MonoBehaviour
 
     public void OnEnable()
     {
-        Managers.Steam.OnLobbyDataUpdate += UpdateUI;
+        Managers.Network.OnClientConnected += UpdateUI;
 
         _startButton.SetActive(InstanceFinder.IsHostStarted);
 
@@ -22,7 +22,7 @@ public class UIRoom : MonoBehaviour
 
     public void OnDisable()
     {
-        Managers.Steam.OnLobbyDataUpdate -= UpdateUI;
+        Managers.Network.OnClientConnected -= UpdateUI;
     }
 
     private void CreatePlayerInfoPanel(ulong steamId)

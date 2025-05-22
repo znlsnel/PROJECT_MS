@@ -23,6 +23,7 @@ public class NetworkManagerEx : IManager
     [SerializeField] private NetworkManager networkManagerTCP_UDP;
     [SerializeField] private NetworkManager networkManagerSteam;
 
+    public event System.Action OnClientConnected;
 
     public void Init()
     {
@@ -56,6 +57,10 @@ public class NetworkManagerEx : IManager
         switch(args.ConnectionState)
         {
             case LocalConnectionState.Started:
+                OnClientConnected?.Invoke();
+
+                if(!InstanceFinder.IsServerStarted) return;
+
                 foreach(NetworkBehaviour prefab in NetworkPrefabs)
                 {
                     NetworkBehaviour networkSystem = Object.Instantiate(prefab);
@@ -65,6 +70,8 @@ public class NetworkManagerEx : IManager
                 }
                 break;
             case LocalConnectionState.Stopped:
+                if(!InstanceFinder.IsServerStarted) return;
+
                 foreach(NetworkBehaviour networkSystem in NetworkSystems)
                 {
                     InstanceFinder.ServerManager.Despawn(networkSystem.NetworkObject);

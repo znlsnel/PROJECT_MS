@@ -1,6 +1,8 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using FishNet;
+using FishNet.Connection;
+using FishNet.Transporting;
 using Steamworks;
 using Unity.VisualScripting;
 using UnityEngine;
@@ -13,7 +15,6 @@ public class SteamManagerEx : IManager
     private Callback<GameLobbyJoinRequested_t> _gameLobbyJoinRequested;
     private Callback<LobbyEnter_t> _lobbyEntered;
     private Callback<LobbyMatchList_t> _lobbyList;
-    private Callback<LobbyDataUpdate_t> _lobbyDataUpdate;
     
     public ELobbyType LobbyType = ELobbyType.k_ELobbyTypePublic;
 
@@ -25,7 +26,7 @@ public class SteamManagerEx : IManager
 
     private const string HostAddressKey = "HostAddress";
 
-    public event System.Action OnLobbyDataUpdate;
+    public Dictionary<NetworkConnection, ulong> NetworkConnectionToSteamId = new Dictionary<NetworkConnection, ulong>();
 
     public void Init()
     {
@@ -36,6 +37,8 @@ public class SteamManagerEx : IManager
         SteamAPI.Init();
 
         RegisterCallbacks();
+
+        InstanceFinder.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
     }
 
     public void Update()
@@ -48,6 +51,21 @@ public class SteamManagerEx : IManager
     {
         if(SteamAPI.IsSteamRunning())
             SteamAPI.Shutdown();
+
+        InstanceFinder.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
+    }
+
+    private void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
+    {
+        switch(args.ConnectionState)
+        {
+            case RemoteConnectionState.Started:
+                NetworkConnectionToSteamId.Add(connection, SteamUser.GetSteamID().m_SteamID);
+                break;
+            case RemoteConnectionState.Stopped:
+                NetworkConnectionToSteamId.Remove(connection);
+                break;
+        }
     }
 
     private void RegisterCallbacks()
@@ -56,7 +74,6 @@ public class SteamManagerEx : IManager
         _gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequested);
         _lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         _lobbyList = Callback<LobbyMatchList_t>.Create(OnLobbyList);
-        _lobbyDataUpdate = Callback<LobbyDataUpdate_t>.Create(LobbyDataUpdate);
     }
 
     public void CreateLobby()
@@ -82,8 +99,6 @@ public class SteamManagerEx : IManager
         FishySteamworks.SetClientAddress(SteamUser.GetSteamID().ToString());
         FishySteamworks.StartConnection(true);
         Debug.Log("Lobby creation was successful");
-
-        OnLobbyDataUpdate?.Invoke();
     }
 
     private void OnJoinRequested(GameLobbyJoinRequested_t callback)
@@ -97,13 +112,6 @@ public class SteamManagerEx : IManager
 
         FishySteamworks.SetClientAddress(SteamMatchmaking.GetLobbyData(new CSteamID(CurrentLobbyId), HostAddressKey));
         FishySteamworks.StartConnection(false);
-
-        OnLobbyDataUpdate?.Invoke();
-    }
-
-    private void LobbyDataUpdate(LobbyDataUpdate_t param)
-    {
-        OnLobbyDataUpdate?.Invoke();
     }
 
     public bool JoinByID(ulong steamID)
@@ -130,8 +138,6 @@ public class SteamManagerEx : IManager
         FishySteamworks.StopConnection(false);
         if(InstanceFinder.NetworkManager.IsServerStarted)
             FishySteamworks.StopConnection(true);
-
-        OnLobbyDataUpdate?.Invoke();
     }
 
     private void OnLobbyList(LobbyMatchList_t callback)
@@ -176,7 +182,7 @@ public class SteamManagerEx : IManager
 
             Debug.Log($"Lobby: {lobbyInfo.RoomName} - Host IP: {lobbyInfo.RoomName}");
 
-            //SteamMatchmaking.LeaveLobby(lobbyid);
+            SteamMatchmaking.LeaveLobby(lobbyid);
         }
 
         lobbies.Sort((a, b) => a.CreatedTime.CompareTo(b.CreatedTime));

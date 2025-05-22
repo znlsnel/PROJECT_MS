@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: -8672764219875261486}
   - component: {fileID: 7691717633878385107}
   - component: {fileID: -5139686053769624661}
+  - component: {fileID: -7274406298177526470}
   m_Layer: 0
   m_Name: NetworkSystem
   m_TagString: Untagged
@@ -77,6 +78,7 @@ MonoBehaviour:
   - {fileID: -1234943184309924623}
   - {fileID: -8672764219875261486}
   - {fileID: 7691717633878385107}
+  - {fileID: -5139686053769624661}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -150,6 +152,21 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 6cfeadade401154428b7869ab844df4c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 3
+  _addedNetworkObject: {fileID: -5041718670282572282}
+  _networkObjectCache: {fileID: -5041718670282572282}
+--- !u!114 &-7274406298177526470
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2442389167764763412}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51575de8bed9629439e4867738b6184c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   _componentIndexCache: 255

@@ -1,6 +1,7 @@
 using FishNet;
 using FishNet.Connection;
 using FishNet.Object;
+using Steamworks;
 using UnityEngine;
 
 public class NetworkCommandSystem : NetworkSingleton<NetworkCommandSystem>

@@ -7,23 +7,26 @@ using UnityEngine;
 
 public class PlayerSpawner : NetworkBehaviour
 {
-    [SerializeField] private NetworkObject playerPrefab;
+    [field: SerializeField] public NetworkObject playerPrefab { get; private set;}
 
-    [SerializeField] private Transform spawnPoint;
+    [field: SerializeField] public Transform spawnPoint { get; private set;}
+
+    [field: SerializeField] public bool UseAutoSpawning { get; private set;} = false;
 
     public override void OnStartClient()
     {
+        if(!UseAutoSpawning)
+            return;
+
         NetworkCommandSystem.Instance?.RequestSpawnPlayer(playerPrefab, spawnPoint.position, spawnPoint.rotation);
     }
 
     public override void OnStopClient()
     {
-        NetworkCommandSystem.Instance?.RequestDespawnPlayer(playerPrefab);
-    }
+        if(!UseAutoSpawning)
+            return;
 
-    private void OnLoadEnd(SceneLoadEndEventArgs args)
-    {
-        NetworkCommandSystem.Instance?.RequestSpawnPlayer(playerPrefab, spawnPoint.position, spawnPoint.rotation);
+        NetworkCommandSystem.Instance?.RequestDespawnPlayer(playerPrefab);
     }
 
     private void OnDrawGizmos()
