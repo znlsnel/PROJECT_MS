@@ -50,9 +50,6 @@
         },
         {
             "m_Id": "58f7505fcc0c45e49982844e8de78bc1"
-        },
-        {
-            "m_Id": "7a72bd66a6804b3dbeb0a2795ed639a5"
         }
     ],
     "m_GroupDatas": [],
@@ -171,9 +168,6 @@
             },
             {
                 "m_Id": "58f7505fcc0c45e49982844e8de78bc1"
-            },
-            {
-                "m_Id": "7a72bd66a6804b3dbeb0a2795ed639a5"
             }
         ]
     },
@@ -244,21 +238,6 @@
         "e32": 0.0,
         "e33": 1.0
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
-    "m_ObjectId": "050eb4fa7b6747e38612385d4bd82900",
-    "m_Id": 0,
-    "m_DisplayName": "Alpha",
-    "m_SlotType": 0,
-    "m_Hidden": false,
-    "m_ShaderOutputName": "Alpha",
-    "m_StageCapability": 2,
-    "m_Value": 1.0,
-    "m_DefaultValue": 1.0,
-    "m_Labels": []
 }
 
 {
@@ -788,40 +767,6 @@
 
 {
     "m_SGVersion": 0,
-    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
-    "m_ObjectId": "7a72bd66a6804b3dbeb0a2795ed639a5",
-    "m_Group": {
-        "m_Id": ""
-    },
-    "m_Name": "SurfaceDescription.Alpha",
-    "m_DrawState": {
-        "m_Expanded": true,
-        "m_Position": {
-            "serializedVersion": "2",
-            "x": 0.0,
-            "y": 0.0,
-            "width": 0.0,
-            "height": 0.0
-        }
-    },
-    "m_Slots": [
-        {
-            "m_Id": "050eb4fa7b6747e38612385d4bd82900"
-        }
-    ],
-    "synonyms": [],
-    "m_Precision": 0,
-    "m_PreviewExpanded": true,
-    "m_DismissedVersion": 0,
-    "m_PreviewMode": 0,
-    "m_CustomColors": {
-        "m_SerializableColors": []
-    },
-    "m_SerializedDescriptor": "SurfaceDescription.Alpha"
-}
-
-{
-    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.NormalVectorNode",
     "m_ObjectId": "84cbc245e47045e9826751e69ca43c80",
     "m_Group": {
@@ -1011,10 +956,10 @@
     "m_AllowMaterialOverride": false,
     "m_SurfaceType": 0,
     "m_ZTestMode": 2,
-    "m_ZWriteControl": 2,
-    "m_AlphaMode": 3,
-    "m_RenderFace": 2,
-    "m_AlphaClip": true,
+    "m_ZWriteControl": 1,
+    "m_AlphaMode": 0,
+    "m_RenderFace": 1,
+    "m_AlphaClip": false,
     "m_CastShadows": false,
     "m_ReceiveShadows": true,
     "m_DisableTint": false,

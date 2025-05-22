@@ -11,6 +11,18 @@ public class SoundManager : IManager
     AudioSource[] _audioSources = new AudioSource[(int)ESound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
 
+    private float masterVolume = 1f;
+    private float bgmVolume = 1f;
+    private float effectVolume = 1f;
+
+    public void SetMasterVolume(float volume)
+    {
+        masterVolume = volume;
+        SetVolume(ESound.Bgm, bgmVolume);
+        SetVolume(ESound.Effect, effectVolume);
+    } 
+
+
     public void Init()  
     {
         GameObject root = GameObject.Find("@Sound");
@@ -124,8 +136,17 @@ public class SoundManager : IManager
             return;
         }
 
+        if (type == ESound.Bgm)
+        {
+            bgmVolume = volume;
+        }
+        else if (type == ESound.Effect)
+        {
+            effectVolume = volume;
+        } 
+
         AudioSource audioSource = _audioSources[(int)type];
-        audioSource.volume = Mathf.Clamp01(volume); // 0~1 사이로 제한
+        audioSource.volume = Mathf.Clamp01(volume * masterVolume); // 0~1 사이로 제한
     }
 
     // 현재 볼륨 가져오기
