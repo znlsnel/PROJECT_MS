@@ -47,6 +47,8 @@ public class TimeSystem : NetworkBehaviour
 
     private void Awake()
     {
+        timeScale = NetworkGameSystem.Instance.GameOptions.Value.dayDuration / 60f;
+
         dayStartTime = (dayStartHour * 60 + dayStartMinute) / 1440f;
         dayEndTime = (dayEndHour * 60 + dayEndMinute) / 1440f;
         startTime = (startHour * 60 + startMinute) / 1440f;
