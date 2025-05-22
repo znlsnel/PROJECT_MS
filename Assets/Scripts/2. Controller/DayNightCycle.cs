@@ -23,7 +23,6 @@ public class DayNightCycle : MonoBehaviour
 	[SerializeField] private AnimationCurve reflectionIntensityMultiplier; 
 
     private float curTime;
-    private float targetTime;
 	private float timeScale;
 
 	private Vector3 noon = new Vector3(90, 0, 0);
@@ -64,9 +63,7 @@ public class DayNightCycle : MonoBehaviour
 	}
  
 	private void Update()
-	{
-        // timeScale초에 한번씩 time에 1f/1440f가 더해짐
-      //  curTime = Mathf.MoveTowards(curTime, targetTime, Time.deltaTime / timeScale);      
+	{ 
 		curTime += 1f/1440f * (Time.deltaTime/ timeScale);    
 
 		UpdateLighting(sun, sunColor, sunIntensity);

@@ -66278,7 +66278,7 @@ MonoBehaviour:
   endDay: 5
   endHour: 22
   endMinute: 30
-  timeScale: 0.2
+  timeScale: 5
   dayStartHour: 6
   dayStartMinute: 30
   dayEndHour: 22

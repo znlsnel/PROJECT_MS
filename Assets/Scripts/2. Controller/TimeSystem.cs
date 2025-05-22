@@ -35,6 +35,8 @@ public class TimeSystem : NetworkBehaviour
     public event Action<int, int, int> onChangedTime;
     public event Action<int> onChangedDay;
     public event Action onEndTime;
+    public event Action onStartNight;
+    public event Action onStartDay;
 
     public float startTime {get; private set;} 
     public float dayStartTime {get; private set;} 
@@ -61,33 +63,41 @@ public class TimeSystem : NetworkBehaviour
         currentMinute.Value = startMinute;
 
         time.Value = startTime;
-        InvokeRepeating(nameof(UpdateTimeOnServer), 0f, timeScale);   
+        InvokeRepeating(nameof(UpdateTimeOnServer), 0f, timeScale);    
     } 
- 
+  
     public void Start()
     {
         currentMinute.OnChange += (p, n, s)=>UpdateTime(currentDay.Value, currentHour.Value, currentMinute.Value);
     }
 
-
+ 
     private void UpdateTimeOnServer()
     {
         if (isEndTime.Value)
             return;
 
-        currentMinute.Value += 1;
-        if (currentMinute.Value >= 60)
+        int nxtM = currentMinute.Value;
+        int nxtH = currentHour.Value;
+        int nxtD = currentDay.Value;
+
+        nxtM += 1;
+        if (nxtM >= 60)
         {
-            currentMinute.Value = 0;
-            currentHour.Value += 1;
+            nxtM = 0;
+            nxtH += 1;
         }
-        if (currentHour.Value >= 24)
+        if (nxtH >= 24)
         {
-            currentHour.Value = 0;
-            currentDay.Value += 1;
+            nxtH = 0; 
+            nxtD += 1;
         }
 
-        time.Value = (currentHour.Value * 60 + currentMinute.Value) / 1440f;
+        currentDay.Value = nxtD;
+        currentHour.Value = nxtH;
+        currentMinute.Value = nxtM;
+
+        time.Value = (currentHour.Value * 60 + currentMinute.Value) / 1440f; 
     }
     
 
@@ -106,6 +116,16 @@ public class TimeSystem : NetworkBehaviour
         {
             isEndTime.Value = true;
             onEndTime?.Invoke();
+        }
+
+        if (currentHour.Value == dayStartHour && currentMinute.Value == dayStartMinute){
+            Debug.Log("낮이 시작되었습니다.");
+            onStartDay?.Invoke();
+        }
+        else if (currentHour.Value == dayEndHour && currentMinute.Value == dayEndMinute)
+        {
+            Debug.Log("밤이 시작되었습니다.");
+            onStartNight?.Invoke();
         }
     }
 }
