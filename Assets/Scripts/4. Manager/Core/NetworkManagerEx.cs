@@ -23,6 +23,7 @@ public class NetworkManagerEx : IManager
     [SerializeField] private NetworkManager networkManagerTCP_UDP;
     [SerializeField] private NetworkManager networkManagerSteam;
 
+    public event System.Action OnClientConnected;
 
     public void Init()
     {
@@ -56,6 +57,10 @@ public class NetworkManagerEx : IManager
         switch(args.ConnectionState)
         {
             case LocalConnectionState.Started:
+                OnClientConnected?.Invoke();
+
+                if(!InstanceFinder.IsServerStarted) return;
+
                 foreach(NetworkBehaviour prefab in NetworkPrefabs)
                 {
                     NetworkBehaviour networkSystem = Object.Instantiate(prefab);
@@ -65,6 +70,8 @@ public class NetworkManagerEx : IManager
                 }
                 break;
             case LocalConnectionState.Stopped:
+                if(!InstanceFinder.IsServerStarted) return;
+
                 foreach(NetworkBehaviour networkSystem in NetworkSystems)
                 {
                     InstanceFinder.ServerManager.Despawn(networkSystem.NetworkObject);
@@ -86,19 +93,18 @@ public class NetworkManagerEx : IManager
         }
     }
     
-    public void StartClient(string address = "localhost")
+    public bool StartClient(string address = "localhost")
     {
         if(Type == NetworkType.TCP_UDP)
         {
-            InstanceFinder.ClientManager.StartConnection(address);
+            return InstanceFinder.ClientManager.StartConnection(address);
         }
         else if(Type == NetworkType.Steam)
         {
-            if(address == "localhost")
-                Managers.Steam.JoinByID();
-            else
-                Managers.Steam.JoinByID(ulong.Parse(address));
+            return Managers.Steam.JoinByID(ulong.Parse(address));
         }
+
+        return false;
     }
 
     public void StartHost()
@@ -111,6 +117,43 @@ public class NetworkManagerEx : IManager
         else if(Type == NetworkType.Steam)
         {
             Managers.Steam.CreateLobby();
+        }
+    }
+
+    public void StopServer()
+    {
+        if(Type == NetworkType.TCP_UDP)
+        {
+            InstanceFinder.ServerManager.StopConnection(true);
+        }
+        else if(Type == NetworkType.Steam)
+        {
+            Managers.Steam.LeaveLobby();
+        }
+    }
+
+    public void StopClient()
+    {
+        if(Type == NetworkType.TCP_UDP)
+        {
+            InstanceFinder.ClientManager.StopConnection();
+        }
+        else if(Type == NetworkType.Steam)
+        {
+            Managers.Steam.LeaveLobby();
+        }
+    }
+
+    public void StopHost()
+    {
+        if(Type == NetworkType.TCP_UDP)
+        {
+            StopClient();
+            StopServer();
+        }
+        else if(Type == NetworkType.Steam)
+        {
+            Managers.Steam.LeaveLobby();
         }
     }
 }

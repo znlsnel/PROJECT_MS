@@ -5,6 +5,12 @@ using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
 using UnityEngine;
 
+public enum PlayerRole
+{
+    Survival,
+    Imposter,
+}
+
 [RequireComponent(typeof(InteractionHandler))]
 public class AlivePlayer : NetworkBehaviour, IDamageable
 {
@@ -41,10 +47,10 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public PlacementHandler PlacementHandler {get; private set;}
     public EquipHandler EquipHandler {get; private set;}
 
+    public readonly SyncVar<PlayerRole> playerRole = new SyncVar<PlayerRole>(PlayerRole.Survival);
 
     public event Action onDead;
     public event Action onDamaged;
-
 
     public override void OnStartNetwork()
     {
