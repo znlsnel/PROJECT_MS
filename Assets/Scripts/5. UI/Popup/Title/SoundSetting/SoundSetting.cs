@@ -15,17 +15,17 @@ public class SoundSetting : MonoBehaviour
  
     private void SetMasterVolume(float value)
     {
-       Managers.Sound.SetMasterVolume(value);
+      // Managers.Sound.SetMasterVolume(value);
     }
 
     private void SetEffectVolume(float value)   
     {
-        Managers.Sound.SetVolume(ESound.Effect, value);
+       // Managers.Sound.SetVolume(ESound.Effect, value);
     }
 
     private void SetBgmVolume(float value)
     {
-        Managers.Sound.SetVolume(ESound.Bgm, value); 
+      //  Managers.Sound.SetVolume(ESound.Bgm, value); 
     }
     
 }

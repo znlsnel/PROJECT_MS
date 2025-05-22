@@ -3,14 +3,22 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
 
-public class SettingUI : PopupUI, IPointerClickHandler
+public class SettingUI : PopupUI
 {
     [SerializeField] private GameObject _mainPanel;
+    [SerializeField] private Button _panelButton;
     private bool _isHide = false;
 
-    public void OnPointerClick(PointerEventData eventData)
+    protected override void Awake()
     {
-        Managers.UI.ClosePopupUI();
+        base.Awake();
+        _mainPanel.transform.localScale = Vector3.one;
+        _panelButton.onClick.AddListener(OnClick);
+    }
+
+    public void OnClick()
+    {
+        Managers.UI.ClosePopupUI(); 
         Hide();
     }
 
