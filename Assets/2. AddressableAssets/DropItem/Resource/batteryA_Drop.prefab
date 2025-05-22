@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8814074736045158318}
   - component: {fileID: 9077386801453103566}
   - component: {fileID: 6366117312233747277}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: batteryA_Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}

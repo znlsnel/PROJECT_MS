@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8494653568227191188}
   - component: {fileID: 4058603426472690502}
   - component: {fileID: 8253878309339651675}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Nailbox_Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}

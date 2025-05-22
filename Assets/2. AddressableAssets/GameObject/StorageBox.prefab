@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 6411388266696190484}
   - component: {fileID: 5806524230162396527}
   - component: {fileID: 8103627767002759828}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: storageBin01_lid
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -122,7 +122,7 @@ GameObject:
   - component: {fileID: 2579225417347389416}
   - component: {fileID: 2697258756110631346}
   - component: {fileID: 8824237579625811058}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: StorageBox
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -177,7 +177,6 @@ MeshRenderer:
   m_RendererPriority: 0
   m_Materials:
   - {fileID: 2100000, guid: 7df5d80546f5d4548a1e0ad5191e584c, type: 2}
-  - {fileID: 2100000, guid: ee8371488fbd60c47b71b28b4f2deb5c, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
