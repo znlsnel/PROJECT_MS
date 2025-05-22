@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6903921401374469825}
   - component: {fileID: 5877607880245045006}
   - component: {fileID: 4996977844983163091}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: ironParts_Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}

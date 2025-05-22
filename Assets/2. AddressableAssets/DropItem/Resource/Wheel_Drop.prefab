@@ -12,6 +12,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Wheel_Drop
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: e148285e59bc63e46ac2b5d30a1547f0, type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: e148285e59bc63e46ac2b5d30a1547f0, type: 3}
       propertyPath: m_LocalPosition.x
       value: 55.969902

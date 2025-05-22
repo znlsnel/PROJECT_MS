@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 1383647659713441453}
   - component: {fileID: 1829992987414492845}
   - component: {fileID: 3051026155931815870}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: fuel_can_Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 8336151385285055470}
   - component: {fileID: 540136712283874582}
   - component: {fileID: 7880243254413219227}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: tire_Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 3931889180652885336}
   - component: {fileID: 2635731799398273750}
   - component: {fileID: 7779873922783026351}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: CarBattery_Drop
   m_TagString: Untagged
   m_Icon: {fileID: 0}
