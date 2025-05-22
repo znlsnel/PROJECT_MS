@@ -11,15 +11,15 @@ using UnityEngine.SceneManagement;
 public class Managers : Singleton<Managers>
 { 
     #region Manager Class
-    [field: SerializeField] private DataManager data  = new DataManager();
-    [field: SerializeField] private InputManager input = new InputManager();
-    [field: SerializeField] private ResourceManager resource = new ResourceManager();
-    [field: SerializeField] private SoundManager sound = new SoundManager();
-    [field: SerializeField] private UIManager ui = new UIManager();
-    [field: SerializeField] private PoolManager pool = new PoolManager();
-    [field: SerializeField] private NetworkManagerEx network = new NetworkManagerEx();
-    [field: SerializeField] private SteamManagerEx steam = new SteamManagerEx();
-    [field: SerializeField] private QuestManager quest = new QuestManager();
+    [SerializeField] private DataManager data;
+    [SerializeField] private InputManager input;
+    [SerializeField] private ResourceManager resource;
+    [SerializeField] private SoundManager sound;
+    [SerializeField] private UIManager ui;
+    [SerializeField] private PoolManager pool;
+    [SerializeField] private NetworkManagerEx network;
+    [SerializeField] private SteamManagerEx steam;
+    [SerializeField] private QuestManager quest;
 
 
     public static DataManager Data => Instance.data;
@@ -65,13 +65,11 @@ public class Managers : Singleton<Managers>
 
     private void Init() 
     {
-
-
         Network.Init();
+        Resource.Init(); 
         Data.Init();
         quest.Init();
         Input.Init();
-        Resource.Init(); 
         Sound.Init(); 
         UI.Init();
         Pool.Init();

@@ -56,6 +56,15 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         }
     }
 
+    public PlayerRole GetPlayerRole(NetworkConnection connection)
+    {
+        if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
+        {
+            return playerInfo.role;
+        }
+        return PlayerRole.Survival;
+    }
+
     public void ImposterWin()
     {
         Debug.Log("Imposter Win");
@@ -78,13 +87,8 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         }
 
         int aliveSurvivals = Players.Count(player => player.Value.role == PlayerRole.Survival && !player.Value.isDead);
-        int aliveImposters = Players.Count(player => player.Value.role == PlayerRole.Imposter && !player.Value.isDead);
 
-        if(aliveImposters <= 0)
-        {
-            SurvivalWin();
-        }
-        else if(aliveSurvivals <= aliveImposters)
+        if(aliveSurvivals <= 0)
         {
             ImposterWin();
         }

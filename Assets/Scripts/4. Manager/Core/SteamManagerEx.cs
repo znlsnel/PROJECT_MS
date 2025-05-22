@@ -7,6 +7,7 @@ using Steamworks;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[System.Serializable]
 public class SteamManagerEx : IManager
 {
     private TaskCompletionSource<List<LobbyInfo>> _completionSource;

@@ -15,10 +15,8 @@ public class StatUI : MonoBehaviour
 
     private void OnChangePlayer(AlivePlayer player)
     {
-        player.Health.onResourceChanged += UpdateHealthUI;
-        player.Stamina.onResourceChanged += UpdateStaminaUI;
-        player.HungerPoint.onResourceChanged += UpdateHungerUI;
-        player.WaterPoint.onResourceChanged += UpdateWaterUI;
+        player.Health.OnResourceChanged += UpdateHealthUI;
+        player.Stamina.OnResourceChanged += UpdateStaminaUI;
     }
 
     private void UpdateHealthUI(float current, float max)

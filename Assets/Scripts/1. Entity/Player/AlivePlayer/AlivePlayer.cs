@@ -4,26 +4,17 @@ using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
 using UnityEngine;
+using UnityEngine.Assertions.Must;
 
 [RequireComponent(typeof(InteractionHandler))]
 public class AlivePlayer : NetworkBehaviour, IDamageable
 {
     #region Stats
-    protected readonly SyncVar<ResourceStat> health = new SyncVar<ResourceStat>(new ResourceStat(100));
-    protected readonly SyncVar<ResourceStat> hungerPoint = new SyncVar<ResourceStat>(new ResourceStat(100));
-    protected readonly SyncVar<ResourceStat> waterPoint = new SyncVar<ResourceStat>(new ResourceStat(100));
-    protected readonly SyncVar<ResourceStat> stamina = new SyncVar<ResourceStat>(new ResourceStat(100));
-    protected readonly SyncVar<ResourceStat> temperature = new SyncVar<ResourceStat>(new ResourceStat(100));
-    protected readonly SyncVar<ResourceStat> sanity = new SyncVar<ResourceStat>(new ResourceStat(100));
+    [field: SerializeField] public HealthResource Health {get; private set;}
+    [field: SerializeField] public StaminaResource Stamina {get; private set;}
+
    // private readonly SyncVar<Inventory> Inventory = new SyncVar<Inventory>(new Inventory());
     public Inventory Inventory {get; private set;} = new Inventory();
-
-    public ResourceStat Health => health.Value;
-    public ResourceStat HungerPoint => hungerPoint.Value;
-    public ResourceStat WaterPoint => waterPoint.Value;
-    public ResourceStat Stamina => stamina.Value;
-    public ResourceStat Temperature => temperature.Value;
-    public ResourceStat Sanity => sanity.Value;
     #endregion
 
     public InteractionHandler InteractionHandler { get; private set; }
@@ -103,7 +94,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
        // hungerPoint.Subtract(Time.deltaTime * 10f); // 추후 float 값 수정
        // waterPoint.Subtract(Time.deltaTime * 0.5f);
 
-        if(hungerPoint.Value.Current <= 0)
+        if(Health.Current.Value <= 0)
         {
             Health.Subtract(Time.deltaTime * 5f);
         }
@@ -132,9 +123,15 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void TakeDamage(float damage, GameObject attacker)
     {
         Health.Subtract(damage);
+        OnTakeDamage();
+    }
+
+    [ObserversRpc]
+    public void OnTakeDamage()
+    {
         onDamaged?.Invoke(); 
 
-        if(Health.Current <= 0)
+        if(Health.Current.Value <= 0)
         {
             onDead?.Invoke();
         }
@@ -146,21 +143,23 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
             return;
 
         WeaponHandler = weapon;
-        
-        int holdAnimationIndex = Managers.Data.animation.GetIndex(WeaponHandler.holdAnimation);
-        int attackAnimationIndex = Managers.Data.animation.GetIndex(WeaponHandler.attackAnimation);
+
+        int holdAnimationIndex = Managers.Data.Animation.GetIndex(WeaponHandler.holdAnimation);
+        int attackAnimationIndex = Managers.Data.Animation.GetIndex(WeaponHandler.attackAnimation);
         float speed = WeaponHandler.attackAnimationSpeed;
         bool isHolding = WeaponHandler != null;
 
-        OnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
+        //OnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
+
+        NetworkChatSystem.Instance.SendChatMessage($"{Managers.Data.Animation.AnimationDataSO.animationClips.Count}");
 
         ServerRpcOnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
     }
 
     private void OnChangeWeapon(int holdAnimationIndex, int attackAnimationIndex, float speed, bool isHolding)
     {
-        overrideController["Holding"] = Managers.Data.animation.GetByIndex(holdAnimationIndex);
-        overrideController["Attack"] = Managers.Data.animation.GetByIndex(attackAnimationIndex);
+        overrideController["Holding"] = Managers.Data.Animation.GetByIndex(holdAnimationIndex);
+        overrideController["Attack"] = Managers.Data.Animation.GetByIndex(attackAnimationIndex);
         Animator.SetFloat("AttackSpeed", speed);
         Animator.SetBool(AnimationData.HoldingParameterHash, isHolding);
     }
@@ -180,13 +179,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     [ServerRpc]
     public void RestoreHunger(float amount) // 음식물 섭취
     {
-        hungerPoint.Value.Add(amount);
-    }
-
-    [ServerRpc]
-    public void RestoreWater(float amount) // 물 섭취
-    {
-        waterPoint.Value.Add(amount);
+        Health.Add(amount);
     }
 
     public void OnDead()
