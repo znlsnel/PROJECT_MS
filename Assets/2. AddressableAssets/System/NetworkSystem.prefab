@@ -157,6 +157,7 @@ MonoBehaviour:
   _componentIndexCache: 3
   _addedNetworkObject: {fileID: -5041718670282572282}
   _networkObjectCache: {fileID: -5041718670282572282}
+  ghostPlayerPrefab: {fileID: 5553915168700286787, guid: a582296a6b0cab644b9310224254ce60, type: 3}
 --- !u!114 &-7274406298177526470
 MonoBehaviour:
   m_ObjectHideFlags: 0

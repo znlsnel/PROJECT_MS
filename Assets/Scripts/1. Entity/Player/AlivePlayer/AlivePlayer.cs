@@ -35,6 +35,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public event Action onDead;
     public event Action onDamaged;
 
+    private bool isDead = false;
+
     public override void OnStartNetwork()
     {
         base.OnStartNetwork();
@@ -76,17 +78,11 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         CinemachineCamera.Follow = transform;
 
         stateMachine = new AlivePlayerStateMachine(this);
-
-        NetworkGameSystem.Instance.IsGameStarted.OnChange += OnGameStarted;
     }
 
-    private void OnGameStarted(bool prev, bool next, bool asServer)
+    public override void OnStopClient()
     {
-        if(!next)
-        {
-            Debug.Log("OnGameStarted");
-            NetworkCommandSystem.Instance.RequestDespawnPlayer(NetworkObject);
-        }
+        base.OnStopClient();
     }
 
     [ServerRpc]
@@ -193,6 +189,16 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
     public void OnDead()
     {
-        NetworkGameSystem.Instance.OnPlayerDead();
+        isDead = true;
+        NetworkGameSystem.Instance.OnPlayerDead(transform.position, Owner);
     }
+
+    public bool CanTakeDamage()
+    {
+        if(isDead)
+            return false;
+
+        return true;
+    }
+
 }

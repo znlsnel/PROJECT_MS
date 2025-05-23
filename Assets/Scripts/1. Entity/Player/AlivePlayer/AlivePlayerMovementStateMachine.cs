@@ -4,10 +4,10 @@ public class AlivePlayerMovementStateMachine : StateMachine
 {
     public AlivePlayerStateMachine stateMachine { get; private set; }
 
-    public IdlingState IdlingState { get; private set; }
-    public InterctingState InterctingState { get; private set; }
-    public RunningState RunningState { get; private set; }
-    public SprintingState SprintingState { get; private set; }
+    public AlivePlayerIdlingState IdlingState { get; private set; }
+    public AlivePlayerInterctingState InterctingState { get; private set; }
+    public AlivePlayerRunningState RunningState { get; private set; }
+    public AlivePlayerSprintingState SprintingState { get; private set; }
     public AlivePlayerDeadState DeadState { get; private set; }
 
     public AlivePlayerMovementStateMachine(AlivePlayerStateMachine stateMachine)
@@ -17,11 +17,11 @@ public class AlivePlayerMovementStateMachine : StateMachine
 
     public void Init()
     {
-        IdlingState = new IdlingState(stateMachine);
-        InterctingState = new InterctingState(stateMachine);
+        IdlingState = new AlivePlayerIdlingState(stateMachine);
+        InterctingState = new AlivePlayerInterctingState(stateMachine);
 
-        RunningState = new RunningState(stateMachine);
-        SprintingState = new SprintingState(stateMachine);
+        RunningState = new AlivePlayerRunningState(stateMachine);
+        SprintingState = new AlivePlayerSprintingState(stateMachine);
 
         DeadState = new AlivePlayerDeadState(stateMachine);
 
