@@ -18,10 +18,9 @@ public class TitleUI : MonoBehaviour
     {
         
         if (_settingUI == null)
-            _settingUI = Instantiate(_settingUIPrefab, transform).GetComponent<SettingUI>(); 
+            _settingUI = Instantiate(_settingUIPrefab).GetComponent<SettingUI>(); 
         
-        if (_settingUI.IsOpen)
-            return;
+ 
             
         Managers.UI.ShowPopupUI(_settingUI); 
     }
