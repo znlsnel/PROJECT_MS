@@ -89,15 +89,18 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 
         int aliveSurvivals = Players.Count(player => player.Value.role == PlayerRole.Survival && !player.Value.isDead);
 
-        if(aliveSurvivals <= 0)
-        {
-            ImposterWin();
-        }
-        else
-        {
-            NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
-            InstanceFinder.ServerManager.Spawn(instance, connection);
-        }
+        // if(aliveSurvivals <= 0)
+        // {
+        //     ImposterWin();
+        // }
+        // else
+        // {
+        //     NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
+        //     InstanceFinder.ServerManager.Spawn(instance, connection);
+        // }
+
+        NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
+        InstanceFinder.ServerManager.Spawn(instance, connection);
     }
 }
 
