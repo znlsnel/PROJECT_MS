@@ -76,6 +76,17 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         CinemachineCamera.Follow = transform;
 
         stateMachine = new AlivePlayerStateMachine(this);
+
+        NetworkGameSystem.Instance.IsGameStarted.OnChange += OnGameStarted;
+    }
+
+    private void OnGameStarted(bool prev, bool next, bool asServer)
+    {
+        if(!next)
+        {
+            Debug.Log("OnGameStarted");
+            NetworkCommandSystem.Instance.RequestDespawnPlayer(NetworkObject);
+        }
     }
 
     [ServerRpc]
