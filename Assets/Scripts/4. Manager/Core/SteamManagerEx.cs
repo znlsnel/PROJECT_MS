@@ -183,7 +183,7 @@ public class SteamManagerEx : IManager
 
             Debug.Log($"Lobby: {lobbyInfo.RoomName} - Host IP: {lobbyInfo.RoomName}");
 
-            SteamMatchmaking.LeaveLobby(lobbyid);
+            //SteamMatchmaking.LeaveLobby(lobbyid);
         }
 
         lobbies.Sort((a, b) => a.CreatedTime.CompareTo(b.CreatedTime));

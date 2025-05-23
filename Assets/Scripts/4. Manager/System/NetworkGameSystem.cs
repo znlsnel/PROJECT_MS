@@ -8,7 +8,7 @@ using UnityEngine;
 public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 {
     public readonly SyncVar<bool> IsGameStarted = new SyncVar<bool>(false);
-    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 30, 3));
+    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 1, 3));
     public readonly SyncDictionary<NetworkConnection, PlayerInfo> Players = new SyncDictionary<NetworkConnection, PlayerInfo>();
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
     [SerializeField] private NetworkObject ghostPlayerPrefab;

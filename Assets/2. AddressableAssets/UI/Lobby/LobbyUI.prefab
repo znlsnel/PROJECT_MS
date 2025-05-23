@@ -1267,7 +1267,7 @@ MonoBehaviour:
   _isPlaySound: 1
   _createRoomUIPrefab: {fileID: 5238160306237711296, guid: 857dc3098f42ca8439362432888aebce, type: 3}
   _lobbyRoomUIPrefab: {fileID: 3567924607100284654, guid: c353bd69f48cd9e41a3313cb2f961608, type: 3}
-  _roomSlotUIPrefab: {fileID: 0}
+  _roomSlotUIPrefab: {fileID: 4647123821339504631, guid: a98736fdef1546d4d994ceb0f6545176, type: 3}
   _createRoomButton: {fileID: 8283028129713034043}
   _refreshButton: {fileID: 8413152575516445518}
   _closeButton: {fileID: 9012148702542392180}

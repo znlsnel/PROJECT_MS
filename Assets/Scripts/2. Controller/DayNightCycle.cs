@@ -64,11 +64,6 @@ public class DayNightCycle : MonoBehaviour
 		timeSystem.onEndTime += OnEndTime;
 	}
 
-	private void OnDestroy()
-	{
-		timeSystem.onEndTime -= OnEndTime;
-	}
-
     private void OnEndTime()
     {
         NetworkGameSystem.Instance.ImposterWin();
