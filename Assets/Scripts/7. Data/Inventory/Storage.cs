@@ -38,7 +38,7 @@ public class Storage
 
     public ItemSlot CreateSlot()
     {
-        ItemSlot slot = new ItemSlot(Count, this); 
+        ItemSlot slot = new ItemSlot(Count);  
         slot.onAddItem += (id, amount) => onAddItem?.Invoke(id, amount);
         itemSlots.Add(slot);
         return slot; 

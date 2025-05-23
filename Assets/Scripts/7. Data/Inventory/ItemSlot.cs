@@ -27,7 +27,6 @@ public class ItemSlot
 
 
     private int _slotIdx = -1;
-    private Storage _storage;
 
     public ItemSlot() {}
     public ItemSlot(ItemSlot itemSlot)
@@ -40,10 +39,9 @@ public class ItemSlot
         slotEquipType = itemSlot.slotEquipType;
     }
 
-    public ItemSlot(int slotIdx, Storage storage)
+    public ItemSlot(int slotIdx)
     {
         _slotIdx = slotIdx;
-        _storage = storage; 
     }
 
 
@@ -89,7 +87,7 @@ public class ItemSlot
         return true;
     } 
 
-    public void Setup(ItemData itemData, int amount = 0, bool isServer = false)
+    public virtual void Setup(ItemData itemData, int amount = 0, bool isServer = false)
     {
         Stack = amount;
         
