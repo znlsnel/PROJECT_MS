@@ -13,14 +13,21 @@ public class ItemSlot
     public float Durability {get; private set;}
  
 
-    [NonSerialized] public Func<ItemData, bool> slotCondition;
-    [NonSerialized] public Action<ItemSlot> onChangeStack;
-    [NonSerialized] public Action<int, ItemSlot> onAddItem;
+    public Func<ItemData, bool> slotCondition;
+    public Action<ItemSlot> onChangeStack;
+    public Action<int, ItemSlot> onAddItem;
+    public Action<int> onUpdateSlot;
+
+
 
     public bool IsFull() => Stack >= MaxStack;
     public bool IsEmpty() => Stack <= 0;
     public virtual int MaxStack => Data.MaxStack;
     public virtual float MaxDurability => Data.MaxDurability;
+
+
+    private int _slotIdx = -1;
+    private Storage _storage;
 
     public ItemSlot() {}
     public ItemSlot(ItemSlot itemSlot)
@@ -33,19 +40,14 @@ public class ItemSlot
         slotEquipType = itemSlot.slotEquipType;
     }
 
-    public void Setup(ItemData itemData, int amount = 0)
+    public ItemSlot(int slotIdx, Storage storage)
     {
-        Stack = amount;
-        
-        if (Data != null)
-            onAddItem?.Invoke(Data.Id, this); 
-        
-        if (itemData != null)
-            Durability = itemData.MaxDurability;
-
-        this.Data = itemData; 
-        onChangeStack?.Invoke(this); 
+        _slotIdx = slotIdx;
+        _storage = storage; 
     }
+
+
+
 
     public void UseDurability(float amount)
     {
@@ -68,7 +70,7 @@ public class ItemSlot
         return slotCondition == null ? true : slotCondition.Invoke(itemData);
     }
 
-    public virtual bool AddStack(ItemData itemData, int amount = 1)
+    public virtual bool AddStack(ItemData itemData, int amount = 1, bool isServer = false)
     { 
         if ((Data != null && itemData.Id != Data.Id) || !IsAddable(amount))
             return false;
@@ -79,18 +81,39 @@ public class ItemSlot
         if (Stack == 0)
             Data = null; 
 
+        if (_slotIdx != -1 && !isServer)  
+            onUpdateSlot?.Invoke(_slotIdx);  
+
         onChangeStack?.Invoke(this);
         onAddItem?.Invoke(itemData.Id, this);
         return true;
     } 
-    
-    public bool ModifyStack(ItemData itemData, int amount = 1)
+
+    public void Setup(ItemData itemData, int amount = 0, bool isServer = false)
     {
-        if (Data != null && itemData.Id != Data.Id) 
-            return false;
+        Stack = amount;
+        
+        if (Data != null)
+            onAddItem?.Invoke(Data.Id, this); 
+        
+        if (itemData != null)
+            Durability = itemData.MaxDurability;
+
+        this.Data = itemData; 
  
-        Stack = 0;
-        return AddStack(itemData, amount);
+        if (_slotIdx != -1 && !isServer) 
+            onUpdateSlot?.Invoke(_slotIdx);    
+
+        onChangeStack?.Invoke(this); 
     }
+    
+    // public bool ModifyStack(ItemData itemData, int amount = 1)
+    // {
+    //     if (Data != null && itemData.Id != Data.Id) 
+    //         return false;
+ 
+    //     Stack = 0;
+    //     return AddStack(itemData, amount);
+    // }
     
 }

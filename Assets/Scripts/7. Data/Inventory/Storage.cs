@@ -7,6 +7,8 @@ public class Storage
     protected List<ItemSlot> itemSlots = new();
     public Action<int, ItemSlot> onAddItem;
 
+    public Action<int, ItemSlot> onChangeSlot;
+
     public Storage() {}
     public Storage(int size)
     {
@@ -36,7 +38,7 @@ public class Storage
 
     public ItemSlot CreateSlot()
     {
-        ItemSlot slot = new ItemSlot(); 
+        ItemSlot slot = new ItemSlot(Count, this); 
         slot.onAddItem += (id, amount) => onAddItem?.Invoke(id, amount);
         itemSlots.Add(slot);
         return slot; 

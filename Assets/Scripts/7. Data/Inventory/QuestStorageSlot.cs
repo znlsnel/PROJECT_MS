@@ -17,9 +17,9 @@ public class QuestStorageSlot : ItemSlot
         targetAmount = MaxAmount;
     }
 
-    public override bool AddStack(ItemData itemData, int amount = 1)
+    public override bool AddStack(ItemData itemData, int amount = 1, bool isServer = false)
     {
-        bool ret = base.AddStack(itemData, amount);
+        bool ret = base.AddStack(itemData, amount, isServer);
         if (Stack >= targetAmount && !isSuccess)
         {
             //isSuccess = true;

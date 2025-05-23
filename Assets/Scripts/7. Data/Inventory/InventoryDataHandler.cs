@@ -51,13 +51,13 @@ public class InventoryDataHandler
             int diff = slot.Stack - amount;
             if (diff >= 0)
             {
-                slot.ModifyStack(itemData, diff);
+                slot.Setup(itemData, diff);
                 amount = 0;
             }
             else
-            {
+            { 
                 amount -= slot.Stack;
-                slot.ModifyStack(itemData, 0);
+                slot.Setup(itemData, 0);
             } 
         } 
     }
