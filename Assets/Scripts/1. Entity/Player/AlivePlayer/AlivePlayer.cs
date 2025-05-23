@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
@@ -60,8 +61,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
         PlacementHandler.Setup(QuickSlotHandler);
-
-        onDead += OnDead;
     }
 
     public override void OnStartClient()
@@ -70,6 +69,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         if(!IsOwner)
             return;
+
+        onDead += OnDead;
 
         Init();
 
@@ -130,16 +131,17 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void TakeDamage(float damage, GameObject attacker)
     {
         Health.Subtract(damage);
-        OnTakeDamage();
+        OnTakeDamage(Owner);
     }
 
-    [ObserversRpc]
-    public void OnTakeDamage()
+    [TargetRpc]
+    public void OnTakeDamage(NetworkConnection connection)
     {
         onDamaged?.Invoke(); 
 
         if(Health.Current.Value <= 0)
         {
+            isDead = true;
             onDead?.Invoke();
         }
     }
@@ -187,10 +189,11 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         Health.Add(amount);
     }
 
+    [ServerRpc]
     public void OnDead()
     {
-        isDead = true;
         NetworkGameSystem.Instance.OnPlayerDead(transform.position, Owner);
+        //GiveOwnership(null);
     }
 
     public bool CanTakeDamage()
