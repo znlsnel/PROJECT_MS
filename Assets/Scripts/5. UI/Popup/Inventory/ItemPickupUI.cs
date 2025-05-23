@@ -3,19 +3,25 @@ using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using System.Collections.Generic;
+using System.Linq;
 
 public class ItemPickupUI : PopupUI
 {
     private static readonly string _itemPickupSound = "Sound/UI/Click_02.mp3";
 
-    [SerializeField] private Image itemIcon;
-    [SerializeField] private TextMeshProUGUI itemName;
-    [SerializeField] private Transform panel;
-
+    Queue<TextMeshProUGUI> itemNameTexts = new Queue<TextMeshProUGUI>();
+    Color defaultColor;
     protected override void Awake()
     {
         base.Awake();
         Managers.onChangePlayer += Init;
+
+        transform.GetComponentsInChildren<TextMeshProUGUI>().ToList().ForEach(text => {
+            defaultColor = text.color; 
+            text.gameObject.SetActive(false);
+            itemNameTexts.Enqueue(text);
+        });
     }
 
     private void OnDestroy()
@@ -29,34 +35,29 @@ public class ItemPickupUI : PopupUI
         Managers.Sound.Play(_itemPickupSound);
     }
 
-    
-
     private void Init(AlivePlayer player)
     {
         player.Inventory.onAddItem += Setup;
-    }
+    } 
 
     private void Setup(ItemData data)
     {
-        Managers.UI.ClosePopupUI(this);
-        Managers.UI.ShowPopupUI<ItemPickupUI>(this); 
-        itemIcon.sprite = data.Icon;
-        itemName.text = data.Name;
+        TextMeshProUGUI text = itemNameTexts.Dequeue();
+        text.text = $"<color=green>{data.Name}</color> 획득!";
+        text.gameObject.SetActive(true);
+ 
+        text.DOKill();
+ 
+        text.transform.localScale = Vector3.one;
+        text.transform.localPosition = Vector3.zero;
+        text.color = defaultColor; 
 
-        // 기존에 panel에 적용된 모든 트윈을 종료
-        panel.DOKill();
-
-        panel.localScale = Vector3.one;
-        panel.DOScale(1.2f, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
+        text.transform.DOScale(0.9f, 1f).SetEase(Ease.OutCirc);  
+        text.transform.DOLocalMoveY(100f, 1f).SetEase(Ease.OutCirc);  
+        text.DOFade(0f, 1f).SetEase(Ease.InCirc).OnComplete(() =>
         {
-            DOVirtual.DelayedCall(0.5f, () =>
-            {
-                panel.DOScale(1f, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
-                {
-                    Managers.UI.ClosePopupUI(this);
-                });
-            });
+            itemNameTexts.Enqueue(text); 
+            text.gameObject.SetActive(false);
         });
-
     }
 }
