@@ -92,9 +92,6 @@ public class AnimationDataManager
     {
         if (animationClip == null)
             return -1;
-            
-        NetworkChatSystem.Instance.SendChatMessage($"{animationClipToIndex.ContainsKey(animationClip)}");
-        NetworkChatSystem.Instance.SendChatMessage($"{animationClipToIndex.Count}");
 
         // 캐시에서 먼저 찾기
         if(animationClipToIndex.TryGetValue(animationClip, out int index))

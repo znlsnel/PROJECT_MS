@@ -151,8 +151,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         //OnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
 
-        NetworkChatSystem.Instance.SendChatMessage($"{Managers.Data.Animation.AnimationDataSO.animationClips.Count}");
-
         ServerRpcOnChangeWeapon(holdAnimationIndex, attackAnimationIndex, speed, isHolding);
     }
 
