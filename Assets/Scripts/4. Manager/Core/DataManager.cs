@@ -18,7 +18,8 @@ public class DataManager : IManager
     public SystemDialogDataManager ruleGuides {get; private set;}  
     public MapDataManager maps {get; private set;}
     public FieldResourceDataManager fieldResources {get; private set;}
-    [field: SerializeField] public AnimationDataManager animation {get; private set;}
+    [SerializeField] private AnimationDataManager animation;
+    public AnimationDataManager Animation => animation;
 
     public void Init()
     {
@@ -33,7 +34,6 @@ public class DataManager : IManager
         ruleGuides = new SystemDialogDataManager();
         maps = new MapDataManager();
 
-        animation = new AnimationDataManager();
         animation.Init();
     }
 

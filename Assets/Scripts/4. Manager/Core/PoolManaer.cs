@@ -5,6 +5,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using Object = UnityEngine.Object;
 
+[Serializable]
 public class PoolManager : IManager
 {
 	#region Pool

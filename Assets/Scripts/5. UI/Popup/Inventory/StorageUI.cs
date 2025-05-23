@@ -15,33 +15,52 @@ public class StorageUI : PopupUI
         Managers.onChangePlayer += SetInventory; 
     }
 
+    private void OnDestroy()
+    {
+        Managers.onChangePlayer -= SetInventory;
+    }
+
     private void SetInventory(AlivePlayer player)
     {
+        if (player == null || inventoryRoot == null || quickSlotRoot == null)
+            return;
 
         Storage inventory = player.Inventory.ItemStorage;
         Storage quickSlot = player.Inventory.QuickSlotStorage;
-        ItemSlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<ItemSlotUI>();
-        ItemSlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
-
-        for (int i = 0; i < inventorySlots.Length; i++)
+        
+        if (inventoryRoot != null)
         {
-            inventorySlots[i].gameObject.SetActive(i < inventory.Count);
-            if (i >= inventory.Count)
-                continue; 
+            ItemSlotUI[] inventorySlots = inventoryRoot.GetComponentsInChildren<ItemSlotUI>();
+            for (int i = 0; i < inventorySlots.Length; i++)
+            {
+                if (inventorySlots[i] == null)
+                    continue;
+                    
+                inventorySlots[i].gameObject.SetActive(i < inventory.Count);
+                if (i >= inventory.Count)
+                    continue; 
 
-            inventorySlots[i].UnSetup();
-            inventorySlots[i].Setup(inventory.GetSlotByIdx(i));
+                inventorySlots[i].UnSetup();
+                inventorySlots[i].Setup(inventory.GetSlotByIdx(i));
+            }
         }
 
-        for (int i = 0; i < quickSlots.Length; i++)
+        if (quickSlotRoot != null)
         {
-            quickSlots[i].gameObject.SetActive(i < quickSlot.Count); 
-            if (i >= quickSlot.Count)
-                continue;
+            ItemSlotUI[] quickSlots = quickSlotRoot.GetComponentsInChildren<ItemSlotUI>();
+            for (int i = 0; i < quickSlots.Length; i++)
+            {
+                if (quickSlots[i] == null)
+                    continue;
+                    
+                quickSlots[i].gameObject.SetActive(i < quickSlot.Count); 
+                if (i >= quickSlot.Count)
+                    continue;
 
-            quickSlots[i].UnSetup();
-            quickSlots[i].Setup(quickSlot.GetSlotByIdx(i));
-        } 
+                quickSlots[i].UnSetup();
+                quickSlots[i].Setup(quickSlot.GetSlotByIdx(i));
+            } 
+        }
     }
     
 }

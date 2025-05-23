@@ -19,7 +19,7 @@ public class NetworkCommandSystem : NetworkSingleton<NetworkCommandSystem>
     [ServerRpc(RequireOwnership = false)]
     public void RequestDespawnPlayer(NetworkObject playerPrefab, NetworkConnection conn = null)
     {
-        if(conn.FirstObject != null)
+        if(conn.FirstObject == null)
             return;
 
         InstanceFinder.ServerManager.Despawn(playerPrefab);

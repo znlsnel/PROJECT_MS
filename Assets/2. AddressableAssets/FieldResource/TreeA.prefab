@@ -44,6 +44,7 @@ GameObject:
   - component: {fileID: 538662429095050985}
   - component: {fileID: -2481332486061891204}
   - component: {fileID: -4306722879107070590}
+  - component: {fileID: -9032478577934057623}
   m_Layer: 0
   m_Name: TreeA
   m_TagString: Untagged
@@ -128,9 +129,9 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: -4306722879107070590}
   _networkObjectCache: {fileID: -4306722879107070590}
-  maxHp: 100
   dropItemCount: 1
   dropItemIds: b90b0000
+  <Hp>k__BackingField: {fileID: -9032478577934057623}
 --- !u!114 &-4306722879107070590
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -184,6 +185,23 @@ MonoBehaviour:
     Rotation: {x: -0, y: -0.54966897, z: -0, w: 0.83538264}
     Scale: {x: 1, y: 1, z: 1}
     IsValid: 1
+--- !u!114 &-9032478577934057623
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784716324683529461}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0a61fb51ea5a24189a81dd7c7d3655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: -4306722879107070590}
+  _networkObjectCache: {fileID: 0}
+  defaultHealth: 100
+  defaultMaxHealth: 100
 --- !u!1 &8103715153879094576
 GameObject:
   m_ObjectHideFlags: 0

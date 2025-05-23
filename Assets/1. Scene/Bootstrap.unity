@@ -267,9 +267,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   data:
-    <animation>k__BackingField:
-      <AnimationDataSO>k__BackingField: {fileID: 11400000, guid: eca62cd94ef38de45aa0f72755f7721b, type: 2}
-      <REGISTRY_PATH>k__BackingField: AnimationDataSO
+    animation:
+      animationDataSO: {fileID: 11400000, guid: eca62cd94ef38de45aa0f72755f7721b, type: 2}
+      <REGISTRY_PATH>k__BackingField: Animation/AnimationDataSO.asset
   input:
     inputActionAsset: {fileID: -944628639613478452, guid: 2e952bd821ac0e944b68a01c9ad57942, type: 3}
   network:
@@ -277,9 +277,11 @@ MonoBehaviour:
     <networkAddress>k__BackingField: 127.0.0.1
     NetworkPrefabs:
     - {fileID: -1234943184309924623, guid: d4c820ff864f6c346bca55dcd89a3f71, type: 3}
-    <Type>k__BackingField: 0
+    <Type>k__BackingField: 1
     networkManagerTCP_UDP: {fileID: 468158041}
     networkManagerSteam: {fileID: 2051154864}
+  steam:
+    LobbyType: 2
 --- !u!4 &459606643
 Transform:
   m_ObjectHideFlags: 0
@@ -387,7 +389,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5974118549592047757, guid: 4a4b3d8e04ac5444e86ed72e08b29ecc, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7065607785035757254, guid: 4a4b3d8e04ac5444e86ed72e08b29ecc, type: 3}
       propertyPath: m_LocalPosition.x
@@ -1243,7 +1245,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7837283233924055371, guid: 31f5524bf7c10d24bbb30af92528cecb, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

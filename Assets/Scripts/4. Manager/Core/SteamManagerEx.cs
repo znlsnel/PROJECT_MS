@@ -7,6 +7,7 @@ using Steamworks;
 using Unity.VisualScripting;
 using UnityEngine;
 
+[System.Serializable]
 public class SteamManagerEx : IManager
 {
     private TaskCompletionSource<List<LobbyInfo>> _completionSource;
@@ -182,7 +183,7 @@ public class SteamManagerEx : IManager
 
             Debug.Log($"Lobby: {lobbyInfo.RoomName} - Host IP: {lobbyInfo.RoomName}");
 
-            SteamMatchmaking.LeaveLobby(lobbyid);
+            //SteamMatchmaking.LeaveLobby(lobbyid);
         }
 
         lobbies.Sort((a, b) => a.CreatedTime.CompareTo(b.CreatedTime));

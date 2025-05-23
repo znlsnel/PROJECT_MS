@@ -8,9 +8,10 @@ using UnityEngine;
 public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 {
     public readonly SyncVar<bool> IsGameStarted = new SyncVar<bool>(false);
-    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 30, 3));
+    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 1, 3));
     public readonly SyncDictionary<NetworkConnection, PlayerInfo> Players = new SyncDictionary<NetworkConnection, PlayerInfo>();
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
+    [SerializeField] private NetworkObject ghostPlayerPrefab;
 
     [Server]
     public void StartGame()
@@ -56,6 +57,15 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         }
     }
 
+    public PlayerRole GetPlayerRole(NetworkConnection connection)
+    {
+        if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
+        {
+            return playerInfo.role;
+        }
+        return PlayerRole.Survival;
+    }
+
     public void ImposterWin()
     {
         Debug.Log("Imposter Win");
@@ -69,7 +79,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void OnPlayerDead(NetworkConnection connection = null)
+    public void OnPlayerDead(Vector3 position, NetworkConnection connection = null)
     {
         if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
         {
@@ -78,16 +88,19 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         }
 
         int aliveSurvivals = Players.Count(player => player.Value.role == PlayerRole.Survival && !player.Value.isDead);
-        int aliveImposters = Players.Count(player => player.Value.role == PlayerRole.Imposter && !player.Value.isDead);
 
-        if(aliveImposters <= 0)
-        {
-            SurvivalWin();
-        }
-        else if(aliveSurvivals <= aliveImposters)
-        {
-            ImposterWin();
-        }
+        // if(aliveSurvivals <= 0)
+        // {
+        //     ImposterWin();
+        // }
+        // else
+        // {
+        //     NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
+        //     InstanceFinder.ServerManager.Spawn(instance, connection);
+        // }
+
+        NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
+        InstanceFinder.ServerManager.Spawn(instance, connection);
     }
 }
 

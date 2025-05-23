@@ -7,7 +7,6 @@ using UnityEngine;
 
 public class ResourceHandler : NetworkBehaviour, IDamageable
 {
-    [SerializeField] private float maxHp = 100f;
     [SerializeField] private int dropItemCount = 1;
 
     [SerializeField] public List<int> dropItemIds = new List<int>();
@@ -15,7 +14,7 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
     private List<GameObject> dropItems = new List<GameObject>();
     private Vector3 originalScale;
 
-    public readonly SyncVar<ResourceStat> Hp = new SyncVar<ResourceStat>(new ResourceStat(100));
+    [field: SerializeField] public HealthResource Hp {get; private set;}
 
 
     public void Awake()
@@ -26,7 +25,6 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
                 dropItems.Add(Managers.Resource.Load<GameObject>(Managers.Data.items.GetByIndex(itemId).DropPrefabPath));
             
         });
-        Hp.Value = new ResourceStat(maxHp);
         originalScale = transform.localScale;
     }
 
@@ -34,8 +32,8 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
     public void TakeDamage(float damage, GameObject attacker)
     {
         DamageEffect(attacker);
-        Hp.Value.Subtract(30);
-        if(Hp.Value.Current <= 0)
+        Hp.Subtract(30);
+        if(Hp.Current.Value <= 0)
         {
             ResourceDestory();
         }
@@ -80,5 +78,13 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
     {
         DropItem();
         InstanceFinder.ServerManager.Despawn(gameObject);
+    }
+
+    public bool CanTakeDamage()
+    {
+        if(Hp.Current.Value <= 0)
+            return false;
+
+        return true;
     }
 }
