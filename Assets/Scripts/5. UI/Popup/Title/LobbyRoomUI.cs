@@ -10,11 +10,14 @@ public class LobbyRoomUI : PopupUI
     [SerializeField] private GameObject _mainPanel;
     [SerializeField] private Transform _userTagRoot;
     [SerializeField] private CloseButton _closeButton;
+    [SerializeField] private Button _gameStartButton;
+
 
     protected override void Awake()
     {
         base.Awake();
         _closeButton.OnClick += Close;
+        _gameStartButton.onClick.AddListener(GameStart);
     }
  
     private void Close()
@@ -30,5 +33,10 @@ public class LobbyRoomUI : PopupUI
         _mainPanel.transform.localScale = Vector3.one * 0.9f; 
         gameObject.SetActive(true);
         _mainPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack, 10f);   
+    }
+
+    private void GameStart()
+    {
+        // 게임 시작
     }
 }

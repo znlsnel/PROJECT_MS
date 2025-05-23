@@ -38,11 +38,12 @@ public class CreateRoomUI : PopupUI
 
     private void CreateRoom()
     {
-        Hide();
 
         if (_lobbyRoomUI == null)
             _lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab).GetComponent<LobbyRoomUI>(); 
         Managers.UI.ShowPopupUI(_lobbyRoomUI); 
+        
+        Hide();
     }
 
 

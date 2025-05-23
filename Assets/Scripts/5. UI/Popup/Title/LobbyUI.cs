@@ -7,7 +7,7 @@ public class LobbyUI : PopupUI
     [Header("UI Prefab")]
     [SerializeField] private GameObject _createRoomUIPrefab;
     [SerializeField] private GameObject _lobbyRoomUIPrefab;
-    [SerializeField] private GameObject _roomUIPrefab;
+    [SerializeField] private GameObject _roomSlotUIPrefab;
  
 
     [Header("UI Button")]
@@ -69,8 +69,12 @@ public class LobbyUI : PopupUI
 
     // 룸 정보 갱신
     private void RefreshRoomList()
-    {
-        
+    { 
+ 
+        // RoomSlotUI roomSlotUI = Instantiate(_roomSlotUIPrefab, _roomListRoot.transform).GetComponent<RoomSlotUI>();
+        // roomSlotUI.SetLobbyId(123);
+        // Game Room UI 호출
+
     }
 
 }

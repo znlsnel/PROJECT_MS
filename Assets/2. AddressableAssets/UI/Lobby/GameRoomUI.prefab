@@ -286,7 +286,7 @@ GameObject:
   - component: {fileID: 7466935605547425052}
   - component: {fileID: 8575715135907382053}
   m_Layer: 5
-  m_Name: CreateButton
+  m_Name: GameStart
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -581,7 +581,8 @@ MonoBehaviour:
   _userTagPrefab: {fileID: 5712614130600885856, guid: 9357d4c301abd094787001a86dab9a57, type: 3}
   _mainPanel: {fileID: 3033672895285594187}
   _userTagRoot: {fileID: 5488152448488898595}
-  _closeButton: {fileID: 0}
+  _closeButton: {fileID: 3777847214107967027}
+  _gameStartButton: {fileID: 7466935605547425052}
 --- !u!1 &3651456760051612178
 GameObject:
   m_ObjectHideFlags: 0
@@ -971,3 +972,14 @@ RectTransform:
   m_CorrespondingSourceObject: {fileID: 80683706010914493, guid: 3aaa44e7a8b8be943bd86f0cfebf7a9d, type: 3}
   m_PrefabInstance: {fileID: 2360533904257019310}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &3777847214107967027 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1490639877847110557, guid: 3aaa44e7a8b8be943bd86f0cfebf7a9d, type: 3}
+  m_PrefabInstance: {fileID: 2360533904257019310}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 413e641913dfbf14c8d7f2ea54a56c8b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
