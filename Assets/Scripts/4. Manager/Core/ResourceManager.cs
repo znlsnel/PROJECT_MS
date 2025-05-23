@@ -5,6 +5,7 @@ using UnityEngine.AddressableAssets;
 using UnityEngine.ResourceManagement.AsyncOperations;
 using Object = UnityEngine.Object;
 
+[Serializable]
 public class ResourceManager : IManager
 {    
     private Dictionary<string, UnityEngine.Object> _resources = new Dictionary<string, UnityEngine.Object>();

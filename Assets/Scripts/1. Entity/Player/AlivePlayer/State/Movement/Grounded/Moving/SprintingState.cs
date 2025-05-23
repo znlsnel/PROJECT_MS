@@ -36,7 +36,7 @@ public class SprintingState : MovingState
             return;
         }
 
-        if(!stateMachine.ReusableData.ShouldSprint || stateMachine.Player.Stamina.Current <= 0)
+        if(!stateMachine.ReusableData.ShouldSprint || stateMachine.Player.Stamina.Current.Value <= 0)
         {
             movementStateMachine.ChangeState(movementStateMachine.RunningState);
             return;

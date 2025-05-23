@@ -35,11 +35,14 @@ public class UIRoom : MonoBehaviour
     {
         ResetUI();
 
-        var memberList = Managers.Steam.RequestLobbyMemberList();
-
-        foreach(var member in memberList)
+        if(Managers.Network.Type == NetworkType.Steam)
         {
-            CreatePlayerInfoPanel(member.m_SteamID);
+            var memberList = Managers.Steam.RequestLobbyMemberList();
+
+            foreach(var member in memberList)
+            {
+                CreatePlayerInfoPanel(member.m_SteamID);
+            }
         }
 
         _startButton.SetActive(InstanceFinder.IsServerStarted);

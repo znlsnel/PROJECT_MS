@@ -2,52 +2,71 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using FishNet.Object;
+using FishNet.Object.Synchronizing;
 using UnityEngine;
 
 [Serializable]
-public class ResourceStat
+public abstract class ResourceStat : NetworkBehaviour
 {
-    [field: SerializeField] public float Current { get; private set; }
-    [field: SerializeField] public float Maximum { get; private set; }
+    public readonly SyncVar<float> Current = new SyncVar<float>();
+    public readonly SyncVar<float> Maximum = new SyncVar<float>();
 
-    public ResourceStat()
+    public event Action<float, float> OnResourceChanged; // (current, max)
+
+    [ServerRpc(RequireOwnership = false)]
+    protected void Init(float maxValue, float currentValue)
     {
-        Current = 0;
-        Maximum = 0;
+        Maximum.Value = maxValue;
+        Current.Value = Mathf.Clamp(currentValue, 0, maxValue);
     }
 
-    public ResourceStat(float baseValue)
+    public override void OnStartNetwork()
     {
-        Maximum = baseValue;
-        Current = baseValue;
-    } 
+        Current.OnChange += OnCurrentChanged;
+        Maximum.OnChange += OnMaximumChanged;
+    }
 
-    public event Action<float, float> onResourceChanged; // (current, max)
+    public override void OnStopNetwork()
+    {
+        Current.OnChange -= OnCurrentChanged;
+        Maximum.OnChange -= OnMaximumChanged;
+    }
+
+    private void OnCurrentChanged(float prev, float next, bool asServer)
+    {
+        OnResourceChanged?.Invoke(next, Maximum.Value);
+    }
+
+    private void OnMaximumChanged(float prev, float next, bool asServer)
+    {
+        OnResourceChanged?.Invoke(Current.Value, next);
+    }
     
+    [ServerRpc(RequireOwnership = false)]
     public void Add(float amount)
     {
-        Current += amount;
-        Current = Mathf.Clamp(Current, 0, Maximum);
-        onResourceChanged?.Invoke(Current, Maximum);
+        Current.Value += amount;
+        Current.Value = Mathf.Clamp(Current.Value, 0, Maximum.Value);
     }
     
+    [ServerRpc(RequireOwnership = false)]
     public void Subtract(float amount)
     {
-        Current -= amount;
-        Current = Mathf.Clamp(Current, 0, Maximum);
-        onResourceChanged?.Invoke(Current, Maximum);
+        Current.Value -= amount;
+        Current.Value = Mathf.Clamp(Current.Value, 0, Maximum.Value);
     }
 
+    [ServerRpc(RequireOwnership = false)]
     public void Modify(float amount)
     {
-        Current = Mathf.Clamp(Current, amount, Maximum); 
-        onResourceChanged?.Invoke(Current, Maximum);
+        Current.Value = Mathf.Clamp(Current.Value, amount, Maximum.Value); 
     }
 
+    [ServerRpc(RequireOwnership = false)]
     public void SetMaximum(float newMax)
     {
-        Maximum = newMax;
-        Current = Mathf.Clamp(Current, 0, Maximum);
-        onResourceChanged?.Invoke(Current, Maximum);
+        Maximum.Value = newMax;
+        Current.Value = Mathf.Clamp(Current.Value, 0, Maximum.Value);
     }
 }

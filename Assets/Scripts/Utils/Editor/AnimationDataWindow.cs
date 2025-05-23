@@ -65,7 +65,7 @@ public class AnimationDataWindow : EditorWindow
             if (EditorUtility.DisplayDialog("Reset Animation Data", 
                 "Are you sure you want to reset all animation data?", "Yes", "No"))
             {
-                animationDataSO.ResetData();
+                AnimationDataManager.ResetData(animationDataSO);
             }
         }
 
@@ -84,7 +84,7 @@ public class AnimationDataWindow : EditorWindow
                     AnimationClip clip = AssetDatabase.LoadAssetAtPath<AnimationClip>(path);
                     if (clip != null)
                     {
-                        animationDataSO.AddAnimationClip(clip);
+                        AnimationDataManager.AddAnimationClip(animationDataSO, clip);
                         registeredCount++;
                     }
                 }
