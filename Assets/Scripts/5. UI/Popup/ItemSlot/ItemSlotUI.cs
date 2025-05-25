@@ -16,9 +16,14 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     public Action<ItemSlot> onSetup;
     public Action<ItemData> onUpdate;
     public Action<bool> onSelect;
+    public Action onDisable;
 
     public ItemSlot ItemSlot {get; protected set;}
 
+    public void OnDisable()
+    {
+        onDisable?.Invoke(); 
+    }
 
     public virtual void Setup(ItemSlot itemSlot)
     {

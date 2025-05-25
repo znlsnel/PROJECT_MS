@@ -5,6 +5,8 @@ using UnityEngine.SceneManagement;
 
 public class ResultUI : PopupUI
 {
+    [SerializeField] private GameObject _userSlotPrefab;
+    [SerializeField] private Transform _userListRoot;
     [SerializeField] private Button _lobbyButton;
 
     protected override void Awake()
@@ -12,6 +14,17 @@ public class ResultUI : PopupUI
         base.Awake();
         _lobbyButton.onClick.AddListener(OnClickLobbyButton);
     }
+
+    public void Setup()
+    {
+        AlivePlayer[] alivePlayers = FindObjectsByType<AlivePlayer>(FindObjectsSortMode.None);
+        foreach (AlivePlayer alivePlayer in alivePlayers)
+        {
+            GameObject userSlot = Instantiate(_userSlotPrefab, _userListRoot);
+         //   userSlot.GetComponent<ResultUserSlotUI>().Setup(alivePlayer.GetComponent<Player>().GetNickname(), alivePlayer.GetComponent<Player>().GetRole(), alivePlayer.GetComponent<Player>().IsSurvive(), alivePlayer.GetComponent<Player>().GetKill());
+        }
+    }
+
 
     private void OnClickLobbyButton()
     {

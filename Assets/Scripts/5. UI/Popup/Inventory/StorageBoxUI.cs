@@ -2,10 +2,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using UnityEngine;
 
 
 public class StorageBoxUI : StorageUI
 {
+    [SerializeField] private CloseButton closeButton;
+
+    protected override void Awake() 
+    {
+        base.Awake();
+        closeButton.OnClick += Hide;
+    }
+ 
     public void Setup(Storage storage)
     {
 
@@ -21,4 +30,5 @@ public class StorageBoxUI : StorageUI
             storageSlots[i].Setup(itemSlot); 
         }
     }
+
 }
