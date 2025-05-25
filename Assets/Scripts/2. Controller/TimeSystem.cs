@@ -24,8 +24,6 @@ public class TimeSystem : NetworkBehaviour
     [SerializeField, Range(18, 23)] private int dayEndHour = 18;
     [SerializeField, Range(0, 59)] private int dayEndMinute = 0;
     
-
-
     private readonly SyncVar<int> currentDay = new SyncVar<int>(0);
     private readonly SyncVar<int> currentHour = new SyncVar<int>(0);
     private readonly SyncVar<int> currentMinute = new SyncVar<int>(0);
@@ -45,6 +43,10 @@ public class TimeSystem : NetworkBehaviour
     public SyncVar<float> Time => time;
     public float TimeScale => timeScale;
 
+    private string dayBGM = "Sound/BGM/DayBGM.mp3";
+    private string nightBGM = "Sound/BGM/NightBGM.mp3";
+    private string morningBird = "Sound/SFX/MorningBird_01.mp3";
+    
     private void Awake()
     {
         timeScale = NetworkGameSystem.Instance.GameOptions.Value.dayDuration / 60f;
@@ -71,8 +73,27 @@ public class TimeSystem : NetworkBehaviour
     public void Start()
     {
         currentMinute.OnChange += (p, n, s)=>UpdateTime(currentDay.Value, currentHour.Value, currentMinute.Value);
+
+        if (currentHour.Value >= dayStartHour && currentHour.Value < dayEndHour)
+        {
+            PlayDayBGM();
+        }
+        else
+        {
+            PlayNightBGM();
+        }
     }
 
+    private void PlayDayBGM()
+    {
+        Managers.Sound.Play(dayBGM, 1f, ESound.Bgm);
+        Managers.Sound.Play(morningBird);
+    }
+
+    private void PlayNightBGM()
+    {
+        Managers.Sound.Play(nightBGM, 1f, ESound.Bgm);
+    }
  
     private void UpdateTimeOnServer()
     {
@@ -123,11 +144,13 @@ public class TimeSystem : NetworkBehaviour
         if (currentHour.Value == dayStartHour && currentMinute.Value == dayStartMinute){
             Debug.Log("낮이 시작되었습니다.");
             onStartDay?.Invoke();
+            PlayDayBGM();
         }
         else if (currentHour.Value == dayEndHour && currentMinute.Value == dayEndMinute)
         {
             Debug.Log("밤이 시작되었습니다.");
             onStartNight?.Invoke();
+            PlayNightBGM();
         }
     }
 }

@@ -1,8 +1,13 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class RunningState : MovingState
 {
+    private static readonly string _clickSound = "Sound/Player/Footstep_01_01.mp3";
+    private Coroutine _footstepCoroutine;
+    private const float FOOTSTEP_INTERVAL = 0.35f;
+
     public RunningState(AlivePlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -14,6 +19,8 @@ public class RunningState : MovingState
         stateMachine.ReusableData.MovementSpeed = stateMachine.Player.AlivePlayerSO.MoveSpeed;
 
         StartAnimation(stateMachine.Player.AnimationData.RunningParameterHash);
+        
+        _footstepCoroutine = stateMachine.Player.StartCoroutine(PlayFootstepRoutine());
     }
 
     public override void Exit()
@@ -21,6 +28,12 @@ public class RunningState : MovingState
         base.Exit();
 
         StopAnimation(stateMachine.Player.AnimationData.RunningParameterHash);
+        
+        if (_footstepCoroutine != null)
+        {
+            stateMachine.Player.StopCoroutine(_footstepCoroutine);
+            _footstepCoroutine = null;
+        }
     }
 
     public override void Update()
@@ -36,6 +49,15 @@ public class RunningState : MovingState
         {
             movementStateMachine.ChangeState(movementStateMachine.SprintingState);
             return;
+        }
+    }
+
+    private IEnumerator PlayFootstepRoutine()
+    {
+        while (true)
+        {
+            Managers.Sound.Play(_clickSound);
+            yield return new WaitForSeconds(FOOTSTEP_INTERVAL);
         }
     }
 
