@@ -60,9 +60,16 @@ public class DayNightCycle : MonoBehaviour
 
 		timeScale = timeSystem.TimeScale;
         timeSystem.Time.OnChange += UpdateTime;
+
+		timeSystem.onEndTime += OnEndTime;
 	}
- 
-	private void Update()
+
+    private void OnEndTime()
+    {
+        NetworkGameSystem.Instance.ImposterWin();
+    }
+
+    private void Update()
 	{ 
 		curTime += 1f/1440f * (Time.deltaTime/ timeScale);    
 

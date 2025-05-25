@@ -92,11 +92,8 @@ public class Inventory
         ItemData tempData = slot1.Data;
         int tempStack = slot1.Stack;
 
-        slot1.Setup(slot2.Data); 
-        slot1.ModifyStack(slot2.Data, slot2.Stack);
-
-        slot2.Setup(tempData);
-        slot2.ModifyStack(tempData, tempStack);
+        slot1.Setup(slot2.Data, slot2.Stack); 
+        slot2.Setup(tempData, tempStack);
     }
 
 }

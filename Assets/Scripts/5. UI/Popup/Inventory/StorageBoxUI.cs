@@ -20,6 +20,5 @@ public class StorageBoxUI : StorageUI
 
             storageSlots[i].Setup(itemSlot); 
         }
-
     }
 }

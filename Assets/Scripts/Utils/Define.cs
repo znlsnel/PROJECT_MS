@@ -76,6 +76,7 @@ public interface IInteractable
 public interface IDamageable
 {
     void TakeDamage(float damage, GameObject attacker); 
+    bool CanTakeDamage();
 }
 
 public interface IManager

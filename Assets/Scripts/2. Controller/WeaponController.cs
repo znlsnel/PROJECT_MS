@@ -29,6 +29,8 @@ public class WeaponController : ItemController
 
         if(other.gameObject.TryGetComponent(out IDamageable damageable))
         {
+            if(!damageable.CanTakeDamage()) return;
+            
             if(damageables.Add(damageable))
             {
                 damageable.TakeDamage(damage, Owner.gameObject);

@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
@@ -35,6 +36,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public event Action onDead;
     public event Action onDamaged;
 
+    private bool isDead = false;
+
     public override void OnStartNetwork()
     {
         base.OnStartNetwork();
@@ -58,8 +61,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
         PlacementHandler.Setup(QuickSlotHandler);
-
-        onDead += OnDead;
     }
 
     public override void OnStartClient()
@@ -69,6 +70,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         if(!IsOwner)
             return;
 
+        onDead += OnDead;
+
         Init();
 
         Managers.Instance.SetPlayer(this);
@@ -76,17 +79,11 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         CinemachineCamera.Follow = transform;
 
         stateMachine = new AlivePlayerStateMachine(this);
-
-        NetworkGameSystem.Instance.IsGameStarted.OnChange += OnGameStarted;
     }
 
-    private void OnGameStarted(bool prev, bool next, bool asServer)
+    public override void OnStopClient()
     {
-        if(!next)
-        {
-            Debug.Log("OnGameStarted");
-            NetworkCommandSystem.Instance.RequestDespawnPlayer(NetworkObject);
-        }
+        base.OnStopClient();
     }
 
     [ServerRpc]
@@ -134,16 +131,17 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void TakeDamage(float damage, GameObject attacker)
     {
         Health.Subtract(damage);
-        OnTakeDamage();
+        OnTakeDamage(Owner);
     }
 
-    [ObserversRpc]
-    public void OnTakeDamage()
+    [TargetRpc]
+    public void OnTakeDamage(NetworkConnection connection)
     {
         onDamaged?.Invoke(); 
 
         if(Health.Current.Value <= 0)
         {
+            isDead = true;
             onDead?.Invoke();
         }
     }
@@ -191,8 +189,19 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         Health.Add(amount);
     }
 
+    [ServerRpc]
     public void OnDead()
     {
-        NetworkGameSystem.Instance.OnPlayerDead();
+        NetworkGameSystem.Instance.OnPlayerDead(transform.position, Owner);
+        //GiveOwnership(null);
     }
+
+    public bool CanTakeDamage()
+    {
+        if(isDead)
+            return false;
+
+        return true;
+    }
+
 }

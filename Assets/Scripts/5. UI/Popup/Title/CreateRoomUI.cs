@@ -38,6 +38,7 @@ public class CreateRoomUI : PopupUI
 
     private void CreateRoom()
     {
+        Managers.Network.StartHost();
 
         if (_lobbyRoomUI == null)
             _lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab).GetComponent<LobbyRoomUI>(); 

@@ -79,4 +79,12 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
         DropItem();
         InstanceFinder.ServerManager.Despawn(gameObject);
     }
+
+    public bool CanTakeDamage()
+    {
+        if(Hp.Current.Value <= 0)
+            return false;
+
+        return true;
+    }
 }
