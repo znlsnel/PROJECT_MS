@@ -93,6 +93,7 @@ MonoBehaviour:
     deadParameterHashName: isDead
     holdingParameterHashName: isHolding
   <WeaponHandler>k__BackingField: {fileID: 0}
+  ghostPlayerPrefab: {fileID: 5553915168700286787, guid: a582296a6b0cab644b9310224254ce60, type: 3}
 --- !u!54 &3405136096037004186
 Rigidbody:
   m_ObjectHideFlags: 0

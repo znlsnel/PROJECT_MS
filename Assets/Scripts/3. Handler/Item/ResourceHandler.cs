@@ -28,15 +28,21 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
         originalScale = transform.localScale;
     }
 
+    public override void OnStartNetwork()
+    {
+        Hp.OnResourceChanged += ResourceDestory;
+    }
+
+    public override void OnStopNetwork()
+    {
+        Hp.OnResourceChanged -= ResourceDestory;
+    }
+
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamage(float damage, GameObject attacker)
     {
         DamageEffect(attacker);
-        Hp.Subtract(30);
-        if(Hp.Current.Value <= 0)
-        {
-            ResourceDestory();
-        }
+        Hp.Subtract(damage);
     }
 
     [ObserversRpc]
@@ -74,10 +80,13 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
     }
 
     [Server]
-    private void ResourceDestory()
+    private void ResourceDestory(float current, float max)
     {
-        DropItem();
-        InstanceFinder.ServerManager.Despawn(gameObject);
+        if(current <= 0)
+        {
+            DropItem();
+            InstanceFinder.ServerManager.Despawn(gameObject);
+        }
     }
 
     public bool CanTakeDamage()
