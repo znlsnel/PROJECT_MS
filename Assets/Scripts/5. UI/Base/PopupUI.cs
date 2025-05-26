@@ -17,9 +17,9 @@ public class PopupUI : UIBase
 
     }
 
-    public void Init()
+    public void Init(bool pinned = false)
 	{
-		Managers.UI.SetCanvas(gameObject);
+		Managers.UI.SetCanvas(gameObject, pinned); 
 	}
 
 	public override void Show()

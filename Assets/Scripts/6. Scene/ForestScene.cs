@@ -52,6 +52,8 @@ public class ForestScene : SceneBase
             _resultUI = Instantiate(_resultUIPrefab).GetComponent<ResultUI>();
 
         Managers.UI.CloseAllPopupUI();
+        
+        _resultUI.Setup();
         Managers.UI.ShowPopupUI(_resultUI);
     }
 
