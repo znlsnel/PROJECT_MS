@@ -14,18 +14,10 @@ public class RoomSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     [Header("UI Image")]
     [SerializeField] private Image _outline;
-    
-    [Header("Button")]
-    [SerializeField] private Button _joinButton;
 
 
     private ulong _lobbyId;
     public static event Action<ulong> OnJoinLobby;
-
-    protected void Awake()
-    {
-        _joinButton.onClick.AddListener(OnPointerClick); 
-    } 
 
     public void SetLobbyId(ulong lobbyId) 
     {

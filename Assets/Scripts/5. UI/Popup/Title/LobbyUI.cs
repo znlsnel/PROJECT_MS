@@ -75,14 +75,6 @@ public class LobbyUI : PopupUI
         Managers.UI.ShowPopupUI(_createRoomUI);  
     }
 
-    private void OpenLobbyRoomUI()
-    {
-        if (_lobbyRoomUI == null)
-            _lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab).GetComponent<LobbyRoomUI>();
-
-        Managers.UI.ShowPopupUI(_lobbyRoomUI);   
-    }
-
     private void RefreshRoomList()
     {
         RefreshRoomListAsync().Forget();

@@ -141,7 +141,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: cbd9d518c7523264db2a0ba377f024a9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _componentIndexCache: 0
+  _addedNetworkObject: {fileID: 0}
+  _networkObjectCache: {fileID: 0}
   _playerName: {fileID: 1290249367774037802}
+  _playerColor: {fileID: 2969806901520008223}
 --- !u!1 &5913242513201091229
 GameObject:
   m_ObjectHideFlags: 0

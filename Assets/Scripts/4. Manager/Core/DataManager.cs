@@ -20,6 +20,8 @@ public class DataManager : IManager
     public FieldResourceDataManager fieldResources {get; private set;}
     [SerializeField] private AnimationDataManager animation;
     public AnimationDataManager Animation => animation;
+    [SerializeField] private ColorSO colorSO;
+    public ColorSO Color => colorSO;
 
     public void Init()
     {
@@ -35,6 +37,7 @@ public class DataManager : IManager
         maps = new MapDataManager();
 
         animation.Init();
+        colorSO.Init();
     }
 
     public void Clear()

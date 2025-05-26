@@ -40,10 +40,6 @@ public class CreateRoomUI : PopupUI
     {
         Managers.Network.StartHost();
 
-        if (_lobbyRoomUI == null)
-            _lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab).GetComponent<LobbyRoomUI>(); 
-        Managers.UI.ShowPopupUI(_lobbyRoomUI); 
-        
         Hide();
     }
 
