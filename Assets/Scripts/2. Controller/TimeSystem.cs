@@ -45,6 +45,10 @@ public class TimeSystem : NetworkBehaviour
     public SyncVar<float> Time => time;
     public float TimeScale => timeScale;
 
+    public int CurrentDay => currentDay.Value;
+    public int CurrentHour => currentHour.Value;
+    public int CurrentMinute => currentMinute.Value;
+
     private void Awake()
     {
         timeScale = NetworkGameSystem.Instance.GameOptions.Value.dayDuration / 60f;

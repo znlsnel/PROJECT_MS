@@ -20,7 +20,7 @@ public class Managers : Singleton<Managers>
     [SerializeField] private NetworkManagerEx network;
     [SerializeField] private SteamManagerEx steam;
     [SerializeField] private QuestManager quest;
-
+    [SerializeField] private AnalyticsManager analytics;
 
     public static DataManager Data => Instance.data;
     public static InputManager Input => Instance.input;
@@ -31,6 +31,7 @@ public class Managers : Singleton<Managers>
     public static NetworkManagerEx Network => Instance.network;
     public static QuestManager Quest => Instance.quest;
     public static SteamManagerEx Steam => Instance.steam;
+    public static AnalyticsManager Analytics => Instance.analytics;
 
     #endregion
     
@@ -65,6 +66,7 @@ public class Managers : Singleton<Managers>
 
     private void Init() 
     {
+        analytics.Init();
         Network.Init();
         Resource.Init(); 
         Data.Init();

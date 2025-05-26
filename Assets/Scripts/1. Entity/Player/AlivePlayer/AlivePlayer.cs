@@ -41,6 +41,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public NetworkObject ghostPlayerPrefab;
 
     private bool isDead = false;
+    public bool IsDead => isDead;
 
 
     public override void OnStartNetwork()

@@ -1,9 +1,11 @@
+using System;
 using System.Linq;
 using FishNet;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 {
@@ -13,6 +15,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
     [SerializeField] private NetworkObject ghostPlayerPrefab;
 
+    public Action onGameEnd;
     [Server]
     public void StartGame()
     {
@@ -27,9 +30,8 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     public void EndGame(PlayerRole winner)
     {
         IsGameStarted.Value = false;
-
-        NetworkSceneSystem.Instance?.LoadScene("Lobby");
-    }
+        onGameEnd?.Invoke();
+    } 
 
     [Server]
     public void SetGameOptions(GameOptions options)
@@ -43,6 +45,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         Players.Clear();
         Imposters.Clear();
 
+        
         Imposters.AddRange(InstanceFinder.ServerManager.Clients.Values
             .OrderBy(x => Random.value)
             .Take(GameOptions.Value.imposterCount)
@@ -94,15 +97,16 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
             NetworkChatSystem.Instance.SendChatMessage(info.isDead ? "You are dead" : "You are alive");
         }
 
-        // if(aliveSurvivals <= 0)
-        // {
-        //     ImposterWin();
-        // }
-        // else
-        // {
-        //     NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
-        //     InstanceFinder.ServerManager.Spawn(instance, connection);
-        // }
+         if(aliveSurvivals <= 0)
+        {
+            Managers.Analytics.MafiaWinRate(true);
+            ImposterWin();
+        }
+        else
+        {
+            // NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
+            // InstanceFinder.ServerManager.Spawn(instance, connection);
+        }
 
         // NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
         // InstanceFinder.ServerManager.Spawn(instance, connection);
