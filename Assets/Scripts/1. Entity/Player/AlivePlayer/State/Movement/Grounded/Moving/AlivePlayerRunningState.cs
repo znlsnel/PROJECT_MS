@@ -57,7 +57,6 @@ public class AlivePlayerRunningState : AlivePlayerMovingState
     {
         while (true)
         {
-            // 3D 사운드로 재생하여 각 플레이어의 위치에서 소리가 나도록 함
             Managers.Sound.Play3D(_clickSound, stateMachine.Player.transform.position, FOOTSTEP_VOLUME);
             yield return new WaitForSeconds(FOOTSTEP_INTERVAL);
         }

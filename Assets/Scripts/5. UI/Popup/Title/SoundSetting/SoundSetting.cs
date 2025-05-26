@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class SoundSetting : MonoBehaviour
 { 
-    [SerializeField] private SlideValueUI masterValue; 
+    [SerializeField] private SlideValueUI masterValue;
     [SerializeField] private SlideValueUI effectValue;
     [SerializeField] private SlideValueUI bgmValue;
 
@@ -12,20 +12,19 @@ public class SoundSetting : MonoBehaviour
         effectValue.onValueChanged += SetEffectVolume;
         bgmValue.onValueChanged += SetBgmVolume;
     }
- 
+
     private void SetMasterVolume(float value)
     {
-      // Managers.Sound.SetMasterVolume(value);
+      Managers.Sound.SetMasterVolume(value);
     }
 
-    private void SetEffectVolume(float value)   
+    private void SetEffectVolume(float value)
     {
-       // Managers.Sound.SetVolume(ESound.Effect, value);
+       Managers.Sound.SetVolume(ESound.Effect, value);
     }
 
     private void SetBgmVolume(float value)
     {
-      //  Managers.Sound.SetVolume(ESound.Bgm, value); 
+       Managers.Sound.SetVolume(ESound.Bgm, value);
     }
-    
 }

@@ -17,6 +17,9 @@ public class LobbyRoomUI : PopupUI
 
     private List<UIPlayerPanel> _userTagList = new List<UIPlayerPanel>();
 
+    private string startGameSound = "Sound/UI/Popup_04.mp3";
+    private string closeSound = "Sound/UI/PopupClose_01.mp3";
+
     protected override void Awake()
     {
         base.Awake();
@@ -40,7 +43,12 @@ public class LobbyRoomUI : PopupUI
 
         _mainPanel.transform.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
             Hide(); 
-        };  
+        };
+
+        Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     public override void Show()
@@ -55,6 +63,11 @@ public class LobbyRoomUI : PopupUI
     {
         // 게임 시작
         NetworkGameSystem.Instance.StartGame();
+
+        Managers.Resource.LoadAsync<AudioClip>(startGameSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     private void UpdateUI()

@@ -16,6 +16,7 @@ public class TitleUI : MonoBehaviour
     private SettingUI _settingUI;
 
     private string introBGM = "Sound/BGM/IntroBGM.mp3";
+    private string openUISound = "Sound/UI/Click_06.mp3";
 
     private void Awake()
     {
@@ -31,17 +32,19 @@ public class TitleUI : MonoBehaviour
             Managers.Sound.Play(audioClip, 1f, ESound.Bgm);
         });
     }
- 
+
 
     private void OpenSettingUI()
     {
-        
         if (_settingUI == null)
             _settingUI = Instantiate(_settingUIPrefab).GetComponent<SettingUI>(); 
-        
- 
-            
-        Managers.UI.ShowPopupUI(_settingUI); 
+
+        Managers.UI.ShowPopupUI(_settingUI);
+
+        Managers.Resource.LoadAsync<AudioClip>(openUISound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     private void OpenLobbyUI()
@@ -50,11 +53,15 @@ public class TitleUI : MonoBehaviour
             _lobbyUI = Instantiate(_lobbyUIPrefab).GetComponent<LobbyUI>(); 
 
         Managers.UI.ShowPopupUI(_lobbyUI);
+
+        Managers.Resource.LoadAsync<AudioClip>(openUISound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     private void GameExit()
     {
         Application.Quit();
     }
-
 }
