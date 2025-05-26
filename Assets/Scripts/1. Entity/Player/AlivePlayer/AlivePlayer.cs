@@ -7,7 +7,6 @@ using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
-using VInspector.Libs;
 
 [RequireComponent(typeof(InteractionHandler))]
 public class AlivePlayer : NetworkBehaviour, IDamageable
