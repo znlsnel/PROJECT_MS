@@ -15,11 +15,21 @@ public class TitleUI : MonoBehaviour
     private LobbyUI _lobbyUI; 
     private SettingUI _settingUI;
 
+    private string introBGM = "Sound/BGM/IntroBGM.mp3";
+
     private void Awake()
     {
         _settingButton.onClick.AddListener(OpenSettingUI);
         _gameStartButton.onClick.AddListener(OpenLobbyUI);
         _gameExitButton.onClick.AddListener(GameExit);
+    }
+
+    private void Start()
+    {
+        Managers.Resource.LoadAsync<AudioClip>(introBGM, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip, 1f, ESound.Bgm);
+        });
     }
  
 
