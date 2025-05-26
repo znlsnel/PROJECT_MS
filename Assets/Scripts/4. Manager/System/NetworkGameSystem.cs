@@ -8,7 +8,7 @@ using UnityEngine;
 public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 {
     public readonly SyncVar<bool> IsGameStarted = new SyncVar<bool>(false);
-    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 1, 3));
+    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 300, 3));
     public readonly SyncDictionary<NetworkConnection, PlayerInfo> Players = new SyncDictionary<NetworkConnection, PlayerInfo>();
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
     [SerializeField] private NetworkObject ghostPlayerPrefab;
@@ -89,6 +89,11 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 
         int aliveSurvivals = Players.Count(player => player.Value.role == PlayerRole.Survival && !player.Value.isDead);
 
+        foreach(PlayerInfo info in Players.Values)
+        {
+            NetworkChatSystem.Instance.SendChatMessage(info.isDead ? "You are dead" : "You are alive");
+        }
+
         // if(aliveSurvivals <= 0)
         // {
         //     ImposterWin();
@@ -99,8 +104,8 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         //     InstanceFinder.ServerManager.Spawn(instance, connection);
         // }
 
-        NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
-        InstanceFinder.ServerManager.Spawn(instance, connection);
+        // NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
+        // InstanceFinder.ServerManager.Spawn(instance, connection);
     }
 }
 
