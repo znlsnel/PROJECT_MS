@@ -63,6 +63,7 @@ public class ChatUI : MonoBehaviour
 
         Managers.Sound.Play(_clickSound);
         NetworkChatSystem.Instance.SendChatMessage(message);
+        Managers.Analytics.ChatUsage();
     }
 
     public void SetNickname(string nickname) // 닉네임 설정

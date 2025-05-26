@@ -38,6 +38,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public event Action onDamaged;
 
     private bool isDead = false;
+    public bool IsDead => isDead;
 
 
     public override void OnStartNetwork()
@@ -63,6 +64,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
         PlacementHandler.Setup(QuickSlotHandler);
+
+        GetComponentInChildren<SkinnedMeshRenderer>().material.color = NetworkRoomSystem.Instance.GetPlayerColor(Owner);
     }
 
     public override void OnStartClient()

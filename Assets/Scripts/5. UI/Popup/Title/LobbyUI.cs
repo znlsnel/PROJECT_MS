@@ -21,7 +21,7 @@ public class LobbyUI : PopupUI
 
 
     [Header("Room List Root")]
-    [SerializeField] private GameObject _roomListRoot;
+    [SerializeField] private GameObject _roomListRoot; 
 
     [Header("UI Root")]
     [SerializeField] private Transform _mainPanel;
@@ -31,13 +31,10 @@ public class LobbyUI : PopupUI
 
     private List<RoomSlotUI> _roomSlotUIList = new List<RoomSlotUI>();
 
-    private string clickSound = "Sound/UI/Click_02.mp3";
-    private string closeSound = "Sound/UI/PopupClose_01.mp3";
-
     protected override void Awake()
     {
         base.Awake();
-        _createRoomButton.onClick.AddListener(OpenCreateRoomUI);
+        _createRoomButton.onClick.AddListener(OpenCreateRoomUI); 
         _closeButton.OnClick += Close;
 
         if(Managers.Network.Type == NetworkType.TCP_UDP)
@@ -49,7 +46,7 @@ public class LobbyUI : PopupUI
         if(Managers.Network.Type == NetworkType.Steam)
         {
             InvokeRepeating(nameof(RefreshRoomList), 0.0f, 10.0f);
-            _refreshButton.onClick.AddListener(RefreshRoomList);
+            _refreshButton.onClick.AddListener(RefreshRoomList); 
         }
     } 
  
@@ -61,15 +58,10 @@ public class LobbyUI : PopupUI
     }
 
     private void Close()
-    {
+    { 
         _mainPanel.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
-            Hide();
-        };
-
-        Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
-        {
-            Managers.Sound.Play(audioClip);
-        });
+            Hide();  
+        };  
     }
 
     private void OpenCreateRoomUI()
@@ -77,37 +69,14 @@ public class LobbyUI : PopupUI
         if (_createRoomUI == null)
         {
             _createRoomUI = Instantiate(_createRoomUIPrefab).GetComponent<CreateRoomUI>();
-            _createRoomUI.Setup(_lobbyRoomUIPrefab);
+            _createRoomUI.Setup(_lobbyRoomUIPrefab);   
         }
 
-        Managers.UI.ShowPopupUI(_createRoomUI);
-
-        Managers.Resource.LoadAsync<AudioClip>(clickSound, (audioClip) =>
-        {
-            Managers.Sound.Play(audioClip);
-        });
-    }
-
-    private void OpenLobbyRoomUI()
-    {
-        if (_lobbyRoomUI == null)
-            _lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab).GetComponent<LobbyRoomUI>();
-
-        Managers.UI.ShowPopupUI(_lobbyRoomUI);
-
-        Managers.Resource.LoadAsync<AudioClip>(clickSound, (audioClip) =>
-        {
-            Managers.Sound.Play(audioClip);
-        });
+        Managers.UI.ShowPopupUI(_createRoomUI);  
     }
 
     private void RefreshRoomList()
     {
-        Managers.Resource.LoadAsync<AudioClip>(clickSound, (audioClip) =>
-        {
-            Managers.Sound.Play(audioClip);
-        });
-
         RefreshRoomListAsync().Forget();
     }
 

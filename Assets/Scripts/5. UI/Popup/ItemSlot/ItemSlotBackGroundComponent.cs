@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ItemSlotBackGroundComponent : MonoBehaviour
 {
     [SerializeField] private Image background;
-    private Dictionary<EItemType, Color> colors = new Dictionary<EItemType, Color>()
+    public static Dictionary<EItemType, Color> colors = new Dictionary<EItemType, Color>()
     {
         {EItemType.None, MyColor.Gray},
         {EItemType.Weapon, MyColor.Red},
