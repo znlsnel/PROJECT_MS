@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4404164234605755290}
   - component: {fileID: -5816010121902590607}
   - component: {fileID: 7710765238683230894}
+  - component: {fileID: 6175914613275650677}
   m_Layer: 0
   m_Name: RockA
   m_TagString: Untagged
@@ -125,9 +126,9 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 7710765238683230894}
   _networkObjectCache: {fileID: 7710765238683230894}
-  maxHp: 100
   dropItemCount: 1
   dropItemIds: ba0b0000
+  <Hp>k__BackingField: {fileID: 6175914613275650677}
 --- !u!114 &7710765238683230894
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -181,3 +182,20 @@ MonoBehaviour:
     Rotation: {x: 0, y: 0, z: 0, w: 1}
     Scale: {x: 0.5216802, y: 0.52168, z: 0.5216802}
     IsValid: 1
+--- !u!114 &6175914613275650677
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5906651137303712684}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fd0a61fb51ea5a24189a81dd7c7d3655, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _componentIndexCache: 255
+  _addedNetworkObject: {fileID: 7710765238683230894}
+  _networkObjectCache: {fileID: 0}
+  defaultHealth: 100
+  defaultMaxHealth: 100

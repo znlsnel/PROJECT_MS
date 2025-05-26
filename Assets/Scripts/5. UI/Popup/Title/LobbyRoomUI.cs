@@ -62,14 +62,17 @@ public class LobbyRoomUI : PopupUI
         ResetUI();
 
         _gameStartButton.gameObject.SetActive(InstanceFinder.IsServerStarted);
-
-        List<CSteamID> members = Managers.Steam.RequestLobbyMemberList();
         
-        foreach (var member in members)
+        if(Managers.Network.Type == NetworkType.Steam)
         {
-            UIPlayerPanel uIPlayerPanel = Instantiate(_userTagPrefab, _userTagRoot).GetComponent<UIPlayerPanel>();
-            uIPlayerPanel.UpdateUI(member.m_SteamID);
-            _userTagList.Add(uIPlayerPanel);
+            List<CSteamID> members = Managers.Steam.RequestLobbyMemberList();
+        
+            foreach (var member in members)
+            {
+                UIPlayerPanel uIPlayerPanel = Instantiate(_userTagPrefab, _userTagRoot).GetComponent<UIPlayerPanel>();
+                uIPlayerPanel.UpdateUI(member.m_SteamID);
+                _userTagList.Add(uIPlayerPanel);
+            }
         }
     }
 

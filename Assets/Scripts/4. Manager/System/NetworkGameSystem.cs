@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Linq;
 using FishNet;
 using FishNet.Connection;
@@ -8,10 +9,11 @@ using UnityEngine;
 public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 {
     public readonly SyncVar<bool> IsGameStarted = new SyncVar<bool>(false);
-    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 1, 3));
+    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 300, 3));
     public readonly SyncDictionary<NetworkConnection, PlayerInfo> Players = new SyncDictionary<NetworkConnection, PlayerInfo>();
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
     [SerializeField] private NetworkObject ghostPlayerPrefab;
+    private List<NetworkObject> ghostPlayers = new List<NetworkObject>();
 
     [Server]
     public void StartGame()
@@ -51,7 +53,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         foreach(NetworkConnection connection in InstanceFinder.ServerManager.Clients.Values)
         {
             PlayerRole role = Imposters.Contains(connection) ? PlayerRole.Imposter : PlayerRole.Survival;
-            PlayerInfo playerInfo = new PlayerInfo(role, false);
+            PlayerInfo playerInfo = new PlayerInfo(connection.ClientId.ToString(), role, false, 0);
             Debug.Log(playerInfo);
             Players.Add(connection, playerInfo);
         }
@@ -79,7 +81,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void OnPlayerDead(Vector3 position, NetworkConnection connection = null)
+    public void OnPlayerDead(NetworkObject networkObject, NetworkConnection connection = null)
     {
         if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
         {
@@ -88,6 +90,11 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         }
 
         int aliveSurvivals = Players.Count(player => player.Value.role == PlayerRole.Survival && !player.Value.isDead);
+
+        foreach(PlayerInfo info in Players.Values)
+        {
+            NetworkChatSystem.Instance.SendChatMessage(info.isDead ? "You are dead" : "You are alive");
+        }
 
         // if(aliveSurvivals <= 0)
         // {
@@ -99,8 +106,19 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         //     InstanceFinder.ServerManager.Spawn(instance, connection);
         // }
 
-        NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
+        NetworkObject instance = Instantiate(ghostPlayerPrefab, networkObject.transform.position, Quaternion.identity);
         InstanceFinder.ServerManager.Spawn(instance, connection);
+        ghostPlayers.Add(instance);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdatePlayerKillCount(NetworkConnection connection = null)
+    {
+        if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
+        {
+            playerInfo.killCount++;
+            Players[connection] = playerInfo;
+        }
     }
 }
 
@@ -123,13 +141,17 @@ public struct GameOptions
 
 public struct PlayerInfo
 {
+    public string playerName;
+    public int killCount; 
     public PlayerRole role;
     public bool isDead;
 
-    public PlayerInfo(PlayerRole role, bool isDead)
+    public PlayerInfo(string playerName, PlayerRole role, bool isDead, int killCount)
     {
+        this.playerName = playerName;
         this.role = role;
         this.isDead = isDead;
+        this.killCount = killCount;
     }
 }
 

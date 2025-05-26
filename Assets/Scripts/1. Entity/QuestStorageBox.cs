@@ -22,11 +22,13 @@ public class QuestStorageBox : Interactable
 
     public void Awake()
     {
-        if (questStorageUI == null)
-        {
-            questStorageUI = Instantiate(questStorageUIPrefab).GetComponent<QuestStorageUI>();
-            questStorageUI.Hide();
-        }
+        Managers.SubscribeToInit(()=>{
+            if (questStorageUI == null)
+            {
+                questStorageUI = Instantiate(questStorageUIPrefab).GetComponent<QuestStorageUI>();
+                questStorageUI.Hide();
+            }
+        });
 
         Managers.SubscribeToInit(()=>{
             Setup(Managers.Data.questStorages.GetByIndex(questStorageIndex));

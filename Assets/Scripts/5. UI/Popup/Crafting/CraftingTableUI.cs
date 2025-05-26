@@ -5,6 +5,7 @@ using UnityEngine;
 
 public class CraftingTableUI : PopupUI
 {
+    [SerializeField] private CloseButton closeButton;
     [SerializeField] private Transform itemSlotRoot;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private GameObject emptyStatePanel;
@@ -14,6 +15,7 @@ public class CraftingTableUI : PopupUI
     protected override void Awake()
     {
         base.Awake();
+        closeButton.OnClick += Hide; 
         Managers.SubscribeToInit(Setup);
     }
 

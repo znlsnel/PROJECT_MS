@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Threading.Tasks;
 using FishNet.Object;
 using UnityEngine;
@@ -11,15 +12,29 @@ public static class ItemDragHandler
     private static readonly string MovingSlotKey = "UI/Inventory/MovingSlot.prefab";
 
     private static MovingSlotUI movingSlotUI;
-    private static ItemSlot selectedItemSlot;
+    private static ItemSlot movingSlot;
+    private static ItemSlotUI selectedSlotUI;
     
     public static bool SelectItemSlot(ItemSlotUI itemSlotUI)
     {   
         // 처음 선택한 경우
-        if (selectedItemSlot == null && itemSlotUI.ItemSlot.Data != null)
+        if (movingSlot == null && itemSlotUI.ItemSlot.Data != null)
         {
+            if (selectedSlotUI != null)
+                selectedSlotUI.onDisable = null;
+
+            selectedSlotUI = itemSlotUI;
+
             SelectSlot(itemSlotUI.ItemSlot); 
-            SetupMovingSlot(selectedItemSlot); 
+            SetupMovingSlot(movingSlot); 
+
+            // itemSlotUI.onDisable += ()=> {
+            //     if (movingSlotUI.gameObject.activeSelf)
+            //     {
+            //         selectedSlotUI.ItemSlot.Setup(movingSlot.Data, movingSlot.Stack); 
+            //         CloseMovingSlot();  
+            //     }
+            // };
             return true;
         }
 
@@ -28,58 +43,59 @@ public static class ItemDragHandler
 
     public static void SwapItem(ItemSlotUI targetSlotUI)
     {
-        if (selectedItemSlot == null)
+        if (movingSlot == null)
             return;
 
 
-        if (!selectedItemSlot.CheckSlotCondition(targetSlotUI.ItemSlot.Data) 
-            || !targetSlotUI.ItemSlot.CheckSlotCondition(selectedItemSlot.Data))
+        if (!movingSlot.CheckSlotCondition(targetSlotUI.ItemSlot.Data) 
+            || !targetSlotUI.ItemSlot.CheckSlotCondition(movingSlot.Data))
             return;
 
-            Inventory.SwapItem(selectedItemSlot, targetSlotUI.ItemSlot); 
+        Inventory.SwapItem(movingSlot, targetSlotUI.ItemSlot); 
 
-            // itemSlotUI가 비어있었을 경우
-            if (selectedItemSlot.Data == null)
-                SetupMovingSlot(null);
+        // itemSlotUI가 비어있었을 경우
+        if (movingSlot.Data == null)
+            SetupMovingSlot(null);
 
-            // 데이터의 교환이 일어난 경우
-            else
-            {
-                SelectSlot(selectedItemSlot);  
-                SetupMovingSlot(selectedItemSlot); 
-            }
+        // 데이터의 교환이 일어난 경우
+        else
+        {
+            SelectSlot(movingSlot);  
+            SetupMovingSlot(movingSlot); 
+        }
 
         return;
     }
 
+
     public static void MoveItem(ItemSlotUI targetSlotUI)
     {
-        if (selectedItemSlot == null)
+        if (movingSlot == null)
             return;
 
-        if (!targetSlotUI.ItemSlot.CheckSlotCondition(selectedItemSlot.Data))
+        if (!targetSlotUI.ItemSlot.CheckSlotCondition(movingSlot.Data))
             return;
 
-        int amount = selectedItemSlot.Stack;
+        int amount = movingSlot.Stack;
         if (targetSlotUI.ItemSlot.Data != null)
         {
             amount = Math.Min(amount, targetSlotUI.ItemSlot.MaxStack - targetSlotUI.ItemSlot.Stack);
         }
 
-        targetSlotUI.ItemSlot.AddStack(selectedItemSlot.Data, amount);
-        selectedItemSlot.AddStack(selectedItemSlot.Data, -amount);
+        targetSlotUI.ItemSlot.AddStack(movingSlot.Data, amount);
+        movingSlot.AddStack(movingSlot.Data, -amount);
 
-        if (selectedItemSlot.Data == null)
+        if (movingSlot.Data == null)
             SetupMovingSlot(null);
     }
 
 
     public static void DropItem()
     {
-        if (selectedItemSlot == null || Managers.Player == null)
+        if (movingSlot == null || Managers.Player == null)
             return;
 
-        GameObject dropItem = Managers.Resource.Instantiate(selectedItemSlot.Data.DropPrefabPath);
+        GameObject dropItem = Managers.Resource.Instantiate(movingSlot.Data.DropPrefabPath);
 
         Vector3 forward = Managers.Player.transform.forward;
         Vector3 pos = Managers.Player.transform.position + forward * 1.5f;
@@ -90,26 +106,27 @@ public static class ItemDragHandler
 
         dropItem.GetOrAddComponent<Rigidbody>().AddForce(Vector3.Lerp(forward, Vector3.up, 0.5f) * 5f, ForceMode.Impulse);
 
-        selectedItemSlot.AddStack(selectedItemSlot.Data, -1);
-        if (selectedItemSlot.Stack <= 0)
+        movingSlot.AddStack(movingSlot.Data, -1);
+        if (movingSlot.Stack <= 0)
             CloseMovingSlot(); 
     }
 
     private static void SelectSlot(ItemSlot itemSlot)
     {
-        selectedItemSlot = new ItemSlot(itemSlot);
+        movingSlot = new ItemSlot(itemSlot);
         itemSlot.Setup(null); 
     }
 
     private static void CloseMovingSlot() => SetupMovingSlot(null);
+    
     private static void SetupMovingSlot(ItemSlot itemSlot)
     {
-        selectedItemSlot = itemSlot;
+        movingSlot = itemSlot;
         if (itemSlot == null)
         {
             if (movingSlotUI != null)
             { 
-                Managers.UI.ClosePopupUI(movingSlotUI);
+                movingSlotUI.Hide();
                 movingSlotUI = null;
             } 
             return;
@@ -123,14 +140,15 @@ public static class ItemDragHandler
             {
                 GameObject go = GameObject.Instantiate(prefab); 
                 movingSlotUI = go.GetComponent<MovingSlotUI>();
-                movingSlotUI.SetItem(selectedItemSlot);
-                Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI);
+                movingSlotUI.SetItem(movingSlot);
+                Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI, true);
+                
             });
         } 
         else 
-        {
-            Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI);   
-            movingSlotUI.SetItem(selectedItemSlot);
+        { 
+            Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI, true);   
+            movingSlotUI.SetItem(movingSlot);
         }
     }
 

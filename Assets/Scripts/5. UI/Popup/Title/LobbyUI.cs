@@ -16,6 +16,7 @@ public class LobbyUI : PopupUI
     [Header("UI Button")]
     [SerializeField] private Button _createRoomButton;
     [SerializeField] private Button _refreshButton;
+    [SerializeField] private Button _testButton;
     [SerializeField] private CloseButton _closeButton;
 
 
@@ -35,6 +36,12 @@ public class LobbyUI : PopupUI
         base.Awake();
         _createRoomButton.onClick.AddListener(OpenCreateRoomUI); 
         _closeButton.OnClick += Close;
+
+        if(Managers.Network.Type == NetworkType.TCP_UDP)
+        {
+            _testButton.gameObject.SetActive(true);
+            _testButton.onClick.AddListener(OnClickTestButton);
+        }
 
         if(Managers.Network.Type == NetworkType.Steam)
         {
@@ -114,5 +121,10 @@ public class LobbyUI : PopupUI
         }
 
         _roomSlotUIList.Clear();
+    }
+
+    public void OnClickTestButton()
+    {
+        Managers.Network.StartClient();
     }
 }

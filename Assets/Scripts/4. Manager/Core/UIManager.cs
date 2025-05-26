@@ -6,9 +6,11 @@ using UnityEngine;
 public class UIManager : IManager
 {
     private Stack<PopupUI> _popupStack = new Stack<PopupUI>();
+    private Stack<PopupUI> _pinnedPopupStack = new Stack<PopupUI>();
     private UIBase _sceneUI = null; 
 
     private int _order = 10;
+    private int _pinnedOrder = 100;
 
 
     public void Clear()
@@ -22,21 +24,24 @@ public class UIManager : IManager
     }
 
 
-    public void SetCanvas(GameObject go, bool sort = true)
+    public void SetCanvas(GameObject go, bool pinned = false)
     {
         Canvas canvas = go.GetOrAddComponent<Canvas>();
         canvas.renderMode = RenderMode.ScreenSpaceOverlay;
         canvas.overrideSorting = true;
 
-        if (sort)
+        if (pinned)
         {
-            canvas.sortingOrder = _order;
-            _order++;
+            canvas.sortingOrder = _pinnedOrder;
+            _pinnedOrder++;
         }
         else
         {
-            canvas.sortingOrder = 0;
+            canvas.sortingOrder = _order;
+            _order++;
+
         }
+
     }
 
     public void RegisterSceneUI(SceneUI sceneUI)
@@ -76,16 +81,17 @@ public class UIManager : IManager
 		return Util.GetOrAddComponent<T>(go); 
 	}
 
-    public T ShowPopupUI<T>(T popup) where T : PopupUI
+    public T ShowPopupUI<T>(T popup, bool pinned = false) where T : PopupUI
     {
-        _popupStack.Push(popup);
-
-      //  go.transform.SetParent(_popupUIParent.transform, false);
+        if (!pinned) 
+            _popupStack.Push(popup);   
  
-        popup.Init();
-        popup.Show();
+      //  go.transform.SetParent(_popupUIParent.transform, false);
+        popup.Init(pinned); 
+        popup.Show(); 
 		return popup; 
     }
+
 
 
     public void ClosePopupUI(PopupUI popup, float time = 0.0f)

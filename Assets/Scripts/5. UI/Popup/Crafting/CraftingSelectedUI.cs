@@ -38,7 +38,7 @@ public class CraftingSelectedUI : MonoBehaviour
     private void Setup(CraftingItemData data)
     {
         this.data = data;
-        if (data == null)
+        if (data == null) 
             return;
 
         for (int i = 0; i < data.requiredStorage.Count; i++)

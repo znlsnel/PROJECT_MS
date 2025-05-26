@@ -4,11 +4,13 @@ using UnityEngine;
 public class QuestStorageUI : StorageUI
 {
     [SerializeField] private TextMeshProUGUI _title;
+    [SerializeField] private CloseButton closeButton;
     private QuestStorageSlotUI[] slots;
 
     protected override void Awake()
     {
         base.Awake();
+        closeButton.OnClick += Hide;
         slots = storageRoot.GetComponentsInChildren<QuestStorageSlotUI>();
     }
 
@@ -21,5 +23,5 @@ public class QuestStorageUI : StorageUI
             slots[i].gameObject.SetActive(itemSlot != null);
             slots[i].Setup(itemSlot);
         }
-    }
+    } 
 }

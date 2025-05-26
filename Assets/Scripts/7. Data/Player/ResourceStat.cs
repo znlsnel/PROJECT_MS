@@ -9,8 +9,8 @@ using UnityEngine;
 [Serializable]
 public abstract class ResourceStat : NetworkBehaviour
 {
-    public readonly SyncVar<float> Current = new SyncVar<float>();
-    public readonly SyncVar<float> Maximum = new SyncVar<float>();
+    public readonly SyncVar<float> Current = new SyncVar<float>(100);
+    public readonly SyncVar<float> Maximum = new SyncVar<float>(100);
 
     public event Action<float, float> OnResourceChanged; // (current, max)
 
