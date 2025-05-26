@@ -18,6 +18,9 @@ public class LobbyRoomUI : NetworkBehaviour
     [SerializeField] private CloseButton _closeButton;
     [SerializeField] private Button _gameStartButton;
 
+    private string startGameSound = "Sound/UI/Popup_04.mp3";
+    private string closeSound = "Sound/UI/PopupClose_01.mp3";
+
     private List<UIPlayerPanel> _userTagList = new List<UIPlayerPanel>();
 
     public override void OnStartNetwork()
@@ -53,6 +56,11 @@ public class LobbyRoomUI : NetworkBehaviour
     private void Close()
     {
         (InstanceFinder.IsServerStarted ? (Action)Managers.Network.StopHost : Managers.Network.StopClient)();
+
+        Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     private void GameStart()
@@ -64,6 +72,11 @@ public class LobbyRoomUI : NetworkBehaviour
 
         // 게임 시작
         NetworkGameSystem.Instance.StartGame();
+
+        Managers.Resource.LoadAsync<AudioClip>(startGameSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     [Server]
