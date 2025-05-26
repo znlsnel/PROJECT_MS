@@ -5,19 +5,22 @@ using UnityEngine.UI;
 using DG.Tweening;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 
 public class ItemPickupUI : PopupUI
 {
     private static readonly string _itemPickupSound = "Sound/UI/Click_02.mp3";
 
-    Queue<TextMeshProUGUI> itemNameTexts = new Queue<TextMeshProUGUI>();
+    private Queue<TextMeshProUGUI> itemNameTexts = new Queue<TextMeshProUGUI>();
+    private Queue<TextMeshProUGUI> useTexts = new Queue<TextMeshProUGUI>();
+
     Color defaultColor;
     protected override void Awake()
     {
         base.Awake();
         Managers.onChangePlayer += Init;
 
-        transform.GetComponentsInChildren<TextMeshProUGUI>().ToList().ForEach(text => {
+        transform.GetComponentsInChildren<TextMeshProUGUI>(true).ToList().ForEach(text => {
             defaultColor = text.color; 
             text.gameObject.SetActive(false);
             itemNameTexts.Enqueue(text);
@@ -42,7 +45,8 @@ public class ItemPickupUI : PopupUI
 
     private void Setup(ItemData data)
     {
-        TextMeshProUGUI text = itemNameTexts.Dequeue();
+        TextMeshProUGUI text = GetText();
+ 
         text.text = $"<color=green>{data.Name}</color> 획득!";
         text.gameObject.SetActive(true);
  
@@ -56,8 +60,28 @@ public class ItemPickupUI : PopupUI
         text.transform.DOLocalMoveY(100f, 1f).SetEase(Ease.OutCirc);  
         text.DOFade(0f, 1f).SetEase(Ease.InCirc).OnComplete(() =>
         {
-            itemNameTexts.Enqueue(text); 
-            text.gameObject.SetActive(false);
+            ReturnText();  
         });
+    }
+
+
+    private TextMeshProUGUI GetText()
+    {
+        TextMeshProUGUI text = null;
+        if (itemNameTexts.Count > 0)
+            text = itemNameTexts.Dequeue();
+        else
+            text = useTexts.Dequeue();
+ 
+        useTexts.Enqueue(text);
+        return text;
+    }
+
+    private void ReturnText()
+    {
+        if (useTexts.Count > 0)
+        {
+            itemNameTexts.Enqueue(useTexts.Dequeue());  
+        }
     }
 }
