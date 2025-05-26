@@ -287,7 +287,7 @@ namespace FishNet.Observing
         /// Returns a condition if found within Conditions.
         /// </summary>
         /// <returns></returns>
-        public ObserverCondition GetObserverCondition<T>() where T : ObserverCondition
+        public T GetObserverCondition<T>() where T : ObserverCondition
         {
             /* Do not bother setting local variables,
              * condition collections aren't going to be long
@@ -297,7 +297,7 @@ namespace FishNet.Observing
             for (int i = 0; i < _observerConditions.Count; i++)
             {
                 if (_observerConditions[i].GetType() == conditionType)
-                    return _observerConditions[i];
+                    return _observerConditions[i] as T;
             }
 
             //Fall through, not found.

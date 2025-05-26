@@ -7,7 +7,6 @@ using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
-using VInspector.Libs;
 
 [RequireComponent(typeof(InteractionHandler))]
 public class AlivePlayer : NetworkBehaviour, IDamageable
@@ -37,8 +36,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
     public event Action onDead;
     public event Action onDamaged;
-
-    public NetworkObject ghostPlayerPrefab;
 
     private bool isDead = false;
     public bool IsDead => isDead;
@@ -158,7 +155,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
             {
                 isDead = true;
                 onDead?.Invoke();
-                OnDead();
+                NetworkGameSystem.Instance.OnPlayerDead(NetworkObject);
             }
         }
     }
@@ -204,15 +201,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void RestoreHunger(float amount) // 음식물 섭취
     {
         Health.Add(amount);
-    }
-
-    [ServerRpc]
-    public void OnDead(NetworkConnection conn = null)
-    {
-        NetworkGameSystem.Instance.OnPlayerDead(transform.position);
-        NetworkObject networkObject = Instantiate(ghostPlayerPrefab, transform.position, Quaternion.identity);
-        InstanceFinder.ServerManager.Spawn(networkObject, conn);
-        //GiveOwnership(null);
     }
 
     public bool CanTakeDamage()

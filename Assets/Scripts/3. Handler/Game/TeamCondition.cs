@@ -7,24 +7,19 @@ using UnityEngine;
 [CreateAssetMenu(menuName = "FishNet/ObserverCondition/TeamCondition")]
 public class TeamCondition : ObserverCondition
 {
+    public int teamID = 0;
+
     public override bool ConditionMet(NetworkConnection connection, bool currentlyAdded, out bool notProcessed)
     {
         notProcessed = false;
 
-        NetworkObject target = base.NetworkObject;
+        if(NetworkObject.IsOwner) return true;
 
-        if (connection == null || target == null)
+        int id = NetworkObject.NetworkObserver.GetObserverCondition<TeamCondition>().teamID;
+        if(id == teamID)
+            return true;
+        else
             return false;
-
-        NetworkGameSystem.Instance.Players.TryGetValue(target.Owner, out PlayerInfo targetPlayerInfo);
-        if(targetPlayerInfo.IsUnityNull())
-            return false;
-
-        NetworkGameSystem.Instance.Players.TryGetValue(connection, out PlayerInfo viewerPlayerInfo);
-        if(viewerPlayerInfo.IsUnityNull())
-            return false;
-        
-        return targetPlayerInfo.isDead == viewerPlayerInfo.isDead;
     }
 
     public override ObserverConditionType GetConditionType()

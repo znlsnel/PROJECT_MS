@@ -9,25 +9,26 @@ public class StorageBox : Interactable
     private Storage storage = new Storage(30); 
     void Awake() 
     {
-        if (storageBoxUI == null)
-        {
-            storageBoxUI = Instantiate(storageBoxPrefab).GetComponent<StorageBoxUI>();
-            storageBoxUI.Hide();  
-        } 
+        Managers.SubscribeToInit(()=>{
+            if (storageBoxUI == null)
+            {
+                storageBoxUI = Instantiate(storageBoxPrefab).GetComponent<StorageBoxUI>();
+                storageBoxUI.Hide();  
+            } 
 
-        for (int i = 0; i < storage.Count; i++)
-        {
-            storage.GetSlotByIdx(i).onUpdateSlot += (slotIdx) => {
+            for (int i = 0; i < storage.Count; i++)
+            {
+                storage.GetSlotByIdx(i).onUpdateSlot += (slotIdx) => {
 
-                int idx = -1;
+                    int idx = -1;
 
-                if (storage.GetSlotByIdx(slotIdx).Data != null)
-                    idx = storage.GetSlotByIdx(slotIdx).Data.Id;
+                    if (storage.GetSlotByIdx(slotIdx).Data != null)
+                        idx = storage.GetSlotByIdx(slotIdx).Data.Id;
 
-                AsyncItemSlot(slotIdx, idx, storage.GetSlotByIdx(slotIdx).Stack); 
-            }; 
-        }
-         
+                    AsyncItemSlot(slotIdx, idx, storage.GetSlotByIdx(slotIdx).Stack); 
+                }; 
+            }
+        });
     }
 
     public override void Interact(GameObject obj)

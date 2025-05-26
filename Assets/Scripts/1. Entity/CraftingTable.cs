@@ -6,11 +6,13 @@ public class CraftingTable : Interactable
     private static CraftingTableUI craftingTableUI;
     void Awake()
     {
-        if (craftingTableUI == null)
-        {
-            craftingTableUI = Instantiate(craftingTableUIPrefab).GetComponent<CraftingTableUI>();
-            craftingTableUI.Hide();
-        }
+        Managers.SubscribeToInit(()=>{
+            if (craftingTableUI == null)
+            {
+                craftingTableUI = Instantiate(craftingTableUIPrefab).GetComponent<CraftingTableUI>();
+                craftingTableUI.Hide();
+            }
+        });
     } 
 
     public override void Interact(GameObject obj)

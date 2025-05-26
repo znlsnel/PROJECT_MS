@@ -1,4 +1,7 @@
+
 using System;
+
+using System.Collections.Generic;
 using System.Linq;
 using FishNet;
 using FishNet.Connection;
@@ -14,6 +17,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     public readonly SyncDictionary<NetworkConnection, PlayerInfo> Players = new SyncDictionary<NetworkConnection, PlayerInfo>();
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
     [SerializeField] private NetworkObject ghostPlayerPrefab;
+    private List<NetworkObject> ghostPlayers = new List<NetworkObject>();
 
     public Action onGameEnd;
     [Server]
@@ -82,7 +86,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void OnPlayerDead(Vector3 position, NetworkConnection connection = null)
+    public void OnPlayerDead(NetworkObject networkObject, NetworkConnection connection = null)
     {
         if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
         {
@@ -108,8 +112,9 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
             // InstanceFinder.ServerManager.Spawn(instance, connection);
         }
 
-        // NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
-        // InstanceFinder.ServerManager.Spawn(instance, connection);
+        NetworkObject instance = Instantiate(ghostPlayerPrefab, networkObject.transform.position, Quaternion.identity);
+        InstanceFinder.ServerManager.Spawn(instance, connection);
+        ghostPlayers.Add(instance);
     }
 
     [ServerRpc(RequireOwnership = false)]
