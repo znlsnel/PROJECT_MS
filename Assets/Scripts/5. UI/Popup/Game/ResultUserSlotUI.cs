@@ -16,12 +16,12 @@ public class ResultUserSlotUI : MonoBehaviour
 
 
 
-    public void Setup(string name, bool isMafia, bool survive, int kill)
+    public void Setup(string name, PlayerRole role, bool survive, int kill)
     {
         _nicknameText.text = name;
 
-        _roleText_Mafia.SetActive(isMafia);
-        _roleText_Survivor.SetActive(!isMafia);
+        _roleText_Mafia.SetActive(role == PlayerRole.Imposter);
+        _roleText_Survivor.SetActive(role == PlayerRole.Survival); 
 
         _surviveText_Survive.SetActive(survive);
         _surviveText_Dead.SetActive(!survive);

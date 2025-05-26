@@ -51,7 +51,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         foreach(NetworkConnection connection in InstanceFinder.ServerManager.Clients.Values)
         {
             PlayerRole role = Imposters.Contains(connection) ? PlayerRole.Imposter : PlayerRole.Survival;
-            PlayerInfo playerInfo = new PlayerInfo(role, false);
+            PlayerInfo playerInfo = new PlayerInfo(connection.ClientId.ToString(), role, false, 0);
             Debug.Log(playerInfo);
             Players.Add(connection, playerInfo);
         }
@@ -107,6 +107,16 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         // NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
         // InstanceFinder.ServerManager.Spawn(instance, connection);
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void UpdatePlayerKillCount(NetworkConnection connection = null)
+    {
+        if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
+        {
+            playerInfo.killCount++;
+            Players[connection] = playerInfo;
+        }
+    }
 }
 
 public struct GameOptions
@@ -128,13 +138,17 @@ public struct GameOptions
 
 public struct PlayerInfo
 {
+    public string playerName;
+    public int killCount; 
     public PlayerRole role;
     public bool isDead;
 
-    public PlayerInfo(PlayerRole role, bool isDead)
+    public PlayerInfo(string playerName, PlayerRole role, bool isDead, int killCount)
     {
+        this.playerName = playerName;
         this.role = role;
         this.isDead = isDead;
+        this.killCount = killCount;
     }
 }
 

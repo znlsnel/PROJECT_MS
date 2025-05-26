@@ -7,6 +7,7 @@ using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using VInspector.Libs;
 
 [RequireComponent(typeof(InteractionHandler))]
 public class AlivePlayer : NetworkBehaviour, IDamageable
@@ -40,6 +41,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public NetworkObject ghostPlayerPrefab;
 
     private bool isDead = false;
+
 
     public override void OnStartNetwork()
     {
@@ -89,6 +91,11 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         base.OnStopClient();
     }
 
+    public void IncreaseKillCount()
+    {
+        NetworkGameSystem.Instance.UpdatePlayerKillCount(Owner);  
+    }
+
     [ServerRpc]
     private void Init()
     {
@@ -128,7 +135,16 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamage(float damage, GameObject attacker)
     {
+        if (isDead)
+            return;
+
         Health.Subtract(damage);
+
+        AlivePlayer aliveAttacker = attacker.GetComponent<AlivePlayer>();
+        if (Health.Current.Value <= 0 && aliveAttacker != null)
+        {
+            aliveAttacker.IncreaseKillCount(); 
+        }
     }
 
     public void OnTakeDamage(float prev, float next, bool asServer)

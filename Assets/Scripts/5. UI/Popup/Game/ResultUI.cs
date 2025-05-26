@@ -17,14 +17,13 @@ public class ResultUI : PopupUI
 
     public void Setup()
     {
-        AlivePlayer[] alivePlayers = FindObjectsByType<AlivePlayer>(FindObjectsSortMode.None);
-        foreach (AlivePlayer alivePlayer in alivePlayers)
+        foreach (PlayerInfo playerInfo in NetworkGameSystem.Instance.Players.Values)
         {
             GameObject userSlot = Instantiate(_userSlotPrefab, _userListRoot);
-         //   userSlot.GetComponent<ResultUserSlotUI>().Setup(alivePlayer.GetComponent<Player>().GetNickname(), alivePlayer.GetComponent<Player>().GetRole(), alivePlayer.GetComponent<Player>().IsSurvive(), alivePlayer.GetComponent<Player>().GetKill());
+            userSlot.GetComponent<ResultUserSlotUI>().Setup(playerInfo.playerName, playerInfo.role, playerInfo.isDead, playerInfo.killCount);
         }
     }
-
+ 
 
     private void OnClickLobbyButton()
     {
