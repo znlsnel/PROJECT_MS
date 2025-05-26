@@ -152,6 +152,7 @@ MonoBehaviour:
   <PredictedOwner>k__BackingField: {fileID: 0}
   NetworkBehaviours:
   - {fileID: -2481332486061891204}
+  - {fileID: -9032478577934057623}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects: []
   RuntimeParentNetworkBehaviour: {fileID: 0}
@@ -176,7 +177,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 40
+  <PrefabId>k__BackingField: 43
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 16349541407484286998
   <SceneId>k__BackingField: 0
@@ -197,9 +198,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0a61fb51ea5a24189a81dd7c7d3655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 1
   _addedNetworkObject: {fileID: -4306722879107070590}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: -4306722879107070590}
   defaultHealth: 100
   defaultMaxHealth: 100
 --- !u!1 &8103715153879094576

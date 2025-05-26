@@ -5,8 +5,11 @@ using DG.Tweening;
 using FishNet;
 using System.Collections.Generic;
 using Steamworks;
+using FishNet.Object;
+using FishNet.Connection;
+using FishNet.Transporting;
 
-public class LobbyRoomUI : PopupUI
+public class LobbyRoomUI : NetworkBehaviour
 {
     [SerializeField] private GameObject _userTagPrefab;
 
@@ -17,69 +20,70 @@ public class LobbyRoomUI : PopupUI
 
     private List<UIPlayerPanel> _userTagList = new List<UIPlayerPanel>();
 
-    protected override void Awake()
+    public override void OnStartNetwork()
     {
-        base.Awake();
+        base.OnStartNetwork();
+
         _closeButton.OnClick += Close;
+        
+        _gameStartButton.gameObject.SetActive(InstanceFinder.IsServerStarted);
         _gameStartButton.onClick.AddListener(GameStart);
+
+        InstanceFinder.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
     }
 
-    private void Start()
+    public override void OnStopNetwork()
     {
-        Managers.Network.OnClientConnected += UpdateUI;
+        base.OnStopNetwork();
+        InstanceFinder.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
     }
 
-    private void OnDestroy()
+    private void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
     {
-        Managers.Network.OnClientConnected -= UpdateUI;
+        switch(args.ConnectionState)
+        {
+            case RemoteConnectionState.Started:
+                CreateUI(connection);
+                break;
+            case RemoteConnectionState.Stopped:
+                break;
+        }
     }
 
     private void Close()
     {
-        (InstanceFinder.IsHostStarted ? (Action)Managers.Network.StopHost : Managers.Network.StopClient)();
-
-        _mainPanel.transform.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
-            Hide(); 
-        };  
-    }
-
-    public override void Show()
-    { 
-        base.Show(); 
-        _mainPanel.transform.localScale = Vector3.one * 0.9f; 
-        gameObject.SetActive(true);
-        _mainPanel.transform.DOScale(Vector3.one, 0.5f).SetEase(Ease.OutBack, 10f);   
+        (InstanceFinder.IsServerStarted ? (Action)Managers.Network.StopHost : Managers.Network.StopClient)();
     }
 
     private void GameStart()
     {
+        foreach(var userTag in _userTagList)
+        {
+            ServerManager.Despawn(userTag.NetworkObject);
+        }
+
         // 게임 시작
         NetworkGameSystem.Instance.StartGame();
     }
 
-    private void UpdateUI()
+    [Server]
+    private void CreateUI(NetworkConnection connection)
     {
-        ResetUI();
-
-        _gameStartButton.gameObject.SetActive(InstanceFinder.IsServerStarted);
-
-        List<CSteamID> members = Managers.Steam.RequestLobbyMemberList();
-        
-        foreach (var member in members)
+        if(Managers.Network.Type == NetworkType.Steam)
         {
+            ulong m_steamId = Managers.Steam.NetworkConnectionToSteamId[connection];
+            if(m_steamId == 0) return;
+
+            CSteamID steamId = new CSteamID(m_steamId);
+
             UIPlayerPanel uIPlayerPanel = Instantiate(_userTagPrefab, _userTagRoot).GetComponent<UIPlayerPanel>();
-            uIPlayerPanel.UpdateUI(member.m_SteamID);
+            InstanceFinder.ServerManager.Spawn(uIPlayerPanel.gameObject, connection);
+
+            Color color = NetworkRoomSystem.Instance.GetPlayerColor(connection);
+            uIPlayerPanel.PlayerName.Value = SteamFriends.GetFriendPersonaName(steamId);
+            uIPlayerPanel.PlayerColor.Value = color;
+
             _userTagList.Add(uIPlayerPanel);
         }
-    }
-
-    private void ResetUI()
-    {
-        foreach (var uIPlayerPanel in _userTagList)
-        {
-            Destroy(uIPlayerPanel.gameObject);
-        }
-
-        _userTagList.Clear();
     }
 }

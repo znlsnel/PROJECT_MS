@@ -112,7 +112,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 28
+  <PrefabId>k__BackingField: 29
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 11709596504526098985
   <SceneId>k__BackingField: 0
@@ -422,9 +422,9 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 4099755175790642997}
   _networkObjectCache: {fileID: 4099755175790642997}
-  maxHp: 100
   dropItemCount: 1
   dropItemIds: 
+  <Hp>k__BackingField: {fileID: 0}
 --- !u!1 &3438365831924901998
 GameObject:
   m_ObjectHideFlags: 0

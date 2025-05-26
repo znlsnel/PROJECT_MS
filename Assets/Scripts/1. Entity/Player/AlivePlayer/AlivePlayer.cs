@@ -1,5 +1,6 @@
 using System;
 using System.Runtime.CompilerServices;
+using FishNet;
 using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
@@ -37,6 +38,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public event Action onDamaged;
 
     private bool isDead = false;
+    public bool IsDead => isDead;
+
 
     public override void OnStartNetwork()
     {
@@ -61,6 +64,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
         PlacementHandler.Setup(QuickSlotHandler);
+
+        GetComponentInChildren<SkinnedMeshRenderer>().material.color = NetworkRoomSystem.Instance.GetPlayerColor(Owner);
     }
 
     public override void OnStartClient()
@@ -70,7 +75,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         if(!IsOwner)
             return;
 
-        onDead += OnDead;
+        Health.Current.OnChange += OnTakeDamage;
 
         Init();
 
@@ -84,6 +89,11 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public override void OnStopClient()
     {
         base.OnStopClient();
+    }
+
+    public void IncreaseKillCount()
+    {
+        NetworkGameSystem.Instance.UpdatePlayerKillCount(Owner);  
     }
 
     [ServerRpc]
@@ -101,11 +111,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
        // hungerPoint.Subtract(Time.deltaTime * 10f); // 추후 float 값 수정
        // waterPoint.Subtract(Time.deltaTime * 0.5f);
-
-        if(Health.Current.Value <= 0)
-        {
-            Health.Subtract(Time.deltaTime * 5f);
-        }
 
         if(Input.GetKeyDown(KeyCode.P)) // 테스트 코드
         {
@@ -130,19 +135,30 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     [ServerRpc(RequireOwnership = false)]
     public void TakeDamage(float damage, GameObject attacker)
     {
+        if (isDead)
+            return;
+
         Health.Subtract(damage);
-        OnTakeDamage(Owner);
+
+        AlivePlayer aliveAttacker = attacker.GetComponent<AlivePlayer>();
+        if (Health.Current.Value <= 0 && aliveAttacker != null)
+        {
+            aliveAttacker.IncreaseKillCount(); 
+        }
     }
 
-    [TargetRpc]
-    public void OnTakeDamage(NetworkConnection connection)
+    public void OnTakeDamage(float prev, float next, bool asServer)
     {
-        onDamaged?.Invoke(); 
-
-        if(Health.Current.Value <= 0)
+        if(prev > next)
         {
-            isDead = true;
-            onDead?.Invoke();
+            onDamaged?.Invoke(); 
+
+            if(next <= 0)
+            {
+                isDead = true;
+                onDead?.Invoke();
+                NetworkGameSystem.Instance.OnPlayerDead(NetworkObject);
+            }
         }
     }
 
@@ -187,13 +203,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void RestoreHunger(float amount) // 음식물 섭취
     {
         Health.Add(amount);
-    }
-
-    [ServerRpc]
-    public void OnDead()
-    {
-        NetworkGameSystem.Instance.OnPlayerDead(transform.position, Owner);
-        //GiveOwnership(null);
     }
 
     public bool CanTakeDamage()

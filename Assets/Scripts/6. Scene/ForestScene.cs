@@ -24,6 +24,12 @@ public class ForestScene : SceneBase
 
         Managers.SubscribeToInit(InitScene);
     }
+ 
+    void Start()
+    {
+        Managers.Analytics.SurvivalStart();
+        NetworkGameSystem.Instance.onGameEnd += ShowResultUI;
+    }
 
     private void InitScene()
     {
@@ -52,7 +58,13 @@ public class ForestScene : SceneBase
             _resultUI = Instantiate(_resultUIPrefab).GetComponent<ResultUI>();
 
         Managers.UI.CloseAllPopupUI();
+        Managers.Analytics.SurvivalEnding();
+        Managers.Analytics.MafiaWinRate(true);
+
+        _resultUI.Setup();
         Managers.UI.ShowPopupUI(_resultUI);
+
+        Managers.Analytics.SurvivalRate(!Managers.Player.IsDead);
     }
 
     private void PlaceFieldItem()

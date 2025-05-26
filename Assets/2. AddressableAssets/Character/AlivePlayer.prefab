@@ -190,11 +190,13 @@ MonoBehaviour:
   - {fileID: 3776707604294545854}
   - {fileID: 8532824134416887218}
   - {fileID: 2524675185905108376}
+  - {fileID: 1232747000845924413}
+  - {fileID: 4861804768939561007}
   - {fileID: 6870553738434095995}
   - {fileID: -98352759735353690}
   InitializedParentNetworkBehaviour: {fileID: 0}
   InitializedNestedNetworkObjects:
-  - {fileID: 0}
+  - {fileID: 1749036382879692220}
   RuntimeParentNetworkBehaviour: {fileID: 0}
   RuntimeChildNetworkBehaviours: []
   _isNetworked: 1
@@ -379,9 +381,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: fd0a61fb51ea5a24189a81dd7c7d3655, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 3
   _addedNetworkObject: {fileID: 6927395498750123055}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6927395498750123055}
   defaultHealth: 100
   defaultMaxHealth: 100
 --- !u!114 &4861804768939561007
@@ -396,9 +398,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b96553553175a8f48ab60efa9665c05d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 255
+  _componentIndexCache: 4
   _addedNetworkObject: {fileID: 6927395498750123055}
-  _networkObjectCache: {fileID: 0}
+  _networkObjectCache: {fileID: 6927395498750123055}
   defaultStamina: 100
   defaultMaxStamina: 100
 --- !u!1 &8613519095027179298
@@ -446,7 +448,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a6a39c46bf52104ba8efe3100bce3f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 4
+  _componentIndexCache: 6
   _addedNetworkObject: {fileID: 6927395498750123055}
   _networkObjectCache: {fileID: 6927395498750123055}
 --- !u!1001 &6741166849298124710
@@ -616,7 +618,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8cac635f24954048aad3a6ff9110beb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 3
+  _componentIndexCache: 5
   _addedNetworkObject: {fileID: 6927395498750123055}
   _networkObjectCache: {fileID: 6927395498750123055}
   IgnoredParameters: []
@@ -691,6 +693,38 @@ PrefabInstance:
       propertyPath: <attackAnimationSpeed>k__BackingField
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: <IsNested>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: <PrefabId>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: <ComponentIndex>k__BackingField
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: InitializedParentNetworkBehaviour
+      value: 
+      objectReference: {fileID: -98352759735353690}
+    - target: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: SerializedTransformProperties.Position.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: SerializedTransformProperties.Rotation.x
+      value: 0.000000027008346
+      objectReference: {fileID: 0}
+    - target: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: SerializedTransformProperties.Rotation.y
+      value: 0.00000007916239
+      objectReference: {fileID: 0}
+    - target: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+      propertyPath: SerializedTransformProperties.Rotation.z
+      value: 0.000000080486615
+      objectReference: {fileID: 0}
     - target: {fileID: 3707404562706320488, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
       propertyPath: m_Name
       value: axe_001
@@ -751,6 +785,17 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 4891204468155486715}
   m_SourcePrefab: {fileID: 100100000, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+--- !u!114 &1749036382879692220 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: -1988052817276389535, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}
+  m_PrefabInstance: {fileID: 8947763144248361693}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5719448255788764853}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &4905650683383125007 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4051137819382748882, guid: 65a75073995360b4d8d94e7f17cdad68, type: 3}

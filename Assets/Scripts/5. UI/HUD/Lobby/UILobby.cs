@@ -12,7 +12,10 @@ public class UILobby : MonoBehaviour
 
     public void Start()
     {
-        StartCoroutine(UpdateRoomListCoroutine());
+        if(Managers.Network.Type == NetworkType.Steam)
+        {
+            StartCoroutine(UpdateRoomListCoroutine());
+        }
     }
 
     private async void UpdateRoomList()

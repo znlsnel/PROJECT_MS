@@ -27,6 +27,14 @@ public enum EItemType
     Placeable,
 }
 
+public enum EItemEffectType
+{
+    Damage,
+    Heal,
+    Stamina,
+    Durability
+}
+
 [GoogleSheet.Core.Type.UGS(typeof(EEquipType))]
 public enum EEquipType 
 {

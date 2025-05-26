@@ -21,25 +21,30 @@ public class CraftingSelectedUI : MonoBehaviour
 
 
     private CraftingItemData data;
-    private List<RequiredItemSlotUI> requiredItems;
+    private List<RequiredItemSlotUI> requiredItems = new List<RequiredItemSlotUI>();
     private CanvasGroup canvasGroup;
 
 
-    private void Awake()
+    private void Start() 
     {
-        CraftingSlotUI.onSlotClick += Setup;
-        button.onClick.AddListener(OnClick);
-
         canvasGroup = GetComponent<CanvasGroup>();
+        requiredItems = requiredItemRoot.GetComponentsInChildren<RequiredItemSlotUI>(true).ToList();  
 
-        requiredItems = requiredItemRoot.GetComponentsInChildren<RequiredItemSlotUI>(true).ToList(); 
+        CraftingSlotUI.onSlotClick += Setup; 
+        button.onClick.AddListener(OnClick);  
+    }
+
+    private void OnDestroy()
+    {
+        CraftingSlotUI.onSlotClick -= Setup; 
+        button.onClick.RemoveListener(OnClick);
     }
 
     private void Setup(CraftingItemData data)
     {
         this.data = data;
-        if (data == null)
-            return;
+        if (data == null) 
+            return; 
 
         for (int i = 0; i < data.requiredStorage.Count; i++)
         {
@@ -87,5 +92,6 @@ public class CraftingSelectedUI : MonoBehaviour
 
         Managers.Player.Inventory.AddItem(data); 
         Managers.Quest.ReceiveReport(ETaskCategory.Crafting, data.Id); 
+        Managers.Analytics.CraftingUsage();
     }
 }

@@ -116,4 +116,9 @@ public static class Extension
     {
         curve.AddKey(new Keyframe(time, value, inTangent, outTangent)); 
     }
+
+    public static void SetHeight(this RectTransform rectTransform, float height)
+    {
+        rectTransform.sizeDelta = new Vector2(rectTransform.sizeDelta.x, height);
+    }
 }

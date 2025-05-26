@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using DG.Tweening;
+using FishNet.Object;
 using UnityEngine;
 
 public class QuestStorageBox : Interactable
@@ -21,11 +22,13 @@ public class QuestStorageBox : Interactable
 
     public void Awake()
     {
-        if (questStorageUI == null)
-        {
-            questStorageUI = Instantiate(questStorageUIPrefab).GetComponent<QuestStorageUI>();
-            questStorageUI.Hide();
-        }
+        Managers.SubscribeToInit(()=>{
+            if (questStorageUI == null)
+            {
+                questStorageUI = Instantiate(questStorageUIPrefab).GetComponent<QuestStorageUI>();
+                questStorageUI.Hide();
+            }
+        });
 
         Managers.SubscribeToInit(()=>{
             Setup(Managers.Data.questStorages.GetByIndex(questStorageIndex));
@@ -44,10 +47,23 @@ public class QuestStorageBox : Interactable
         this.questStorageData = questStorageData;
         foreach (var item in questStorageData.items)
         {
-            QuestStorageSlot itemSlot = new QuestStorageSlot(item.amount);
+            int idx = storage.Count;
+            QuestStorageSlot itemSlot = new QuestStorageSlot(item.amount, idx); 
             itemSlot.Setup(item.itemData);
-            itemSlot.onSuccess += SuccessQuest;
-            storage.AddItemSlot(itemSlot);
+            itemSlot.onSuccess += SuccessQuest; 
+            storage.AddItemSlot(itemSlot); 
+        } 
+
+        for (int i = 0; i < storage.Count; i++)
+        {
+            storage.GetSlotByIdx(i).onUpdateSlot += (slotIdx) => {
+                int idx = -1;
+
+                if (storage.GetSlotByIdx(slotIdx).Data != null)
+                    idx = storage.GetSlotByIdx(slotIdx).Data.Id;
+
+                AsyncItemSlot(slotIdx, idx, storage.GetSlotByIdx(slotIdx).Stack); 
+            };
         }
     }
 
@@ -88,4 +104,18 @@ public class QuestStorageBox : Interactable
             transform.DOScale(originalScale, 0.2f).SetEase(Ease.InBack);
         };
     }
-}
+ 
+
+    [ServerRpc(RequireOwnership = false)]
+    private void AsyncItemSlot(int slotIdx, int itemData, int amount)
+    {
+        ObserversRpcItemSlot(slotIdx, itemData, amount);  
+    } 
+ 
+    [ObserversRpc]
+    private void ObserversRpcItemSlot(int slotIdx, int itemData, int amount)
+    {
+        ItemData data = Managers.Data.items.GetByIndex(itemData);
+        storage.GetSlotByIdx(slotIdx).Setup(data, amount, true); 
+    }
+} 

@@ -16,9 +16,16 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
     public Action<ItemSlot> onSetup;
     public Action<ItemData> onUpdate;
     public Action<bool> onSelect;
+    public Action onDisable;
 
     public ItemSlot ItemSlot {get; protected set;}
 
+    private static ItemInfoUI itemInfoUI;
+
+    public void OnDisable()
+    {
+        onDisable?.Invoke(); 
+    }
 
     public virtual void Setup(ItemSlot itemSlot)
     {
@@ -76,11 +83,7 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
             ItemDragHandler.SwapItem(this);
     }
 
-    protected virtual void MouseHoverAction(bool isHover)
-    {
 
-    }
-    
 
 
     public void OnPointerClick(PointerEventData eventData)
@@ -90,11 +93,19 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerEnter(PointerEventData eventData)
     {
-        MouseHoverAction(true);
+        if (ItemSlot.Data == null)
+            return;
+
+        if (itemInfoUI == null)
+            itemInfoUI = Managers.Resource.Instantiate<ItemInfoUI>("UI/Inventory/ItemInfoUI.prefab");   
+         
+        Managers.UI.ShowPopupUI(itemInfoUI);
+        itemInfoUI.Setup(this);
     }
 
     public void OnPointerExit(PointerEventData eventData)
     {
-        MouseHoverAction(false);
+        if (itemInfoUI != null && itemInfoUI.IsOpen)
+            itemInfoUI.Hide(); 
     }
 }
