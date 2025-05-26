@@ -54,9 +54,6 @@ public class RequiredItemSlotUI : ItemSlotUI
 
     }
 
-    protected override void MouseHoverAction(bool isHover)
-    {
-        
-    }
+
 
 }

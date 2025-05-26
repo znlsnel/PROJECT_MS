@@ -38,6 +38,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public event Action onDamaged;
 
     private bool isDead = false;
+    public bool IsDead => isDead;
 
 
     public override void OnStartNetwork()

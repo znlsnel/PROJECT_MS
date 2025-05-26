@@ -62,8 +62,5 @@ public class CraftingSlotUI : ItemSlotUI
         Managers.Sound.Play(_clickSound);
     }
 
-    protected override void MouseHoverAction(bool isHover)
-    {
-        
-    }
+
 }
