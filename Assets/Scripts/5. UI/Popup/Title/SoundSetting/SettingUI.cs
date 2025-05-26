@@ -9,6 +9,8 @@ public class SettingUI : PopupUI
     [SerializeField] private Button _panelButton;
     private bool _isHide = false;
 
+    private string clickSound = "Sound/UI/Click_02.mp3";
+
     protected override void Awake()
     {
         base.Awake();
@@ -18,8 +20,13 @@ public class SettingUI : PopupUI
 
     public void OnClick()
     {
-        Managers.UI.ClosePopupUI(); 
+        Managers.UI.ClosePopupUI();
         Hide();
+
+        Managers.Resource.LoadAsync<AudioClip>(clickSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     public override void Hide()
@@ -33,6 +40,6 @@ public class SettingUI : PopupUI
             base.Hide();
             _isHide = false;
             _mainPanel.transform.localScale = Vector3.one; 
-        }; 
+        };
     }
 }

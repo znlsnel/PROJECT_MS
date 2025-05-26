@@ -16,6 +16,8 @@ public class CreateRoomUI : PopupUI
     private GameObject _lobbyRoomUIPrefab;
     private LobbyRoomUI _lobbyRoomUI;
     
+    private string openSound = "Sound/UI/Click_02.mp3";
+    private string closeSound = "Sound/UI/PopupClose_01.mp3";
 
     protected override void Awake()
     {
@@ -33,7 +35,12 @@ public class CreateRoomUI : PopupUI
     { 
         _mainPanel.transform.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
             Hide(); 
-        };  
+        };
+
+        Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     private void CreateRoom()
@@ -41,6 +48,11 @@ public class CreateRoomUI : PopupUI
         Managers.Network.StartHost();
 
         Hide();
+
+        Managers.Resource.LoadAsync<AudioClip>(openSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
 

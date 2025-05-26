@@ -31,6 +31,10 @@ public class LobbyUI : PopupUI
 
     private List<RoomSlotUI> _roomSlotUIList = new List<RoomSlotUI>();
 
+    private string clickSound = "Sound/UI/Click_02.mp3";
+    private string closeSound = "Sound/UI/PopupClose_01.mp3";
+
+
     protected override void Awake()
     {
         base.Awake();
@@ -61,7 +65,12 @@ public class LobbyUI : PopupUI
     { 
         _mainPanel.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
             Hide();  
-        };  
+        };
+
+        Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     private void OpenCreateRoomUI()
@@ -72,7 +81,12 @@ public class LobbyUI : PopupUI
             _createRoomUI.Setup(_lobbyRoomUIPrefab);   
         }
 
-        Managers.UI.ShowPopupUI(_createRoomUI);  
+        Managers.UI.ShowPopupUI(_createRoomUI);
+
+        Managers.Resource.LoadAsync<AudioClip>(clickSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     private void RefreshRoomList()

@@ -9,7 +9,6 @@ public class CloseButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
     [SerializeField] private Button _button;
     public event Action OnClick;
 
-
     private void Awake()
     {
         _button.onClick.AddListener(()=>OnClick?.Invoke());
@@ -27,6 +26,4 @@ public class CloseButton : MonoBehaviour, IPointerEnterHandler, IPointerExitHand
         transform.DOKill(); 
         transform.DOScale(1f, 0.2f).SetEase(Ease.OutBack);
     }
-
-
 }
