@@ -1839,7 +1839,7 @@ MonoBehaviour:
   _spectatorInterpolation: 2
   _enableTeleport: 0
   _teleportThreshold: 1
-  <PrefabId>k__BackingField: 23
+  <PrefabId>k__BackingField: 41
   <SpawnableCollectionId>k__BackingField: 0
   <AssetPathHash>k__BackingField: 15555169118185378441
   <SceneId>k__BackingField: 0
