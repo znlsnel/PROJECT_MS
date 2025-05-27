@@ -8,6 +8,7 @@ using Steamworks;
 using FishNet.Object;
 using FishNet.Connection;
 using FishNet.Transporting;
+using FishNet.Managing.Scened;
 
 public class LobbyRoomUI : NetworkBehaviour
 {
@@ -28,7 +29,10 @@ public class LobbyRoomUI : NetworkBehaviour
         base.OnStartNetwork();
 
         _closeButton.OnClick += Close;
-        
+
+        NetworkGameSystem.onGameStart += HideUI;
+        InstanceFinder.SceneManager.OnLoadEnd += Show;
+
         _gameStartButton.gameObject.SetActive(InstanceFinder.IsServerStarted);
         _gameStartButton.onClick.AddListener(GameStart);
 
@@ -39,6 +43,8 @@ public class LobbyRoomUI : NetworkBehaviour
     {
         base.OnStopNetwork();
         InstanceFinder.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
+        NetworkGameSystem.onGameStart -= HideUI;
+        InstanceFinder.SceneManager.OnLoadEnd -= Show;
     }
 
     private void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
@@ -55,7 +61,15 @@ public class LobbyRoomUI : NetworkBehaviour
 
     private void Close()
     {
-        (InstanceFinder.IsServerStarted ? (Action)Managers.Network.StopHost : Managers.Network.StopClient)();
+        if(InstanceFinder.IsServerStarted)
+        {
+            NetworkCommandSystem.Instance.RequestDespawnObject(gameObject.GetComponent<NetworkObject>());
+            Managers.Network.StopHost();
+        }
+        else
+        {
+            Managers.Network.StopClient();
+        }
 
         Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
         {
@@ -97,6 +111,37 @@ public class LobbyRoomUI : NetworkBehaviour
             uIPlayerPanel.PlayerColor.Value = color;
 
             _userTagList.Add(uIPlayerPanel);
+        }
+    }
+
+    [ObserversRpc]
+    private void Show()
+    {
+        //InstanceFinder.ServerManager.Spawn(gameObject.GetComponent<NetworkObject>());
+        gameObject.SetActive(true);
+    }
+
+    [ObserversRpc]
+    private void HideUI()
+    {
+        //InstanceFinder.ServerManager.Despawn(gameObject.GetComponent<NetworkObject>());
+        gameObject.SetActive(false);
+    }
+
+    [ObserversRpc]
+    private void ShowUI()
+    {
+        gameObject.SetActive(true);
+    }
+
+    private void Show(SceneLoadEndEventArgs args)
+    {
+        foreach(var scene in args.LoadedScenes)
+        {
+            if(scene.name == "Title")
+            {
+                ShowUI();
+            }
         }
     }
 }

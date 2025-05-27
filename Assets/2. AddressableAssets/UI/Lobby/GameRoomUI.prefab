@@ -1791,7 +1791,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 4533125480812324097}
   _networkObjectCache: {fileID: 4533125480812324097}
   _userTagPrefab: {fileID: 5712614130600885856, guid: 9357d4c301abd094787001a86dab9a57, type: 3}
-  _mainPanel: {fileID: 3033672895285594187}
+  _mainPanel: {fileID: 2452114416003227245}
   _userTagRoot: {fileID: 5488152448488898595}
   _closeButton: {fileID: 3777847214107967027}
   _gameStartButton: {fileID: 7466935605547425052}

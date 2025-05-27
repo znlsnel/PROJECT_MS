@@ -4,6 +4,10 @@ using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using System.Collections.Generic;
+using FishNet;
+using FishNet.Connection;
+using System;
+using FishNet.Object;
 
 public class LobbyUI : PopupUI
 {
@@ -52,8 +56,25 @@ public class LobbyUI : PopupUI
             InvokeRepeating(nameof(RefreshRoomList), 0.0f, 10.0f);
             _refreshButton.onClick.AddListener(RefreshRoomList); 
         }
-    } 
- 
+    }
+
+    private void Start()
+    {
+        InstanceFinder.SceneManager.OnClientLoadedStartScenes += OnClientLoadedStartScenes;
+    }
+
+    private void OnClientLoadedStartScenes(NetworkConnection conn, bool asServer)
+    {
+        if(_lobbyRoomUI != null) return;
+
+        if(_lobbyRoomUIPrefab == null) return;
+
+        GameObject lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab);
+        _lobbyRoomUI = lobbyRoomUI.GetComponent<LobbyRoomUI>();
+        _lobbyRoomUI.NetworkObject.SetIsGlobal(true);
+        InstanceFinder.ServerManager.Spawn(_lobbyRoomUI.NetworkObject);
+    }
+
     public override void Show()
     {
         base.Show();
