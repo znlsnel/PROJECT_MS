@@ -14,7 +14,7 @@ using Random = UnityEngine.Random;
 public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
 {
     public readonly SyncDictionary<NetworkConnection, ColorType> PlayerColors = new SyncDictionary<NetworkConnection, ColorType>();
-
+    public readonly SyncDictionary<NetworkConnection, ulong> NetworkConnectionToSteamId = new SyncDictionary<NetworkConnection, ulong>();
     [SerializeField] private LobbyRoomUI _lobbyRoomUIPrefab;
     public LobbyRoomUI _lobbyRoomUI;
 
@@ -34,6 +34,148 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
         // 이벤트 구독 해제
         if (base.ServerManager != null)
             base.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
+    }
+
+    public override void OnStartClient()
+    {
+        base.OnStartClient();
+
+        // 클라이언트에서만 실행
+        if (base.IsClientStarted)
+        {
+            StartCoroutine(HandleClientJoinDelayed());
+        }
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+        
+        // 클라이언트가 종료될 때 플레이어 제거 요청
+        if (base.IsClientStarted && InstanceFinder.ClientManager.Connection != null)
+        {
+            RemovePlayer();
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddPlayer(ulong steamId, NetworkConnection connection = null)
+    {
+        // 연결이 유효한지 확인
+        if (connection == null || !connection.IsValid || !connection.IsActive)
+        {
+            Debug.LogWarning($"NetworkRoomSystem.AddPlayer: Invalid connection - SteamID: {steamId}");
+            return;
+        }
+
+        // 이미 등록된 연결인지 확인
+        if (NetworkConnectionToSteamId.ContainsKey(connection))
+        {
+            Debug.LogWarning($"NetworkRoomSystem.AddPlayer: Connection {connection.ClientId} already exists");
+            NetworkConnectionToSteamId[connection] = steamId; // 업데이트
+        }
+        else
+        {
+            NetworkConnectionToSteamId.Add(connection, steamId);
+            Debug.Log($"NetworkRoomSystem.AddPlayer: Added player - ClientID: {connection.ClientId}, SteamID: {steamId}");
+        }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemovePlayer(NetworkConnection connection = null)
+    {
+        // 연결이 유효한지 확인
+        if (connection == null)
+        {
+            Debug.LogWarning("NetworkRoomSystem.RemovePlayer: Connection is null");
+            return;
+        }
+
+        if (NetworkConnectionToSteamId.ContainsKey(connection))
+        {
+            ulong steamId = NetworkConnectionToSteamId[connection];
+            NetworkConnectionToSteamId.Remove(connection);
+            Debug.Log($"NetworkRoomSystem.RemovePlayer: Removed player - ClientID: {connection.ClientId}, SteamID: {steamId}");
+        }
+        else
+        {
+            Debug.LogWarning($"NetworkRoomSystem.RemovePlayer: Connection {connection.ClientId} not found");
+        }
+    }
+
+    public ulong GetSteamId(NetworkConnection connection)
+    {
+        if(NetworkConnectionToSteamId.TryGetValue(connection, out ulong steamId))
+            return steamId;
+
+        return 0;
+    }
+
+    private IEnumerator HandleClientJoinDelayed()
+    {
+        // 클라이언트 연결이 존재하는지 확인
+        var clientConnection = InstanceFinder.ClientManager?.Connection;
+        if (clientConnection == null)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Client connection is null");
+            yield break;
+        }
+
+        // 연결이 완전히 활성화될 때까지 대기
+        float timeout = 10f; // 10초 타임아웃
+        float elapsed = 0f;
+        
+        while (!clientConnection.IsActive && elapsed < timeout)
+        {
+            yield return new WaitForSeconds(0.1f);
+            elapsed += 0.1f;
+        }
+
+        if (!clientConnection.IsActive)
+        {
+            Debug.LogWarning($"NetworkRoomSystem: Connection {clientConnection.ClientId} failed to activate within timeout");
+            yield break;
+        }
+
+        // NetworkBehaviour가 완전히 초기화될 때까지 대기
+        elapsed = 0f;
+        while (!base.IsClientStarted && elapsed < timeout)
+        {
+            yield return new WaitForSeconds(0.1f);
+            elapsed += 0.1f;
+        }
+
+        if (!base.IsClientStarted)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Client is not started");
+            yield break;
+        }
+
+        // Observer가 될 때까지 추가 대기
+        elapsed = 0f;
+        while (!base.Observers.Contains(clientConnection) && elapsed < timeout)
+        {
+            yield return new WaitForSeconds(0.1f);
+            elapsed += 0.1f;
+        }
+
+        if (!base.Observers.Contains(clientConnection))
+        {
+            Debug.LogWarning($"NetworkRoomSystem: Connection {clientConnection.ClientId} is not an observer");
+            yield break;
+        }
+
+        // Steam ID 유효성 확인
+        ulong steamId = SteamUser.GetSteamID().m_SteamID;
+        if (steamId == 0)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Invalid Steam ID");
+            yield break;
+        }
+
+        // 이제 안전하게 ServerRpc 호출
+        Debug.Log($"NetworkRoomSystem: Adding player with Steam ID: {steamId}");
+        AddPlayer(steamId);
     }
 
     /// <summary>
@@ -302,7 +444,7 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
         {
             foreach(var connection in InstanceFinder.ServerManager.Clients)
             {
-                ulong m_steamId = Managers.Steam.GetSteamId(connection.Value);
+                ulong m_steamId = GetSteamId(connection.Value);
 
                 if(m_steamId == 0) return;
 
