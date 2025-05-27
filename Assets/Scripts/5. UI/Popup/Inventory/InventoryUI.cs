@@ -9,6 +9,7 @@ public class InventoryUI : PopupUI
     [SerializeField] private GameObject itemSlotParent;
     [SerializeField] private GameObject quickSlotParent;
     [SerializeField] private GameObject equipSlotParent;
+    [SerializeField] private GameObject mainPanel;
 
 
     private List<ItemSlotUI> itemSlots = new List<ItemSlotUI>();
@@ -36,7 +37,11 @@ public class InventoryUI : PopupUI
         RegisterInput();
     }
 
- 
+    public void Close()
+    {
+        HideWithDoTween(mainPanel.transform);   
+    }
+
     private void RegisterInput()
     {
 

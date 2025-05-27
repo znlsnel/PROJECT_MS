@@ -32,10 +32,10 @@ public class PopupUI : UIBase
 
 	public void HideWithDoTween(Transform panel)
     { 
-		panel.transform.DOKill();
-        panel.transform.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
-            Hide(); 
-			panel.transform.localScale = Vector3.one;   
+		panel.transform.DOKill(); 
+        panel.transform.DOScale(0.5f, 0.3f).SetEase(Ease.OutCubic).onComplete += () => {
+            base.Hide();  
+			panel.transform.localScale = Vector3.one;     
         };
 
 		if (_isPlaySound)

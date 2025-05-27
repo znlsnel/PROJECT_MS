@@ -10,17 +10,16 @@ public class UIHandler : MonoBehaviour
         inventory = Managers.Resource.Instantiate("UI/Inventory/Inventory.prefab").GetComponent<InventoryUI>();
         inventory.Hide();
 
-
         Managers.Input.GetInput(EPlayerInput.Inventory).started += ToggleInventory; 
-        Managers.Input.GetInput(EPlayerInput.TurnOffPopup).started += TurnOffPopup;
+        Managers.Input.GetInput(EPlayerInput.TurnOffPopup).started += TurnOffPopup; 
     }
 
     private void ToggleInventory(InputAction.CallbackContext context)
     {
-        if (!inventory.IsOpen)
+        if (!inventory.IsOpen) 
             Managers.UI.ShowPopupUI<InventoryUI>(inventory);     
         else
-            inventory.Hide();   
+            inventory.Close();    
     }
 
     private void TurnOffPopup(InputAction.CallbackContext context) 

@@ -8,11 +8,12 @@ using UnityEngine;
 public class StorageBoxUI : StorageUI
 {
     [SerializeField] private CloseButton closeButton;
+    [SerializeField] private GameObject mainPanel;
 
     protected override void Awake() 
     {
         base.Awake();
-        closeButton.OnClick += Hide;
+        closeButton.OnClick += () => HideWithDoTween(mainPanel.transform); 
     }
  
     public void Setup(Storage storage)
