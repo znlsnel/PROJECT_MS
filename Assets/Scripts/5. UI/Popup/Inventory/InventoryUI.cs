@@ -19,18 +19,7 @@ public class InventoryUI : PopupUI
     private Inventory inventory;
 
 
-    protected override void Awake()
-    {
-        base.Awake();
-        Managers.onChangePlayer += Setup;
-    }
-
-    private void OnDestroy()
-    {
-        Managers.onChangePlayer -= Setup;
-    }
-
-    private void Setup(AlivePlayer player)
+    public void Setup(AlivePlayer player)
     {
         inventory = player.Inventory;
         SetItemSlots();
@@ -44,21 +33,12 @@ public class InventoryUI : PopupUI
 
     private void RegisterInput()
     {
-
-   
         testItems.Add(Managers.Data.items.GetByIndex(3001));
         testItems.Add(Managers.Data.items.GetByIndex(3007));
         testItems.Add(Managers.Data.items.GetByIndex(3003));
         testItems.Add(Managers.Data.items.GetByIndex(1001));
         testItems.Add(Managers.Data.items.GetByIndex(3005));
         testItems.Add(Managers.Data.items.GetByIndex(3006)); 
-   
-
-
-  
-        
-
-
         
         Managers.Input.Test.started += TestInput;
     }
