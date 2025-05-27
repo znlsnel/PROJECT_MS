@@ -22,6 +22,7 @@ public class CraftingSlotUI : ItemSlotUI
 
     public override void Setup(ItemSlot itemSlot)
     {
+        ItemSlot = itemSlot; 
         this.data = itemSlot.Data as CraftingItemData;
         itemIcon.sprite = data.Icon;
 

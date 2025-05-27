@@ -24,6 +24,14 @@ public class SlideValueUI : MonoBehaviour
         slider.value = value;    
         slider.onValueChanged.AddListener(OnValueChanged);
     }
+
+
+
+    public void SetValue(float value)
+    {
+        this.value = value;
+        slider.value = value; 
+    }
   
  
     private void AddValue(bool isPlus)
@@ -38,5 +46,6 @@ public class SlideValueUI : MonoBehaviour
     private void OnValueChanged(float value)
     {
         this.value = value;
+        onValueChanged?.Invoke(value); 
     }
 }

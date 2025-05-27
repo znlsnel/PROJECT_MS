@@ -8,9 +8,17 @@ public class SoundSetting : MonoBehaviour
 
     private void Awake()
     {
-        masterValue.onValueChanged += SetMasterVolume;
-        effectValue.onValueChanged += SetEffectVolume;
-        bgmValue.onValueChanged += SetBgmVolume;
+      masterValue.onValueChanged += SetMasterVolume;
+      effectValue.onValueChanged += SetEffectVolume;
+      bgmValue.onValueChanged += SetBgmVolume; 
+    } 
+ 
+
+    private void Start()
+    {
+        masterValue.SetValue(Managers.Sound.MasterVolume); 
+        effectValue.SetValue(Managers.Sound.EffectVolume); 
+        bgmValue.SetValue(Managers.Sound.BgmVolume);
     }
 
     private void SetMasterVolume(float value)
