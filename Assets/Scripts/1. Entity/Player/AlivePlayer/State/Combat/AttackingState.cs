@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class AttackingState : AlivePlayerCombatState
 {
-    private static readonly string _clickSound = "Sound/Player/Whoosh_02.mp3";
+    private static readonly string madSound = "Sound/Player/Mad_01.mp3";
     public AttackingState(AlivePlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -15,7 +15,7 @@ public class AttackingState : AlivePlayerCombatState
 
         StartAnimation(stateMachine.Player.AnimationData.AttackingParameterHash);
 
-        Managers.Sound.Play(_clickSound);
+        Managers.Sound.Play(madSound);
     }
 
     public override void Exit()

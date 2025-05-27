@@ -40,6 +40,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     private bool isDead = false;
     public bool IsDead => isDead;
 
+    private static readonly string ouchSound = "Sound/Player/Ouch_01.mp3";
+    private static readonly string eatSound = "Sound/Player/Eat_01.mp3";
 
     public override void OnStartNetwork()
     {
@@ -150,7 +152,9 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     {
         if(prev > next)
         {
-            onDamaged?.Invoke(); 
+            onDamaged?.Invoke();
+
+            Managers.Sound.Play(ouchSound);
 
             if(next <= 0)
             {
@@ -202,6 +206,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void RestoreHunger(float amount) // 음식물 섭취
     {
         Health.Add(amount);
+
+        Managers.Sound.Play(eatSound);
     }
 
     public bool CanTakeDamage()
