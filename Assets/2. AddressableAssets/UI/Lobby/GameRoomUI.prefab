@@ -1672,7 +1672,6 @@ GameObject:
   - component: {fileID: 1832276906685552295}
   - component: {fileID: 5648339538027525537}
   - component: {fileID: 7952623824630089429}
-  - component: {fileID: 4533125480812324097}
   m_Layer: 5
   m_Name: GameRoomUI
   m_TagString: Untagged
@@ -1787,67 +1786,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 99c7de2d670beb44bbf9599156d062e6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _componentIndexCache: 0
-  _addedNetworkObject: {fileID: 4533125480812324097}
-  _networkObjectCache: {fileID: 4533125480812324097}
   _userTagPrefab: {fileID: 5712614130600885856, guid: 9357d4c301abd094787001a86dab9a57, type: 3}
   _mainPanel: {fileID: 2452114416003227245}
   _userTagRoot: {fileID: 5488152448488898595}
   _closeButton: {fileID: 3777847214107967027}
   _gameStartButton: {fileID: 7466935605547425052}
---- !u!114 &4533125480812324097
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3567924607100284654}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 26b716c41e9b56b4baafaf13a523ba2e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  <IsNested>k__BackingField: 0
-  WasActiveDuringEdit: 0
-  WasActiveDuringEdit_Set1: 1
-  <ComponentIndex>k__BackingField: 0
-  <PredictedSpawn>k__BackingField: {fileID: 0}
-  <PredictedOwner>k__BackingField: {fileID: 0}
-  NetworkBehaviours:
-  - {fileID: 7952623824630089429}
-  InitializedParentNetworkBehaviour: {fileID: 0}
-  InitializedNestedNetworkObjects: []
-  RuntimeParentNetworkBehaviour: {fileID: 0}
-  RuntimeChildNetworkBehaviours: []
-  _isNetworked: 1
-  _isSpawnable: 1
-  _isGlobal: 0
-  _initializeOrder: 0
-  _preventDespawnOnDisconnect: 0
-  _defaultDespawnType: 0
-  NetworkObserver: {fileID: 0}
-  _enablePrediction: 0
-  _predictionType: 0
-  _graphicalObject: {fileID: 0}
-  _detachGraphicalObject: 0
-  _enableStateForwarding: 1
-  _networkTransform: {fileID: 0}
-  _ownerInterpolation: 1
-  _ownerSmoothedProperties: 255
-  _adaptiveInterpolation: 3
-  _spectatorSmoothedProperties: 255
-  _spectatorInterpolation: 2
-  _enableTeleport: 0
-  _teleportThreshold: 1
-  <PrefabId>k__BackingField: 41
-  <SpawnableCollectionId>k__BackingField: 0
-  <AssetPathHash>k__BackingField: 15555169118185378441
-  <SceneId>k__BackingField: 0
-  SerializedTransformProperties:
-    Position: {x: 0, y: 0, z: 0}
-    Rotation: {x: 0, y: 0, z: 0, w: 1}
-    Scale: {x: 0, y: 0, z: 0}
-    IsValid: 1
+  _userTagList: []
 --- !u!1 &3621625329965309772
 GameObject:
   m_ObjectHideFlags: 0

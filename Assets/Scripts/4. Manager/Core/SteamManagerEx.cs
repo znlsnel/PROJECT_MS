@@ -69,6 +69,14 @@ public class SteamManagerEx : IManager
         }
     }
 
+    public ulong GetSteamId(NetworkConnection connection)
+    {
+        if(NetworkConnectionToSteamId.TryGetValue(connection, out ulong steamId))
+            return steamId;
+
+        return 0;
+    }
+
     private void RegisterCallbacks()
     {
         _lobbyCreated = Callback<LobbyCreated_t>.Create(OnLobbyCreated);

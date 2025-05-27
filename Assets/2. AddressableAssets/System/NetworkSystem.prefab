@@ -174,3 +174,4 @@ MonoBehaviour:
   _componentIndexCache: 4
   _addedNetworkObject: {fileID: -5041718670282572282}
   _networkObjectCache: {fileID: -5041718670282572282}
+  _lobbyRoomUIPrefab: {fileID: 7952623824630089429, guid: c353bd69f48cd9e41a3313cb2f961608, type: 3}
