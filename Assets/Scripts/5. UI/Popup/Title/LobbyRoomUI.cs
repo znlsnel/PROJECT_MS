@@ -6,6 +6,7 @@ using Steamworks;
 using FishNet.Object;
 using FishNet.Connection;
 using System.Collections;
+using System;
 
 public class LobbyRoomUI : MonoBehaviour
 {
@@ -36,6 +37,8 @@ public class LobbyRoomUI : MonoBehaviour
 
     private void Close()
     {
+        (InstanceFinder.IsHostStarted ? (Action)Managers.Network.StopHost : Managers.Network.StopClient)();
+
         Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
         {
             Managers.Sound.Play(audioClip);
