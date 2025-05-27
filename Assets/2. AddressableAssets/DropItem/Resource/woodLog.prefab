@@ -132,7 +132,7 @@ MonoBehaviour:
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
   <interactAnimation>k__BackingField: {fileID: 7400000, guid: 94a6b3019d0eed0429b1dc096773c5e4, type: 2}
-  <interactAnimationSpeed>k__BackingField: 1
+  <interactAnimationSpeed>k__BackingField: 4
   itemId: 3001
 --- !u!136 &-3276874969621589022
 CapsuleCollider:

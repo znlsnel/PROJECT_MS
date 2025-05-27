@@ -98,8 +98,8 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: -7012147604231541388}
   _networkObjectCache: {fileID: -7012147604231541388}
-  dropItemCount: 1
   dropItemIds: b90b0000
+  dropItemCount: 2
   <Hp>k__BackingField: {fileID: 1928734760473338741}
 --- !u!114 &-7012147604231541388
 MonoBehaviour:
@@ -170,8 +170,8 @@ MonoBehaviour:
   _componentIndexCache: 1
   _addedNetworkObject: {fileID: -7012147604231541388}
   _networkObjectCache: {fileID: -7012147604231541388}
-  defaultHealth: 100
-  defaultMaxHealth: 100
+  defaultHealth: 50
+  defaultMaxHealth: 50
 --- !u!1 &6453815014050561849
 GameObject:
   m_ObjectHideFlags: 0

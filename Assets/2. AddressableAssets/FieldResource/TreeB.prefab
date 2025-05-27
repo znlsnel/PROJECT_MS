@@ -218,8 +218,8 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: -613012627208224277}
   _networkObjectCache: {fileID: -613012627208224277}
-  dropItemCount: 1
   dropItemIds: b90b0000
+  dropItemCount: 4
   <Hp>k__BackingField: {fileID: -5068592395624958999}
 --- !u!114 &-613012627208224277
 MonoBehaviour:

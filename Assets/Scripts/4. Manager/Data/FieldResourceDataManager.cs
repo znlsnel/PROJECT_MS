@@ -17,6 +17,9 @@ public class FieldResourceData
 
     public (int, int) sizeRate {get; private set;}
 
+    public int amount {get; private set;}
+    public int hp {get; private set;}
+
     public FieldResourceData(GameData.FieldResource fieldResource)
     {
         index = fieldResource.index;
@@ -25,6 +28,8 @@ public class FieldResourceData
         canRotate_Yaw = fieldResource.canRotate_Yaw;
         canRotate_Pitch = fieldResource.canRotate_Pitch;
         sizeRate = fieldResource.sizeRate;
+        amount = fieldResource.amount;
+        hp = fieldResource.hp; 
     }
 }
 

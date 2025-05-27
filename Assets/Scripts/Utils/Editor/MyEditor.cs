@@ -196,6 +196,15 @@ public class MyEditor : EditorWindow
             {   
                 ResourceHandler resourceHandler = asset.GetOrAddComponent<ResourceHandler>();
                 resourceHandler.dropItemIds = fieldResource.dropItems;
+                resourceHandler.dropItemCount = fieldResource.amount;   
+
+                if (asset.TryGetComponent(out HealthResource healthResource))
+                {   
+                    healthResource.defaultMaxHealth = fieldResource.hp;
+                    healthResource.defaultHealth = fieldResource.hp; 
+                }
+
+
                 Debug.Log($"[초기화 완료] {fieldResource.index}, {dataPath}"); 
 
                 EditorUtility.SetDirty(asset);
