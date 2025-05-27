@@ -278,7 +278,7 @@ MonoBehaviour:
     <networkAddress>k__BackingField: 127.0.0.1
     NetworkPrefabs:
     - {fileID: -1234943184309924623, guid: d4c820ff864f6c346bca55dcd89a3f71, type: 3}
-    <Type>k__BackingField: 1
+    <Type>k__BackingField: 0
     networkManagerTCP_UDP: {fileID: 468158041}
     networkManagerSteam: {fileID: 2051154864}
   steam:

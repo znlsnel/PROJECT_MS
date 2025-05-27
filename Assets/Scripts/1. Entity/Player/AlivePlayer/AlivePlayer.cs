@@ -133,17 +133,16 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamage(float damage, GameObject attacker)
+    public void TakeDamage(float damage, NetworkConnection conn = null)
     {
         if (isDead)
             return;
 
         Health.Subtract(damage);
 
-        AlivePlayer aliveAttacker = attacker.GetComponent<AlivePlayer>();
-        if (Health.Current.Value <= 0 && aliveAttacker != null)
+        if (Health.Current.Value <= 0 && conn != null)
         {
-            aliveAttacker.IncreaseKillCount(); 
+            NetworkGameSystem.Instance.UpdatePlayerKillCount(conn); 
         }
     }
 

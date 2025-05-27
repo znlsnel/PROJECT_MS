@@ -19,12 +19,15 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     [SerializeField] private NetworkObject ghostPlayerPrefab;
     private List<NetworkObject> ghostPlayers = new List<NetworkObject>();
 
-    public Action onGameEnd;
+    public static Action onGameStart;
+    public static Action onGameEnd;
+
     [Server]
     public void StartGame()
     {
         IsGameStarted.Value = true;
-
+        onGameStart?.Invoke();
+        
         SetRandomRole();
 
         NetworkSceneSystem.Instance?.LoadScene("Game");

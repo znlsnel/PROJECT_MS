@@ -33,7 +33,7 @@ public class WeaponController : ItemController
             
             if(damageables.Add(damageable))
             {
-                damageable.TakeDamage(damage, Owner.gameObject);
+                damageable.TakeDamage(damage);
                 itemSlot.UseDurability(1f);
                 Debug.Log("Damaged");
             }

@@ -29,7 +29,7 @@ public class ResultUI : PopupUI
     {
         transform.DOScale(Vector3.one * 1.1f, 0.1f).SetEase(Ease.OutCubic).onComplete += () => {
             transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InCubic).onComplete += () => {
-                SceneManager.LoadScene("Lobby");
+                NetworkSceneSystem.Instance.LoadScene("Title");
             };
         };
     }

@@ -28,7 +28,7 @@ public class ForestScene : SceneBase
     void Start()
     {
         Managers.Analytics.SurvivalStart();
-        NetworkGameSystem.Instance.onGameEnd += ShowResultUI;
+        NetworkGameSystem.onGameEnd += ShowResultUI;
     }
 
     private void InitScene()
