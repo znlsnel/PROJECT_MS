@@ -16,7 +16,7 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     public readonly SyncDictionary<NetworkConnection, ColorType> PlayerColors = new SyncDictionary<NetworkConnection, ColorType>();
 
     [SerializeField] private LobbyRoomUI _lobbyRoomUIPrefab;
-    private LobbyRoomUI _lobbyRoomUI;
+    public LobbyRoomUI _lobbyRoomUI;
 
     // 모든 색상을 가져오는 프로퍼티
     private static ColorType[] AllColors => (ColorType[])Enum.GetValues(typeof(ColorType));
@@ -55,7 +55,7 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
                 StartCoroutine(HandleClientJoinDelayed(conn));
             break;
             case RemoteConnectionState.Stopped:
-                OnLeaveRoom(conn);
+                HandlePlayerLeave(conn);
                 DestroyRoomUI(conn);
                 break;
         }
@@ -103,9 +103,44 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
             yield break;
         }
 
-        // 이제 안전하게 RPC 호출
-        OnJoinRoom(conn);
+        // 이제 안전하게 서버 메서드 호출 (RPC가 아닌 직접 호출)
+        HandlePlayerJoin(conn);
         CreateRoomUI(conn);
+    }
+
+    /// <summary>
+    /// 서버에서 플레이어 입장 처리 (내부 메서드)
+    /// </summary>
+    private void HandlePlayerJoin(NetworkConnection conn)
+    {
+        if (conn == null || !conn.IsValid || !conn.IsActive)
+        {
+            Debug.LogWarning($"NetworkRoomSystem.HandlePlayerJoin: Invalid connection");
+            return;
+        }
+
+        ColorType assignedColor = GetAvailableRandomColor(conn);
+        
+        if (PlayerColors.ContainsKey(conn))
+        {
+            PlayerColors[conn] = assignedColor;
+        }
+        else
+        {
+            PlayerColors.Add(conn, assignedColor);
+        }
+        
+        Debug.Log($"Player {conn.ClientId} assigned color: {assignedColor}");
+    }
+
+    /// <summary>
+    /// 클라이언트에서 방 입장 요청 (ServerRpc)
+    /// </summary>
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestJoinRoom(NetworkConnection conn = null)
+    {
+        // 클라이언트에서 서버로 방 입장 요청
+        HandlePlayerJoin(conn);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -122,23 +157,6 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
             PlayerColors[connection] = colorType;
             UpdateUI();
         }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void OnJoinRoom(NetworkConnection conn = null)
-    {
-        ColorType assignedColor = GetAvailableRandomColor(conn);
-        
-        if (PlayerColors.ContainsKey(conn))
-        {
-            PlayerColors[conn] = assignedColor;
-        }
-        else
-        {
-            PlayerColors.Add(conn, assignedColor);
-        }
-        
-        Debug.Log($"Player {conn.ClientId} assigned color: {assignedColor}");
     }
 
     /// <summary>
@@ -198,10 +216,9 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     }
 
     /// <summary>
-    /// 플레이어가 나갈 때 색상을 해제합니다.
+    /// 플레이어가 나갈 때 색상을 해제합니다. (내부 메서드)
     /// </summary>
-    [ServerRpc(RequireOwnership = false)]
-    public void OnLeaveRoom(NetworkConnection conn = null)
+    private void HandlePlayerLeave(NetworkConnection conn)
     {
         if (PlayerColors.ContainsKey(conn))
         {
@@ -209,6 +226,16 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
             PlayerColors.Remove(conn);
             Debug.Log($"Player {conn.ClientId} left and released color: {releasedColor}");
         }
+    }
+
+    /// <summary>
+    /// 클라이언트에서 방 퇴장 요청 (ServerRpc)
+    /// </summary>
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestLeaveRoom(NetworkConnection conn = null)
+    {
+        // 클라이언트에서 서버로 방 퇴장 요청
+        HandlePlayerLeave(conn);
     }
 
     /// <summary>
@@ -282,7 +309,7 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
                 CSteamID steamId = new CSteamID(m_steamId);
 
                 string name = SteamFriends.GetFriendPersonaName(steamId);
-                Color color = NetworkRoomSystem.Instance.GetPlayerColor(connection.Value);
+                Color color = GetPlayerColor(connection.Value);
 
                 CreateUI(name, color);
             }

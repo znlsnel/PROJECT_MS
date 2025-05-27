@@ -7,7 +7,7 @@ using System.Linq;
 using FishNet.Managing.Object;
 using FishNet;
 
-public class ItemEditor : EditorWindow
+public class MyEditor : EditorWindow
 {
     private string resetMessage = "";
     private double resetMessageTime = 0f;
@@ -15,7 +15,7 @@ public class ItemEditor : EditorWindow
     [MenuItem("CustomEditor/Item Editor")]
     public static void ShowWindow()
     {
-        GetWindow<ItemEditor>("Item Editor");
+        GetWindow<MyEditor>("Item Editor");
     }
 
     void OnGUI()
@@ -47,6 +47,12 @@ public class ItemEditor : EditorWindow
             ShowResetMessage();
         }
 
+        if (GUILayout.Button("메시 설정 배치 처리", GUILayout.Height(30))) 
+        {
+            MeshSerttingsBatchProcessor.ShowWindow();
+            ShowResetMessage();
+        }
+
 
         EditorGUILayout.Space(10);
 
@@ -62,6 +68,7 @@ public class ItemEditor : EditorWindow
         resetMessage = "초기화가 완료되었습니다.";
         resetMessageTime = EditorApplication.timeSinceStartup;
         Repaint();
+        AssetDatabase.SaveAssets(); 
     }
 
     private void DrawResetMessage()

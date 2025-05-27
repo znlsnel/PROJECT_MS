@@ -7,7 +7,16 @@ public class UIHandler : MonoBehaviour
 
     private void Awake() 
     {
+        Managers.onChangePlayer += Setup;
+    }
+ 
+    private void Setup(AlivePlayer player)
+    {
+        if (player != gameObject.GetComponent<AlivePlayer>()) 
+            return;
+
         inventory = Managers.Resource.Instantiate("UI/Inventory/Inventory.prefab").GetComponent<InventoryUI>();
+        inventory.Setup(player); 
         inventory.Hide();
 
         Managers.Input.GetInput(EPlayerInput.Inventory).started += ToggleInventory; 

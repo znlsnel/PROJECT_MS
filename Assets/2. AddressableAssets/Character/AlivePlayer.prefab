@@ -24,6 +24,7 @@ GameObject:
   - component: {fileID: -2120020110160886997}
   - component: {fileID: 1232747000845924413}
   - component: {fileID: 4861804768939561007}
+  - component: {fileID: 5248657927038289229}
   m_Layer: 0
   m_Name: AlivePlayer
   m_TagString: Untagged
@@ -403,6 +404,19 @@ MonoBehaviour:
   _networkObjectCache: {fileID: 6927395498750123055}
   defaultStamina: 100
   defaultMaxStamina: 100
+--- !u!114 &5248657927038289229
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6004198222083860071}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b385cf2357cb914480481d5c8eb4fa3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  targetMaterial: {fileID: 2100000, guid: 9c6ae07d169a3364a959d143a5c22d28, type: 2}
 --- !u!1 &8613519095027179298
 GameObject:
   m_ObjectHideFlags: 0
