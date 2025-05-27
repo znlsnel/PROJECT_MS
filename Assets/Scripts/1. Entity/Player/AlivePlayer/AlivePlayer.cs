@@ -58,14 +58,10 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         EquipHandler = gameObject.GetOrAddComponent<EquipHandler>();
         EquipHandler.Setup(Inventory);
 
-        QuickSlotHandler = gameObject.GetOrAddComponent<QuickSlotHandler>();
-        QuickSlotHandler.Setup(Inventory);
+                QuickSlotHandler = gameObject.GetOrAddComponent<QuickSlotHandler>();
 
         ItemHandler = gameObject.GetOrAddComponent<ItemHandler>();
-        ItemHandler.Setup(QuickSlotHandler); 
-
-        PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
-        PlacementHandler.Setup(QuickSlotHandler);
+        PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>(); 
 
         GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_MainColor", NetworkRoomSystem.Instance.GetPlayerColor(Owner));
     }
@@ -84,6 +80,11 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         Managers.Instance.SetPlayer(this);
         CinemachineCamera = GameObject.FindWithTag("MainCinemachineCamera").GetComponent<CinemachineCamera>();
         CinemachineCamera.Follow = transform;
+
+        Inventory.SetInventoryDataHandler();
+        QuickSlotHandler.Setup(Inventory);
+        ItemHandler.Setup(QuickSlotHandler); 
+        PlacementHandler.Setup(QuickSlotHandler); 
 
         stateMachine = new AlivePlayerStateMachine(this);
     }

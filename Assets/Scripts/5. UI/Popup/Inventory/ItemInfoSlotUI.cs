@@ -20,13 +20,13 @@ public class ItemInfoSlotUI : MonoBehaviour
     {
         background.color = effectType == EItemEffectType.Damage ? MyColor.Brown : 
             effectType == EItemEffectType.Heal ? MyColor.Red : 
-            effectType == EItemEffectType.Stamina ? MyColor.Yellow : MyColor.Blue; 
+            effectType == EItemEffectType.Stamina ? MyColor.Orange : MyColor.Blue; 
 
         icon.sprite = effectType == EItemEffectType.Damage ? DamageImage :
             effectType == EItemEffectType.Heal ? heartImage : 
             effectType == EItemEffectType.Stamina ? StaminaImage : DurabilityImage;
 
-        valueText.text = value > 0 ? $"+{value}" : value.ToString();
+        valueText.text = value > 0 ? $"+{value}" : value.ToString(); 
     }
 
 }

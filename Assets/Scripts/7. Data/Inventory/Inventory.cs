@@ -20,10 +20,14 @@ public class Inventory
         QuickSlotStorage = new Storage(5);    
         EquipStorage = new EquipStorage();
         inventoryDataHandler = new InventoryDataHandler();
+    } 
 
+    public void SetInventoryDataHandler()
+    {
         ItemStorage.onAddItem += inventoryDataHandler.ItemAmountUpdate;
         QuickSlotStorage.onAddItem += inventoryDataHandler.ItemAmountUpdate;
     }
+
 
 
 
