@@ -38,13 +38,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Distance: 15
+    - _Distance: 3
     - _MinDistance: 0
     - _QueueControl: 0
     - _QueueOffset: 0
     - _Scale: 0.05
     - _Speed: 5
     m_Colors:
+    - PlayerPos: {r: 66.42721, g: 0.079999864, b: 73.63959, a: 0}
     - _Color: {r: 0.856044, g: 1, b: 0.6367924, a: 1}
     - _PlayerPos: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
