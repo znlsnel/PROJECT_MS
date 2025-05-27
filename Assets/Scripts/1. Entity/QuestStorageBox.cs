@@ -19,6 +19,7 @@ public class QuestStorageBox : Interactable
     private Storage storage = new Storage();
     private int successCount = 0;
 
+    private static readonly string engineFail = "Sound/Quest/EngineFail_02.mp3";
 
     public void Awake()
     {
@@ -81,13 +82,14 @@ public class QuestStorageBox : Interactable
         
         if (successCount == questStorageData.items.Count)
         {
- 
             questStorageUI.Hide();
             if (nextQuestObject != null)
             {
                 gameObject.SetActive(false);
                 nextQuestObject.SetActive(true);
-                nextQuestObject.GetComponent<QuestStorageBox>().PlaySpawnAnimation(); 
+                nextQuestObject.GetComponent<QuestStorageBox>().PlaySpawnAnimation();
+
+                Managers.Sound.Play3D(engineFail, nextQuestObject.transform.position, 1f);
             }
             Managers.Quest.ReceiveReport(ETaskCategory.FillQuestStorage, questStorageIndex);
         }

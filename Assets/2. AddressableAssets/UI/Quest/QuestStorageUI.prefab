@@ -541,7 +541,7 @@ GameObject:
   - component: {fileID: 5248513945429641092}
   - component: {fileID: 1307706684803600191}
   m_Layer: 5
-  m_Name: DropItemPanel
+  m_Name: Panel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -560,6 +560,7 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 4571835114362313839}
+  - {fileID: 5868343669850227218}
   m_Father: {fileID: 2954767344892353169}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -743,7 +744,6 @@ RectTransform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 3811533529054027753}
-  - {fileID: 5868343669850227218}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
@@ -844,6 +844,7 @@ MonoBehaviour:
   quickSlotRoot: {fileID: 6811190635818170634}
   _title: {fileID: 8704618954886794003}
   closeButton: {fileID: 3081341365189312847}
+  mainPanel: {fileID: 7317159319461176163}
 --- !u!1 &7317159319461176163
 GameObject:
   m_ObjectHideFlags: 0
@@ -855,7 +856,7 @@ GameObject:
   - component: {fileID: 5868343669850227218}
   - component: {fileID: 7982819247725214286}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: MainPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -868,7 +869,7 @@ RectTransform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7317159319461176163}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
@@ -876,7 +877,7 @@ RectTransform:
   - {fileID: 1959871326723135540}
   - {fileID: 6281800772527326005}
   - {fileID: 611974437926034374}
-  m_Father: {fileID: 2954767344892353169}
+  m_Father: {fileID: 3811533529054027753}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

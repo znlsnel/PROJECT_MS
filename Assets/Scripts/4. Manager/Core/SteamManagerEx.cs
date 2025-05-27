@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FishNet;
 using FishNet.Connection;
+using FishNet.Object;
 using FishNet.Transporting;
 using Steamworks;
 using Unity.VisualScripting;
@@ -27,8 +28,6 @@ public class SteamManagerEx : IManager
 
     private const string HostAddressKey = "HostAddress";
 
-    public Dictionary<NetworkConnection, ulong> NetworkConnectionToSteamId = new Dictionary<NetworkConnection, ulong>();
-
     public void Init()
     {
         if(Managers.Network.Type != NetworkType.Steam) return;
@@ -38,8 +37,6 @@ public class SteamManagerEx : IManager
         SteamAPI.Init();
 
         RegisterCallbacks();
-
-        InstanceFinder.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
     }
 
     public void Update()
@@ -52,22 +49,7 @@ public class SteamManagerEx : IManager
     {
         if(SteamAPI.IsSteamRunning())
             SteamAPI.Shutdown();
-
-        InstanceFinder.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
-    }
-
-    private void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
-    {
-        switch(args.ConnectionState)
-        {
-            case RemoteConnectionState.Started:
-                NetworkConnectionToSteamId.Add(connection, SteamUser.GetSteamID().m_SteamID);
-                break;
-            case RemoteConnectionState.Stopped:
-                NetworkConnectionToSteamId.Remove(connection);
-                break;
         }
-    }
 
     private void RegisterCallbacks()
     {
@@ -183,7 +165,7 @@ public class SteamManagerEx : IManager
 
             Debug.Log($"Lobby: {lobbyInfo.RoomName} - Host IP: {lobbyInfo.RoomName}");
 
-            //SteamMatchmaking.LeaveLobby(lobbyid);
+            SteamMatchmaking.LeaveLobby(lobbyid);
         }
 
         lobbies.Sort((a, b) => a.CreatedTime.CompareTo(b.CreatedTime));

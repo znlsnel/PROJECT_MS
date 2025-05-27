@@ -9,6 +9,7 @@ public class InventoryUI : PopupUI
     [SerializeField] private GameObject itemSlotParent;
     [SerializeField] private GameObject quickSlotParent;
     [SerializeField] private GameObject equipSlotParent;
+    [SerializeField] private GameObject mainPanel;
 
 
     private List<ItemSlotUI> itemSlots = new List<ItemSlotUI>();
@@ -18,40 +19,26 @@ public class InventoryUI : PopupUI
     private Inventory inventory;
 
 
-    protected override void Awake()
-    {
-        base.Awake();
-        Managers.onChangePlayer += Setup;
-    }
-
-    private void OnDestroy()
-    {
-        Managers.onChangePlayer -= Setup;
-    }
-
-    private void Setup(AlivePlayer player)
+    public void Setup(AlivePlayer player)
     {
         inventory = player.Inventory;
         SetItemSlots();
         RegisterInput();
     }
 
- 
+    public void Close()
+    {
+        HideWithDoTween(mainPanel.transform);   
+    }
+
     private void RegisterInput()
     {
-
-   
         testItems.Add(Managers.Data.items.GetByIndex(3001));
         testItems.Add(Managers.Data.items.GetByIndex(3007));
         testItems.Add(Managers.Data.items.GetByIndex(3003));
         testItems.Add(Managers.Data.items.GetByIndex(1001));
-   
-
-
-  
-        
-
-
+        testItems.Add(Managers.Data.items.GetByIndex(3005));
+        testItems.Add(Managers.Data.items.GetByIndex(3006)); 
         
         Managers.Input.Test.started += TestInput;
     }
@@ -59,6 +46,8 @@ public class InventoryUI : PopupUI
     private void TestInput(InputAction.CallbackContext context)
     {
         inventory.AddItem(testItems[Random.Range(0, testItems.Count)]); 
+        MyDebug.Log($"아이템 추가");
+
     }
 
     private void SetItemSlots()

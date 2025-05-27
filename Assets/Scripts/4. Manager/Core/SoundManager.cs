@@ -5,21 +5,20 @@ using UnityEngine;
 using Object = UnityEngine.Object;
 
 
-[Serializable]
 public class SoundManager : IManager
 {
     AudioSource[] _audioSources = new AudioSource[(int)ESound.MaxCount];
     Dictionary<string, AudioClip> _audioClips = new Dictionary<string, AudioClip>();
-
-    private float masterVolume = 1f;
-    private float bgmVolume = 1f;
-    private float effectVolume = 1f;
+ 
+    public float MasterVolume {get; private set;} = 1f;
+    public float BgmVolume {get; private set;} = 1f;
+    public float EffectVolume {get; private set;} = 1f; 
 
     public void SetMasterVolume(float volume)
     {
-        masterVolume = volume;
-        SetVolume(ESound.Bgm, bgmVolume);
-        SetVolume(ESound.Effect, effectVolume);
+        MasterVolume = volume;
+        SetVolume(ESound.Bgm, BgmVolume);
+        SetVolume(ESound.Effect, EffectVolume);
     } 
 
 
@@ -86,7 +85,7 @@ public class SoundManager : IManager
 
 			audioSource.pitch = pitch; 
 			audioSource.clip = audioClip;
-			audioSource.volume = volume; 
+			audioSource.volume = volume * BgmVolume * MasterVolume;    
 			audioSource.Play();
 		}
 		else
@@ -113,12 +112,14 @@ public class SoundManager : IManager
 			if (_audioClips.ContainsKey(path) == false)
             {
                 var a = Managers.Resource.Load<AudioClip>(path);
-				_audioClips.Add(path, a);
+                if (a != null)
+                {
+				    _audioClips.Add(path, a); 
+                    audioClip = a; 
+                }
             }
-                
-			
-            
-            audioClip = _audioClips[path];
+            else
+                audioClip = _audioClips[path]; 
 		}
 
 		if (audioClip == null)
@@ -138,15 +139,15 @@ public class SoundManager : IManager
 
         if (type == ESound.Bgm)
         {
-            bgmVolume = volume;
+            BgmVolume = volume;
         }
         else if (type == ESound.Effect)
-        {
-            effectVolume = volume;
+        { 
+            EffectVolume = volume;
         } 
 
         AudioSource audioSource = _audioSources[(int)type];
-        audioSource.volume = Mathf.Clamp01(volume * masterVolume); // 0~1 사이로 제한
+        audioSource.volume = Mathf.Clamp01(volume * MasterVolume); // 0~1 사이로 제한
     }
 
     // 현재 볼륨 가져오기
@@ -160,4 +161,4 @@ public class SoundManager : IManager
 
         return _audioSources[(int)type].volume;
     }
-} 
+}  

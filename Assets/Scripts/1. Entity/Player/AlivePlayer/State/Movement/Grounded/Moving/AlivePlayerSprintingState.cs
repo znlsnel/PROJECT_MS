@@ -2,9 +2,15 @@ using Cysharp.Threading.Tasks;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using System.Collections;
 
 public class AlivePlayerSprintingState : AlivePlayerMovingState
 {
+    private static readonly string _clickSound = "Sound/Player/Footstep_01_01.mp3";
+    private Coroutine _footstepCoroutine;
+    private const float FOOTSTEP_INTERVAL = 0.2f;
+    private const float FOOTSTEP_VOLUME = 0.6f;
+
     public AlivePlayerSprintingState(AlivePlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -17,6 +23,8 @@ public class AlivePlayerSprintingState : AlivePlayerMovingState
         stateMachine.ReusableData.MovementSpeed = stateMachine.Player.AlivePlayerSO.SprintSpeed;
 
         StartAnimation(stateMachine.Player.AnimationData.SprintingParameterHash);
+
+        _footstepCoroutine = stateMachine.Player.StartCoroutine(PlayFootstepRoutine());
     }
 
     public override void Exit()
@@ -24,6 +32,12 @@ public class AlivePlayerSprintingState : AlivePlayerMovingState
         base.Exit();
 
         StopAnimation(stateMachine.Player.AnimationData.SprintingParameterHash);
+
+        if (_footstepCoroutine != null)
+        {
+            stateMachine.Player.StopCoroutine(_footstepCoroutine);
+            _footstepCoroutine = null;
+        }
     }
 
     public override void Update()
@@ -43,6 +57,15 @@ public class AlivePlayerSprintingState : AlivePlayerMovingState
         }
     }
     #endregion
+
+    private IEnumerator PlayFootstepRoutine()
+    {
+        while (true)
+        {
+            Managers.Sound.Play3D(_clickSound, stateMachine.Player.transform.position, FOOTSTEP_VOLUME);
+            yield return new WaitForSeconds(FOOTSTEP_INTERVAL);
+        }
+    }
 
     #region Reusable Methods
     protected override void UpdateStamina()

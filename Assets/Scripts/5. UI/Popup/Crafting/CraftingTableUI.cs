@@ -9,13 +9,14 @@ public class CraftingTableUI : PopupUI
     [SerializeField] private Transform itemSlotRoot;
     [SerializeField] private GameObject slotPrefab;
     [SerializeField] private GameObject emptyStatePanel;
+    [SerializeField] private GameObject mainPanel;
 
     private List<CraftingSlotUI> slots = new List<CraftingSlotUI>();
 
     protected override void Awake()
     {
         base.Awake();
-        closeButton.OnClick += Hide; 
+        closeButton.OnClick += () => HideWithDoTween(mainPanel.transform);  
         Managers.SubscribeToInit(Setup);
     }
 

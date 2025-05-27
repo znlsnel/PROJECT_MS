@@ -1069,8 +1069,8 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 0}
   _networkObjectCache: {fileID: 0}
-  <interactAnimation>k__BackingField: {fileID: 0}
-  <interactAnimationSpeed>k__BackingField: 1
+  <interactAnimation>k__BackingField: {fileID: 7400000, guid: 94a6b3019d0eed0429b1dc096773c5e4, type: 2}
+  <interactAnimationSpeed>k__BackingField: 4
   itemId: 10001
 --- !u!1 &5926517888160984345
 GameObject:

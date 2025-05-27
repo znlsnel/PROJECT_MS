@@ -14,14 +14,14 @@ public class Managers : Singleton<Managers>
     [SerializeField] private DataManager data;
     [SerializeField] private InputManager input;
     [SerializeField] private ResourceManager resource;
-    [SerializeField] private SoundManager sound;
     [SerializeField] private UIManager ui;
     [SerializeField] private PoolManager pool;
     [SerializeField] private NetworkManagerEx network;
     [SerializeField] private SteamManagerEx steam;
     [SerializeField] private QuestManager quest;
     [SerializeField] private AnalyticsManager analytics;
-
+    [SerializeField] private SoundManager sound = new SoundManager(); 
+ 
     public static DataManager Data => Instance.data;
     public static InputManager Input => Instance.input;
     public static ResourceManager Resource => Instance.resource;
@@ -52,7 +52,7 @@ public class Managers : Singleton<Managers>
         if (isDestroy)
             return; 
 
-        Init();
+        Init(); 
     }
 
 #if UNITY_EDITOR
@@ -66,13 +66,17 @@ public class Managers : Singleton<Managers>
 
     private void Init() 
     {
+        // if (isInit)
+        //     return;
+
         analytics.Init();
         Network.Init();
         Resource.Init(); 
         Data.Init();
         quest.Init();
         Input.Init();
-        Sound.Init(); 
+ 
+        Sound.Init();  
         UI.Init();
         Pool.Init();
         Steam.Init();

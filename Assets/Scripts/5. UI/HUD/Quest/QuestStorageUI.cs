@@ -5,12 +5,13 @@ public class QuestStorageUI : StorageUI
 {
     [SerializeField] private TextMeshProUGUI _title;
     [SerializeField] private CloseButton closeButton;
+    [SerializeField] private GameObject mainPanel;
     private QuestStorageSlotUI[] slots;
 
     protected override void Awake()
     {
         base.Awake();
-        closeButton.OnClick += Hide;
+        closeButton.OnClick += () => HideWithDoTween(mainPanel.transform); 
         slots = storageRoot.GetComponentsInChildren<QuestStorageSlotUI>();
     }
 

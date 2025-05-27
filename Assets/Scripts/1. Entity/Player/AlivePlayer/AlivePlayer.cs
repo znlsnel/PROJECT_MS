@@ -40,6 +40,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     private bool isDead = false;
     public bool IsDead => isDead;
 
+    private static readonly string ouchSound = "Sound/Player/Ouch_01.mp3";
+    private static readonly string eatSound = "Sound/Player/Eat_01.mp3";
 
     public override void OnStartNetwork()
     {
@@ -65,7 +67,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
         PlacementHandler.Setup(QuickSlotHandler);
 
-        GetComponentInChildren<SkinnedMeshRenderer>().material.color = NetworkRoomSystem.Instance.GetPlayerColor(Owner);
+        GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_MainColor", NetworkRoomSystem.Instance.GetPlayerColor(Owner));
     }
 
     public override void OnStartClient()
@@ -133,17 +135,16 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamage(float damage, GameObject attacker)
+    public void TakeDamage(float damage, NetworkConnection conn = null)
     {
         if (isDead)
             return;
 
         Health.Subtract(damage);
 
-        AlivePlayer aliveAttacker = attacker.GetComponent<AlivePlayer>();
-        if (Health.Current.Value <= 0 && aliveAttacker != null)
+        if (Health.Current.Value <= 0 && conn != null)
         {
-            aliveAttacker.IncreaseKillCount(); 
+            NetworkGameSystem.Instance.UpdatePlayerKillCount(conn); 
         }
     }
 
@@ -151,7 +152,9 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     {
         if(prev > next)
         {
-            onDamaged?.Invoke(); 
+            onDamaged?.Invoke();
+
+            Managers.Sound.Play(ouchSound);
 
             if(next <= 0)
             {
@@ -203,6 +206,8 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public void RestoreHunger(float amount) // 음식물 섭취
     {
         Health.Add(amount);
+
+        Managers.Sound.Play(eatSound);
     }
 
     public bool CanTakeDamage()

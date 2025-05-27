@@ -19,12 +19,18 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     [SerializeField] private NetworkObject ghostPlayerPrefab;
     private List<NetworkObject> ghostPlayers = new List<NetworkObject>();
 
-    public Action onGameEnd;
+    public static Action onGameStart;
+    public static Action onGameEnd;
+
+    private static readonly string winSound = "Sound/WinLose/Win.mp3";
+    private static readonly string loseSound = "Sound/WinLose/Lose_01.mp3";
+
     [Server]
     public void StartGame()
     {
         IsGameStarted.Value = true;
-
+        onGameStart?.Invoke();
+        
         SetRandomRole();
 
         NetworkSceneSystem.Instance?.LoadScene("Game");
@@ -35,6 +41,18 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     {
         IsGameStarted.Value = false;
         onGameEnd?.Invoke();
+
+        PlayerRole currentPlayerRole = GetPlayerRole(InstanceFinder.ClientManager.Connection);
+
+        if ((winner == PlayerRole.Imposter && currentPlayerRole == PlayerRole.Imposter) ||
+            (winner == PlayerRole.Survival && currentPlayerRole == PlayerRole.Survival))
+        {
+            Managers.Sound.Play(winSound);
+        }
+        else
+        {
+            Managers.Sound.Play(loseSound);
+        }
     } 
 
     [Server]

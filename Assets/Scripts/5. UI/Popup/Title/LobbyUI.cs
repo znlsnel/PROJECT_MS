@@ -4,6 +4,10 @@ using DG.Tweening;
 using Cysharp.Threading.Tasks;
 using Unity.VisualScripting;
 using System.Collections.Generic;
+using FishNet;
+using FishNet.Connection;
+using System;
+using FishNet.Object;
 
 public class LobbyUI : PopupUI
 {
@@ -31,11 +35,15 @@ public class LobbyUI : PopupUI
 
     private List<RoomSlotUI> _roomSlotUIList = new List<RoomSlotUI>();
 
+    private string clickSound = "Sound/UI/Click_02.mp3";
+    private string closeSound = "Sound/UI/PopupClose_01.mp3";
+
+
     protected override void Awake()
     {
         base.Awake();
         _createRoomButton.onClick.AddListener(OpenCreateRoomUI); 
-        _closeButton.OnClick += Close;
+        _closeButton.OnClick += () => HideWithDoTween(_mainPanel.transform); 
 
         if(Managers.Network.Type == NetworkType.TCP_UDP)
         {
@@ -48,20 +56,13 @@ public class LobbyUI : PopupUI
             InvokeRepeating(nameof(RefreshRoomList), 0.0f, 10.0f);
             _refreshButton.onClick.AddListener(RefreshRoomList); 
         }
-    } 
- 
+    }
+
     public override void Show()
     {
         base.Show();
         _mainPanel.localScale = Vector3.zero; 
         _mainPanel.DOScale(1.0f, 0.4f).SetEase(Ease.OutCubic); 
-    }
-
-    private void Close()
-    { 
-        _mainPanel.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
-            Hide();  
-        };  
     }
 
     private void OpenCreateRoomUI()
@@ -72,7 +73,12 @@ public class LobbyUI : PopupUI
             _createRoomUI.Setup(_lobbyRoomUIPrefab);   
         }
 
-        Managers.UI.ShowPopupUI(_createRoomUI);  
+        Managers.UI.ShowPopupUI(_createRoomUI);
+
+        Managers.Resource.LoadAsync<AudioClip>(clickSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
     private void RefreshRoomList()

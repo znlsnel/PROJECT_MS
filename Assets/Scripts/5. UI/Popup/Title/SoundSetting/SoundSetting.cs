@@ -2,30 +2,37 @@ using UnityEngine;
 
 public class SoundSetting : MonoBehaviour
 { 
-    [SerializeField] private SlideValueUI masterValue; 
+    [SerializeField] private SlideValueUI masterValue;
     [SerializeField] private SlideValueUI effectValue;
     [SerializeField] private SlideValueUI bgmValue;
 
     private void Awake()
     {
-        masterValue.onValueChanged += SetMasterVolume;
-        effectValue.onValueChanged += SetEffectVolume;
-        bgmValue.onValueChanged += SetBgmVolume;
-    }
+      masterValue.onValueChanged += SetMasterVolume;
+      effectValue.onValueChanged += SetEffectVolume;
+      bgmValue.onValueChanged += SetBgmVolume; 
+    } 
  
-    private void SetMasterVolume(float value)
+
+    private void Start()
     {
-      // Managers.Sound.SetMasterVolume(value);
+        masterValue.SetValue(Managers.Sound.MasterVolume); 
+        effectValue.SetValue(Managers.Sound.EffectVolume); 
+        bgmValue.SetValue(Managers.Sound.BgmVolume);
     }
 
-    private void SetEffectVolume(float value)   
+    private void SetMasterVolume(float value)
     {
-       // Managers.Sound.SetVolume(ESound.Effect, value);
+      Managers.Sound.SetMasterVolume(value);
+    }
+
+    private void SetEffectVolume(float value)
+    {
+       Managers.Sound.SetVolume(ESound.Effect, value);
     }
 
     private void SetBgmVolume(float value)
     {
-      //  Managers.Sound.SetVolume(ESound.Bgm, value); 
+       Managers.Sound.SetVolume(ESound.Bgm, value);
     }
-    
 }

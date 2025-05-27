@@ -857,9 +857,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 09e57b72b392ec8488924f08280d8e2d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _isPlaySound: 1
   itemSlotParent: {fileID: 3687065541489946455}
   quickSlotParent: {fileID: 4662200813833401253}
   equipSlotParent: {fileID: 2400352623617874263}
+  mainPanel: {fileID: 4791765883826575370}
 --- !u!1 &4560361290834005496
 GameObject:
   m_ObjectHideFlags: 0

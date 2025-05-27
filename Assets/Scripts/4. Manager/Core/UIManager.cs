@@ -6,7 +6,6 @@ using UnityEngine;
 public class UIManager : IManager
 {
     private Stack<PopupUI> _popupStack = new Stack<PopupUI>();
-    private Stack<PopupUI> _pinnedPopupStack = new Stack<PopupUI>();
     private UIBase _sceneUI = null; 
 
     private int _order = 10;

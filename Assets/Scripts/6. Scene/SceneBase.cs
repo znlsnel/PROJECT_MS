@@ -1,6 +1,7 @@
+using FishNet.Object;
 using UnityEngine;
 
-public class SceneBase : MonoBehaviour
+public class SceneBase : NetworkBehaviour 
 {
     public TimeSystem TimeSystem {get; private set;}
 

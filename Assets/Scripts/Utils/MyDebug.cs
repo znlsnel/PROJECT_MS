@@ -1,12 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class MyDebug : Singleton<MyDebug>
 {
     private Queue<string> _logQueue = new Queue<string>();
 
-    public bool isDebug = false;
+    public bool isDebug = true;
+    
     private void OnGUI()
     {
         // GUI 스타일 설정

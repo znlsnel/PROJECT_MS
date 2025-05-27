@@ -141,7 +141,7 @@ public static class ItemDragHandler
                 GameObject go = GameObject.Instantiate(prefab); 
                 movingSlotUI = go.GetComponent<MovingSlotUI>();
                 movingSlotUI.SetItem(movingSlot);
-                Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI, true);
+                Managers.UI.ShowPopupUI<MovingSlotUI>(movingSlotUI, true); 
                 
             });
         } 

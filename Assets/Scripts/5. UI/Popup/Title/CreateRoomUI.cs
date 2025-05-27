@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
+using FishNet.Object;
 
 
 public class CreateRoomUI : PopupUI
@@ -16,12 +17,14 @@ public class CreateRoomUI : PopupUI
     private GameObject _lobbyRoomUIPrefab;
     private LobbyRoomUI _lobbyRoomUI;
     
+    private string openSound = "Sound/UI/Click_02.mp3";
+    private string closeSound = "Sound/UI/PopupClose_01.mp3";
 
     protected override void Awake()
     {
         base.Awake();
         _createRoomButton.onClick.AddListener(CreateRoom);
-        _closeButton.OnClick += Close;
+        _closeButton.OnClick += () => HideWithDoTween(_mainPanel.transform);
     }
 
     public void Setup(GameObject lobbyRoomUI)
@@ -29,18 +32,17 @@ public class CreateRoomUI : PopupUI
         _lobbyRoomUIPrefab = lobbyRoomUI; 
     }
 
-    private void Close()
-    { 
-        _mainPanel.transform.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
-            Hide(); 
-        };  
-    }
 
     private void CreateRoom()
     {
         Managers.Network.StartHost();
 
         Hide();
+
+        Managers.Resource.LoadAsync<AudioClip>(openSound, (audioClip) =>
+        {
+            Managers.Sound.Play(audioClip);
+        });
     }
 
 

@@ -17,6 +17,8 @@ public class ChatUI : MonoBehaviour
     private bool inputActive = false;
     private List<GameObject> chatMessages = new List<GameObject>();
 
+    private static readonly string _clickSound = "Sound/UI/Click_06.mp3";
+
     private void OnEnable()
     {
         NetworkChatSystem.OnChatMessageRecived += DisplayMessage;
@@ -59,6 +61,7 @@ public class ChatUI : MonoBehaviour
         if (string.IsNullOrWhiteSpace(message))
             return;
 
+        Managers.Sound.Play(_clickSound);
         NetworkChatSystem.Instance.SendChatMessage(message);
         Managers.Analytics.ChatUsage();
     }

@@ -2,8 +2,9 @@ using UnityEngine;
 
 public class HealthResource : ResourceStat
 {
-    [SerializeField] private float defaultHealth;
-    [SerializeField] private float defaultMaxHealth;
+    [SerializeField] public float defaultHealth;
+    [SerializeField] public float defaultMaxHealth;
+
 
     public override void OnStartClient()
     {
