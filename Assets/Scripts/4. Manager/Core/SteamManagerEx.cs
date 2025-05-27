@@ -28,8 +28,6 @@ public class SteamManagerEx : IManager
 
     private const string HostAddressKey = "HostAddress";
 
-    public Dictionary<NetworkConnection, ulong> NetworkConnectionToSteamId = new Dictionary<NetworkConnection, ulong>();
-
     public void Init()
     {
         if(Managers.Network.Type != NetworkType.Steam) return;
@@ -39,8 +37,6 @@ public class SteamManagerEx : IManager
         SteamAPI.Init();
 
         RegisterCallbacks();
-
-        InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnectionState;
     }
 
     public void Update()
@@ -53,42 +49,7 @@ public class SteamManagerEx : IManager
     {
         if(SteamAPI.IsSteamRunning())
             SteamAPI.Shutdown();
-
-        InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
-    }
-
-    private void OnClientConnectionState(ClientConnectionStateArgs args)
-    {
-        switch(args.ConnectionState)
-        {
-            case LocalConnectionState.Starting:
-                AddPlayer(SteamUser.GetSteamID().m_SteamID);
-                break;
-            case LocalConnectionState.Stopping:
-                RemovePlayer();
-                break;
         }
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void AddPlayer(ulong steamId, NetworkConnection connection = null)
-    {
-        NetworkConnectionToSteamId.Add(connection, steamId);
-    }
-
-    [ServerRpc(RequireOwnership = false)]
-    public void RemovePlayer(NetworkConnection connection = null)
-    {
-        NetworkConnectionToSteamId.Remove(connection);
-    }
-
-    public ulong GetSteamId(NetworkConnection connection)
-    {
-        if(NetworkConnectionToSteamId.TryGetValue(connection, out ulong steamId))
-            return steamId;
-
-        return 0;
-    }
 
     private void RegisterCallbacks()
     {
