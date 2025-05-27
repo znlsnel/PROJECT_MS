@@ -1,16 +1,13 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
-using DG.Tweening;
 using FishNet;
 using System.Collections.Generic;
 using Steamworks;
 using FishNet.Object;
 using FishNet.Connection;
-using FishNet.Transporting;
-using FishNet.Managing.Scened;
+using System.Collections;
 
-public class LobbyRoomUI : NetworkBehaviour
+public class LobbyRoomUI : MonoBehaviour
 {
     [SerializeField] private GameObject _userTagPrefab;
 
@@ -22,68 +19,33 @@ public class LobbyRoomUI : NetworkBehaviour
     private string startGameSound = "Sound/UI/Popup_04.mp3";
     private string closeSound = "Sound/UI/PopupClose_01.mp3";
 
-    private List<UIPlayerPanel> _userTagList = new List<UIPlayerPanel>();
+    public List<UIPlayerPanel> _userTagList = new List<UIPlayerPanel>();
 
-    public override void OnStartNetwork()
+    private void Start()
     {
-        base.OnStartNetwork();
-
         _closeButton.OnClick += Close;
-
-        NetworkGameSystem.onGameStart += HideUI;
-        InstanceFinder.SceneManager.OnLoadEnd += Show;
 
         _gameStartButton.gameObject.SetActive(InstanceFinder.IsServerStarted);
         _gameStartButton.onClick.AddListener(GameStart);
-
-        InstanceFinder.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
     }
 
-    public override void OnStopNetwork()
+    public void OnDestroy()
     {
-        base.OnStopNetwork();
-        InstanceFinder.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
-        NetworkGameSystem.onGameStart -= HideUI;
-        InstanceFinder.SceneManager.OnLoadEnd -= Show;
-    }
-
-    private void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
-    {
-        switch(args.ConnectionState)
-        {
-            case RemoteConnectionState.Started:
-                CreateUI(connection);
-                break;
-            case RemoteConnectionState.Stopped:
-                break;
-        }
+        _closeButton.OnClick -= Close;
     }
 
     private void Close()
     {
-        if(InstanceFinder.IsServerStarted)
-        {
-            NetworkCommandSystem.Instance.RequestDespawnObject(gameObject.GetComponent<NetworkObject>());
-            Managers.Network.StopHost();
-        }
-        else
-        {
-            Managers.Network.StopClient();
-        }
-
         Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
         {
             Managers.Sound.Play(audioClip);
         });
+
+        Destroy(gameObject);
     }
 
     private void GameStart()
     {
-        foreach(var userTag in _userTagList)
-        {
-            ServerManager.Despawn(userTag.NetworkObject);
-        }
-
         // 게임 시작
         NetworkGameSystem.Instance.StartGame();
 
@@ -93,55 +55,20 @@ public class LobbyRoomUI : NetworkBehaviour
         });
     }
 
-    [Server]
-    private void CreateUI(NetworkConnection connection)
+    public void ResetUI()
     {
-        if(Managers.Network.Type == NetworkType.Steam)
+        foreach(var userTag in _userTagList)
         {
-            ulong m_steamId = Managers.Steam.NetworkConnectionToSteamId[connection];
-            if(m_steamId == 0) return;
-
-            CSteamID steamId = new CSteamID(m_steamId);
-
-            UIPlayerPanel uIPlayerPanel = Instantiate(_userTagPrefab, _userTagRoot).GetComponent<UIPlayerPanel>();
-            InstanceFinder.ServerManager.Spawn(uIPlayerPanel.gameObject, connection);
-
-            Color color = NetworkRoomSystem.Instance.GetPlayerColor(connection);
-            uIPlayerPanel.PlayerName.Value = SteamFriends.GetFriendPersonaName(steamId);
-            uIPlayerPanel.PlayerColor.Value = color;
-
-            _userTagList.Add(uIPlayerPanel);
+            Destroy(userTag.gameObject);
         }
+
+        _userTagList.Clear();
     }
 
-    [ObserversRpc]
-    private void Show()
+    public void CreateUI(string name, Color color)
     {
-        //InstanceFinder.ServerManager.Spawn(gameObject.GetComponent<NetworkObject>());
-        gameObject.SetActive(true);
-    }
-
-    [ObserversRpc]
-    private void HideUI()
-    {
-        //InstanceFinder.ServerManager.Despawn(gameObject.GetComponent<NetworkObject>());
-        gameObject.SetActive(false);
-    }
-
-    [ObserversRpc]
-    private void ShowUI()
-    {
-        gameObject.SetActive(true);
-    }
-
-    private void Show(SceneLoadEndEventArgs args)
-    {
-        foreach(var scene in args.LoadedScenes)
-        {
-            if(scene.name == "Title")
-            {
-                ShowUI();
-            }
-        }
+        UIPlayerPanel uIPlayerPanel = Instantiate(_userTagPrefab, _userTagRoot).GetComponent<UIPlayerPanel>();
+        uIPlayerPanel.UpdateUI(name, color);
+        _userTagList.Add(uIPlayerPanel);
     }
 }

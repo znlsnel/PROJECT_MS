@@ -58,23 +58,6 @@ public class LobbyUI : PopupUI
         }
     }
 
-    private void Start()
-    {
-        InstanceFinder.SceneManager.OnClientLoadedStartScenes += OnClientLoadedStartScenes;
-    }
-
-    private void OnClientLoadedStartScenes(NetworkConnection conn, bool asServer)
-    {
-        if(_lobbyRoomUI != null) return;
-
-        if(_lobbyRoomUIPrefab == null) return;
-
-        GameObject lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab);
-        _lobbyRoomUI = lobbyRoomUI.GetComponent<LobbyRoomUI>();
-        _lobbyRoomUI.NetworkObject.SetIsGlobal(true);
-        InstanceFinder.ServerManager.Spawn(_lobbyRoomUI.NetworkObject);
-    }
-
     public override void Show()
     {
         base.Show();

@@ -20,6 +20,8 @@ public class GhostPlayer : NetworkBehaviour
         CharacterController = GetComponent<CharacterController>();
         Animator = GetComponentInChildren<Animator>();
         AnimationData = new GhostPlayerAnimationData();
+
+        GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_MainColor", NetworkRoomSystem.Instance.GetPlayerColor(Owner));
     }
 
     public override void OnStartClient()

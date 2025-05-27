@@ -65,7 +65,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
         PlacementHandler.Setup(QuickSlotHandler);
 
-        GetComponentInChildren<SkinnedMeshRenderer>().material.color = NetworkRoomSystem.Instance.GetPlayerColor(Owner);
+        GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_MainColor", NetworkRoomSystem.Instance.GetPlayerColor(Owner));
     }
 
     public override void OnStartClient()
