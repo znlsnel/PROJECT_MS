@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using FishNet;
@@ -6,12 +7,16 @@ using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
+using Steamworks;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
 public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
 {
     public readonly SyncDictionary<NetworkConnection, ColorType> PlayerColors = new SyncDictionary<NetworkConnection, ColorType>();
+
+    [SerializeField] private LobbyRoomUI _lobbyRoomUIPrefab;
+    private LobbyRoomUI _lobbyRoomUI;
 
     // 모든 색상을 가져오는 프로퍼티
     private static ColorType[] AllColors => (ColorType[])Enum.GetValues(typeof(ColorType));
@@ -32,20 +37,75 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     }
 
     /// <summary>
-    /// 클라이언트 연결 상태 변경 시 호출
+    /// 원격 연결 상태가 변경될 때 호출됩니다.
     /// </summary>
     private void OnRemoteConnectionState(NetworkConnection conn, RemoteConnectionStateArgs args)
     {
+        // 연결이 유효하지 않으면 처리하지 않음
+        if (conn == null || !conn.IsValid)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Invalid connection received");
+            return;
+        }
+
         switch(args.ConnectionState)
         {
             case RemoteConnectionState.Started:
-                PlayerColors.Add(conn, GetAvailableRandomColor());
-                break;
+                // 지연 호출을 통해 클라이언트가 완전히 초기화될 때까지 대기
+                StartCoroutine(HandleClientJoinDelayed(conn));
+            break;
             case RemoteConnectionState.Stopped:
-                PlayerColors.Remove(conn);
                 OnLeaveRoom(conn);
+                DestroyRoomUI(conn);
                 break;
         }
+    }
+
+    /// <summary>
+    /// 클라이언트 연결을 지연 처리합니다.
+    /// </summary>
+    private IEnumerator HandleClientJoinDelayed(NetworkConnection conn)
+    {
+        // 연결이 완전히 활성화될 때까지 대기
+        float timeout = 10f; // 10초 타임아웃
+        float elapsed = 0f;
+        
+        while (!conn.IsActive && elapsed < timeout)
+        {
+            yield return new WaitForSeconds(0.1f);
+            elapsed += 0.1f;
+        }
+
+        if (!conn.IsActive)
+        {
+            Debug.LogWarning($"NetworkRoomSystem: Connection {conn.ClientId} failed to activate within timeout");
+            yield break;
+        }
+
+        // 서버가 시작되었고 유효한 연결인지 확인
+        if (!base.IsServerStarted)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Server is not started");
+            yield break;
+        }
+
+        // Observer가 될 때까지 추가 대기
+        elapsed = 0f;
+        while (!base.Observers.Contains(conn) && elapsed < timeout)
+        {
+            yield return new WaitForSeconds(0.1f);
+            elapsed += 0.1f;
+        }
+
+        if (!base.Observers.Contains(conn))
+        {
+            Debug.LogWarning($"NetworkRoomSystem: Connection {conn.ClientId} is not an observer");
+            yield break;
+        }
+
+        // 이제 안전하게 RPC 호출
+        OnJoinRoom(conn);
+        CreateRoomUI(conn);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -57,10 +117,10 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
             return;
         }
 
-        if(PlayerColors.TryGetValue(connection, out ColorType prevColor))
+        if(PlayerColors.ContainsKey(connection))
         {
-            prevColor = colorType;
-            PlayerColors[connection] = prevColor;
+            PlayerColors[connection] = colorType;
+            UpdateUI();
         }
     }
 
@@ -189,4 +249,60 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     /// 사용 가능한 색상 목록을 받았을 때 발생하는 이벤트 (클라이언트용)
     /// </summary>
     public static event System.Action<ColorType[]> OnAvailableColorsReceived;
+
+
+    #region Room UI
+
+    [TargetRpc]
+    private void CreateRoomUI(NetworkConnection conn)
+    {
+        _lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab);
+        UpdateUI();
+    }
+
+    [TargetRpc]
+    private void DestroyRoomUI(NetworkConnection conn)
+    {
+        Destroy(_lobbyRoomUI.gameObject);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    private void UpdateUI()
+    {
+        ResetUI();
+
+        if(Managers.Network.Type == NetworkType.Steam)
+        {
+            foreach(var connection in InstanceFinder.ServerManager.Clients)
+            {
+                ulong m_steamId = Managers.Steam.GetSteamId(connection.Value);
+
+                if(m_steamId == 0) return;
+
+                CSteamID steamId = new CSteamID(m_steamId);
+
+                string name = SteamFriends.GetFriendPersonaName(steamId);
+                Color color = NetworkRoomSystem.Instance.GetPlayerColor(connection.Value);
+
+                CreateUI(name, color);
+            }
+        }
+    }
+
+    [ObserversRpc]
+    private void ResetUI()
+    {
+        if(_lobbyRoomUI == null) return;
+        
+        _lobbyRoomUI.ResetUI();
+    }
+
+    [ObserversRpc]
+    private void CreateUI(string name, Color color)
+    {
+        if(_lobbyRoomUI == null) return;
+
+        _lobbyRoomUI.CreateUI(name, color);
+    }
+    #endregion
 }
