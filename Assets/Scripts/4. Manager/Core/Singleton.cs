@@ -15,6 +15,13 @@ public class Singleton<T> : MonoBehaviour where T : MonoBehaviour
             {
                 // 씬에서 오브젝트 탐색
                 instance = FindAnyObjectByType<T>();
+
+                if (instance == null)
+                {
+                    GameObject obj = new GameObject(typeof(T).Name);
+                    instance = obj.AddComponent<T>();
+                }
+
             }
             
             return instance;

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using FishNet.Object;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
@@ -20,7 +21,7 @@ public class ForestScene : SceneBase
     {
         base.Awake();
 
-        _endingTimeline = GetComponent<PlayableDirector>(); 
+        _endingTimeline = gameObject.GetComponent<PlayableDirector>();  
 
         Managers.SubscribeToInit(InitScene);
     }
@@ -35,22 +36,29 @@ public class ForestScene : SceneBase
     {
         _mapData = Managers.Data.maps.GetByIndex(_mapIndex);
         Quest mainQuest = Managers.Quest.Register(_mapData.MainQuest);
-        //Quest subQuest = Managers.Quest.Register(mapData.SubQuest);
+        MyDebug.Log($"퀘스트 추가");
+        //Quest subQuest = Managers.Quest.Register(mapData.SubQuest); 
 
-        mainQuest.onCompleted += OnCompletedMainQuest;
+        mainQuest.onCompleted += (q)=>OnCompletedMainQuest();
        // PlaceFieldItem();
        // PlaceFieldResource();
     }
 
-
-    private void OnCompletedMainQuest(Quest quest)
+    [ServerRpc(RequireOwnership = false)]
+    private void OnCompletedMainQuest()
     {
-        // TODO 타임라인 플레이
+        RPC_OnCompletedMainQuest(); 
+    }
+
+    [ObserversRpc]
+    private void RPC_OnCompletedMainQuest()
+    {
         Managers.UI.CloseAllPopupUI();
         Managers.UI.HideSceneUI();
 
         _endingTimeline.Play();
     }
+
 
     public void ShowResultUI()
     {

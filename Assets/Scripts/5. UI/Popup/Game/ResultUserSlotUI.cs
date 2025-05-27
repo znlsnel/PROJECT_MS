@@ -26,7 +26,7 @@ public class ResultUserSlotUI : MonoBehaviour
         _surviveText_Survive.SetActive(survive);
         _surviveText_Dead.SetActive(!survive);
 
-        _killText.text = kill.ToString();
+        _killText.text = kill.ToString() + "킬"; 
     }
 
 

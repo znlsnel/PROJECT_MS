@@ -50,6 +50,8 @@ public class InventoryUI : PopupUI
         testItems.Add(Managers.Data.items.GetByIndex(3007));
         testItems.Add(Managers.Data.items.GetByIndex(3003));
         testItems.Add(Managers.Data.items.GetByIndex(1001));
+        testItems.Add(Managers.Data.items.GetByIndex(3005));
+        testItems.Add(Managers.Data.items.GetByIndex(3006)); 
    
 
 
@@ -64,6 +66,8 @@ public class InventoryUI : PopupUI
     private void TestInput(InputAction.CallbackContext context)
     {
         inventory.AddItem(testItems[Random.Range(0, testItems.Count)]); 
+        MyDebug.Log($"아이템 추가");
+
     }
 
     private void SetItemSlots()
