@@ -2,6 +2,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using FishNet;
 using FishNet.Connection;
+using FishNet.Object;
 using FishNet.Transporting;
 using Steamworks;
 using Unity.VisualScripting;
@@ -39,7 +40,7 @@ public class SteamManagerEx : IManager
 
         RegisterCallbacks();
 
-        InstanceFinder.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
+        InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnectionState;
     }
 
     public void Update()
@@ -53,20 +54,32 @@ public class SteamManagerEx : IManager
         if(SteamAPI.IsSteamRunning())
             SteamAPI.Shutdown();
 
-        InstanceFinder.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
+        InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
     }
 
-    private void OnRemoteConnectionState(NetworkConnection connection, RemoteConnectionStateArgs args)
+    private void OnClientConnectionState(ClientConnectionStateArgs args)
     {
         switch(args.ConnectionState)
         {
-            case RemoteConnectionState.Started:
-                NetworkConnectionToSteamId.Add(connection, SteamUser.GetSteamID().m_SteamID);
+            case LocalConnectionState.Starting:
+                AddPlayer(SteamUser.GetSteamID().m_SteamID);
                 break;
-            case RemoteConnectionState.Stopped:
-                NetworkConnectionToSteamId.Remove(connection);
+            case LocalConnectionState.Stopping:
+                RemovePlayer();
                 break;
         }
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void AddPlayer(ulong steamId, NetworkConnection connection = null)
+    {
+        NetworkConnectionToSteamId.Add(connection, steamId);
+    }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RemovePlayer(NetworkConnection connection = null)
+    {
+        NetworkConnectionToSteamId.Remove(connection);
     }
 
     public ulong GetSteamId(NetworkConnection connection)
