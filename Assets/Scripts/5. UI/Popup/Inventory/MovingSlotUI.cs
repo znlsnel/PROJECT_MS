@@ -19,7 +19,7 @@ public class MovingSlotUI : PopupUI
     } 
 
     public override void Hide()
-    {
+    { 
         base.Hide();
         Managers.Sound.Play(_movingSlotSound);
     }

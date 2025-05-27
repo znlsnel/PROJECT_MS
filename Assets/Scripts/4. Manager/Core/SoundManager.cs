@@ -112,12 +112,14 @@ public class SoundManager : IManager
 			if (_audioClips.ContainsKey(path) == false)
             {
                 var a = Managers.Resource.Load<AudioClip>(path);
-				_audioClips.Add(path, a);
+                if (a != null)
+                {
+				    _audioClips.Add(path, a); 
+                    audioClip = a; 
+                }
             }
-                
-			
-            
-            audioClip = _audioClips[path];
+            else
+                audioClip = _audioClips[path]; 
 		}
 
 		if (audioClip == null)

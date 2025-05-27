@@ -43,7 +43,7 @@ public class LobbyUI : PopupUI
     {
         base.Awake();
         _createRoomButton.onClick.AddListener(OpenCreateRoomUI); 
-        _closeButton.OnClick += Close;
+        _closeButton.OnClick += () => HideWithDoTween(_mainPanel.transform); 
 
         if(Managers.Network.Type == NetworkType.TCP_UDP)
         {
@@ -80,18 +80,6 @@ public class LobbyUI : PopupUI
         base.Show();
         _mainPanel.localScale = Vector3.zero; 
         _mainPanel.DOScale(1.0f, 0.4f).SetEase(Ease.OutCubic); 
-    }
-
-    private void Close()
-    { 
-        _mainPanel.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
-            Hide();  
-        };
-
-        Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
-        {
-            Managers.Sound.Play(audioClip);
-        });
     }
 
     private void OpenCreateRoomUI()

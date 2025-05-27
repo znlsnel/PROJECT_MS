@@ -2213,7 +2213,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69eb3b7637a0bdb41a6693b5f95980df, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _isPlaySound: 0
+  _isPlaySound: 1
   _mainPanel: {fileID: 4476537419940891225}
   _panelButton: {fileID: 5698371073739622036}
 --- !u!1 &5608856069870705567

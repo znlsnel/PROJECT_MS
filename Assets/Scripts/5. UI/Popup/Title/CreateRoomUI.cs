@@ -24,7 +24,7 @@ public class CreateRoomUI : PopupUI
     {
         base.Awake();
         _createRoomButton.onClick.AddListener(CreateRoom);
-        _closeButton.OnClick += Close;
+        _closeButton.OnClick += () => HideWithDoTween(_mainPanel.transform);
     }
 
     public void Setup(GameObject lobbyRoomUI)
@@ -32,17 +32,6 @@ public class CreateRoomUI : PopupUI
         _lobbyRoomUIPrefab = lobbyRoomUI; 
     }
 
-    private void Close()
-    { 
-        _mainPanel.transform.DOScale(0.0f, 0.4f).SetEase(Ease.OutCubic).onComplete += () => {
-            Hide(); 
-        };
-
-        Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
-        {
-            Managers.Sound.Play(audioClip);
-        });
-    }
 
     private void CreateRoom()
     {
