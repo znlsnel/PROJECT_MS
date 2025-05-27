@@ -22,6 +22,9 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     public static Action onGameStart;
     public static Action onGameEnd;
 
+    private static readonly string winSound = "Sound/WinLose/Win.mp3";
+    private static readonly string loseSound = "Sound/WinLose/Lose_01.mp3";
+
     [Server]
     public void StartGame()
     {
@@ -38,6 +41,18 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     {
         IsGameStarted.Value = false;
         onGameEnd?.Invoke();
+
+        PlayerRole currentPlayerRole = GetPlayerRole(InstanceFinder.ClientManager.Connection);
+
+        if ((winner == PlayerRole.Imposter && currentPlayerRole == PlayerRole.Imposter) ||
+            (winner == PlayerRole.Survival && currentPlayerRole == PlayerRole.Survival))
+        {
+            Managers.Sound.Play(winSound);
+        }
+        else
+        {
+            Managers.Sound.Play(loseSound);
+        }
     } 
 
     [Server]
