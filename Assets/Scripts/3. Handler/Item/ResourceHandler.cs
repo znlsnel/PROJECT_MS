@@ -1,6 +1,7 @@
 using System.Collections.Generic;
 using DG.Tweening;
 using FishNet;
+using FishNet.Connection;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
@@ -39,9 +40,9 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void TakeDamage(float damage, GameObject attacker)
+    public void TakeDamage(float damage, NetworkConnection conn = null)
     {
-        DamageEffect(attacker);
+        DamageEffect(conn.FirstObject.gameObject);
         Hp.Subtract(damage);
     }
 

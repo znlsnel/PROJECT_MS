@@ -1,4 +1,5 @@
 #region Enums
+using FishNet.Connection;
 using UnityEngine;
 
 public enum ESound
@@ -83,7 +84,7 @@ public interface IInteractable
 
 public interface IDamageable
 {
-    void TakeDamage(float damage, GameObject attacker); 
+    void TakeDamage(float damage, NetworkConnection conn = null); 
     bool CanTakeDamage();
 }
 
