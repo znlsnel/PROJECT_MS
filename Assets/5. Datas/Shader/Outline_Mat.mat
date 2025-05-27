@@ -38,9 +38,11 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _Distance: 15
+    - _MinDistance: 0
     - _QueueControl: 0
     - _QueueOffset: 0
-    - _Scale: 0.03
+    - _Scale: 0.05
     m_Colors:
     - _Color: {r: 0.856044, g: 1, b: 0.6367924, a: 1}
   m_BuildTextureStacks: []
