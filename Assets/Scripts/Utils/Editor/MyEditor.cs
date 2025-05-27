@@ -68,6 +68,7 @@ public class MyEditor : EditorWindow
         resetMessage = "초기화가 완료되었습니다.";
         resetMessageTime = EditorApplication.timeSinceStartup;
         Repaint();
+        AssetDatabase.SaveAssets(); 
     }
 
     private void DrawResetMessage()
