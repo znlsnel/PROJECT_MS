@@ -63,6 +63,8 @@ namespace GameData
 		public System.Boolean canRotate_Yaw;
 		public System.Boolean canRotate_Pitch;
 		public System.ValueTuple<Int32, Int32> sizeRate;
+		public System.Int32 amount;
+		public System.Int32 hp;
   
 
 #region fuctions

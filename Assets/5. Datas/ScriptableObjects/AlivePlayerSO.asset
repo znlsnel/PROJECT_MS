@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 51c215732d692214591fe9512e29ffd0, type: 3}
   m_Name: AlivePlayerSO
   m_EditorClassIdentifier: 
-  <MoveSpeed>k__BackingField: 3
-  <SprintSpeed>k__BackingField: 8
+  <MoveSpeed>k__BackingField: 2
+  <SprintSpeed>k__BackingField: 5
   <RotationSpeed>k__BackingField: 10

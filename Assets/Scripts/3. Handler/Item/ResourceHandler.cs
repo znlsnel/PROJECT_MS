@@ -8,14 +8,14 @@ using UnityEngine;
 
 public class ResourceHandler : NetworkBehaviour, IDamageable
 {
-    [SerializeField] private int dropItemCount = 1;
-
     [SerializeField] public List<int> dropItemIds = new List<int>();
+    [SerializeField] public int dropItemCount ;    
 
     private List<GameObject> dropItems = new List<GameObject>();
     private Vector3 originalScale;
 
     [field: SerializeField] public HealthResource Hp {get; private set;}
+
 
 
     public void Awake()
@@ -76,7 +76,7 @@ public class ResourceHandler : NetworkBehaviour, IDamageable
             item.transform.position = transform.position;
             InstanceFinder.ServerManager.Spawn(item);
 
-            item.GetOrAddComponent<Rigidbody>().AddForce(Vector3.up * 5f, ForceMode.Impulse);
+            item.GetOrAddComponent<Rigidbody>().AddForce(Vector3.up * Random.Range(3f, 6f), ForceMode.Impulse); 
         }
     }
 
