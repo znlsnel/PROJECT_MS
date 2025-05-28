@@ -19,6 +19,8 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 
     public static Action onGameStart;
     public static Action<EPlayerRole> onGameEnd;
+    public Action onCompletedRandomRole;
+    public bool completedRandomRole = false;
 
     private static readonly string winSound = "Sound/WinLose/Win.mp3";
     private static readonly string loseSound = "Sound/WinLose/Lose_01.mp3";
@@ -117,6 +119,16 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
             PlayerInfo playerInfo = new PlayerInfo(connection.ClientId.ToString(), role, false, 0);
             Players.Add(connection, playerInfo);
         }
+        completedRandomRole = true;
+        onCompletedRandomRole?.Invoke(); 
+    }
+
+    public void SubscribeToRandomRole(Action callback)
+    {
+        if (completedRandomRole)
+            callback?.Invoke();
+        else
+            onCompletedRandomRole += callback; 
     }
 
     public EPlayerRole GetPlayerRole(NetworkConnection connection)

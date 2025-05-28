@@ -30,7 +30,7 @@ public class ForestScene : SceneBase
         Managers.SubscribeToInit(InitScene);
     }
  
-    void Start()
+    void Start() 
     {
         Managers.Analytics.SurvivalStart();
         NetworkGameSystem.onGameEnd += ShowResultUI;

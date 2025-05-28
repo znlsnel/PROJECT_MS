@@ -23,7 +23,7 @@ public class ItemSlot
     public bool IsFull() => Stack >= MaxStack;
     public bool IsEmpty() => Stack <= 0;
     public virtual int MaxStack => Data.MaxStack;
-    public virtual int MaxDurability => (int)Data.MaxDurability; 
+    public virtual int MaxDurability => (int)Data.MaxDurability;  
 
 
     private int _slotIdx = -1;
@@ -99,7 +99,7 @@ public class ItemSlot
         if (Data != null)
             onAddItem?.Invoke(Data.Id, this); 
 
-        this.Data = itemData; 
+        this.Data = itemData;  
 
         if (_slotIdx != -1 && !isServer) 
             onUpdateSlot?.Invoke(_slotIdx);    
