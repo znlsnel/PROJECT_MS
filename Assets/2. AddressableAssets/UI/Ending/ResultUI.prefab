@@ -595,6 +595,7 @@ MonoBehaviour:
   _isPlaySound: 1
   _userSlotPrefab: {fileID: 7413364716786269214, guid: def7ab89138791942be607744b48ec1e, type: 3}
   _userListRoot: {fileID: 2933459046120737883}
+  _title: {fileID: 2939663643948546626}
   _lobbyButton: {fileID: 8837485404891732999}
 --- !u!225 &5823845286120182331
 CanvasGroup:
@@ -1204,7 +1205,7 @@ GameObject:
   - component: {fileID: 34455294175555013}
   - component: {fileID: 2939663643948546626}
   m_Layer: 0
-  m_Name: Text (TMP)
+  m_Name: Title
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

@@ -91,6 +91,14 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stateMachine = new AlivePlayerStateMachine(this);
     }
 
+    public void Start()
+    {
+        ForestScene.onCompleted += () =>
+        {
+            transform.position = new Vector3(0, -1000, 0); 
+        }; 
+    }
+
     public override void OnStopClient()
     {
         base.OnStopClient();
@@ -146,7 +154,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         }
     }
 
-    [Server]
     public void OnTakeDamage(float prev, float next, bool asServer)
     {
         if(prev > next)
@@ -160,7 +167,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
                 isDead = true;
                 onDead?.Invoke(); 
                 StartCoroutine(DropItemCoroutine());  
-                NetworkGameSystem.Instance.OnPlayerDead(NetworkObject); 
+                NetworkGameSystem.Instance.OnPlayerDead(); 
             }
         } 
     }

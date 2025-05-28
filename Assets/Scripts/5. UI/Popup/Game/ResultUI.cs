@@ -21,6 +21,9 @@ public class ResultUI : PopupUI
 
     public void Setup(EPlayerRole winner)
     {
+        foreach (Transform child in _userListRoot)
+            child.gameObject.SetActive(false);  
+
         bool isEndTime = Managers.scene.GetComponent<TimeSystem>().IsTimeEnd;
         foreach (var pare in NetworkGameSystem.Instance.Players)
         {
@@ -31,6 +34,8 @@ public class ResultUI : PopupUI
             string name = NetworkRoomSystem.Instance.GetPlayerName(connection);
             if (name == "") continue;
 
+
+
             GameObject userSlot = Instantiate(_userSlotPrefab, _userListRoot); 
 
             userSlot.GetComponent<ResultUserSlotUI>().Setup(name, color, playerInfo.role, !playerInfo.isDead, playerInfo.killCount);
@@ -38,7 +43,7 @@ public class ResultUI : PopupUI
 
         if (winner == EPlayerRole.Imposter) 
         {
-            _title.text = "마피아 승리";
+            _title.text = "임포스터 승리"; 
         }
         else
         {

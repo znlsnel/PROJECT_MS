@@ -1,10 +1,8 @@
 using System;
-
 using System.Collections.Generic;
 using System.Linq;
 using FishNet;
 using FishNet.Connection;
-using FishNet.Managing.Scened;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using UnityEngine;
@@ -12,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 {
-    public readonly SyncVar<bool> IsGameStarted = new SyncVar<bool>(false);
+    public bool IsGameStarted = false;
     public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 300, 3));
     public readonly SyncDictionary<NetworkConnection, PlayerInfo> Players = new SyncDictionary<NetworkConnection, PlayerInfo>();
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
@@ -28,7 +26,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     [Server]
     public void StartGame()
     {
-        IsGameStarted.Value = true;
+        IsGameStarted = true;
         onGameStart?.Invoke();
         
         if(Managers.Network.Type == NetworkType.Steam)
@@ -38,13 +36,42 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         
         SetRandomRole();
 
+        Players.OnChange += OnPlayerChange;
+
         NetworkSceneSystem.Instance?.LoadScene("Game");
+    }
+
+    private void OnPlayerChange(SyncDictionaryOperation op, NetworkConnection key, PlayerInfo value, bool asServer)
+    {
+        if(!asServer || !IsGameStarted) return;
+
+        int aliveSurvivals = Players.Count(player => player.Value.role == EPlayerRole.Survival && !player.Value.isDead);
+
+        if(aliveSurvivals <= 0)
+        {
+            Managers.Analytics.MafiaWinRate(true);
+            ImposterWin();
+        }
+        else
+        {
+            NetworkObject instance = Instantiate(ghostPlayerPrefab, key.FirstObject.transform.position, Quaternion.identity);
+            InstanceFinder.ServerManager.Spawn(instance, key);
+            ghostPlayers.Add(instance);
+        }
     }
 
     [Server]
     public void EndGame(EPlayerRole winner)
     {
-        IsGameStarted.Value = false;
+        IsGameStarted = false;
+        Players.OnChange -= OnPlayerChange;
+        
+        // 게임 종료 시 SteamLobby를 다시 보이게 설정 (서버에서만 실행)
+        if(Managers.Network.Type == NetworkType.Steam)
+        {
+            Managers.Steam.SetLobbyVisible();
+        }
+        
         EndGame_InClient(winner); 
     } 
 
@@ -52,11 +79,6 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     public void EndGame_InClient(EPlayerRole winner)
     {
         onGameEnd?.Invoke(winner);
-
-        if(InstanceFinder.IsServerStarted && Managers.Network.Type == NetworkType.Steam)
-        {
-            Managers.Steam.SetLobbyVisible();
-        }
 
         EPlayerRole currentPlayerRole = GetPlayerRole(InstanceFinder.ClientManager.Connection);
 
@@ -93,7 +115,6 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         {
             EPlayerRole role = Imposters.Contains(connection) ? EPlayerRole.Imposter : EPlayerRole.Survival;
             PlayerInfo playerInfo = new PlayerInfo(connection.ClientId.ToString(), role, false, 0);
-            Debug.Log(playerInfo);
             Players.Add(connection, playerInfo);
         }
     }
@@ -109,46 +130,22 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 
     public void ImposterWin()
     {
-        Debug.Log("Imposter Win");
         EndGame(EPlayerRole.Imposter);
     }
 
     public void SurvivalWin()
     {
-        Debug.Log("Survival Win");
         EndGame(EPlayerRole.Survival);
     }
 
     [ServerRpc(RequireOwnership = false)]
-    public void OnPlayerDead(NetworkObject networkObject, NetworkConnection connection = null)
+    public void OnPlayerDead(NetworkConnection connection = null)
     {
         if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
         {
             playerInfo.isDead = true;
             Players[connection] = playerInfo;
         }
-
-        int aliveSurvivals = Players.Count(player => player.Value.role == EPlayerRole.Survival && !player.Value.isDead);
-
-        foreach(PlayerInfo info in Players.Values)
-        {
-            NetworkChatSystem.Instance.SendChatMessage(info.isDead ? "You are dead" : "You are alive");
-        }
-
-         if(aliveSurvivals <= 0)
-        {
-            Managers.Analytics.MafiaWinRate(true);
-            ImposterWin();
-        }
-        else
-        {
-            // NetworkObject instance = Instantiate(ghostPlayerPrefab, position, Quaternion.identity);
-            // InstanceFinder.ServerManager.Spawn(instance, connection);
-        }
-
-        NetworkObject instance = Instantiate(ghostPlayerPrefab, networkObject.transform.position, Quaternion.identity);
-        InstanceFinder.ServerManager.Spawn(instance, connection);
-        ghostPlayers.Add(instance);
     }
 
     [Server] 
