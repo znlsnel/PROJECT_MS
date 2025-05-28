@@ -15,9 +15,9 @@ public class AlivePlayerRunningState : AlivePlayerMovingState
 
     public override void Enter()
     {
-        base.Enter();
-
         stateMachine.ReusableData.MovementSpeed = stateMachine.Player.AlivePlayerSO.MoveSpeed;
+
+        base.Enter();
 
         StartAnimation(stateMachine.Player.AnimationData.RunningParameterHash);
 
