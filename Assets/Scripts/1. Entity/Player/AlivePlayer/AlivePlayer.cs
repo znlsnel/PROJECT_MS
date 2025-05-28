@@ -147,8 +147,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     }
 
     [Server]
-    
-
     public void OnTakeDamage(float prev, float next, bool asServer)
     {
         if(prev > next)

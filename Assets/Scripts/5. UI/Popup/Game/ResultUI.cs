@@ -31,12 +31,12 @@ public class ResultUI : PopupUI
             Color color = NetworkRoomSystem.Instance.GetPlayerColor(connection);
             string name = NetworkRoomSystem.Instance.GetPlayerName(connection);
             if (name == "") continue;
-
+ 
 
             GameObject userSlot = Instantiate(_userSlotPrefab, _userListRoot); 
 
-            userSlot.GetComponent<ResultUserSlotUI>().Setup(name, color, playerInfo.role, playerInfo.isDead, playerInfo.killCount);
-
+            userSlot.GetComponent<ResultUserSlotUI>().Setup(name, color, playerInfo.role, !playerInfo.isDead, playerInfo.killCount);
+ 
             if (playerInfo.role == EPlayerRole.Survival && !playerInfo.isDead)
                 isMafiaWin = false;
         }
