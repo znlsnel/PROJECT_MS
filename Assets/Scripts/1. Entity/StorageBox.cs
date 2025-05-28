@@ -25,8 +25,8 @@ public class StorageBox : Interactable
                     if (storage.GetSlotByIdx(slotIdx).Data != null)
                         idx = storage.GetSlotByIdx(slotIdx).Data.Id;
 
-                    AsyncItemSlot(slotIdx, idx, storage.GetSlotByIdx(slotIdx).Stack); 
-                }; 
+                    AsyncItemSlot(slotIdx, idx, storage.GetSlotByIdx(slotIdx).Stack, storage.GetSlotByIdx(slotIdx).Durability); 
+                };  
             }
         });
     }
@@ -41,16 +41,16 @@ public class StorageBox : Interactable
     }
 
     [ServerRpc(RequireOwnership = false)]
-    private void AsyncItemSlot(int slotIdx, int itemData, int amount)
+    private void AsyncItemSlot(int slotIdx, int itemData, int amount, int durability)
     {
-        ObserversRpcItemSlot(slotIdx, itemData, amount); 
+        ObserversRpcItemSlot(slotIdx, itemData, amount, durability); 
     }
  
     [ObserversRpc]
-    private void ObserversRpcItemSlot(int slotIdx, int itemData, int amount)
+    private void ObserversRpcItemSlot(int slotIdx, int itemData, int amount, int durability)
     {
         ItemData data = Managers.Data.items.GetByIndex(itemData);
-        storage.GetSlotByIdx(slotIdx).Setup(data, amount, true);  
+        storage.GetSlotByIdx(slotIdx).Setup(data, amount, durability, true);   
     }
 }
 

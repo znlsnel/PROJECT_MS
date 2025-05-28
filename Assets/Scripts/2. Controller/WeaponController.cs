@@ -17,7 +17,7 @@ public class WeaponController : ItemController
 
     private static GameObject _fxHuman;
     private static GameObject _fx;
-
+ 
     private void Start()
     {
         if (_fxHuman == null)
@@ -62,7 +62,7 @@ public class WeaponController : ItemController
             if(damageables.Add(damageable))
             {
                 damageable.TakeDamage(damage);
-                itemSlot.UseDurability(1f);
+                itemSlot.UseDurability(1); 
                 Debug.Log("Damaged");
             }
         }

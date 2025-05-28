@@ -2,8 +2,9 @@ using UnityEngine;
 using DG.Tweening;
 using UGS;
 using FishNet.Object;
+using FishNet.Object.Synchronizing;
 
- 
+
 public class ItemObject : Interactable
 {
     [SerializeField] public int itemId;
@@ -11,29 +12,48 @@ public class ItemObject : Interactable
     private bool isPlayingDoTween = false;
     public override bool isActive => base.isActive && !isPlayingDoTween; 
 
-    public void Awake()
+    public int Durability {get; private set;} = 0;   
+
+
+
+    private void Awake() 
     {
-        Managers.SubscribeToInit(()=>{
+        Managers.SubscribeToInit(()=>
+        {
             itemData = Managers.Data.items.GetByIndex(itemId);
+            Durability = (int)itemData.MaxDurability;      
         }); 
     }
+
+
+    public void SetDurability(int durability)
+    {
+        Durability = durability; 
+ 
+    }
+
+
+
+
 
     public void OnEnable()
     {
         isPlayingDoTween = false; 
-    }
+    } 
+
 
     [ServerRpc(RequireOwnership = false)]
     public override void Interact(GameObject obj)
     {
         InteractRpc(obj);
     }
-
+  
+ 
     [ObserversRpc]
     private void InteractRpc(GameObject obj)
     {
         AlivePlayer player = obj.GetComponent<AlivePlayer>();
-        player.Inventory.AddItem(itemData, 1);
+        player.Inventory.AddItem(itemData, 1, Durability);  
         isPlayingDoTween = true;
 
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutSine);

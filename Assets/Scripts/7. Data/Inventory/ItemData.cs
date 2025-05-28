@@ -19,7 +19,7 @@ public class ItemData
 
     public float Damage {get; protected set;}
     public bool HasDurability {get; protected set;}
-    public float MaxDurability {get; protected set;}
+    public int MaxDurability {get; protected set;}
 
     public float Heal {get; protected set;}
     public float RestoreHunger {get; protected set;}
@@ -58,7 +58,7 @@ public class ItemData
 
         Damage = item.damage;
         HasDurability = item.hasDurability;
-        MaxDurability = item.durability;
+        MaxDurability = (int)item.durability; 
 
         Heal = item.health;
         RestoreHunger = item.hunger;

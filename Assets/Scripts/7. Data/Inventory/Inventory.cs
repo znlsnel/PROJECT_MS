@@ -32,23 +32,23 @@ public class Inventory
 
 
 
-    public bool AddItem(ItemData itemData, int amount = 1)
+    public bool AddItem(ItemData itemData, int amount = 1, int durability = 0) 
     {
         Managers.Quest.ReceiveReport(ETaskCategory.Pickup, itemData.Id);
 
-        if (QuickSlotStorage.AddItem(itemData, amount))
+        if (QuickSlotStorage.AddItem(itemData, amount, durability))
         {
             onAddItem?.Invoke(itemData);
             return true;
         }
 
-        if (ItemStorage.AddItem(itemData, amount))
+        if (ItemStorage.AddItem(itemData, amount, durability))
         {
             onAddItem?.Invoke(itemData); 
             return true;
         }
 
-        return false;
+        return false; 
     } 
      
     public bool RemoveItem(ItemData itemData, int amount)
@@ -88,7 +88,7 @@ public class Inventory
         int stackDiff = to.MaxStack - to.Stack;
         int mergeAmount = Mathf.Min(from.Stack, stackDiff);
 
-        to.AddStack(to.Data, mergeAmount);
+        to.AddStack(to.Data, mergeAmount); 
         from.AddStack(from.Data, -mergeAmount);
     }
 
@@ -97,8 +97,11 @@ public class Inventory
         ItemData tempData = slot1.Data;
         int tempStack = slot1.Stack;
 
-        slot1.Setup(slot2.Data, slot2.Stack); 
-        slot2.Setup(tempData, tempStack);
+        int durability1 = slot1.Durability;
+        int durability2 = slot2.Durability; 
+
+        slot1.Setup(slot2.Data, slot2.Stack, durability2);  
+        slot2.Setup(tempData, tempStack, durability1);
     }
     
 
