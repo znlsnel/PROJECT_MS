@@ -42,7 +42,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 
     private void OnPlayerChange(SyncDictionaryOperation op, NetworkConnection key, PlayerInfo value, bool asServer)
     {
-        if(!asServer) return;
+        if(!asServer || IsGameStarted.Value) return;
 
         int aliveSurvivals = Players.Count(player => player.Value.role == EPlayerRole.Survival && !player.Value.isDead);
 
