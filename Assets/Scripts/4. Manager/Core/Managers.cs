@@ -103,6 +103,11 @@ public class Managers : Singleton<Managers>
             steam.Update();
     }
 
+    public void OnDestroy()
+    {
+        Clear();
+    }
+
     public void Clear()
     {
         Analytics.Clear();

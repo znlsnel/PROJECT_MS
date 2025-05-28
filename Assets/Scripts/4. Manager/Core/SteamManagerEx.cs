@@ -17,6 +17,8 @@ public class SteamManagerEx : IManager
     private Callback<GameLobbyJoinRequested_t> _gameLobbyJoinRequested;
     private Callback<LobbyEnter_t> _lobbyEntered;
     private Callback<LobbyMatchList_t> _lobbyList;
+    private Callback<LobbyDataUpdate_t> _lobbyDataUpdate;
+    private Callback<LobbyChatUpdate_t> _lobbyChatUpdate;
     
     public ELobbyType LobbyType = ELobbyType.k_ELobbyTypePublic;
 
@@ -27,6 +29,8 @@ public class SteamManagerEx : IManager
     public LobbyInfo lobbyInfo = new LobbyInfo();
 
     private const string HostAddressKey = "HostAddress";
+
+    private CSteamID _currentLobbyOwner;
 
     public void Init()
     {
@@ -58,6 +62,48 @@ public class SteamManagerEx : IManager
         _gameLobbyJoinRequested = Callback<GameLobbyJoinRequested_t>.Create(OnJoinRequested);
         _lobbyEntered = Callback<LobbyEnter_t>.Create(OnLobbyEntered);
         _lobbyList = Callback<LobbyMatchList_t>.Create(OnLobbyList);
+        _lobbyDataUpdate = Callback<LobbyDataUpdate_t>.Create(OnLobbyDataUpdate);
+        _lobbyChatUpdate = Callback<LobbyChatUpdate_t>.Create(OnLobbyChatUpdate);
+    }
+
+    private void OnLobbyDataUpdate(LobbyDataUpdate_t callback)
+    {
+        // 현재 로비의 업데이트인지 확인
+        if(callback.m_ulSteamIDLobby != CurrentLobbyId) return;
+
+        CSteamID currentOwner = SteamMatchmaking.GetLobbyOwner(new CSteamID(CurrentLobbyId));
+        
+        // 호스트가 변경되었는지 확인
+        if(_currentLobbyOwner.IsValid() && _currentLobbyOwner != currentOwner)
+        {
+            Debug.Log("Lobby owner has changed. Leaving lobby...");
+            LeaveLobby();
+            return;
+        }
+
+        _currentLobbyOwner = currentOwner;
+    }
+
+    private void OnLobbyChatUpdate(LobbyChatUpdate_t callback)
+    {
+        // 현재 로비의 업데이트인지 확인
+        if(callback.m_ulSteamIDLobby != CurrentLobbyId) return;
+
+        // 사용자가 로비를 떠났는지 확인
+        if(callback.m_rgfChatMemberStateChange == (uint)EChatMemberStateChange.k_EChatMemberStateChangeLeft ||
+           callback.m_rgfChatMemberStateChange == (uint)EChatMemberStateChange.k_EChatMemberStateChangeDisconnected ||
+           callback.m_rgfChatMemberStateChange == (uint)EChatMemberStateChange.k_EChatMemberStateChangeKicked ||
+           callback.m_rgfChatMemberStateChange == (uint)EChatMemberStateChange.k_EChatMemberStateChangeBanned)
+        {
+            CSteamID userWhoLeft = new CSteamID(callback.m_ulSteamIDUserChanged);
+            
+            // 떠난 사용자가 호스트인지 확인
+            if(userWhoLeft == _currentLobbyOwner)
+            {
+                Debug.Log("Host has left the lobby. All users will be disconnected.");
+                LeaveLobby();
+            }
+        }
     }
 
     public void CreateLobby()
@@ -94,6 +140,10 @@ public class SteamManagerEx : IManager
     {
         CurrentLobbyId = callback.m_ulSteamIDLobby;
 
+        // 현재 로비 오너 저장
+        _currentLobbyOwner = SteamMatchmaking.GetLobbyOwner(new CSteamID(CurrentLobbyId));
+        Debug.Log($"Entered lobby. Current owner: {SteamFriends.GetFriendPersonaName(_currentLobbyOwner)}");
+
         FishySteamworks.SetClientAddress(SteamMatchmaking.GetLobbyData(new CSteamID(CurrentLobbyId), HostAddressKey));
         FishySteamworks.StartConnection(false);
     }
@@ -104,6 +154,16 @@ public class SteamManagerEx : IManager
 
         if(SteamMatchmaking.RequestLobbyData(new CSteamID(steamID)))
         {
+            // 로비 멤버 수 확인
+            int memberCount = SteamMatchmaking.GetNumLobbyMembers(new CSteamID(steamID));
+            
+            if(memberCount == 0)
+            {
+                Debug.LogError("Failed to join lobby: Lobby is empty (no members)");
+                return false;
+            }
+            
+            Debug.Log($"Lobby has {memberCount} member(s). Attempting to join...");
             SteamMatchmaking.JoinLobby(new CSteamID(steamID));
             return true;
         }
@@ -118,6 +178,7 @@ public class SteamManagerEx : IManager
     {
         SteamMatchmaking.LeaveLobby(new CSteamID(CurrentLobbyId));
         CurrentLobbyId = 0;
+        _currentLobbyOwner = CSteamID.Nil;
 
         FishySteamworks.StopConnection(false);
         if(InstanceFinder.NetworkManager.IsServerStarted)
@@ -166,7 +227,7 @@ public class SteamManagerEx : IManager
 
             Debug.Log($"Lobby: {lobbyInfo.RoomName} - Host IP: {lobbyInfo.RoomName}");
 
-            SteamMatchmaking.LeaveLobby(lobbyid);
+            //SteamMatchmaking.LeaveLobby(lobbyid);
         }
 
         lobbies.Sort((a, b) => a.CreatedTime.CompareTo(b.CreatedTime));

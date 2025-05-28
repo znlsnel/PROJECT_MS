@@ -7,6 +7,7 @@ using FishNet.Object;
 using FishNet.Connection;
 using System.Collections;
 using System;
+using FishNet.Transporting;
 
 public class LobbyRoomUI : MonoBehaviour
 {
@@ -28,16 +29,31 @@ public class LobbyRoomUI : MonoBehaviour
 
         _gameStartButton.gameObject.SetActive(InstanceFinder.IsServerStarted);
         _gameStartButton.onClick.AddListener(GameStart);
+
+        InstanceFinder.ClientManager.OnClientConnectionState += OnClientConnectionState;
+    }
+
+    private void OnClientConnectionState(ClientConnectionStateArgs args)
+    {
+        switch(args.ConnectionState)
+        {
+            case LocalConnectionState.Stopped:
+                Destroy(gameObject);
+                break;
+        }
     }
 
     public void OnDestroy()
     {
         _closeButton.OnClick -= Close;
+
+        InstanceFinder.ClientManager.OnClientConnectionState -= OnClientConnectionState;
     }
 
     private void Close()
     {
         (InstanceFinder.IsHostStarted ? (Action)Managers.Network.StopHost : Managers.Network.StopClient)();
+        Managers.Steam.LeaveLobby();
 
         Managers.Resource.LoadAsync<AudioClip>(closeSound, (audioClip) =>
         {
