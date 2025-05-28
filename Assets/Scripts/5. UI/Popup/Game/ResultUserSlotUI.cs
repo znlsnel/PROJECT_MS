@@ -16,36 +16,26 @@ public class ResultUserSlotUI : MonoBehaviour
     [SerializeField] private GameObject _surviveText_Failed;
     [SerializeField] private GameObject _surviveText_Dead;
 
-
+    void Awake()
+    {
+        _surviveText_Survive.SetActive(false);  
+        _surviveText_Failed.SetActive(false);    
+    }
 
     public void Setup(string name, Color color, EPlayerRole role, bool survive, int kill)
     {
-        _nicknameText.text = name;
+        _nicknameText.text = name; 
         _nicknameBackground.color = color;
 
         _roleText_Mafia.SetActive(role == EPlayerRole.Imposter);
         _roleText_Survivor.SetActive(role == EPlayerRole.Survival); 
 
-        _surviveText_Survive.SetActive(survive); 
         _surviveText_Dead.SetActive(!survive); 
-
-        bool isEndTime = Managers.scene.GetComponent<TimeSystem>().IsTimeEnd;
-        bool isCompleted = ForestScene.isCompleted;
-
-        if (role == EPlayerRole.Survival && survive && isEndTime)
-        {
-            _surviveText_Failed.SetActive(true);
-            _surviveText_Survive.SetActive(false);  
-        }
-
-        if (role == EPlayerRole.Imposter && survive && isCompleted)
-        {
-            _surviveText_Failed.SetActive(true);
-            _surviveText_Survive.SetActive(false);   
-        }
+        
 
 
-        _killText.text = kill.ToString() + "킬"; 
+        _killText.text = kill.ToString() + "킬";  
+        _killText.transform.parent.gameObject.SetActive(kill > 0); 
 
         // 실패 조건 -> 생존자 && isEndTime == true
     }

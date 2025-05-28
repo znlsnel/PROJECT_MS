@@ -46,7 +46,7 @@ public class ResultUI : PopupUI
                 isMafiaWin = false;
         }
 
-        if (isEndTime || isMafiaWin)
+        if (isEndTime || isMafiaWin) 
         {
             _title.text = "마피아 승리";
         }
