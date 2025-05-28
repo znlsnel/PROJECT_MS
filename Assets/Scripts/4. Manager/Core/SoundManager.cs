@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
-
+[System.Serializable]
 public class SoundManager : IManager
 {
     AudioSource[] _audioSources = new AudioSource[(int)ESound.MaxCount];

@@ -48,8 +48,9 @@ public class SteamManagerEx : IManager
     public void Clear()
     {
         if(SteamAPI.IsSteamRunning())
+            SteamMatchmaking.LeaveLobby(new CSteamID(CurrentLobbyId));
             SteamAPI.Shutdown();
-        }
+    }
 
     private void RegisterCallbacks()
     {

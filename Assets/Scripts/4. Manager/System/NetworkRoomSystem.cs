@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FishNet;
 using FishNet.Connection;
+using FishNet.Managing.Scened;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
@@ -21,14 +22,178 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     // 모든 색상을 가져오는 프로퍼티
     private static ColorType[] AllColors => (ColorType[])Enum.GetValues(typeof(ColorType));
 
-    public override void OnStartClient()
+    public override void OnStartNetwork()
     {
-        base.OnStartClient();
+        base.OnStartNetwork();
+        InstanceFinder.SceneManager.OnLoadEnd += OnLoadEnd;
+        StartCoroutine(InitializeClientDelayed());
+    }
 
-        // 클라이언트에서만 실행
-        if (base.IsClientStarted)
+    public override void OnStopNetwork()
+    {
+        base.OnStopNetwork();
+        InstanceFinder.SceneManager.OnLoadEnd -= OnLoadEnd;
+        CleanupClient();
+    }
+
+    private void OnLoadEnd(SceneLoadEndEventArgs args)
+    {
+        foreach(UnityEngine.SceneManagement.Scene scene in args.LoadedScenes)
         {
-            StartCoroutine(HandleClientJoinDelayed());
+            if(scene.name == "Title")
+            {
+                CreateRoomUI();
+            }
+        }
+    }
+
+    private void CleanupClient()
+    {
+        RemovePlayer();
+        HandlePlayerLeave(InstanceFinder.ClientManager.Connection);
+        DestroyRoomUI(InstanceFinder.ClientManager.Connection);
+    }
+    #endregion
+
+    #region Client Initialization
+    private IEnumerator InitializeClientDelayed()
+    {
+        Debug.Log("NetworkRoomSystem: Client initialization started");
+        
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(INITIAL_DELAY);
+        
+        if (!IsValidObject())
+        {
+            Debug.LogWarning("NetworkRoomSystem: Object is invalid or inactive");
+            yield break;
+        }
+
+        yield return StartCoroutine(WaitForClientReady());
+    }
+
+    private IEnumerator WaitForClientReady()
+    {
+        var clientConnection = GetClientConnection();
+        if (clientConnection == null)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Client connection is null");
+            yield break;
+        }
+
+        // 연결 활성화 대기
+        yield return StartCoroutine(WaitForConnectionActive(clientConnection));
+        clientConnection = GetClientConnection();
+        if (clientConnection == null || !clientConnection.IsActive)
+            yield break;
+
+        // 클라이언트 시작 대기
+        yield return StartCoroutine(WaitForClientStarted());
+        if (!base.IsClientStarted)
+            yield break;
+
+        // // Observer 등록 대기
+        // yield return StartCoroutine(WaitForObserverRegistration(clientConnection));
+        // clientConnection = GetClientConnection();
+        // if (clientConnection == null || !base.Observers.Contains(clientConnection))
+        //     yield break;
+
+        // Steam 플레이어 등록
+        yield return StartCoroutine(RegisterSteamPlayer());
+
+        // 방 입장 완료
+        CompleteRoomJoin();
+    }
+
+    private IEnumerator WaitForConnectionActive(NetworkConnection connection)
+    {
+        Debug.Log("NetworkRoomSystem: Waiting for connection to activate...");
+        
+        yield return StartCoroutine(WaitForCondition(
+            () => {
+                connection = GetClientConnection();
+                return connection != null && connection.IsActive;
+            },
+            "Connection activation",
+            CONNECTION_TIMEOUT
+        ));
+
+        connection = GetClientConnection();
+        bool success = connection != null && connection.IsActive;
+        Debug.Log(success ? "NetworkRoomSystem: Connection activated successfully" : 
+                          "NetworkRoomSystem: Connection activation failed");
+    }
+
+    private IEnumerator WaitForClientStarted()
+    {
+        Debug.Log("NetworkRoomSystem: Waiting for client to start...");
+        
+        yield return StartCoroutine(WaitForCondition(
+            () => base.IsClientStarted && IsValidObject(),
+            "Client startup",
+            CONNECTION_TIMEOUT
+        ));
+
+        bool success = base.IsClientStarted && IsValidObject();
+        Debug.Log(success ? "NetworkRoomSystem: Client started successfully" : 
+                          "NetworkRoomSystem: Client startup failed");
+    }
+
+    private IEnumerator WaitForObserverRegistration(NetworkConnection connection)
+    {
+        Debug.Log("NetworkRoomSystem: Waiting for observer registration...");
+        
+        yield return StartCoroutine(WaitForCondition(
+            () => {
+                connection = GetClientConnection();
+                return connection != null && connection.IsValid && 
+                       base.Observers.Contains(connection) && IsValidObject();
+            },
+            "Observer registration",
+            CONNECTION_TIMEOUT
+        ));
+
+        connection = GetClientConnection();
+        bool success = connection != null && connection.IsValid && base.Observers.Contains(connection);
+        Debug.Log(success ? "NetworkRoomSystem: Observer registration successful" : 
+                          "NetworkRoomSystem: Observer registration failed");
+    }
+
+    private IEnumerator RegisterSteamPlayer()
+    {
+        if (Managers.Network.Type != NetworkType.Steam)
+            yield break;
+
+        ulong steamId = SteamUser.GetSteamID().m_SteamID;
+        if (steamId == 0)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Invalid Steam ID");
+            yield break;
+        }
+
+        Debug.Log($"NetworkRoomSystem: Adding player with Steam ID: {steamId}");
+        AddPlayer(steamId);
+    }
+
+    private void CompleteRoomJoin()
+    {
+        Debug.Log("NetworkRoomSystem: Completing room join...");
+        HandlePlayerJoin();
+        CreateRoomUI();
+        Debug.Log("NetworkRoomSystem: Room join completed successfully");
+    }
+    #endregion
+
+    #region Utility Methods
+    private IEnumerator WaitForCondition(Func<bool> condition, string description, float timeout)
+    {
+        float elapsed = 0f;
+        
+        while (!condition() && elapsed < timeout)
+        {
+            Debug.Log($"NetworkRoomSystem: {description} waiting... ({elapsed:F1}s)");
+            yield return new WaitForSeconds(WAIT_INTERVAL);
+            elapsed += WAIT_INTERVAL;
         }
     }
 

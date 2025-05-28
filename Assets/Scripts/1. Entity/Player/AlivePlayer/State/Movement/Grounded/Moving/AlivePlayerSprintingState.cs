@@ -50,11 +50,13 @@ public class AlivePlayerSprintingState : AlivePlayerMovingState
             return;
         }
 
-        if(!stateMachine.ReusableData.ShouldSprint || stateMachine.Player.Stamina.Current.Value <= 0)
+        if(!stateMachine.ReusableData.ShouldSprint || stateMachine.Player.Stamina.Current.Value <= 0.1f)
         {
             movementStateMachine.ChangeState(movementStateMachine.RunningState);
             return;
         }
+
+        Debug.Log($"SprintingState : {stateMachine.Player.Stamina.Current.Value}");
     }
     #endregion
 
