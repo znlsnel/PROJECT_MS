@@ -100,5 +100,10 @@ public class Inventory
         slot1.Setup(slot2.Data, slot2.Stack); 
         slot2.Setup(tempData, tempStack);
     }
+    
 
+    public bool HasEmptySlot()
+    {
+        return ItemStorage.HasEmptySlot() || QuickSlotStorage.HasEmptySlot();
+    }
 }
