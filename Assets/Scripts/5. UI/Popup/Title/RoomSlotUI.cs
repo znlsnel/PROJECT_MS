@@ -26,8 +26,10 @@ public class RoomSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
     public void OnPointerClick()
     {
-        Managers.Steam.JoinByID(_lobbyId);
-        OnJoinLobby?.Invoke(_lobbyId);
+        if(Managers.Steam.JoinByID(_lobbyId))
+        {
+            OnJoinLobby?.Invoke(_lobbyId);
+        }
     }
 
     public void UpdateUI(LobbyInfo lobbyInfo)

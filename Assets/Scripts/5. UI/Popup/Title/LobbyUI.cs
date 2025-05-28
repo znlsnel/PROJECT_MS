@@ -90,13 +90,13 @@ public class LobbyUI : PopupUI
     {
         var lobbyList = await Managers.Steam.RequestLobbyListAsync();
 
+        ResetRoomList();
+
         if (lobbyList == null)
         {
             Debug.LogWarning("로비 목록을 가져올 수 없습니다.");
             return;
         }
-
-        ResetRoomList();
 
         for(int i = 0; i < lobbyList.Count; i++)
         {

@@ -18,19 +18,19 @@ public class RoleTypeUI : MonoBehaviour
             return;
         }
 
-        PlayerRole role = NetworkGameSystem.Instance.GetPlayerRole(conn);
+        EPlayerRole role = NetworkGameSystem.Instance.GetPlayerRole(conn);
         SetRoleType(role);
     }
 
-    public void SetRoleType(PlayerRole role)
+    public void SetRoleType(EPlayerRole role)
     {
         switch(role)
         {
-            case PlayerRole.Survival:
+            case EPlayerRole.Survival:
                 roleTypeText.text = "생존자";
                 image.color = MyColor.White; 
                 break;
-            case PlayerRole.Imposter:
+            case EPlayerRole.Imposter:
                 roleTypeText.text = "마피아";
                 image.color = MyColor.Red; 
                 break;

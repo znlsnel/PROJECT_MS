@@ -422,8 +422,8 @@ MonoBehaviour:
   _componentIndexCache: 0
   _addedNetworkObject: {fileID: 4099755175790642997}
   _networkObjectCache: {fileID: 4099755175790642997}
-  dropItemCount: 1
   dropItemIds: 
+  dropItemCount: 1
   <Hp>k__BackingField: {fileID: 0}
 --- !u!1 &3438365831924901998
 GameObject:

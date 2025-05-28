@@ -3,7 +3,8 @@ using UnityEngine.InputSystem;
 
 public class AttackingState : AlivePlayerCombatState
 {
-    private static readonly string madSound = "Sound/Player/Mad_01.mp3";
+    private static readonly string madSound = "Sound/Player/Whoosh_02.mp3";
+    private bool onPlaySound = false;
     public AttackingState(AlivePlayerStateMachine stateMachine) : base(stateMachine)
     {
     }
@@ -15,7 +16,7 @@ public class AttackingState : AlivePlayerCombatState
 
         StartAnimation(stateMachine.Player.AnimationData.AttackingParameterHash);
 
-        Managers.Sound.Play(madSound);
+        onPlaySound = false;
     }
 
     public override void Exit()
@@ -34,6 +35,11 @@ public class AttackingState : AlivePlayerCombatState
         if(normalizedTime >= 0.4f && normalizedTime < 0.6f)
         {
             stateMachine.Player.WeaponHandler.SetIsAttacking(true);
+            if(!onPlaySound)
+            {
+                Managers.Sound.Play(madSound);
+                onPlaySound = true;
+            }
         }
         else
         {

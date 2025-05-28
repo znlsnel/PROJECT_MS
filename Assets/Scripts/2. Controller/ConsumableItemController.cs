@@ -3,12 +3,17 @@ using UnityEngine;
 
 public class ConsumableItemController : ItemController
 {
-    private static GameObject _waterParticle;
-    private static GameObject _foodParticle;
-    private static GameObject _healParticle;
-    private static GameObject _sanityParticle;
-    private static GameObject _staminaParticle;
-    private static GameObject _temperatureParticle;
+    private static GameObject _useEffect;
+
+    private readonly static string fxPath = "FX/ConsumableFX.prefab";
+
+    private void Start()
+    {
+        if ( _useEffect == null)
+        {
+            _useEffect = Resources.Load<GameObject>(fxPath);
+        } 
+    }
 
     public override void OnAction()
     {
@@ -18,5 +23,11 @@ public class ConsumableItemController : ItemController
         Owner.Stamina.Add(itemData.RestoreStamina);
 
         itemSlot.AddStack(itemData, -1);
+
+        GameObject effect = Managers.Pool.Get(fxPath);
+        effect.transform.position = Owner.transform.position; 
+
+        Managers.Pool.Release(effect, 2f);   
+        
     }
 }

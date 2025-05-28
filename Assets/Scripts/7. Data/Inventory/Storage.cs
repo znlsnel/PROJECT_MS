@@ -106,4 +106,9 @@ public class Storage
     {
         return itemSlots.Find(x => x.Data == null || x.Stack == 0);  
     }
+
+    public bool HasEmptySlot()
+    {
+        return itemSlots.Find(x => x.Data == null || x.Stack == 0) != null; 
+    }
 }

@@ -20,10 +20,15 @@ public class Inventory
         QuickSlotStorage = new Storage(5);    
         EquipStorage = new EquipStorage();
         inventoryDataHandler = new InventoryDataHandler();
+    } 
 
+    public void SetInventoryDataHandler()
+    {
         ItemStorage.onAddItem += inventoryDataHandler.ItemAmountUpdate;
         QuickSlotStorage.onAddItem += inventoryDataHandler.ItemAmountUpdate;
+
     }
+
 
 
 
@@ -95,5 +100,10 @@ public class Inventory
         slot1.Setup(slot2.Data, slot2.Stack); 
         slot2.Setup(tempData, tempStack);
     }
+    
 
+    public bool HasEmptySlot()
+    {
+        return ItemStorage.HasEmptySlot() || QuickSlotStorage.HasEmptySlot();
+    }
 }

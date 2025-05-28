@@ -20,7 +20,8 @@ public class Managers : Singleton<Managers>
     [SerializeField] private SteamManagerEx steam;
     [SerializeField] private QuestManager quest;
     [SerializeField] private AnalyticsManager analytics;
-    [SerializeField] private SoundManager sound = new SoundManager(); 
+    [SerializeField] private SoundManager sound; 
+    [SerializeField] private GraphicManager graphic;
  
     public static DataManager Data => Instance.data;
     public static InputManager Input => Instance.input;
@@ -32,6 +33,7 @@ public class Managers : Singleton<Managers>
     public static QuestManager Quest => Instance.quest;
     public static SteamManagerEx Steam => Instance.steam;
     public static AnalyticsManager Analytics => Instance.analytics;
+    public static GraphicManager Graphic => Instance.graphic;
 
     #endregion
     
@@ -80,6 +82,7 @@ public class Managers : Singleton<Managers>
         UI.Init();
         Pool.Init();
         Steam.Init();
+        Graphic.Init();
 
         isInit = true;
         onInit?.Invoke(); 
@@ -100,9 +103,25 @@ public class Managers : Singleton<Managers>
             steam.Update();
     }
 
-    public static void Clear()
+    public void OnDestroy()
     {
+        Clear();
+    }
 
+    public void Clear()
+    {
+        Analytics.Clear();
+        Network.Clear();
+        Resource.Clear(); 
+        Data.Clear();
+        Quest.Clear();
+        Input.Clear();
+ 
+        Sound.Clear();  
+        UI.Clear();
+        Pool.Clear();
+        Steam.Clear();
+        Graphic.Clear();
     }
 
     public void SetPlayer(AlivePlayer player)
@@ -114,6 +133,11 @@ public class Managers : Singleton<Managers>
     public static void SetScene(SceneBase s)
     {
         scene = s;
+    }
+
+    public void Quit()
+    {
+        Application.Quit();
     }
 
 }

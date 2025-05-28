@@ -73,6 +73,9 @@ public class QuickSlotHandler : NetworkBehaviour
  
     private void SelectItem(int itemSlotIdx)
     {
+        if (quickSlotStorage == null) 
+            return;
+
         ItemSlot itemSlot = quickSlotStorage.GetSlotByIdx(itemSlotIdx);
         if (itemSlot == null || (itemSlot == selectedItemSlot && itemSlot.Data == selectedItemData)) 
             return;

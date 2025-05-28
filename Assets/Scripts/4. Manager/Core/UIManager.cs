@@ -116,8 +116,12 @@ public class UIManager : IManager
             popup = _popupStack.Pop();
         
 
-        popup.Hide();
-        _order--; 
+        if (popup != null)
+        {
+            popup.Hide();
+            _order--; 
+        } 
+        
 
     }
 

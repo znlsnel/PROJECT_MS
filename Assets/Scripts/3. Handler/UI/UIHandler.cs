@@ -9,6 +9,11 @@ public class UIHandler : MonoBehaviour
     {
         Managers.onChangePlayer += Setup;
     }
+
+    private void OnDestroy()
+    {
+        Managers.onChangePlayer -= Setup;
+    }
  
     private void Setup(AlivePlayer player)
     {

@@ -62,7 +62,9 @@ public class AlivePlayerGroundedState : AlivePlayerMovementState
         if(stateMachine.CombatStateMachine.currentState == stateMachine.CombatStateMachine.AimingState)
             return;
 
-        Interactable interactObject = stateMachine.Player.InteractionHandler.GetInteractObject();
+        Interactable interactObject = stateMachine.Player.InteractionHandler.GetInteractObject(); 
+        if(interactObject == null) return; 
+
         SetInteractAnimation(interactObject.interactAnimation, interactObject.interactAnimationSpeed);
         movementStateMachine.ChangeState(movementStateMachine.InterctingState);
     }

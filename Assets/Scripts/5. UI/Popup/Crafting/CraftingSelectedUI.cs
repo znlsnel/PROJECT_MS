@@ -78,6 +78,12 @@ public class CraftingSelectedUI : MonoBehaviour
                 Managers.Sound.Play(_failedSound);
                 return;
             }
+        } 
+ 
+        if (!Managers.Player.Inventory.HasEmptySlot())
+        {
+            Managers.Sound.Play(_failedSound); 
+            return;
         }
 
         Managers.Sound.Play(_successSound);

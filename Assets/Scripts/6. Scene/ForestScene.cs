@@ -1,9 +1,11 @@
+using System;
 using System.Collections.Generic;
 using FishNet.Object;
 using UnityEngine;
 using UnityEngine.Playables;
 using UnityEngine.SceneManagement;
 using UnityEngine.Timeline;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(TimeSystem))]
 public class ForestScene : SceneBase
@@ -16,7 +18,9 @@ public class ForestScene : SceneBase
     private List<GameObject> _fieldItemList = new();
     private List<GameObject> _fieldResourceList = new();
 
+    public static bool isCompleted = false;
 
+    public static Action onCompleted;
     protected override void Awake()
     {
         base.Awake();
@@ -56,11 +60,19 @@ public class ForestScene : SceneBase
         Managers.UI.CloseAllPopupUI();
         Managers.UI.HideSceneUI();
 
+        isCompleted = true;
+        onCompleted?.Invoke(); 
+
         _endingTimeline.Play();
     }
 
-
     public void ShowResultUI()
+    {
+        ShowResultUI(EPlayerRole.Survival); 
+    }
+
+
+    public void ShowResultUI(EPlayerRole winner)
     {
         if (_resultUI == null)
             _resultUI = Instantiate(_resultUIPrefab).GetComponent<ResultUI>();
@@ -69,7 +81,7 @@ public class ForestScene : SceneBase
         Managers.Analytics.SurvivalEnding();
         Managers.Analytics.MafiaWinRate(true);
 
-        _resultUI.Setup();
+        _resultUI.Setup(winner);
         Managers.UI.ShowPopupUI(_resultUI);
 
         Managers.Analytics.SurvivalRate(!Managers.Player.IsDead);
@@ -99,7 +111,7 @@ public class ForestScene : SceneBase
     private int GetRandomIndex(List<int> ratioList)
     {
         int random = Random.Range(0, 100);
-
+ 
 
         return 0;
 

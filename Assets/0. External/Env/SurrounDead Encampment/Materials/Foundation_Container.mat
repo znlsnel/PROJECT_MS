@@ -50,7 +50,6 @@ Material:
   - _OUTLINEWIDTHAFFECTEDBYVIEWDISTANCE_OFF
   - _PSGLOTEX_OFF
   - _SELFSHADOWAFFECTEDBYLIGHTSHADOWSTRENGTH_OFF
-  - _SELFSHADOWSHADOWTATVIEWDIRECTION_OFF
   - _SHOWNORMAL_OFF
   - _SPECMODE_OFF
   - _STIL_OFF
@@ -60,7 +59,7 @@ Material:
   - _VERTEXCOLORGREENCONTROLSELFSHADOWTHRESHOLD_OFF
   - _VERTEXCOLORREDCONTROLSMOOTHOBJECTNORMAL_OFF
   m_LightmapFlags: 0
-  m_EnableInstancingVariants: 0
+  m_EnableInstancingVariants: 1
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: 2450
   stringTagMap:
@@ -326,7 +325,7 @@ Material:
     - _SelfShadowHardness: 1
     - _SelfShadowRealTimeShadowColorPower: 1
     - _SelfShadowRealtimeShadowIntensity: 1
-    - _SelfShadowShadowTAtViewDirection: 0
+    - _SelfShadowShadowTAtViewDirection: 1
     - _SelfShadowThreshold: 0.93
     - _ShadowColorTexturePower: 0
     - _ShadowHardness: 0

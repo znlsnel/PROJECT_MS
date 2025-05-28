@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using FishNet;
 using FishNet.Connection;
@@ -7,6 +8,7 @@ using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(InteractionHandler))]
 public class AlivePlayer : NetworkBehaviour, IDamageable
@@ -58,14 +60,10 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         EquipHandler = gameObject.GetOrAddComponent<EquipHandler>();
         EquipHandler.Setup(Inventory);
 
-        QuickSlotHandler = gameObject.GetOrAddComponent<QuickSlotHandler>();
-        QuickSlotHandler.Setup(Inventory);
+                QuickSlotHandler = gameObject.GetOrAddComponent<QuickSlotHandler>();
 
         ItemHandler = gameObject.GetOrAddComponent<ItemHandler>();
-        ItemHandler.Setup(QuickSlotHandler); 
-
-        PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>();
-        PlacementHandler.Setup(QuickSlotHandler);
+        PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>(); 
 
         GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_MainColor", NetworkRoomSystem.Instance.GetPlayerColor(Owner));
     }
@@ -85,17 +83,25 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         CinemachineCamera = GameObject.FindWithTag("MainCinemachineCamera").GetComponent<CinemachineCamera>();
         CinemachineCamera.Follow = transform;
 
+        Inventory.SetInventoryDataHandler(); 
+        QuickSlotHandler.Setup(Inventory);
+        ItemHandler.Setup(QuickSlotHandler); 
+        PlacementHandler.Setup(QuickSlotHandler); 
+
         stateMachine = new AlivePlayerStateMachine(this);
+    }
+
+    public void Start()
+    {
+        ForestScene.onCompleted += () =>
+        {
+            NetworkCommandSystem.Instance.RequestDespawnPlayer(NetworkObject);
+        }; 
     }
 
     public override void OnStopClient()
     {
         base.OnStopClient();
-    }
-
-    public void IncreaseKillCount()
-    {
-        NetworkGameSystem.Instance.UpdatePlayerKillCount(Owner);  
     }
 
     [ServerRpc]
@@ -134,7 +140,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stateMachine.FixedUpdate();
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc(RequireOwnership = false)]  
     public void TakeDamage(float damage, NetworkConnection conn = null)
     {
         if (isDead)
@@ -159,10 +165,11 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
             if(next <= 0)
             {
                 isDead = true;
-                onDead?.Invoke();
-                NetworkGameSystem.Instance.OnPlayerDead(NetworkObject);
+                onDead?.Invoke(); 
+                StartCoroutine(DropItemCoroutine());  
+                NetworkGameSystem.Instance.OnPlayerDead(); 
             }
-        }
+        } 
     }
 
     public void ChangeWeapon(WeaponController weapon)
@@ -214,8 +221,61 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     {
         if(isDead)
             return false;
-
+ 
         return true;
     }
+ 
+ 
+    [Server]  
+    private void DropItem(Vector3 pos, string DropPrefabPath, int count)
+    {
+        GameObject prefab = Managers.Resource.Load<GameObject>(DropPrefabPath);
+        GameObject item = Instantiate(prefab); 
+        float angle = count * 20f; // 45도씩 회전 
+        float radius = 1f + (count * 0.05f); // 거리가 점점 멀어짐  
+        Vector3 offset = new Vector3(
+            Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
+            1f,
+            Mathf.Sin(angle * Mathf.Deg2Rad) * radius
+        );
+        item.transform.position = pos + offset; 
 
+        item.GetOrAddComponent<Rigidbody>();
+        InstanceFinder.ServerManager.Spawn(item);
+    } 
+ 
+    private IEnumerator DropItemCoroutine()
+    {
+        int cnt = 0;
+        for (int i = 0; i < Inventory.ItemStorage.Count; i++)
+        {
+            ItemSlot itemSlot = Inventory.ItemStorage.GetSlotByIdx(i);
+            if (itemSlot.Data == null) 
+                continue;
+
+            for (int j = 0; j < itemSlot.Stack; j++)
+            {
+                DropItem(transform.position, itemSlot.Data.DropPrefabPath, cnt++); 
+                yield return new WaitForSeconds(0.2f);
+            }
+
+            itemSlot.Setup(null);  
+        }
+ 
+        for (int i = 0; i < Inventory.QuickSlotStorage.Count; i++)
+        {
+            ItemSlot itemSlot = Inventory.QuickSlotStorage.GetSlotByIdx(i);
+            if (itemSlot.Data == null)
+                continue;
+
+            for (int j = 0; j < itemSlot.Stack; j++)
+            {
+                DropItem(transform.position, itemSlot.Data.DropPrefabPath, cnt++);  
+                yield return new WaitForSeconds(0.2f);
+            }
+            itemSlot.Setup(null);  
+
+            yield return new WaitForSeconds(0.2f);  
+        }
+    }
 }
