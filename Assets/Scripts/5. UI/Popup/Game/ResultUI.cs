@@ -43,7 +43,7 @@ public class ResultUI : PopupUI
 
         if (winner == EPlayerRole.Imposter) 
         {
-            _title.text = "임포스터 승리"; 
+            _title.text = "마피아 승리"; 
         }
         else
         {
