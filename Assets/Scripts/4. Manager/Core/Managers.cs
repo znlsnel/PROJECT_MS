@@ -135,6 +135,11 @@ public class Managers : Singleton<Managers>
         scene = s;
     }
 
+    public void Quit()
+    {
+        Application.Quit();
+    }
+
 }
 
 public enum NetworkType
