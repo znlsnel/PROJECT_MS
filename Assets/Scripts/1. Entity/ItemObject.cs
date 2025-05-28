@@ -3,6 +3,7 @@ using DG.Tweening;
 using UGS;
 using FishNet.Object;
 
+ 
 public class ItemObject : Interactable
 {
     [SerializeField] public int itemId;

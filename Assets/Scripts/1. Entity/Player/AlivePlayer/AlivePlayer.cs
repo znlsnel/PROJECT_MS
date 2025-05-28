@@ -218,42 +218,59 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     {
         if(isDead)
             return false;
-
+ 
         return true;
     }
-
  
-    [Server] 
-    private void DropItem(string DropPrefabPath)
+ 
+    [Server]  
+    private void DropItem(Vector3 pos, string DropPrefabPath, int count)
     {
         GameObject prefab = Managers.Resource.Load<GameObject>(DropPrefabPath);
         GameObject item = Instantiate(prefab); 
-        item.transform.position = transform.position;
+        float angle = count * 20f; // 45도씩 회전 
+        float radius = 1f + (count * 0.05f); // 거리가 점점 멀어짐  
+        Vector3 offset = new Vector3(
+            Mathf.Cos(angle * Mathf.Deg2Rad) * radius,
+            1f,
+            Mathf.Sin(angle * Mathf.Deg2Rad) * radius
+        );
+        item.transform.position = pos + offset; 
+
+        item.GetOrAddComponent<Rigidbody>();
         InstanceFinder.ServerManager.Spawn(item);
-
-        item.GetOrAddComponent<Rigidbody>().AddForce(Vector3.up * Random.Range(5f, 8f), ForceMode.Impulse);   
     } 
-
+ 
     private IEnumerator DropItemCoroutine()
     {
+        int cnt = 0;
         for (int i = 0; i < Inventory.ItemStorage.Count; i++)
         {
             ItemSlot itemSlot = Inventory.ItemStorage.GetSlotByIdx(i);
             if (itemSlot.Data == null) 
                 continue;
 
-            DropItem(itemSlot.Data.DropPrefabPath);
-            yield return new WaitForSeconds(0.2f);
-        }
+            for (int j = 0; j < itemSlot.Stack; j++)
+            {
+                DropItem(transform.position, itemSlot.Data.DropPrefabPath, cnt++); 
+                yield return new WaitForSeconds(0.2f);
+            }
 
+            itemSlot.Setup(null);  
+        }
+ 
         for (int i = 0; i < Inventory.QuickSlotStorage.Count; i++)
         {
             ItemSlot itemSlot = Inventory.QuickSlotStorage.GetSlotByIdx(i);
             if (itemSlot.Data == null)
                 continue;
 
-            DropItem(itemSlot.Data.DropPrefabPath); 
-            itemSlot.Setup(null); 
+            for (int j = 0; j < itemSlot.Stack; j++)
+            {
+                DropItem(transform.position, itemSlot.Data.DropPrefabPath, cnt++);  
+                yield return new WaitForSeconds(0.2f);
+            }
+            itemSlot.Setup(null);  
 
             yield return new WaitForSeconds(0.2f);  
         }
