@@ -96,11 +96,6 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         base.OnStopClient();
     }
 
-    public void IncreaseKillCount()
-    {
-        NetworkGameSystem.Instance.UpdatePlayerKillCount(Owner);  
-    }
-
     [ServerRpc]
     private void Init()
     {
@@ -137,7 +132,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stateMachine.FixedUpdate();
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [ServerRpc(RequireOwnership = false)]  
     public void TakeDamage(float damage, NetworkConnection conn = null)
     {
         if (isDead)
@@ -150,6 +145,9 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
             NetworkGameSystem.Instance.UpdatePlayerKillCount(conn); 
         }
     }
+
+    [Server]
+    
 
     public void OnTakeDamage(float prev, float next, bool asServer)
     {

@@ -34,6 +34,8 @@ public class ItemObject : Interactable
             Destroy(gameObject);
         });
     }
+
+
 }
 
 // 1. 구성 작성 -> 버튼 등등
