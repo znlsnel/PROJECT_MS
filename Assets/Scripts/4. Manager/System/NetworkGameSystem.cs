@@ -13,7 +13,7 @@ using Random = UnityEngine.Random;
 public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 {
     public readonly SyncVar<bool> IsGameStarted = new SyncVar<bool>(false);
-    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 300, 3));
+    public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 5, 3));
     public readonly SyncDictionary<NetworkConnection, PlayerInfo> Players = new SyncDictionary<NetworkConnection, PlayerInfo>();
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
     [SerializeField] private NetworkObject ghostPlayerPrefab;
@@ -45,6 +45,13 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     public void EndGame(EPlayerRole winner)
     {
         IsGameStarted.Value = false;
+        
+        // 게임 종료 시 SteamLobby를 다시 보이게 설정 (서버에서만 실행)
+        if(Managers.Network.Type == NetworkType.Steam)
+        {
+            Managers.Steam.SetLobbyVisible();
+        }
+        
         EndGame_InClient(winner); 
     } 
 
@@ -52,11 +59,6 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     public void EndGame_InClient(EPlayerRole winner)
     {
         onGameEnd?.Invoke();
-
-        if(InstanceFinder.IsServerStarted && Managers.Network.Type == NetworkType.Steam)
-        {
-            Managers.Steam.SetLobbyVisible();
-        }
 
         EPlayerRole currentPlayerRole = GetPlayerRole(InstanceFinder.ClientManager.Connection);
 
