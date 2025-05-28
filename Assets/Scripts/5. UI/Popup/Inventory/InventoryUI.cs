@@ -33,14 +33,15 @@ public class InventoryUI : PopupUI
 
     private void RegisterInput()
     {
+        #if UNITY_EDITOR
         testItems.Add(Managers.Data.items.GetByIndex(3001));
         testItems.Add(Managers.Data.items.GetByIndex(3007));
         testItems.Add(Managers.Data.items.GetByIndex(3003));
         testItems.Add(Managers.Data.items.GetByIndex(1001));
         testItems.Add(Managers.Data.items.GetByIndex(3005));
         testItems.Add(Managers.Data.items.GetByIndex(3006)); 
-        
         Managers.Input.Test.started += TestInput;
+        #endif 
     }
 
     private void TestInput(InputAction.CallbackContext context)
