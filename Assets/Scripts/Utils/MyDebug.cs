@@ -36,7 +36,8 @@ public class MyDebug : Singleton<MyDebug>
 
     public static void Log(string message)
     {
-        if (!Instance.isDebug)
+        #if UNITY_EDITOR
+        if (!Instance.isDebug) 
              return;   
 
         Instance._logQueue.Enqueue(message);
@@ -44,5 +45,6 @@ public class MyDebug : Singleton<MyDebug>
         {
             Instance._logQueue.Dequeue();
         }
+        #endif 
     }
 }

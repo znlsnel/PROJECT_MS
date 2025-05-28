@@ -42,10 +42,10 @@ public class NetworkCommandSystem : NetworkSingleton<NetworkCommandSystem>
     public void RequestDropItem(NetworkObject itemPrefab, Vector3 position, Quaternion rotation, int durability, NetworkConnection conn = null)
     {
         NetworkObject instance = Instantiate(itemPrefab, position, rotation);
-        instance.GetComponent<ItemObject>().SetDurability(durability); 
         InstanceFinder.ServerManager.Spawn(instance, conn);
 
 
+        instance.GetComponent<ItemObject>().SetDurability(durability);  
         instance.gameObject.GetOrAddComponent<Rigidbody>(); 
     }
 

@@ -12,7 +12,7 @@ public class ItemObject : Interactable
     private bool isPlayingDoTween = false;
     public override bool isActive => base.isActive && !isPlayingDoTween; 
 
-    public int Durability {get; private set;} = 0;   
+    private readonly SyncVar<int> Durability = new SyncVar<int>(0);   
 
 
 
@@ -21,15 +21,15 @@ public class ItemObject : Interactable
         Managers.SubscribeToInit(()=>
         {
             itemData = Managers.Data.items.GetByIndex(itemId);
-            Durability = (int)itemData.MaxDurability;      
+            Durability.Value = (int)itemData.MaxDurability;      
         }); 
-    }
+    } 
 
 
     public void SetDurability(int durability)
     {
-        Durability = durability; 
- 
+        Durability.Value = durability; 
+  
     }
 
 
@@ -53,7 +53,7 @@ public class ItemObject : Interactable
     private void InteractRpc(GameObject obj)
     {
         AlivePlayer player = obj.GetComponent<AlivePlayer>();
-        player.Inventory.AddItem(itemData, 1, Durability);  
+        player.Inventory.AddItem(itemData, 1, Durability.Value);   
         isPlayingDoTween = true;
 
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutSine);

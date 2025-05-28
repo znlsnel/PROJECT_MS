@@ -114,13 +114,17 @@ public class QuickSlotHandler : NetworkBehaviour
         selectedItemObject.transform.localPosition = Vector3.zero;  
         selectedItemObject.transform.localRotation = Quaternion.identity; 
 
+
+        if (quickSlotStorage == null)
+            return;
+            
         ItemSlot itemSlot = quickSlotStorage.GetSlotByIdx(slotIdx);
         if (itemSlot != null)
         {
             onSelectItem?.Invoke(itemSlot, selectedItemObject);  
             selectedItemSlot = itemSlot; 
             selectedItemData = itemSlot.Data;
-        }
+        } 
     }
 
     [ServerRpc(RequireOwnership = false)]
