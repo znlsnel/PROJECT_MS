@@ -10,7 +10,7 @@ using Random = UnityEngine.Random;
 
 public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 {
-    public readonly SyncVar<bool> IsGameStarted = new SyncVar<bool>(false);
+    public bool IsGameStarted = false;
     public readonly SyncVar<GameOptions> GameOptions = new SyncVar<GameOptions>(new GameOptions(1, 300, 3));
     public readonly SyncDictionary<NetworkConnection, PlayerInfo> Players = new SyncDictionary<NetworkConnection, PlayerInfo>();
     public readonly SyncList<NetworkConnection> Imposters = new SyncList<NetworkConnection>();
@@ -26,9 +26,8 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     [Server]
     public void StartGame()
     {
-        IsGameStarted.Value = true;
+        IsGameStarted = true;
         onGameStart?.Invoke();
-        Players.OnChange += OnPlayerChange;
         
         if(Managers.Network.Type == NetworkType.Steam)
         {
@@ -37,12 +36,14 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         
         SetRandomRole();
 
+        Players.OnChange += OnPlayerChange;
+
         NetworkSceneSystem.Instance?.LoadScene("Game");
     }
 
     private void OnPlayerChange(SyncDictionaryOperation op, NetworkConnection key, PlayerInfo value, bool asServer)
     {
-        if(!asServer || !IsGameStarted.Value) return;
+        if(!asServer || !IsGameStarted) return;
 
         int aliveSurvivals = Players.Count(player => player.Value.role == EPlayerRole.Survival && !player.Value.isDead);
 
@@ -62,7 +63,8 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     [Server]
     public void EndGame(EPlayerRole winner)
     {
-        IsGameStarted.Value = false;
+        IsGameStarted = false;
+        Players.OnChange -= OnPlayerChange;
         
         // 게임 종료 시 SteamLobby를 다시 보이게 설정 (서버에서만 실행)
         if(Managers.Network.Type == NetworkType.Steam)
