@@ -21,6 +21,9 @@ public class ResultUI : PopupUI
 
     public void Setup()
     {
+        foreach (Transform child in _userListRoot)
+            child.gameObject.SetActive(false);  
+
         bool isEndTime = Managers.scene.GetComponent<TimeSystem>().IsTimeEnd;
         bool isMafiaWin = true;
         foreach (var pare in NetworkGameSystem.Instance.Players)
@@ -32,6 +35,8 @@ public class ResultUI : PopupUI
             string name = NetworkRoomSystem.Instance.GetPlayerName(connection);
             if (name == "") continue;
  
+
+
 
             GameObject userSlot = Instantiate(_userSlotPrefab, _userListRoot); 
 

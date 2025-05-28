@@ -91,6 +91,14 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         stateMachine = new AlivePlayerStateMachine(this);
     }
 
+    public void Start()
+    {
+        ForestScene.onCompleted += () =>
+        {
+            transform.position = new Vector3(0, -1000, 0); 
+        }; 
+    }
+
     public override void OnStopClient()
     {
         base.OnStopClient();
