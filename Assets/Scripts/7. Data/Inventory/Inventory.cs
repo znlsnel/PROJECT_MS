@@ -26,6 +26,7 @@ public class Inventory
     {
         ItemStorage.onAddItem += inventoryDataHandler.ItemAmountUpdate;
         QuickSlotStorage.onAddItem += inventoryDataHandler.ItemAmountUpdate;
+
     }
 
 

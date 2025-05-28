@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Runtime.CompilerServices;
 using FishNet;
 using FishNet.Connection;
@@ -7,6 +8,7 @@ using FishNet.Object.Synchronizing;
 using Unity.Cinemachine;
 using UnityEngine;
 using UnityEngine.Assertions.Must;
+using Random = UnityEngine.Random;
 
 [RequireComponent(typeof(InteractionHandler))]
 public class AlivePlayer : NetworkBehaviour, IDamageable
@@ -81,7 +83,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         CinemachineCamera = GameObject.FindWithTag("MainCinemachineCamera").GetComponent<CinemachineCamera>();
         CinemachineCamera.Follow = transform;
 
-        Inventory.SetInventoryDataHandler();
+        Inventory.SetInventoryDataHandler(); 
         QuickSlotHandler.Setup(Inventory);
         ItemHandler.Setup(QuickSlotHandler); 
         PlacementHandler.Setup(QuickSlotHandler); 
@@ -160,10 +162,11 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
             if(next <= 0)
             {
                 isDead = true;
-                onDead?.Invoke();
-                NetworkGameSystem.Instance.OnPlayerDead(NetworkObject);
+                onDead?.Invoke(); 
+                StartCoroutine(DropItemCoroutine());  
+                NetworkGameSystem.Instance.OnPlayerDead(NetworkObject); 
             }
-        }
+        } 
     }
 
     public void ChangeWeapon(WeaponController weapon)
@@ -219,4 +222,40 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         return true;
     }
 
+ 
+    [Server] 
+    private void DropItem(string DropPrefabPath)
+    {
+        GameObject prefab = Managers.Resource.Load<GameObject>(DropPrefabPath);
+        GameObject item = Instantiate(prefab); 
+        item.transform.position = transform.position;
+        InstanceFinder.ServerManager.Spawn(item);
+
+        item.GetOrAddComponent<Rigidbody>().AddForce(Vector3.up * Random.Range(5f, 8f), ForceMode.Impulse);   
+    } 
+
+    private IEnumerator DropItemCoroutine()
+    {
+        for (int i = 0; i < Inventory.ItemStorage.Count; i++)
+        {
+            ItemSlot itemSlot = Inventory.ItemStorage.GetSlotByIdx(i);
+            if (itemSlot.Data == null) 
+                continue;
+
+            DropItem(itemSlot.Data.DropPrefabPath);
+            yield return new WaitForSeconds(0.2f);
+        }
+
+        for (int i = 0; i < Inventory.QuickSlotStorage.Count; i++)
+        {
+            ItemSlot itemSlot = Inventory.QuickSlotStorage.GetSlotByIdx(i);
+            if (itemSlot.Data == null)
+                continue;
+
+            DropItem(itemSlot.Data.DropPrefabPath); 
+            itemSlot.Setup(null); 
+
+            yield return new WaitForSeconds(0.2f);  
+        }
+    }
 }
