@@ -52,6 +52,8 @@ public class TimeSystem : NetworkBehaviour
     private string dayBGM = "Sound/BGM/DayBGM.mp3";
     private string nightBGM = "Sound/BGM/NightBGM.mp3";
     private string morningBird = "Sound/SFX/MorningBird_01.mp3";
+    private bool isDayBGMPlaying = false;
+
 
     private void Awake()
     {
@@ -79,26 +81,26 @@ public class TimeSystem : NetworkBehaviour
     public void Start()
     {
         currentMinute.OnChange += (p, n, s)=>UpdateTime(currentDay.Value, currentHour.Value, currentMinute.Value);
-
-        if (currentHour.Value >= dayStartHour && currentHour.Value < dayEndHour)
-        {
-            PlayDayBGM();
-        }
-        else
-        {
-            PlayNightBGM();
-        }
+        PlayDayBGM();
     }
 
     private void PlayDayBGM()
     {
-        Managers.Sound.Play(dayBGM, 1f, ESound.Bgm);
-        Managers.Sound.Play(morningBird);
+        if (!isDayBGMPlaying)
+        {
+            Managers.Sound.Play(dayBGM, 1f, ESound.Bgm);
+            Managers.Sound.Play(morningBird);
+            isDayBGMPlaying = true;
+        }
     }
 
     private void PlayNightBGM()
     {
-        Managers.Sound.Play(nightBGM, 1f, ESound.Bgm);
+        if (isDayBGMPlaying)
+        {
+            Managers.Sound.Play(nightBGM, 1f, ESound.Bgm);
+            isDayBGMPlaying = false;
+        }
     }
  
     private void UpdateTimeOnServer()
@@ -150,11 +152,13 @@ public class TimeSystem : NetworkBehaviour
         if (currentHour.Value == dayStartHour && currentMinute.Value == dayStartMinute){
             Debug.Log("낮이 시작되었습니다.");
             onStartDay?.Invoke();
+            PlayDayBGM();
         }
         else if (currentHour.Value == dayEndHour && currentMinute.Value == dayEndMinute)
         {
             Debug.Log("밤이 시작되었습니다.");
             onStartNight?.Invoke();
+            PlayNightBGM();
         }
     }
 }
