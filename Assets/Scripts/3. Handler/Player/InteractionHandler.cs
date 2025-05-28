@@ -78,6 +78,9 @@ public class InteractionHandler : MonoBehaviour
         float dist = -1;
 
         interactables.ToList().ForEach(item => {
+            
+            if (item == null) 
+                return;
 
             float d = Vector3.SqrMagnitude(item.transform.position - transform.position); 
 

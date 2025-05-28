@@ -45,7 +45,7 @@ Material:
     - _Scale: 0.05
     - _Speed: 5
     m_Colors:
-    - PlayerPos: {r: 52.600754, g: 0.07999992, b: 37.177387, a: 0}
+    - PlayerPos: {r: 53.123592, g: 0.079999864, b: 38.535095, a: 0}
     - _Color: {r: 0.856044, g: 1, b: 0.6367924, a: 1}
     - _PlayerPos: {r: 0, g: 0, b: 0, a: 0}
   m_BuildTextureStacks: []
