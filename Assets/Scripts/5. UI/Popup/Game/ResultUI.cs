@@ -48,11 +48,11 @@ public class ResultUI : PopupUI
 
         if (isEndTime || isMafiaWin) 
         {
-            _title.text = "마피아 승리";
+            _title.text = "결과 창"; 
         }
         else
         {
-            _title.text = "생존자 승리"; 
+            _title.text = "결과 창"; 
         }
     }
  
