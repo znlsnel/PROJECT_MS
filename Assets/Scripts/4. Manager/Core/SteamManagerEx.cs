@@ -260,6 +260,32 @@ public class SteamManagerEx : IManager
     {
         string[] scenesToClose = new string[] { "" };
     }
+
+    /// <summary>
+    /// 게임 시작 후 로비를 다른 플레이어들에게 보이지 않게 설정합니다.
+    /// </summary>
+    public void SetLobbyInvisible()
+    {
+        if(CurrentLobbyId != 0)
+        {
+            // 로비 타입을 Private으로 변경하여 다른 플레이어들이 찾을 수 없게 합니다
+            SteamMatchmaking.SetLobbyType(new CSteamID(CurrentLobbyId), ELobbyType.k_ELobbyTypePrivate);
+            Debug.Log("Lobby set to invisible (private) after game start");
+        }
+    }
+
+    /// <summary>
+    /// 게임 종료 후 로비를 다시 보이게 설정합니다.
+    /// </summary>
+    public void SetLobbyVisible()
+    {
+        if(CurrentLobbyId != 0)
+        {
+            // 로비 타입을 다시 Public으로 변경하여 다른 플레이어들이 찾을 수 있게 합니다
+            SteamMatchmaking.SetLobbyType(new CSteamID(CurrentLobbyId), LobbyType);
+            Debug.Log("Lobby set to visible (public) after game end");
+        }
+    }
 }
 
 public class LobbyInfo

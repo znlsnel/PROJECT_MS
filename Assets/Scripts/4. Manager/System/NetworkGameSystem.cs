@@ -1,4 +1,3 @@
-
 using System;
 
 using System.Collections.Generic;
@@ -32,6 +31,11 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         IsGameStarted.Value = true;
         onGameStart?.Invoke();
         
+        if(Managers.Network.Type == NetworkType.Steam)
+        {
+            Managers.Steam.SetLobbyInvisible();
+        }
+        
         SetRandomRole();
 
         NetworkSceneSystem.Instance?.LoadScene("Game");
@@ -48,6 +52,11 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     public void EndGame_InClient(EPlayerRole winner)
     {
         onGameEnd?.Invoke();
+
+        if(InstanceFinder.IsServerStarted && Managers.Network.Type == NetworkType.Steam)
+        {
+            Managers.Steam.SetLobbyVisible();
+        }
 
         EPlayerRole currentPlayerRole = GetPlayerRole(InstanceFinder.ClientManager.Connection);
 
