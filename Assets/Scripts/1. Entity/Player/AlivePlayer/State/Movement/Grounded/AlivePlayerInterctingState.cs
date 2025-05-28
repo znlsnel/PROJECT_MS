@@ -16,10 +16,12 @@ public class AlivePlayerInterctingState : AlivePlayerGroundedState
         base.Enter();
 
         Interactable interactObject = stateMachine.Player.InteractionHandler.GetInteractObject();
+        if (interactObject == null)
+            return; 
 
         direction = interactObject.transform.position - stateMachine.Player.transform.position;
 
-        targetRotationYAngle = GetRotationAngle(direction);
+        targetRotationYAngle = GetRotationAngle(direction); 
     }
 
     public override void Exit()

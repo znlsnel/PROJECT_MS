@@ -80,9 +80,9 @@ public class CraftingSelectedUI : MonoBehaviour
             }
         } 
  
-        if (Managers.Player.Inventory.HasEmptySlot())
+        if (!Managers.Player.Inventory.HasEmptySlot())
         {
-            Managers.Sound.Play(_failedSound);
+            Managers.Sound.Play(_failedSound); 
             return;
         }
 

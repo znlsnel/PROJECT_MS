@@ -7,14 +7,20 @@ using FishNet.Object;
 public class ItemObject : Interactable
 {
     [SerializeField] public int itemId;
-
     private ItemData itemData;
+    private bool isPlayingDoTween = false;
+    public override bool isActive => base.isActive && !isPlayingDoTween; 
 
     public void Awake()
     {
         Managers.SubscribeToInit(()=>{
             itemData = Managers.Data.items.GetByIndex(itemId);
-        });
+        }); 
+    }
+
+    public void OnEnable()
+    {
+        isPlayingDoTween = false; 
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -28,10 +34,14 @@ public class ItemObject : Interactable
     {
         AlivePlayer player = obj.GetComponent<AlivePlayer>();
         player.Inventory.AddItem(itemData, 1);
+        isPlayingDoTween = true;
 
-        transform.DOScale(Vector3.zero, 0.5f).SetEase(Ease.InOutSine).OnComplete(() =>
+        transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutSine);
+
+        transform.DOMoveY(transform.position.y + 1, 0.2f).SetEase(Ease.InOutSine).OnComplete(() =>
         {
-            Destroy(gameObject);
+            isPlayingDoTween = false;
+            Destroy(gameObject); 
         });
     }
 
