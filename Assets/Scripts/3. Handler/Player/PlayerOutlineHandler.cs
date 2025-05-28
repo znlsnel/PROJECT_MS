@@ -15,12 +15,20 @@ public class PlayerOutlineHandler : MonoBehaviour
         }
         else
         {
-            Managers.onChangePlayer += (p) =>{
-                if (p == GetComponent<AlivePlayer>())
-                    InvokeRepeating(nameof(UpdateProperty), 0f, 1f/30f);     
-            }; 
+            Managers.onChangePlayer += CheckPlayer;
         }
         
+    }
+
+    private void OnDestroy()
+    {
+        Managers.onChangePlayer -= CheckPlayer;
+    }
+
+    private void CheckPlayer(AlivePlayer p)
+    {
+        if (Managers.Player == p)
+            InvokeRepeating(nameof(UpdateProperty), 0f, 1f/30f);     
     }
 
     private void UpdateProperty()

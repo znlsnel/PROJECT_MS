@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using FishNet;
 using FishNet.Connection;
+using FishNet.Managing.Scened;
 using FishNet.Object;
 using FishNet.Object.Synchronizing;
 using FishNet.Transporting;
@@ -37,13 +38,26 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     public override void OnStartNetwork()
     {
         base.OnStartNetwork();
+        InstanceFinder.SceneManager.OnLoadEnd += OnLoadEnd;
         StartCoroutine(InitializeClientDelayed());
     }
 
     public override void OnStopNetwork()
     {
         base.OnStopNetwork();
+        InstanceFinder.SceneManager.OnLoadEnd -= OnLoadEnd;
         CleanupClient();
+    }
+
+    private void OnLoadEnd(SceneLoadEndEventArgs args)
+    {
+        foreach(UnityEngine.SceneManagement.Scene scene in args.LoadedScenes)
+        {
+            if(scene.name == "Title")
+            {
+                CreateRoomUI();
+            }
+        }
     }
 
     private void CleanupClient()
@@ -91,11 +105,11 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
         if (!base.IsClientStarted)
             yield break;
 
-        // Observer 등록 대기
-        yield return StartCoroutine(WaitForObserverRegistration(clientConnection));
-        clientConnection = GetClientConnection();
-        if (clientConnection == null || !base.Observers.Contains(clientConnection))
-            yield break;
+        // // Observer 등록 대기
+        // yield return StartCoroutine(WaitForObserverRegistration(clientConnection));
+        // clientConnection = GetClientConnection();
+        // if (clientConnection == null || !base.Observers.Contains(clientConnection))
+        //     yield break;
 
         // Steam 플레이어 등록
         yield return StartCoroutine(RegisterSteamPlayer());
@@ -417,3 +431,4 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
 
 
 }
+
