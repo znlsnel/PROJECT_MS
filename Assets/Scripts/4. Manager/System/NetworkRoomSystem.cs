@@ -386,7 +386,7 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
             ulong steamId = GetSteamId(connection.Value);
             if (steamId == 0) continue;
 
-            string name = SteamFriends.GetFriendPersonaName(new CSteamID(steamId));
+            string name = SteamFriends.GetFriendPersonaName(new CSteamID(steamId)); 
             Color color = GetPlayerColor(connection.Value);
             CreateUI(name, color);
         }
@@ -404,4 +404,16 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
         _lobbyRoomUI?.CreateUI(name, color);
     }
     #endregion
+
+    public string GetPlayerName(NetworkConnection connection)
+    {
+        ulong steamId = GetSteamId(connection);
+        if (steamId == 0) 
+            return ""; 
+
+        string name = SteamFriends.GetFriendPersonaName(new CSteamID(steamId));
+        return name;
+    }
+
+
 }

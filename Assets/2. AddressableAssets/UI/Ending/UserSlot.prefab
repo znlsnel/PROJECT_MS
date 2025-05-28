@@ -835,6 +835,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _nicknameText: {fileID: 1262317997056049968}
   _killText: {fileID: 2954815376441502328}
+  _nicknameBackground: {fileID: 8683146907715173630}
   _roleText_Mafia: {fileID: 7580077148335519785}
   _roleText_Survivor: {fileID: 4667099880722892942}
   _surviveText_Survive: {fileID: 607710481788765198}

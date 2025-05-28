@@ -48,6 +48,7 @@ public class TimeSystem : NetworkBehaviour
     public int CurrentDay => currentDay.Value;
     public int CurrentHour => currentHour.Value;
     public int CurrentMinute => currentMinute.Value;
+    public bool IsTimeEnd => isEndTime.Value;
 
     private string dayBGM = "Sound/BGM/DayBGM.mp3";
     private string nightBGM = "Sound/BGM/NightBGM.mp3";

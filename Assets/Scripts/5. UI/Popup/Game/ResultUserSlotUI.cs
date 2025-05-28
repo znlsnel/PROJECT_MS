@@ -9,6 +9,7 @@ public class ResultUserSlotUI : MonoBehaviour
     [SerializeField] private TextMeshProUGUI _killText;
 
     [Header("Image")]
+    [SerializeField] private Image _nicknameBackground; 
     [SerializeField] private GameObject _roleText_Mafia;    
     [SerializeField] private GameObject _roleText_Survivor;
     [SerializeField] private GameObject _surviveText_Survive;
@@ -16,12 +17,13 @@ public class ResultUserSlotUI : MonoBehaviour
 
 
 
-    public void Setup(string name, PlayerRole role, bool survive, int kill)
+    public void Setup(string name, Color color, EPlayerRole role, bool survive, int kill)
     {
         _nicknameText.text = name;
+        _nicknameBackground.color = color;
 
-        _roleText_Mafia.SetActive(role == PlayerRole.Imposter);
-        _roleText_Survivor.SetActive(role == PlayerRole.Survival); 
+        _roleText_Mafia.SetActive(role == EPlayerRole.Imposter);
+        _roleText_Survivor.SetActive(role == EPlayerRole.Survival); 
 
         _surviveText_Survive.SetActive(survive);
         _surviveText_Dead.SetActive(!survive);

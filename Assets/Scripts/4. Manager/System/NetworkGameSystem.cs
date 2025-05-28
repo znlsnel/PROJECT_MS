@@ -37,15 +37,21 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     }
 
     [Server]
-    public void EndGame(PlayerRole winner)
+    public void EndGame(EPlayerRole winner)
     {
         IsGameStarted.Value = false;
+        EndGame_InClient(winner); 
+    } 
+
+    [ObserversRpc]
+    public void EndGame_InClient(EPlayerRole winner)
+    {
         onGameEnd?.Invoke();
 
-        PlayerRole currentPlayerRole = GetPlayerRole(InstanceFinder.ClientManager.Connection);
+        EPlayerRole currentPlayerRole = GetPlayerRole(InstanceFinder.ClientManager.Connection);
 
-        if ((winner == PlayerRole.Imposter && currentPlayerRole == PlayerRole.Imposter) ||
-            (winner == PlayerRole.Survival && currentPlayerRole == PlayerRole.Survival))
+        if ((winner == EPlayerRole.Imposter && currentPlayerRole == EPlayerRole.Imposter) ||
+            (winner == EPlayerRole.Survival && currentPlayerRole == EPlayerRole.Survival))
         {
             Managers.Sound.Play(winSound);
         }
@@ -53,7 +59,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         {
             Managers.Sound.Play(loseSound);
         }
-    } 
+    }
 
     [Server]
     public void SetGameOptions(GameOptions options)
@@ -75,32 +81,32 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
 
         foreach(NetworkConnection connection in InstanceFinder.ServerManager.Clients.Values)
         {
-            PlayerRole role = Imposters.Contains(connection) ? PlayerRole.Imposter : PlayerRole.Survival;
+            EPlayerRole role = Imposters.Contains(connection) ? EPlayerRole.Imposter : EPlayerRole.Survival;
             PlayerInfo playerInfo = new PlayerInfo(connection.ClientId.ToString(), role, false, 0);
             Debug.Log(playerInfo);
             Players.Add(connection, playerInfo);
         }
     }
 
-    public PlayerRole GetPlayerRole(NetworkConnection connection)
+    public EPlayerRole GetPlayerRole(NetworkConnection connection)
     {
         if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
         {
             return playerInfo.role;
         }
-        return PlayerRole.Survival;
+        return EPlayerRole.Survival;
     }
 
     public void ImposterWin()
     {
         Debug.Log("Imposter Win");
-        EndGame(PlayerRole.Imposter);
+        EndGame(EPlayerRole.Imposter);
     }
 
     public void SurvivalWin()
     {
         Debug.Log("Survival Win");
-        EndGame(PlayerRole.Survival);
+        EndGame(EPlayerRole.Survival);
     }
 
     [ServerRpc(RequireOwnership = false)]
@@ -112,7 +118,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
             Players[connection] = playerInfo;
         }
 
-        int aliveSurvivals = Players.Count(player => player.Value.role == PlayerRole.Survival && !player.Value.isDead);
+        int aliveSurvivals = Players.Count(player => player.Value.role == EPlayerRole.Survival && !player.Value.isDead);
 
         foreach(PlayerInfo info in Players.Values)
         {
@@ -135,7 +141,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
         ghostPlayers.Add(instance);
     }
 
-    [ServerRpc(RequireOwnership = false)]
+    [Server] 
     public void UpdatePlayerKillCount(NetworkConnection connection = null)
     {
         if(Players.TryGetValue(connection, out PlayerInfo playerInfo))
@@ -167,10 +173,10 @@ public struct PlayerInfo
 {
     public string playerName;
     public int killCount; 
-    public PlayerRole role;
+    public EPlayerRole role;
     public bool isDead;
 
-    public PlayerInfo(string playerName, PlayerRole role, bool isDead, int killCount)
+    public PlayerInfo(string playerName, EPlayerRole role, bool isDead, int killCount)
     {
         this.playerName = playerName;
         this.role = role;
@@ -179,7 +185,7 @@ public struct PlayerInfo
     }
 }
 
-public enum PlayerRole
+public enum EPlayerRole
 {
     Survival,
     Imposter,
