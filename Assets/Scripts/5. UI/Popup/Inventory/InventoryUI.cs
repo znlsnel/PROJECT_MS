@@ -45,8 +45,9 @@ public class InventoryUI : PopupUI
 
     private void TestInput(InputAction.CallbackContext context)
     {
-        inventory.AddItem(testItems[Random.Range(0, testItems.Count)]); 
-        MyDebug.Log($"아이템 추가");
+        ItemData itemData = testItems[Random.Range(0, testItems.Count)];
+        inventory.AddItem(itemData, 1, (int)itemData.MaxDurability);  
+        MyDebug.Log($"아이템 추가"); 
 
     }
 
@@ -55,7 +56,7 @@ public class InventoryUI : PopupUI
         Storage itemStorage = inventory.ItemStorage;
         Storage quickStorage = inventory.QuickSlotStorage;
         EquipStorage equipStorage = inventory.EquipStorage;
-
+ 
 
         // 아이템 슬롯 초기화
         ItemSlotUI[] slots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();

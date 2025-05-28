@@ -45,16 +45,16 @@ public class Storage
     }
 
 
-    public bool AddItem(int idx, int amount)
+    public bool AddItem(int idx, int amount, int durability = 0)
     {
         if (idx < 0 || idx >= itemSlots.Count)
             return false;
 
         ItemSlot slot = itemSlots[idx];
-        return AddItem(slot, amount); 
+        return AddItem(slot, amount, durability);  
     }
 
-    public bool AddItem(ItemData itemData, int amount = 1)
+    public bool AddItem(ItemData itemData, int amount = 1, int durability = 0)
     {
         ItemSlot slot = FindSlotByItemData(itemData, amount); 
         if (slot == null)
@@ -66,12 +66,12 @@ public class Storage
             slot.Setup(itemData); 
         }
         
-        return AddItem(slot, amount);
+        return AddItem(slot, amount, durability); 
     }
 
-    public bool AddItem(ItemSlot slot, int amount = 1)
+    public bool AddItem(ItemSlot slot, int amount = 1, int durability = 0)
     {
-        if (slot.AddStack(slot.Data, amount))
+        if (slot.AddStack(slot.Data, amount, durability))
         {
     
             return true;

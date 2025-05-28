@@ -58,17 +58,17 @@ public class ItemSlotUI : MonoBehaviour, IPointerClickHandler, IPointerEnterHand
 
         if (itemSlot.Data == null)
             return;
-
+ 
 
         itemIcon.sprite = itemSlot.Data.Icon; 
         itemAmountText.text = itemSlot.Stack.ToString(); 
 
-        if (_slider != null)
-        {
-            _slider.value = itemSlot.Durability / itemSlot.Data.MaxDurability;
+        if (_slider != null && itemSlot.Data.HasDurability)  
+        {    
+            _slider.value = (float)itemSlot.Durability / (float)itemSlot.Data.MaxDurability;
             _sliderFill.color = Color.Lerp(MyColor.Red, MyColor.Green, _slider.value);
         }
-        
+         
 
         itemIcon.transform.DOScale(1.4f, 0.1f).OnComplete(()=>
         {
