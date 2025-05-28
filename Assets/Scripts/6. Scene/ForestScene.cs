@@ -60,7 +60,7 @@ public class ForestScene : SceneBase
     }
 
 
-    public void ShowResultUI()
+    public void ShowResultUI(EPlayerRole winner)
     {
         if (_resultUI == null)
             _resultUI = Instantiate(_resultUIPrefab).GetComponent<ResultUI>();
@@ -69,7 +69,7 @@ public class ForestScene : SceneBase
         Managers.Analytics.SurvivalEnding();
         Managers.Analytics.MafiaWinRate(true);
 
-        _resultUI.Setup();
+        _resultUI.Setup(winner);
         Managers.UI.ShowPopupUI(_resultUI);
 
         Managers.Analytics.SurvivalRate(!Managers.Player.IsDead);
