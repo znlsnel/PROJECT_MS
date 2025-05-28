@@ -1,4 +1,6 @@
+using System.Numerics;
 using UnityEngine;
+using Vector3 = UnityEngine.Vector3;
 
 public class PlayerOutlineHandler : MonoBehaviour
 {
@@ -33,6 +35,13 @@ public class PlayerOutlineHandler : MonoBehaviour
     {
         if (targetMaterial != null) 
         {
+            if (Managers.Player.IsDead)
+            {
+                targetMaterial.SetVector("PlayerPos", Vector3.down * 10000f);  
+                CancelInvoke(nameof(UpdateProperty));
+                return;
+            }
+
             targetMaterial.SetVector("PlayerPos", transform.position);
         }
     } 
