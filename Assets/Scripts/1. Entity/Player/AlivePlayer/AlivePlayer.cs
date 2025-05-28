@@ -95,7 +95,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     {
         ForestScene.onCompleted += () =>
         {
-            transform.position = new Vector3(0, -1000, 0); 
+            CharacterController.Move(new Vector3(0, -1000, 0)); 
         }; 
     }
 
