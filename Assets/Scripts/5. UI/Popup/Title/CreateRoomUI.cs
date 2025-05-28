@@ -1,11 +1,9 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
 using FishNet.Object;
+using Steamworks;
+using TMPro;
 
 
 public class CreateRoomUI : PopupUI
@@ -13,6 +11,8 @@ public class CreateRoomUI : PopupUI
     [SerializeField] private GameObject _mainPanel;
     [SerializeField] private Button _createRoomButton;
     [SerializeField] private CloseButton _closeButton;
+    [SerializeField] private TMP_InputField _roomNameInputField;
+    [SerializeField] private TMP_Dropdown _roomTypeDropdown;
     
     private GameObject _lobbyRoomUIPrefab;
     private LobbyRoomUI _lobbyRoomUI;
@@ -32,9 +32,14 @@ public class CreateRoomUI : PopupUI
         _lobbyRoomUIPrefab = lobbyRoomUI; 
     }
 
-
     private void CreateRoom()
     {
+        if(Managers.Network.Type == NetworkType.Steam)
+        {
+            Managers.Steam.lobbyInfo.RoomName = _roomNameInputField.text;
+            Managers.Steam.LobbyType = (ELobbyType)_roomTypeDropdown.value;
+        }
+
         Managers.Network.StartHost();
 
         Hide();

@@ -21,21 +21,6 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     // 모든 색상을 가져오는 프로퍼티
     private static ColorType[] AllColors => (ColorType[])Enum.GetValues(typeof(ColorType));
 
-    public override void OnStartServer()
-    {
-        base.OnStartServer();
-        // 서버에서 클라이언트 연결/해제 이벤트 구독
-        base.ServerManager.OnRemoteConnectionState += OnRemoteConnectionState;
-    }
-
-    public override void OnStopServer()
-    {
-        base.OnStopServer();
-        // 이벤트 구독 해제
-        if (base.ServerManager != null)
-            base.ServerManager.OnRemoteConnectionState -= OnRemoteConnectionState;
-    }
-
     public override void OnStartClient()
     {
         base.OnStartClient();
@@ -55,6 +40,8 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
         if (base.IsClientStarted && InstanceFinder.ClientManager.Connection != null)
         {
             RemovePlayer();
+            HandlePlayerLeave(InstanceFinder.ClientManager.Connection);
+            DestroyRoomUI(InstanceFinder.ClientManager.Connection);
         }
     }
 
@@ -166,94 +153,28 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
         }
 
         // Steam ID 유효성 확인
-        ulong steamId = SteamUser.GetSteamID().m_SteamID;
-        if (steamId == 0)
+        if(Managers.Network.Type == NetworkType.Steam)
         {
-            Debug.LogWarning("NetworkRoomSystem: Invalid Steam ID");
-            yield break;
+            ulong steamId = SteamUser.GetSteamID().m_SteamID;
+            if (steamId == 0)
+            {
+                Debug.LogWarning("NetworkRoomSystem: Invalid Steam ID");
+                yield break;
+            }
+
+            Debug.Log($"NetworkRoomSystem: Adding player with Steam ID: {steamId}");
+            AddPlayer(steamId);
         }
-
-        // 이제 안전하게 ServerRpc 호출
-        Debug.Log($"NetworkRoomSystem: Adding player with Steam ID: {steamId}");
-        AddPlayer(steamId);
-    }
-
-    /// <summary>
-    /// 원격 연결 상태가 변경될 때 호출됩니다.
-    /// </summary>
-    private void OnRemoteConnectionState(NetworkConnection conn, RemoteConnectionStateArgs args)
-    {
-        // 연결이 유효하지 않으면 처리하지 않음
-        if (conn == null || !conn.IsValid)
-        {
-            Debug.LogWarning("NetworkRoomSystem: Invalid connection received");
-            return;
-        }
-
-        switch(args.ConnectionState)
-        {
-            case RemoteConnectionState.Started:
-                // 지연 호출을 통해 클라이언트가 완전히 초기화될 때까지 대기
-                StartCoroutine(HandleClientJoinDelayed(conn));
-            break;
-            case RemoteConnectionState.Stopped:
-                HandlePlayerLeave(conn);
-                DestroyRoomUI(conn);
-                break;
-        }
-    }
-
-    /// <summary>
-    /// 클라이언트 연결을 지연 처리합니다.
-    /// </summary>
-    private IEnumerator HandleClientJoinDelayed(NetworkConnection conn)
-    {
-        // 연결이 완전히 활성화될 때까지 대기
-        float timeout = 10f; // 10초 타임아웃
-        float elapsed = 0f;
         
-        while (!conn.IsActive && elapsed < timeout)
-        {
-            yield return new WaitForSeconds(0.1f);
-            elapsed += 0.1f;
-        }
-
-        if (!conn.IsActive)
-        {
-            Debug.LogWarning($"NetworkRoomSystem: Connection {conn.ClientId} failed to activate within timeout");
-            yield break;
-        }
-
-        // 서버가 시작되었고 유효한 연결인지 확인
-        if (!base.IsServerStarted)
-        {
-            Debug.LogWarning("NetworkRoomSystem: Server is not started");
-            yield break;
-        }
-
-        // Observer가 될 때까지 추가 대기
-        elapsed = 0f;
-        while (!base.Observers.Contains(conn) && elapsed < timeout)
-        {
-            yield return new WaitForSeconds(0.1f);
-            elapsed += 0.1f;
-        }
-
-        if (!base.Observers.Contains(conn))
-        {
-            Debug.LogWarning($"NetworkRoomSystem: Connection {conn.ClientId} is not an observer");
-            yield break;
-        }
-
-        // 이제 안전하게 서버 메서드 호출 (RPC가 아닌 직접 호출)
-        HandlePlayerJoin(conn);
-        CreateRoomUI(conn);
+        HandlePlayerJoin();
+        CreateRoomUI();
     }
 
     /// <summary>
     /// 서버에서 플레이어 입장 처리 (내부 메서드)
     /// </summary>
-    private void HandlePlayerJoin(NetworkConnection conn)
+    [ServerRpc(RequireOwnership = false)]
+    private void HandlePlayerJoin(NetworkConnection conn = null)
     {
         if (conn == null || !conn.IsValid || !conn.IsActive)
         {
@@ -421,9 +342,7 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
 
 
     #region Room UI
-
-    [TargetRpc]
-    private void CreateRoomUI(NetworkConnection conn)
+    private void CreateRoomUI()
     {
         _lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab);
         UpdateUI();
