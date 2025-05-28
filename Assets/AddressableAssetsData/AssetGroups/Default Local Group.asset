@@ -57,6 +57,12 @@ MonoBehaviour:
     m_SerializedLabels:
     - default
     FlaggedDuringContentUpdateRestriction: 0
+  - m_GUID: c96261b9d36e3ee4a9e861af9ff88696
+    m_Address: FX
+    m_ReadOnly: 0
+    m_SerializedLabels:
+    - default
+    FlaggedDuringContentUpdateRestriction: 0
   - m_GUID: e7dfdcbb89603fa47a95bc5777e2cef9
     m_Address: Sprite
     m_ReadOnly: 0
