@@ -167,7 +167,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
                 isDead = true;
                 onDead?.Invoke(); 
                 StartCoroutine(DropItemCoroutine());  
-                NetworkGameSystem.Instance.OnPlayerDead(NetworkObject); 
+                NetworkGameSystem.Instance.OnPlayerDead(); 
             }
         } 
     }
