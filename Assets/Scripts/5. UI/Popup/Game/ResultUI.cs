@@ -19,13 +19,12 @@ public class ResultUI : PopupUI
         _lobbyButton.onClick.AddListener(OnClickLobbyButton);
     }
 
-    public void Setup()
+    public void Setup(EPlayerRole winner)
     {
         foreach (Transform child in _userListRoot)
             child.gameObject.SetActive(false);  
 
         bool isEndTime = Managers.scene.GetComponent<TimeSystem>().IsTimeEnd;
-        bool isMafiaWin = true;
         foreach (var pare in NetworkGameSystem.Instance.Players)
         {
             PlayerInfo playerInfo = pare.Value;
@@ -34,21 +33,17 @@ public class ResultUI : PopupUI
             Color color = NetworkRoomSystem.Instance.GetPlayerColor(connection);
             string name = NetworkRoomSystem.Instance.GetPlayerName(connection);
             if (name == "") continue;
- 
 
 
 
             GameObject userSlot = Instantiate(_userSlotPrefab, _userListRoot); 
 
             userSlot.GetComponent<ResultUserSlotUI>().Setup(name, color, playerInfo.role, !playerInfo.isDead, playerInfo.killCount);
- 
-            if (playerInfo.role == EPlayerRole.Survival && !playerInfo.isDead)
-                isMafiaWin = false;
         }
 
-        if (isEndTime || isMafiaWin) 
+        if (winner == EPlayerRole.Imposter) 
         {
-            _title.text = "마피아 승리";
+            _title.text = "마피아 승리"; 
         }
         else
         {

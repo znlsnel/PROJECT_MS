@@ -39,7 +39,16 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     {
         base.OnStartNetwork();
         InstanceFinder.SceneManager.OnLoadEnd += OnLoadEnd;
-        StartCoroutine(InitializeClientDelayed());
+        
+        // Host인 경우 즉시 자신을 등록
+        if (IsServerStarted)
+        {
+            StartCoroutine(InitializeHostDelayed());
+        }
+        else
+        {
+            StartCoroutine(InitializeClientDelayed());
+        }
     }
 
     public override void OnStopNetwork()
@@ -69,6 +78,72 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     #endregion
 
     #region Client Initialization
+    private IEnumerator InitializeHostDelayed()
+    {
+        Debug.Log("NetworkRoomSystem: Host initialization started");
+        
+        yield return new WaitForEndOfFrame();
+        yield return new WaitForSeconds(INITIAL_DELAY);
+        
+        if (!IsValidObject())
+        {
+            Debug.LogWarning("NetworkRoomSystem: Host object is invalid or inactive");
+            yield break;
+        }
+
+        // Host 자신을 플레이어로 등록
+        yield return StartCoroutine(RegisterHostPlayer());
+        
+        // UI 생성
+        CreateRoomUI();
+        
+        Debug.Log("NetworkRoomSystem: Host initialization completed");
+    }
+
+    private IEnumerator RegisterHostPlayer()
+    {
+        if (Managers.Network.Type != NetworkType.Steam)
+            yield break;
+
+        // Steam 초기화 대기
+        yield return new WaitUntil(() => SteamAPI.IsSteamRunning());
+        
+        ulong steamId = SteamUser.GetSteamID().m_SteamID;
+        if (steamId == 0)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Host has invalid Steam ID");
+            yield break;
+        }
+
+        var hostConnection = InstanceFinder.ClientManager?.Connection;
+        if (hostConnection == null)
+        {
+            Debug.LogWarning("NetworkRoomSystem: Host connection is null");
+            yield break;
+        }
+
+        Debug.Log($"NetworkRoomSystem: Registering Host with Steam ID: {steamId}");
+        
+        // Host 데이터 직접 등록 (ServerRpc 호출하지 않음)
+        if (NetworkConnectionToSteamId.ContainsKey(hostConnection))
+            NetworkConnectionToSteamId[hostConnection] = steamId;
+        else
+            NetworkConnectionToSteamId.Add(hostConnection, steamId);
+
+        // Host 색상 할당
+        ColorType assignedColor = GetAvailableRandomColor();
+        if (PlayerColors.ContainsKey(hostConnection))
+            PlayerColors[hostConnection] = assignedColor;
+        else
+            PlayerColors.Add(hostConnection, assignedColor);
+        
+        Debug.Log($"NetworkRoomSystem: Host assigned color: {assignedColor}");
+        
+        // UI 업데이트 약간 지연
+        yield return new WaitForSeconds(0.1f);
+        UpdateUI();
+    }
+
     private IEnumerator InitializeClientDelayed()
     {
         Debug.Log("NetworkRoomSystem: Client initialization started");
@@ -377,8 +452,38 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     #region UI Management
     private void CreateRoomUI()
     {
+        Debug.Log("NetworkRoomSystem: CreateRoomUI called");
+        
+        if (_lobbyRoomUIPrefab == null)
+        {
+            Debug.LogError("NetworkRoomSystem: _lobbyRoomUIPrefab is null!");
+            return;
+        }
+
+        if (_lobbyRoomUI != null)
+        {
+            Debug.Log("NetworkRoomSystem: Destroying existing lobby UI");
+            Destroy(_lobbyRoomUI.gameObject);
+        }
+
         _lobbyRoomUI = Instantiate(_lobbyRoomUIPrefab);
-        UpdateUI();
+        Debug.Log($"NetworkRoomSystem: Created lobby UI: {_lobbyRoomUI != null}");
+        
+        // UI 생성 후 약간의 지연을 두고 업데이트
+        if (IsServerStarted)
+        {
+            StartCoroutine(DelayedUIUpdate());
+        }
+    }
+
+    private IEnumerator DelayedUIUpdate()
+    {
+        yield return new WaitForSeconds(0.1f);
+        if (_lobbyRoomUI != null)
+        {
+            Debug.Log("NetworkRoomSystem: Performing delayed UI update");
+            UpdateUI();
+        }
     }
 
     [TargetRpc]
@@ -391,19 +496,34 @@ public class NetworkRoomSystem : NetworkSingleton<NetworkRoomSystem>
     [ServerRpc(RequireOwnership = false)]
     private void UpdateUI()
     {
+        Debug.Log("NetworkRoomSystem: UpdateUI called");
         ResetUI();
 
-        if (Managers.Network.Type != NetworkType.Steam) return;
+        if (Managers.Network.Type != NetworkType.Steam) 
+        {
+            Debug.Log("NetworkRoomSystem: Not Steam network type, skipping UI update");
+            return;
+        }
 
+        int playerCount = 0;
         foreach (var connection in InstanceFinder.ServerManager.Clients)
         {
             ulong steamId = GetSteamId(connection.Value);
-            if (steamId == 0) continue;
+            if (steamId == 0) 
+            {
+                Debug.LogWarning($"NetworkRoomSystem: No Steam ID for connection {connection.Value.ClientId}");
+                continue;
+            }
 
             string name = SteamFriends.GetFriendPersonaName(new CSteamID(steamId)); 
             Color color = GetPlayerColor(connection.Value);
+            
+            Debug.Log($"NetworkRoomSystem: Creating UI for player - Name: {name}, Color: {color}");
             CreateUI(name, color);
+            playerCount++;
         }
+        
+        Debug.Log($"NetworkRoomSystem: UpdateUI completed - {playerCount} players processed");
     }
 
     [ObserversRpc]

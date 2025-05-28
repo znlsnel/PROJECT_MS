@@ -18,7 +18,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     private List<NetworkObject> ghostPlayers = new List<NetworkObject>();
 
     public static Action onGameStart;
-    public static Action onGameEnd;
+    public static Action<EPlayerRole> onGameEnd;
 
     private static readonly string winSound = "Sound/WinLose/Win.mp3";
     private static readonly string loseSound = "Sound/WinLose/Lose_01.mp3";
@@ -78,7 +78,7 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
     [ObserversRpc]
     public void EndGame_InClient(EPlayerRole winner)
     {
-        onGameEnd?.Invoke();
+        onGameEnd?.Invoke(winner);
 
         EPlayerRole currentPlayerRole = GetPlayerRole(InstanceFinder.ClientManager.Connection);
 

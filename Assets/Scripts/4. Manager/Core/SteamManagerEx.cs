@@ -34,7 +34,14 @@ public class SteamManagerEx : IManager
 
         FishySteamworks = Object.FindAnyObjectByType<FishySteamworks.FishySteamworks>();
 
-        SteamAPI.Init();
+        if(!SteamAPI.Init())
+        {
+            Managers.Resource.LoadAsync<GameObject>("UI/Utility/ErrorUI.prefab", (obj) =>
+            {
+                Object.Instantiate(obj);
+            });
+            return;
+        }
 
         RegisterCallbacks();
     }
