@@ -13,7 +13,7 @@ public abstract class UIBase : MonoBehaviour
 
     protected virtual void Awake()
     {
-        canvasGroup = GetComponent<CanvasGroup>();
+        canvasGroup = gameObject.GetOrAddComponent<CanvasGroup>(); 
         blockRaycasts = canvasGroup.blocksRaycasts;
 		interactable = canvasGroup.interactable; 
     }
