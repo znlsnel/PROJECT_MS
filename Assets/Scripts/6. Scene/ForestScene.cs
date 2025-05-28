@@ -66,6 +66,11 @@ public class ForestScene : SceneBase
         _endingTimeline.Play();
     }
 
+    public void ShowResultUI()
+    {
+        ShowResultUI(EPlayerRole.Survival); 
+    }
+
 
     public void ShowResultUI(EPlayerRole winner)
     {
