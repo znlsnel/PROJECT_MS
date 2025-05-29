@@ -26,18 +26,17 @@ public class ForestScene : SceneBase
         base.Awake();
 
         _endingTimeline = gameObject.GetComponent<PlayableDirector>();  
-
-        Managers.SubscribeToInit(InitScene);
     }
  
     void Start() 
     {
+        InitScene();
         Managers.Analytics.SurvivalStart();
         NetworkGameSystem.onGameEnd += ShowResultUI;
     }
 
     private void InitScene()
-    {
+    { 
         _mapData = Managers.Data.maps.GetByIndex(_mapIndex);
         Quest mainQuest = Managers.Quest.Register(_mapData.MainQuest);
         MyDebug.Log($"퀘스트 추가");
