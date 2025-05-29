@@ -119,7 +119,13 @@ public class NetworkGameSystem : NetworkSingleton<NetworkGameSystem>
             PlayerInfo playerInfo = new PlayerInfo(connection.ClientId.ToString(), role, false, 0);
             Players.Add(connection, playerInfo);
         }
-        completedRandomRole = true;
+        CompletedRandomRole(); 
+    }
+
+    [ObserversRpc]
+    public void CompletedRandomRole() 
+    {
+        completedRandomRole = true; 
         onCompletedRandomRole?.Invoke(); 
     }
 

@@ -7,6 +7,8 @@ using UnityEngine;
 public class SystemDialogUI : PopupUI
 { 
     [SerializeField] private TextMeshProUGUI _textField;
+
+    
     
     private void Start()
     {
