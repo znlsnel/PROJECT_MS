@@ -8,7 +8,7 @@ public class QuestStorageSlot : ItemSlot
 {
     private int targetAmount;
     private bool isSuccess = false;
-    public override int MaxStack => targetAmount;    
+    public override int MaxStack => targetAmount;     
     public event Action onSuccess;
     
 
@@ -17,19 +17,19 @@ public class QuestStorageSlot : ItemSlot
         targetAmount = MaxAmount; 
     }
 
-    public override void Setup(ItemData itemData, int amount = 0, bool isServer = false)
+    public override void Setup(ItemData itemData, int amount = 0, int durability = 0, bool isServer = false)
     {
-        base.Setup(itemData, amount, isServer);
+        base.Setup(itemData, amount, durability, isServer); 
         if (Stack >= targetAmount && !isSuccess) 
         {
             isSuccess = true; 
-            onSuccess?.Invoke();
+            onSuccess?.Invoke(); 
         }  
     }
 
-    public override bool AddStack(ItemData itemData, int amount = 1, bool isServer = false)
+    public override bool AddStack(ItemData itemData, int amount = 1, int durability = 0, bool isServer = false)
     {
-        bool ret = base.AddStack(itemData, amount, isServer);
+        bool ret = base.AddStack(itemData, amount, durability, isServer); 
         if (Stack >= targetAmount && !isSuccess)
         {
             isSuccess = true; 

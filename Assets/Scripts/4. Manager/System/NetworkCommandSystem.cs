@@ -37,4 +37,16 @@ public class NetworkCommandSystem : NetworkSingleton<NetworkCommandSystem>
     {
         InstanceFinder.ServerManager.Despawn(objectPrefab);
     }
+
+    [ServerRpc(RequireOwnership = false)]
+    public void RequestDropItem(NetworkObject itemPrefab, Vector3 position, Quaternion rotation, int durability, NetworkConnection conn = null)
+    {
+        NetworkObject instance = Instantiate(itemPrefab, position, rotation);
+        InstanceFinder.ServerManager.Spawn(instance, conn);
+
+
+        instance.GetComponent<ItemObject>().SetDurability(durability);  
+        instance.gameObject.GetOrAddComponent<Rigidbody>(); 
+    }
+
 }

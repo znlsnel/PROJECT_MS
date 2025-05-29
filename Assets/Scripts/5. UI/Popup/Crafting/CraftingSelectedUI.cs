@@ -96,7 +96,7 @@ public class CraftingSelectedUI : MonoBehaviour
             Managers.Player.Inventory.RemoveItem(slot.Data, slot.Stack); 
         }
 
-        Managers.Player.Inventory.AddItem(data); 
+        Managers.Player.Inventory.AddItem(data, 1, (int)data.MaxDurability); 
         Managers.Quest.ReceiveReport(ETaskCategory.Crafting, data.Id); 
         Managers.Analytics.CraftingUsage();
     }

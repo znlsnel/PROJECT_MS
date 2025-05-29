@@ -117,18 +117,22 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         stateMachine.Update();
 
+        #if UNITY_EDITOR
+
        // hungerPoint.Subtract(Time.deltaTime * 10f); // 추후 float 값 수정
        // waterPoint.Subtract(Time.deltaTime * 0.5f);
 
         if(Input.GetKeyDown(KeyCode.P)) // 테스트 코드
         {
-            RestoreHunger(30f);
-        }
+            //RestoreHunger(30f);
+        } 
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            TakeDamage(10, null); 
+          //  TakeDamage(10, null); 
         }
+
+        #endif
     }
 
 

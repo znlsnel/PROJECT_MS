@@ -15,7 +15,7 @@ public class SystemDialogDataManager
         int jobId = isMafia ? 2 : 1;
         GameData.SystemDialog systemDialog = dataHandler.GetByCondition((systemDialog) => systemDialog.jobId == jobId);
         if (systemDialog == null)
-            return null;
+            return null; 
 
         return systemDialog.texts;
     }

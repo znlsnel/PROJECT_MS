@@ -54,10 +54,10 @@ public class InventoryDataHandler
                 slot.Setup(itemData, diff);
                 amount = 0;
             }
-            else
+            else 
             { 
                 amount -= slot.Stack;
-                slot.Setup(itemData, 0);
+                slot.Setup(null, 0);
             } 
         } 
     }

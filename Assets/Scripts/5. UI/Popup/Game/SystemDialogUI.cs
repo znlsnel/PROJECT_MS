@@ -1,19 +1,29 @@
 using System.Collections;
 using System.Collections.Generic;
+using FishNet;
 using TMPro;
 using UnityEngine;
 
 public class SystemDialogUI : PopupUI
-{
+{ 
     [SerializeField] private TextMeshProUGUI _textField;
+
+    
     
     private void Start()
     {
-        _textField.text = "";
-        var texts = Managers.Data.ruleGuides.GetScript();
-        StartCoroutine(ShowText(texts));
-    }
+        _textField.text = "";  
 
+        NetworkGameSystem.Instance.SubscribeToRandomRole(() =>
+        {
+            var c = InstanceFinder.ClientManager.Connection;
+            var role = NetworkGameSystem.Instance.GetPlayerRole(c);
+              
+            var texts = Managers.Data.ruleGuides.GetScript(role == EPlayerRole.Imposter); 
+            StartCoroutine(ShowText(texts)); 
+        });  
+    }
+ 
     private IEnumerator ShowText(List<string> texts)
     {
         StartCoroutine(Fade(1, 0.5f));

@@ -36,13 +36,15 @@ public class MyDebug : Singleton<MyDebug>
 
     public static void Log(string message)
     {
-        if (!Instance.isDebug)
-             return;   
+        #if UNITY_EDITOR
+        // if (!Instance.isDebug) 
+        //      return;   
 
-        Instance._logQueue.Enqueue(message);
-        if (Instance._logQueue.Count > 10)
-        {
-            Instance._logQueue.Dequeue();
-        }
+        // Instance._logQueue.Enqueue(message);
+        // if (Instance._logQueue.Count > 10)
+        // {
+        //     Instance._logQueue.Dequeue();
+        // } 
+        #endif 
     }
 }

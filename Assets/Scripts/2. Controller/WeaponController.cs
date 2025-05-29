@@ -8,7 +8,7 @@ public class WeaponController : ItemController
     [field: SerializeField] public float attackAnimationSpeed { get; private set; } = 1f;
 
     private HashSet<IDamageable> damageables = new HashSet<IDamageable>();
-    [SerializeField] private float damage = 10f;
+
     private bool isAttacking;
 
     private readonly static string fxHumanPath = "FX/PunchFX_Human.prefab";
@@ -17,7 +17,7 @@ public class WeaponController : ItemController
 
     private static GameObject _fxHuman;
     private static GameObject _fx;
-
+ 
     private void Start()
     {
         if (_fxHuman == null)
@@ -41,7 +41,7 @@ public class WeaponController : ItemController
         if(!isAttacking)
             return;
         
-        if(other.gameObject == Owner.gameObject)
+        if(other.gameObject == Owner.gameObject) 
             return;
 
         Debug.Log("TriggerEnter");
@@ -61,8 +61,9 @@ public class WeaponController : ItemController
             
             if(damageables.Add(damageable))
             {
-                damageable.TakeDamage(damage);
-                itemSlot.UseDurability(1f);
+                damageable.TakeDamage(itemData.Damage); 
+
+                itemSlot.UseDurability(1); 
                 Debug.Log("Damaged");
             }
         }

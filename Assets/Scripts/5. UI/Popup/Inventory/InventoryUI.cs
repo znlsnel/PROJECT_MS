@@ -33,20 +33,22 @@ public class InventoryUI : PopupUI
 
     private void RegisterInput()
     {
+        #if UNITY_EDITOR
         testItems.Add(Managers.Data.items.GetByIndex(3001));
         testItems.Add(Managers.Data.items.GetByIndex(3007));
         testItems.Add(Managers.Data.items.GetByIndex(3003));
         testItems.Add(Managers.Data.items.GetByIndex(1001));
         testItems.Add(Managers.Data.items.GetByIndex(3005));
         testItems.Add(Managers.Data.items.GetByIndex(3006)); 
-        
         Managers.Input.Test.started += TestInput;
+        #endif 
     }
 
     private void TestInput(InputAction.CallbackContext context)
     {
-        inventory.AddItem(testItems[Random.Range(0, testItems.Count)]); 
-        MyDebug.Log($"아이템 추가");
+        ItemData itemData = testItems[Random.Range(0, testItems.Count)];
+        inventory.AddItem(itemData, 1, (int)itemData.MaxDurability);  
+        MyDebug.Log($"아이템 추가"); 
 
     }
 
@@ -55,7 +57,7 @@ public class InventoryUI : PopupUI
         Storage itemStorage = inventory.ItemStorage;
         Storage quickStorage = inventory.QuickSlotStorage;
         EquipStorage equipStorage = inventory.EquipStorage;
-
+ 
 
         // 아이템 슬롯 초기화
         ItemSlotUI[] slots = itemSlotParent.GetComponentsInChildren<ItemSlotUI>();

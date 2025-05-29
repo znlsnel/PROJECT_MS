@@ -73,25 +73,28 @@ public class InteractionHandler : MonoBehaviour
     {
         // 외부에서 파괴되었을 수 있는 null 요소 제거
         // 두 컬렉션을 모두 확인해야 하지만, 정렬을 위해 리스트를 정리하는 것이 주 목적임
- 
+        bool hasEmptySlot = GetComponent<AlivePlayer>().Inventory.HasEmptySlot();
         Interactable interactable = null;
         float dist = -1;
 
         interactables.ToList().ForEach(item => {
+            
+            if (item == null) 
+                return;
 
             float d = Vector3.SqrMagnitude(item.transform.position - transform.position); 
 
-            if (interactable == null && item.isActive)
+            if ((interactable == null && item.isActive) || 
+                (d < dist && item.isActive))
             {
+                if (item is ItemObject && hasEmptySlot == false)
+                    return; 
+
                 interactable = item;
                 dist = d;
             }
-            else if (d < dist && item.isActive)
-            {
-                interactable = item;
-                dist = d;
-            }
-        });
+        }); 
+
 
         if (Remove) 
             interactables.Remove(interactable);
