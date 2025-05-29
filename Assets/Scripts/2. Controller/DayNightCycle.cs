@@ -23,7 +23,7 @@ public class DayNightCycle : MonoBehaviour
 	[SerializeField] private AnimationCurve reflectionIntensityMultiplier; 
 
     private float curTime;
-	private float timeScale;
+	private float timeScale => timeSystem.TimeScale;
 
 	private Vector3 noon = new Vector3(90, 0, 0);
 	private Vector3 endNoon = new Vector3(180, 0, 0); 
@@ -57,9 +57,7 @@ public class DayNightCycle : MonoBehaviour
         IntensityMultiplier.AddKey(timeSystem.dayEndTime, 1f, 0f, 0f); 
         IntensityMultiplier.AddKey(1f, 0f, 0f, 0f);   
 
-
-		timeScale = timeSystem.TimeScale;
-        timeSystem.Time.OnChange += UpdateTime;
+        timeSystem.Time.OnChange += UpdateTime; 
 
 		timeSystem.onEndTime += OnEndTime;
 	}
@@ -123,18 +121,23 @@ public class DayNightCycle : MonoBehaviour
 		if (lightSource == sun)
 			lightSource.transform.eulerAngles = Vector3.Lerp(startNoon, endNoon, dayT); 
 		else 
-			lightSource.transform.eulerAngles = Vector3.Lerp(endNoon, startNoon, nightT);  
-		
+			lightSource.transform.eulerAngles = Vector3.Lerp(startNoon, endNoon, nightT);   
 
-		float intensity = intensityCurve.Evaluate(curTime);  
+
+		float intensity = intensityCurve.Evaluate(curTime);
 		lightSource.color = gradient.Evaluate(curTime);
 		lightSource.intensity = intensity;
 
+ 
 		var go = lightSource.gameObject;
+
+
 		if (lightSource.intensity == 0 && go.activeInHierarchy)
 			go.SetActive(false);
 
 		else if (lightSource.intensity > 0 && !go.activeInHierarchy)
 			go.SetActive(true);
+
+		go.SetActive(lightSource.intensity > 0 ); 
 	}
 }

@@ -122,12 +122,12 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
 
         if(Input.GetKeyDown(KeyCode.P)) // 테스트 코드
         {
-            RestoreHunger(30f);
-        }
+            //RestoreHunger(30f);
+        } 
 
         if(Input.GetKeyDown(KeyCode.Space))
         {
-            TakeDamage(10, null); 
+          //  TakeDamage(10, null); 
         }
     }
 
