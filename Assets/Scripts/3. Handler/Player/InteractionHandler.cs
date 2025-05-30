@@ -62,14 +62,14 @@ public class InteractionHandler : MonoBehaviour
     public void OnInteract()
     {         
 
-        Interactable interactable = GetInteractObject(true);  
+        Interactable interactable = GetInteractObject();  
         if(interactable == null) return;
 
         interactable.Interact(gameObject);
     }
 
-
-    public Interactable GetInteractObject(bool Remove = false)
+ 
+    public Interactable GetInteractObject()
     {
         // 외부에서 파괴되었을 수 있는 null 요소 제거
         // 두 컬렉션을 모두 확인해야 하지만, 정렬을 위해 리스트를 정리하는 것이 주 목적임
@@ -84,7 +84,7 @@ public class InteractionHandler : MonoBehaviour
 
             float d = Vector3.SqrMagnitude(item.transform.position - transform.position); 
 
-            if ((interactable == null && item.isActive) || 
+            if ((interactable == null && item.isActive) ||  
                 (d < dist && item.isActive))
             {
                 if (item is ItemObject && hasEmptySlot == false)
@@ -95,9 +95,6 @@ public class InteractionHandler : MonoBehaviour
             }
         }); 
 
-
-        if (Remove) 
-            interactables.Remove(interactable);
         return interactable;
     }
 }
