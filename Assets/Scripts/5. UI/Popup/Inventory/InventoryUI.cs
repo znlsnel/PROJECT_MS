@@ -18,6 +18,11 @@ public class InventoryUI : PopupUI
 
     private Inventory inventory;
 
+    protected override void Awake()
+    {
+        base.Awake();
+        _canStack = false; 
+    }
 
     public void Setup(AlivePlayer player)
     {

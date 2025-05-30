@@ -12,6 +12,12 @@ public class MovingSlotUI : PopupUI
     [SerializeField] private Image itemImage;
     [SerializeField] private TextMeshProUGUI itemCountText;
 
+    protected override void Awake() 
+    {
+        base.Awake();
+        _canStack = false; 
+    }
+
     public override void Show()
     {
         base.Show();

@@ -8,9 +8,12 @@ using Image = UnityEngine.UI.Image;
 
 public class PopupUI : UIBase
 {
+	[SerializeField] protected bool _canStack = true; 
 	[SerializeField] private bool _isPlaySound = true; 
     private static readonly string _popupOpenSound = "Sound/UI/Popup_02.mp3";
     private static readonly string _popupCloseSound = "Sound/UI/PopupClose_01.mp3";
+
+	public bool CanStack => _canStack;
 
     protected override void Awake()
     {
