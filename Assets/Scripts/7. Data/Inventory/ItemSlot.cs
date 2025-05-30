@@ -8,7 +8,7 @@ public class ItemSlot
 {
     public EItemType slotItemType {get; set;} = EItemType.None;
     public EEquipType slotEquipType {get; set;} = EEquipType.None;
-    public ItemData Data {get; private set;}
+    public ItemData Data {get; protected set;}
     public int Stack {get; private set;}
     public int Durability {get; private set;} 
  

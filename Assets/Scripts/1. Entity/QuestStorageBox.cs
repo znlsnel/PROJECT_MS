@@ -50,7 +50,7 @@ public class QuestStorageBox : Interactable
         {
             int idx = storage.Count;
             QuestStorageSlot itemSlot = new QuestStorageSlot(item.amount, idx); 
-            itemSlot.Setup(item.itemData);
+            itemSlot.Init(item.itemData);
             itemSlot.onSuccess += SuccessQuest; 
             storage.AddItemSlot(itemSlot); 
         } 
