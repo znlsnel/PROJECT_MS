@@ -86,8 +86,8 @@ public static class ItemDragHandler
         int durability = movingSlot.Durability;
         int targetDurability = targetSlotUI.ItemSlot.Durability;
 
-        targetSlotUI.ItemSlot.AddStack(movingSlot.Data, amount, durability);
-        movingSlot.AddStack(movingSlot.Data, -amount, targetDurability);   
+        if (targetSlotUI.ItemSlot.AddStack(movingSlot.Data, amount, durability))
+            movingSlot.AddStack(movingSlot.Data, -amount, targetDurability);      
 
         if (movingSlot.Data == null)
             SetupMovingSlot(null);

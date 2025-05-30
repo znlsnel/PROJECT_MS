@@ -31,6 +31,9 @@ public class UIManager : IManager
 
         if (pinned)
         {
+            if (_pinnedOrder < _order)
+                _pinnedOrder = _order + 100;
+                
             canvas.sortingOrder = _pinnedOrder;
             _pinnedOrder++;
         }
@@ -86,8 +89,8 @@ public class UIManager : IManager
             _popupStack.Push(popup);   
  
       //  go.transform.SetParent(_popupUIParent.transform, false);
-        popup.Init(pinned); 
         popup.Show(); 
+        popup.Init(pinned);  
 		return popup; 
     }
 
