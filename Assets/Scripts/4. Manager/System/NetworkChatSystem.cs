@@ -30,7 +30,30 @@ public class NetworkChatSystem : NetworkSingleton<NetworkChatSystem>
     private void ChatMessageRecived(NetworkConnection connection, ChatMessage message, Channel channel)
     {
         message.sender = message.sender == "" ? connection.ClientId.ToString() : message.sender;
-        ServerManager.Broadcast(message, false, Channel.Reliable);
+
+        string processedMessage = message.message
+        .Replace("\u200B", "")  // Zero Width Space 제거
+        .Replace("\n", "")
+        .Replace("\r", "")
+        .Trim()
+        .ToLower();
+
+        Debug.Log($"처리된 메시지: '{processedMessage}', 길이: {processedMessage.Length}");
+
+        if(processedMessage == "/kill")
+        {
+            if(connection.FirstObject != null)
+            {
+                var player = connection.FirstObject.GetComponent<AlivePlayer>();
+                if(player != null)
+                {
+                    player.TakeDamage(9999);
+                }
+            }
+        }
+        else{
+            ServerManager.Broadcast(message, false, Channel.Reliable);
+        }
     }
 
     public override void OnStartClient()

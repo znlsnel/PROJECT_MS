@@ -1,10 +1,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 using DG.Tweening;
-using UnityEngine.SceneManagement;
 using TMPro;
 using FishNet.Connection;
-using Steamworks;
+using FishNet;
+using FishNet.Managing.Scened;
 
 public class ResultUI : PopupUI
 {
@@ -56,7 +56,10 @@ public class ResultUI : PopupUI
     {
         transform.DOScale(Vector3.one * 1.1f, 0.1f).SetEase(Ease.OutCubic).onComplete += () => {
             transform.DOScale(Vector3.one, 0.1f).SetEase(Ease.InCubic).onComplete += () => {
-                NetworkSceneSystem.Instance.LoadScene("Title");
+                SceneLoadData sceneLoadData = new SceneLoadData("Title");
+                sceneLoadData.ReplaceScenes = ReplaceOption.All;
+
+                InstanceFinder.SceneManager.LoadGlobalScenes(sceneLoadData);
             };
         };
     }
