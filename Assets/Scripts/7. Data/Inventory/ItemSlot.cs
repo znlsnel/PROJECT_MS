@@ -96,10 +96,11 @@ public class ItemSlot
         Stack = amount;
         Durability = durability;
         
-        if (Data != null)
-            onAddItem?.Invoke(Data.Id, this); 
 
         this.Data = itemData;  
+
+        if (Data != null)
+            onAddItem?.Invoke(Data.Id, this); 
 
         if (_slotIdx != -1 && !isServer) 
             onUpdateSlot?.Invoke(_slotIdx);    
