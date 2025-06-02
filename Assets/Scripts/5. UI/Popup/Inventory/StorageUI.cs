@@ -13,6 +13,9 @@ public class StorageUI : PopupUI
     {
         base.Awake();
         Managers.onChangePlayer += SetInventory; 
+
+        _canStack = false; 
+
     }
 
     private void OnDestroy()

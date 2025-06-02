@@ -52,9 +52,12 @@ public class ItemObject : Interactable
     [ObserversRpc]
     private void InteractRpc(GameObject obj)
     {
+        if (isPlayingDoTween)
+            return; 
+
+        isPlayingDoTween = true;
         AlivePlayer player = obj.GetComponent<AlivePlayer>();
         player.Inventory.AddItem(itemData, 1, Durability.Value);   
-        isPlayingDoTween = true;
 
         transform.DOScale(Vector3.zero, 0.2f).SetEase(Ease.InOutSine);
 

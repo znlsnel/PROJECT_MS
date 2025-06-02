@@ -12,9 +12,19 @@ public class InventoryDataHandler
 
     public static int GetItemAmount(int id)
     {
+        int ret = 0;
+
         if (itemAmounts.ContainsKey(id))
-            return itemAmounts[id].Sum(slot => slot.Stack);
-        return 0;
+        {
+            itemAmounts[id].ToList().ForEach(slot => {
+                if (slot.Data != null && slot.Data.Id == id)
+                    ret += slot.Stack;
+                else
+                    itemAmounts[id].Remove(slot); 
+            });
+        }
+            
+        return ret;  
     }
 
     public void ItemAmountUpdate(int id, ItemSlot itemSlot)
@@ -30,7 +40,7 @@ public class InventoryDataHandler
             itemAmounts[id] = new HashSet<ItemSlot> {itemSlot}; 
 
         onItemAmountUpdate?.Invoke();
-        Debug.Log($"ItemAmountUpdate: {id} {itemAmounts[id].Sum(slot => slot.Stack)}"); 
+        Debug.Log($"ItemAmountUpdate: {id} {GetItemAmount(id)}"); 
     }
 
     public void RemoveItem(int id, int amount)

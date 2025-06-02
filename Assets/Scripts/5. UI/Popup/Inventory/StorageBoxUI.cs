@@ -14,6 +14,7 @@ public class StorageBoxUI : StorageUI
     {
         base.Awake();
         closeButton.OnClick += () => HideWithDoTween(mainPanel.transform); 
+
     }
  
     public void Setup(Storage storage)

@@ -113,4 +113,3 @@ MonoBehaviour:
   <holdAnimation>k__BackingField: {fileID: 0}
   <attackAnimation>k__BackingField: {fileID: 7400000, guid: 4ce2e34330eeb3d49ab95f44927d7ac5, type: 2}
   <attackAnimationSpeed>k__BackingField: 1
-  damage: 10

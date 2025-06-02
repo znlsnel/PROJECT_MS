@@ -10,13 +10,13 @@ public class GraphicSetting : MonoBehaviour
 
     public void Start()
     {
-        _fullScreenDropdown.onValueChanged.AddListener(OnFullScreenChanged);
-        _resolutionDropdown.onValueChanged.AddListener(OnResolutionChanged);
-        _qualityDropdown.onValueChanged.AddListener(OnQualityChanged);
-
         _fullScreenDropdown.value = Managers.Graphic.isFullScreen ? 0 : 1;
         _resolutionDropdown.value = Managers.Graphic.width == 1280 ? 0 : Managers.Graphic.width == 1920 ? 1 : 2;
         _qualityDropdown.value = (int)Managers.Graphic.quality;
+
+        _fullScreenDropdown.onValueChanged.AddListener(OnFullScreenChanged);
+        _resolutionDropdown.onValueChanged.AddListener(OnResolutionChanged);
+        _qualityDropdown.onValueChanged.AddListener(OnQualityChanged);
     }
 
     private void OnFullScreenChanged(int arg0)

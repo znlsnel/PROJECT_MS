@@ -18,6 +18,8 @@ public class CraftingTableUI : PopupUI
         base.Awake();
         closeButton.OnClick += () => HideWithDoTween(mainPanel.transform);  
         Managers.SubscribeToInit(Setup);
+        _canStack = false; 
+
     }
 
     public override void Show()

@@ -71,43 +71,29 @@ public class UIManager : IManager
     }
 
 
-    public T MakeSubItem<T>(Transform parent = null, string name = null) where T : UIBase
-	{
-		if (string.IsNullOrEmpty(name))
-			name = typeof(T).Name;
-
-		GameObject go = Managers.Resource.Instantiate($"UI/SubItem/{name}");
-		if (parent != null)
-			go.transform.SetParent(parent);
-
-		return Util.GetOrAddComponent<T>(go); 
-	}
-
-    public T ShowPopupUI<T>(T popup, bool pinned = false) where T : PopupUI
+    public void ShowPopupUI<T>(T popup, bool pinned = false) where T : PopupUI
     {
+
+ 
+        ClearHidePopupUI();
+
+        if (!popup.CanStack)
+        {
+            if (_popupStack.Count > 0)
+            {
+                popup.Hide(); 
+                return;
+            } 
+        } 
+
         if (!pinned) 
             _popupStack.Push(popup);   
- 
-      //  go.transform.SetParent(_popupUIParent.transform, false);
+
         popup.Show(); 
         popup.Init(pinned);  
-		return popup; 
+		return; 
     }
 
-
-
-    public void ClosePopupUI(PopupUI popup, float time = 0.0f)
-    {
-		if (_popupStack.Count == 0)
-			return; 
-
-        if (_popupStack.Peek() != popup)
-        {
-            return;
-        }
-
-        ClosePopupUI(time);
-    }
 
     public void ClosePopupUI(float time = 0.0f)
     {
@@ -124,8 +110,6 @@ public class UIManager : IManager
             popup.Hide();
             _order--; 
         } 
-        
-
     }
 
 
@@ -133,5 +117,14 @@ public class UIManager : IManager
     {
         while (_popupStack.Count > 0)
             ClosePopupUI();
+    }
+
+
+    public void ClearHidePopupUI()
+    {
+        while (_popupStack.Count > 0 && (_popupStack.Peek() == null || !_popupStack.Peek().IsOpen)) 
+            _popupStack.Pop();
+ 
+        
     }
 }

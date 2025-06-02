@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using FishNet.Component.Prediction;
 using Unity.VisualScripting;
 using UnityEngine;
 
@@ -34,7 +35,7 @@ public class DayNightCycle : MonoBehaviour
 
 	private void Start()
 	{
-        timeSystem = Managers.scene.GetComponent<TimeSystem>();
+        timeSystem = Managers.scene.GetComponent<TimeSystem>(); 
 
         sunIntensity.ClearKeys();
         sunIntensity.AddKey(0f, 0f, 0f, 0f);
@@ -59,7 +60,7 @@ public class DayNightCycle : MonoBehaviour
 
         timeSystem.Time.OnChange += UpdateTime; 
 
-		timeSystem.onEndTime += OnEndTime;
+		timeSystem.onEndTime += OnEndTime; 
 	}
 
     private void OnEndTime()
@@ -89,7 +90,7 @@ public class DayNightCycle : MonoBehaviour
 
 	void UpdateLighting(Light lightSource, Gradient gradient, AnimationCurve intensityCurve)
 	{
-		float dayT = (curTime - timeSystem.dayStartTime) / (timeSystem.dayEndTime - timeSystem.dayStartTime);  
+		float dayT = (curTime - timeSystem.dayStartTime) / (timeSystem.dayEndTime - timeSystem.dayStartTime); 
 		float nightT = 0f;
 
 		// nightT 계산: dayEndTime에서 0, 밤 중간에 1, 다음날 dayStartTime에서 다시 0
@@ -115,13 +116,14 @@ public class DayNightCycle : MonoBehaviour
 			}
 			
 			// 부드러운 곡선 (sin 곡선 사용)
-			nightT = nightProgress;    
+			nightT = nightProgress;     
 		}
  
 		if (lightSource == sun)
-			lightSource.transform.eulerAngles = Vector3.Lerp(startNoon, endNoon, dayT); 
+			lightSource.transform.eulerAngles = Vector3.Lerp(startNoon, endNoon, dayT);
+
 		else 
-			lightSource.transform.eulerAngles = Vector3.Lerp(startNoon, endNoon, nightT);   
+			lightSource.transform.eulerAngles = Vector3.Lerp(endNoon, startNoon, nightT);    
 
 
 		float intensity = intensityCurve.Evaluate(curTime);
@@ -129,15 +131,11 @@ public class DayNightCycle : MonoBehaviour
 		lightSource.intensity = intensity;
 
  
-		var go = lightSource.gameObject;
-
-
+		var go = lightSource.gameObject; 
 		if (lightSource.intensity == 0 && go.activeInHierarchy)
 			go.SetActive(false);
 
 		else if (lightSource.intensity > 0 && !go.activeInHierarchy)
-			go.SetActive(true);
-
-		go.SetActive(lightSource.intensity > 0 ); 
+			go.SetActive(true); 
 	}
 }

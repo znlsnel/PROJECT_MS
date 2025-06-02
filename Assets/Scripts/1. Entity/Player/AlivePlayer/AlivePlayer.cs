@@ -35,6 +35,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     public ItemHandler ItemHandler {get; private set;}
     public PlacementHandler PlacementHandler {get; private set;}
     public EquipHandler EquipHandler {get; private set;}
+    public SkinnedMeshRenderer SkinnedMeshRenderer {get; private set;}
 
     public event Action onDead;
     public event Action onDamaged;
@@ -60,12 +61,39 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
         EquipHandler = gameObject.GetOrAddComponent<EquipHandler>();
         EquipHandler.Setup(Inventory);
 
-                QuickSlotHandler = gameObject.GetOrAddComponent<QuickSlotHandler>();
+        QuickSlotHandler = gameObject.GetOrAddComponent<QuickSlotHandler>();
+        SkinnedMeshRenderer = GetComponentInChildren<SkinnedMeshRenderer>();
 
         ItemHandler = gameObject.GetOrAddComponent<ItemHandler>();
         PlacementHandler = gameObject.GetOrAddComponent<PlacementHandler>(); 
 
-        GetComponentInChildren<SkinnedMeshRenderer>().material.SetColor("_MainColor", NetworkRoomSystem.Instance.GetPlayerColor(Owner));
+        ChangeColor(NetworkRoomSystem.Instance.GetPlayerColor(Owner));
+
+        Managers.scene.TimeSystem.onStartDay += OnStartDay;
+        Managers.scene.TimeSystem.onStartNight += OnStartNight;
+    }
+
+    private void OnStartDay()
+    {
+        ChangeColor(NetworkRoomSystem.Instance.GetPlayerColor(Owner));
+    }
+
+    private void OnStartNight()
+    {
+        ChangeColor(Color.black);
+    }
+
+    private void ChangeColor(Color color)
+    {
+        SkinnedMeshRenderer.material.SetColor("_MainColor", color);
+    }
+
+    public override void OnStopNetwork()
+    {
+        base.OnStopNetwork();
+
+        Managers.scene.TimeSystem.onStartDay -= OnStartDay;
+        Managers.scene.TimeSystem.onStartNight -= OnStartNight;
     }
 
     public override void OnStartClient()
@@ -230,7 +258,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     }
  
  
-    [Server]  
+    [ServerRpc]  
     private void DropItem(Vector3 pos, string DropPrefabPath, int count)
     {
         GameObject prefab = Managers.Resource.Load<GameObject>(DropPrefabPath);
