@@ -258,7 +258,7 @@ public class AlivePlayer : NetworkBehaviour, IDamageable
     }
  
  
-    [Server]  
+    [ServerRpc]  
     private void DropItem(Vector3 pos, string DropPrefabPath, int count)
     {
         GameObject prefab = Managers.Resource.Load<GameObject>(DropPrefabPath);
