@@ -40,7 +40,7 @@ public class InventoryDataHandler
             itemAmounts[id] = new HashSet<ItemSlot> {itemSlot}; 
 
         onItemAmountUpdate?.Invoke();
-        Debug.Log($"ItemAmountUpdate: {id} {itemAmounts[id].Sum(slot => slot.Stack)}"); 
+        Debug.Log($"ItemAmountUpdate: {id} {GetItemAmount(id)}"); 
     }
 
     public void RemoveItem(int id, int amount)
