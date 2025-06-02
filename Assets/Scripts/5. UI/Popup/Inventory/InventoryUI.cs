@@ -6,6 +6,7 @@ using UnityEngine.UI;
 
 public class InventoryUI : PopupUI
 {
+    [SerializeField] private CloseButton closeButton;
     [SerializeField] private GameObject itemSlotParent;
     [SerializeField] private GameObject quickSlotParent;
     [SerializeField] private GameObject equipSlotParent;
@@ -22,7 +23,8 @@ public class InventoryUI : PopupUI
     {
         base.Awake();
         _canStack = false; 
-    }
+        closeButton.OnClick += Close; 
+    } 
 
     public void Setup(AlivePlayer player)
     {

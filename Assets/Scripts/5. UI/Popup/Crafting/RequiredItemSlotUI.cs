@@ -34,7 +34,8 @@ public class RequiredItemSlotUI : ItemSlotUI
         itemIcon.sprite = itemSlot.Data.Icon;
 
         int amount = InventoryDataHandler.GetItemAmount(itemSlot.Data.Id);
-        itemAmountText.text = $"{Math.Min(amount, itemSlot.Stack)} / {itemSlot.Stack}";
+      //  itemAmountText.text = $"{Math.Min(amount, itemSlot.Stack)} / {itemSlot.Stack}";
+        itemAmountText.text = $"{amount} / {itemSlot.Stack}"; 
 
         if (amount >= itemSlot.Stack)
             outline.effectColor = Color.green;

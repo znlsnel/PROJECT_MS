@@ -14,8 +14,7 @@ public class MovingSlotUI : PopupUI
 
     protected override void Awake() 
     {
-        base.Awake();
-        _canStack = false; 
+        base.Awake(); 
     }
 
     public override void Show()
