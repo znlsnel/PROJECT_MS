@@ -10,9 +10,10 @@ public class GraphicManager : IManager
 
     public void Init()
     {
-        SetQuality(quality);
-        SetResolution(width, height);
-        SetFullScreen(isFullScreen);
+        quality = (EGraphic)QualitySettings.GetQualityLevel();
+        width = Screen.currentResolution.width;
+        height = Screen.currentResolution.height;
+        isFullScreen = Screen.fullScreen;
     }
 
     public void Clear()
