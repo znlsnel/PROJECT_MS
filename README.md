@@ -15,7 +15,24 @@ Sunset Survival은 **Unity 6**와 **FishNet** 네트워킹 프레임워크를 �
 
 <br><br>
 
+
 ---
+# 🎮 시연 영상 (이미지 클릭시 유튜브 링크로 이동합니다)
+
+<a href="https://youtu.be/7PB0w4Xyckg" target="_blank">
+  <img src="https://github.com/user-attachments/assets/0ef01b59-40c5-4e87-8fb4-7c4bd0e09097" 
+       alt="YouTube Video" 
+       width="700"
+</a>
+
+
+<br><br>
+<br><br>
+<br><br>
+
+---
+
+
 # 🤝 팀원(역할 분담)
 
 | 염기용 | 박관우 | 김영송 |
@@ -57,21 +74,6 @@ Assets/
 <br><br>
 
 ---
-# 🎮 시연 영상 (이미지 클릭시 유튜브 링크로 이동합니다)
-
-<a href="https://youtu.be/7PB0w4Xyckg" target="_blank">
-  <img src="https://github.com/user-attachments/assets/0ef01b59-40c5-4e87-8fb4-7c4bd0e09097" 
-       alt="YouTube Video" 
-       width="700"
-</a>
-
-
-<br><br>
-<br><br>
-<br><br>
-
----
-
 
 # 🎮핵심 구현 요소
 ### 인벤토리
