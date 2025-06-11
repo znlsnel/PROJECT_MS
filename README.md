@@ -1,43 +1,27 @@
-![header](https://capsule-render.vercel.app/api?type=waving&color=timeGradient&height=300&section=header&text=Sunset+Survival)
-
+![Typing SVG](https://readme-typing-svg.demolab.com?font=Fira+Code&size=50&pause=1000&width=600&height=70&lines=SUNSET+SURVIVAL+🎮)
 
 # 🛠️ Description
 - **프로젝트 소개** <br>
-SunsetSurvival은 **Unity 6**와 **FishNet** 네트워킹 프레임워크를 기반으로 개발된 차세대 **비대칭 멀티플레이어 서바이벌 게임**입니다. 플레이어는 **Survival(생존자)** 또는 **Imposter(사칭자)** 역할을 맡아 긴장감 넘치는 심리전과 전략적 게임플레이를 경험합니다.
-  
-<br>
+Sunset Survival은 **Unity 6**와 **FishNet** 네트워킹 프레임워크를 기반으로 개발한 **비대칭 멀티플레이어 서바이벌 게임**입니다. 플레이어는 **생존자** 또는 **살인마** 역할을 맡아 긴장감 넘치는 심리전과 전략적 게임플레이를 경험합니다. <br>
+**직접 제작한 사운드**를 통해 높은 몰입감을 구현하였으며, **아이템을 파밍하고 제작**하여 **퀘스트**를 클리어하는 구조로 게임이 진행됩니다.
 
 - **개발 기간** : 2025.04.22 ~ 2025.05.28
 - **개발 인원** : 3인 개발
 - **사용 기술** <br>
--언어 : C#<br>
--엔진 : Unity Engine <br>
 
-### 핵심 특징
-
-#### 🎭 비대칭 게임플레이
-- **역할 기반 시스템**: 무작위로 배정되는 Survival/Imposter 역할
-- **승리 조건 차별화**: 
-  - Survival: 제한 시간 동안 생존 및 퀘스트 완료
-  - Imposter: 모든 Survival 제거
-
-#### 🎨 몰입형 게임 경험
-- **Universal Render Pipeline (URP)** 기반 고품질 그래픽
-- **Cinemachine** 카메라 시스템으로 부드러운 시점 전환
-- **실시간 조명 및 그림자**: 분위기 있는 환경 연출
+  | 언어 | 엔진 | 네트워킹 프레임워크 | 데이터 연동 라이브러리 |
+  |----|----|----|----|
+  | C# | Unity 6 | FishNet | Unity Google Sheet | 
 
 <br><br>
-<br><br>
-
 
 ---
 # 🤝 팀원(역할 분담)
 
 | 염기용 | 박관우 | 김영송 |
 |----|----|----|
-| 플레이어 로직 | 사운드 제작 | UI |
-| 상호작용 | 사운드 적용 | 게임 시스템 | 
-| 네트워크 | 채팅 UI | 퀘스트 |
+| 플레이어 로직 | 사운드 제작 및 적용 | 개발 프레임워크 |
+| 네트워크 | 채팅 UI | UI |
 
 <br><br>
 <br><br>
@@ -76,8 +60,13 @@ Assets/
 <br><br>
 
 ---
-# 🎮 시연 영상
+# 🎮 시연 영상 (이미지 클릭시 유튜브 링크로 이동합니다)
 
+<a href="https://youtu.be/7PB0w4Xyckg" target="_blank">
+  <img src="https://github.com/user-attachments/assets/0ef01b59-40c5-4e87-8fb4-7c4bd0e09097" 
+       alt="YouTube Video" 
+       width="700"
+</a>
 
 
 <br><br>
@@ -86,125 +75,104 @@ Assets/
 
 ---
 
-## 🎮 핵심 게임플레이 시스템
 
-### 📦 인벤토리 시스템
+# 🎮핵심 구현 요소
+### 인벤토리
+<img src="https://github.com/user-attachments/assets/3a070e9d-059a-417d-ac94-51bcb63199a4" alt="Inventory_퀄리티중" width="600">
 
-#### 아키텍처 개요
-- **메인 인벤토리**: 10 슬롯
-- **퀵슬롯**: 5 슬롯  
-- **장비 슬롯**: 타입별 분류
-- **실시간 네트워크 동기화**
+- **핵심 기능** <br>
+  아이템 드래그 & 드롭 <br>
+  슬롯 합치기 <br>
+  아이템 버리기 <br>
+  아이템 타입별로 보기 <br>
+  
+- 인벤토리 데이터와 UI를 나누어서 설계했습니다. Event 기반으로 인벤토리 데이터가 변경되면 UI로 출력되도록 했습니다.
 
-<details>
-<summary>📋 인벤토리 코드 구조</summary>
+<br><br>
 
-```csharp
-public class Inventory
-{
-    public Storage ItemStorage { get; private set; }      // 메인 인벤토리 (10 슬롯)
-    public Storage QuickSlotStorage { get; private set; } // 퀵슬롯 (5 슬롯)
-    public EquipStorage EquipStorage { get; private set; } // 장비 슬롯
-}
-```
+---
 
-#### 주요 기능
+### 상호작용 시스템
+<img src="https://github.com/user-attachments/assets/78aec45b-09d9-42bd-b825-3d26fd4b564c" alt="Inventory_퀄리티중" width="600">
 
-1. **계층적 저장소 구조**
-   - `Storage`: 기본 저장소 클래스
-   - `ItemSlot`: 개별 아이템 슬롯 관리
-   - `InventoryDataHandler`: 전역 아이템 추적
+- **핵심 기능** <br>
+  근처의 상호작용이 가능한 물건을 탐지 <br>
+  상호작용이 가능한 상태의 물건에 외각선 표사 <br>
 
-2. **네트워크 동기화**
-   ```csharp
-   [ServerRpc]
-   private void AsyncItemSlot(int slotIdx, int itemId, int amount, int durability)
-   {
-       ObserversRpcItemSlot(slotIdx, itemId, amount, durability);
-   }
-   ```
+- 상호작용 키를 누르면 상호작용 애니메이션이 실행되고 상호작용이 되도록 설계 했습니다. <br>
+- 또한 셰이더를 통해 외각선이 보이게하여 직관적으로 접근할 수 있도록 했습니다. <br>
+- 근처의 오브젝트 탐지시 Unity의 OnTriggerEnter와 OnTriggerExit 함수를 활용했으며, <br>
+  HashSet을 통해 오브젝트를 관리하여 중복 감지를 예방 했습니다. <br>
+- 아이템 줍기의 경우 네트워크상에서 한명만 습득이 가능하도록 했습니다.
 
-3. **스마트 아이템 관리**
-   - 자동 스택 관리
-   - 내구도 시스템
-   - 아이템 타입별 제약사항
 
-</details>
-
-<details>
-<summary>⚡ 성능 최적화 기법</summary>
-
-- **이벤트 기반 업데이트**: 변경 시에만 UI 갱신
-- **참조 카운팅**: 메모리 효율적인 아이템 관리
-- **배치 동기화**: 네트워크 트래픽 최소화
-
-</details>
-
-### 🤝 상호작용 시스템
-
-#### 핵심 기능
-- **거리 기반 우선순위 정렬**
-- **인벤토리 공간 자동 체크**
-- **실시간 네트워크 동기화**
-
-<details>
-<summary>🔧 상호작용 코드 구조</summary>
-
-```csharp
-public class InteractionHandler : MonoBehaviour
-{
-    private HashSet<Interactable> interactables = new HashSet<Interactable>();
-    
-    public Interactable GetInteractObject(bool Remove = false)
-    {
-        // 거리 기반 우선순위 정렬
-        // 인벤토리 공간 체크
-        // 아이템 타입별 상호작용 가능 여부 확인
-    }
-}
-```
+- **소스 코드** <br>
+  ```csharp
+  public class InteractionHandler : MonoBehaviour
+  {
+      private HashSet<Interactable> interactables = new HashSet<Interactable>();
+      
+      public Interactable GetInteractObject(bool Remove = false)
+      {
+          // 거리 기반 우선순위 정렬
+          // 인벤토리 공간 체크
+          // 아이템 타입별 상호작용 가능 여부 확인
+      }
+  }
+  ```
 
 </details>
 
 <details>
-<summary>📋 상호작용 가능 객체</summary>
+<summary>상호작용 가능 객체</summary>
 
-| 객체 타입 | 설명 | 네트워크 동기화 |
-|----------|------|-----------------|
-| `StorageBox` | 공유 저장소 | ✅ 실시간 동기화 |
-| `CraftingTable` | 제작대 | ✅ 제작 과정 동기화 |
-| `QuestStorageBox` | 퀘스트 아이템 보관함 | ✅ 진행도 공유 |
-| `ItemObject` | 드롭된 아이템 | ✅ 픽업 즉시 동기화 |
+  | 객체 타입 | 설명 | 네트워크 동기화 |
+  |----------|------|-----------------|
+  | `StorageBox` | 공유 저장소 | ✅ 실시간 동기화 |
+  | `CraftingTable` | 제작대 | ✅ 제작 과정 동기화 |
+  | `QuestStorageBox` | 퀘스트 아이템 보관함 | ✅ 진행도 공유 |
+  | `ItemObject` | 드롭된 아이템 | ✅ 픽업 즉시 동기화 |
 
 </details>
 
 <details>
-<summary>🔄 상호작용 흐름도</summary>
+<summary>상호작용 흐름도</summary>
 
-```mermaid
-sequenceDiagram
-    participant P as Player
-    participant IH as InteractionHandler
-    participant I as Interactable
-    participant N as Network
-    
-    P->>IH: 상호작용 입력
-    IH->>IH: 범위 내 객체 검색
-    IH->>I: Interact() 호출
-    I->>N: ServerRpc 전송
-    N->>N: 모든 클라이언트 동기화
-    N->>I: ObserversRpc 실행
-```
+  ```mermaid
+  sequenceDiagram
+      participant P as Player
+      participant IH as InteractionHandler
+      participant I as Interactable
+      participant N as Network
+      
+      P->>IH: 상호작용 입력
+      IH->>IH: 범위 내 객체 검색
+      IH->>I: Interact() 호출
+      I->>N: ServerRpc 전송
+      N->>N: 모든 클라이언트 동기화
+      N->>I: ObserversRpc 실행
+  ```
 
 </details>
 
-### 📋 퀘스트 시스템
+<br><br>
 
-#### 퀘스트 카테고리
-1. **수집 퀘스트**: 특정 아이템 수집
-2. **제작 퀘스트**: 아이템 제작
-3. **상호작용 퀘스트**: 특정 객체와 상호작용
-4. **전투 퀘스트**: 적 처치
+---
+
+### 퀘스트 시스템
+![퀘스트](https://github.com/user-attachments/assets/0d8a7c93-c93d-4b95-bfa5-59d5bf2b15d4)
+![image](https://github.com/user-attachments/assets/85aca123-2ecc-48ab-bb04-0a8f72452aeb)
+![image](https://github.com/user-attachments/assets/e4e8dde2-0dfb-45c4-9e26-9b7d3a6db86e)
+
+- 미션 위주의 게임을 설계하기 위해 퀘스트 시스템을 만들었습니다. <br>
+  데이터 테이블을 활용하여 퀘스트를 작성하였고 퀘스트와 퀘스트 작업을 나누어서 관리했습니다. <br>
+  퀘스트가 여러개의 작업을 가질 수 있도록 구현했습니다. <br>
+  또한 작업을 완료하면 연결된 다른 작업이 생성되는 기능을 linkedTask를 통해 설정할 수 있게 했습니다. <br>
+
+- 퀘스트의 진행도를 올리는 설계 방법은 퀘스트의 행동이 발생하는 곳에서 <br>
+  해당 행동의 카테고리와 행동의 주체가 되는 Object의 ID값을 통해 진행도를 업데이트 합니다.
+
+
 
 <details>
 <summary>📋 퀘스트 구조 코드</summary>
@@ -229,51 +197,66 @@ public void ReceiveReport(ETaskCategory category, int targetId, int successCount
 
 </details>
 
-### 🔨 제작 시스템
-
-#### 핵심 기능
-- **레시피 기반 제작** (최대 3개 재료 조합)
-- **실시간 재료 검증**
-- **네트워크 동기화**
-
-<details>
-<summary>🔧 제작 시스템 코드</summary>
-
-```csharp
-public class CraftingItemData : ItemData
-{
-    public Storage requiredStorage { get; private set; } = new Storage(3);
-    // 최대 3개의 재료 조합 지원
-}
-```
-
-#### 제작 프로세스
-
-1. **재료 검증**
-   - 실시간 재료 보유량 체크
-   - UI에 제작 가능 여부 표시
-
-2. **제작 실행**
-   ```csharp
-   private void MakeItem(CraftingItemData data)
-   {
-       // 재료 소모
-       // 결과물 생성
-       // 퀘스트 진행도 업데이트
-       // 분석 데이터 전송
-   }
-   ```
-
-3. **네트워크 동기화**
-   - 제작 시작/완료 이벤트 전파
-   - 인벤토리 상태 즉시 반영
-
-</details>
-
-<br><br>
 <br><br>
 
 ---
+
+### 제작 시스템
+<img src="https://github.com/user-attachments/assets/7f2519ca-5774-483a-841e-c780fbab125c" alt="Inventory_퀄리티중" width="600">
+
+![image](https://github.com/user-attachments/assets/7c14ca8f-8c75-4336-afd4-91b06a8ff588)
+
+- 아이템을 제작하는 기능을 만들었습니다. <br>
+  데이터 테이블을 통해 어떤 아이템을 어떤 재료로 만들 수 있는지 읽어드렸습니다. <br>
+  인벤토리를 실시간으로 탐색하여 아이템을 만들 수 있는지, 또 몇개를 만들 수 있는지 검사하고, UI에 표시합니다 <br>
+  인벤토리 탐색 속도를 개선하기 위해 아이템 ID를 Key로 해당 아이템이 있는 아이템 슬롯을 Value로 하여 Dictionary에 넣고 탐색하는 방식을 사용했습니다. <br>
+
+  
+<br><br>
+
+---
+
+### 보관함
+<img src="https://github.com/user-attachments/assets/1d1afedc-491d-4a7c-87e2-8382ef60eef5" width="600">
+
+- 아이템을 보관함을 통해 유저들과 공유할 수 있게 했습니다. <br>
+  플레이어가 아이템을 옮겨서 보관함에 변화가 생기면 해당 정보를 모든 유저에게 전달하는 방식으로 구현했습니다.
+  
+<br><br>
+
+---
+
+
+### 퀘스트 보관함
+<img src="https://github.com/user-attachments/assets/0252d63a-5a22-4388-8a8c-131587700d7b" width="600">
+
+![image](https://github.com/user-attachments/assets/966ec0ea-2c9e-4ac5-9922-adbd502c5e73)
+
+- 보관함에 아이템을 채우는 퀘스트를 만들었습니다. <br>
+  데이터테이블을 통해 어떤 아이템을 채워넣어야하는지 설정할 수 있도록 설계했습니다. <br>
+  보관함을 채우는 퀘스트의 경우 보관함 채우는 카테고리와 해당 보관함의 ID 값을 통해 퀘스트 진행도를 업데이트 합니다 <br>
+  퀘스트 보관함에 아이템을 넣을 때, 네트워크상의 모든 유저에게 해당 정보를 공유하도록 하였습니다.
+  
+<br><br>
+
+---
+
+### 아이템 슬롯
+<img src="https://github.com/user-attachments/assets/c030a94d-66b8-4040-be5f-477f09988965" width="600"> 
+<br>
+
+<img src="https://github.com/user-attachments/assets/b8e63de1-8e3d-4891-98aa-299503803606" width="600">
+<br>
+
+- 인벤토리, 퀵슬롯, 보관함, 제작대, 퀘스트 보관함 모두 같은 아이템 슬롯을 활용해서 구현했습니다. <br>
+  슬롯에 담고 있는 아이템에 따라 배경색이 달라지도록 구현했으며, <br>
+  마우스 호버시 아이템의 정보가 출력되도록 했습니다. 아이템에 효과가 있다면 해당 정보도 함께 출력됩니다. <br>
+  무기의 경우 내구도가 표시되도록 했습니다. <br>
+
+<br><br>
+
+---
+
 
 ## 🏗️ 기술 아키텍처
 
@@ -1705,9 +1688,3 @@ private void ObserverRpcChangeWeapon(int holdAnimationIndex, int attackAnimation
 ```
 
 </details>
-
-<p align="center">
-  <i>Built with ❤️ using Unity 6000 and FishNet Pro</i>
-</p> 
-
-
