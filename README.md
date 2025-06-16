@@ -251,7 +251,24 @@ public void ReceiveReport(ETaskCategory category, int targetId, int successCount
   슬롯에 담고 있는 아이템에 따라 배경색이 달라지도록 구현했으며, <br>
   마우스 호버시 아이템의 정보가 출력되도록 했습니다. 아이템에 효과가 있다면 해당 정보도 함께 출력됩니다. <br>
   무기의 경우 내구도가 표시되도록 했습니다. <br>
-
+  
 <br><br>
 
+
+### 커스텀 에디터
+![image](https://github.com/user-attachments/assets/3027e1dd-951c-40c4-bc71-4303a10300ba)
+
+![image](https://github.com/user-attachments/assets/c3b2f506-316a-414c-af50-61b7e0612104)
+
+![image](https://github.com/user-attachments/assets/a15a45b0-06e9-4b57-a6c3-4824c65a28fe)
+
+- 커스텀 에디터 기능을 통해 시간이 오래 걸리는 작업을 자동화 처리 할 수 있게 만들었습니다.
+- 드롭 아이템 데이터 초기화, 아이템 컴포넌트 자동 세팅, 자원 데이터 처리 버튼의 경우 데이터 테이블에서 추출한 json 정보를 읽고 <br>
+  아이템의 아이디 값을 입력하거나 자원을 통해 얻을 수 있는 아이템의 아이디 값을 입력하는 일을 처리합니다. <br>
+- 메시 설정 배치 처리 버튼은 Mesh Settings Processor 창이 새롭게 열리고 드래그 드롭을 통해 여러 메시를 등록하고, <br>
+  등록된 메시들의 임포트 세팅을 한번에 처리할 수 있게 만들었습니다. <br>
+  (노멀 방향으로 정점을 확장하는 방식의 외곽선 사용시 면이 분리되는 문제가 있어서 해당 기능을 만들었습니다)
+
+<br><br><br>
+ 
 <div align="center"> 감사합니다! </div>
